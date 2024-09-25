@@ -1,5 +1,3 @@
-'use client'
-
 import type { FormBaseProps } from '.'
 
 import { forwardRef, useState } from 'react'

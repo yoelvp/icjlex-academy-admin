@@ -9,7 +9,7 @@ import Form from '@/@common/components/form'
 
 const CoursesPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
-  const [course, setCourses] = useState<Course[]>([
+  const [course, _] = useState<Course[]>([
     {
       id: '1',
       name: 'Introducción a React',
