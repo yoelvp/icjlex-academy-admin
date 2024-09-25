@@ -1,11 +1,12 @@
 import Button from '@/@common/components/button'
 import { ListCourses } from '../components/list-courses'
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 import { Course } from '../types/Course'
 import { IconAdd, IconSearch } from '@/assets/icons'
 import { Content } from '@/@common/components/content'
-import { ModalCourse } from '../components/modal-course'
 import Form from '@/@common/components/form'
+
+const ModalCourse = lazy(() => import('../components/modal-course'))
 
 const CoursesPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
