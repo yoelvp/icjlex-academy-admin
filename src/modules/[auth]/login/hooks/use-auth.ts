@@ -7,8 +7,8 @@ export const useAuth = () => {
     try {
       const response = await loginService(data)
       console.log(response)
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
+      console.error(error?.response?.data?.message)
     }
   }
 
