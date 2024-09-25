@@ -1,0 +1,45 @@
+@tailwind components;
+
+@layer components {
+  /* ========== Button underline variant ========== */
+  .btn-underline {
+    position: relative;
+  }
+
+  .btn-underline:focus {
+    box-shadow: none;
+  }
+
+  .btn-underline::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0.125rem;
+    left: 0;
+    bottom: 0;
+    transform: scale(0, 1);
+    transform-origin: 0 100%;
+    transition: transform 300ms ease;
+  }
+
+  .btn-underline:hover::after {
+    transform: scale(1, 1);
+  }
+
+  /* Themes */
+  .btn-underline:disabled:hover::after {
+    transform: scale(0, 1);
+  }
+
+  .btn-underline--primary::after {
+    background: theme('colors.primary.500');
+  }
+
+  .btn-underline--secondary::after {
+    background: theme('colors.secondary.500');
+  }
+
+  .btn-underline--white::after {
+    background: theme('colors.white');
+  }
+}

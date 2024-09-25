@@ -1,0 +1,36 @@
+@tailwind components;
+
+@layer components {
+  .width-md {
+    @apply w-[90%] md:w-[85%] xl:max-w-7xl;
+  }
+
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-start {
+    @apply flex justify-start items-center;
+  }
+
+  .flex-col-center {
+    @apply flex flex-col justify-center items-center;
+  }
+
+  .flex-col-start {
+    @apply flex flex-col justify-start items-start;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+
+  /* Separator line */
+  .sep-line-h {
+    @apply border-none w-full h-[1px] bg-primary-500/10;
+  }
+
+  .sep-h {
+    @apply border-none w-full h-[1px];
+  }
+}

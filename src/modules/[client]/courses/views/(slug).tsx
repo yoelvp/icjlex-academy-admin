@@ -1,0 +1,33 @@
+import { Content } from '@/@common/components/content'
+import { HeroPage } from '../components/hero-page'
+import { WillLearn } from '../components/will-learn'
+import { DetailsCourseByPurchased } from '../components/details-course-by-purchased'
+import { ContentVariousVideos } from '../components/content-various-videos'
+import { ContentDescription } from '../components/content-description'
+import { CoursesValorations } from '../components/courses-valorations'
+import { MoreCoursesByTeacher } from '../components/more-courses-by-teacher'
+import { FooterToBuy } from '../components/footer-to-buy'
+
+const CourseDetailsPage = () => {
+  return (
+    <>
+      <HeroPage />
+
+      <Content className="flex flex-col items-start mt-16 mb-24 gap-y-16 md:mt-32 md:mb-40 xl:gap-x-32 lg:gap-x-16 lg:flex-row-reverse">
+        <DetailsCourseByPurchased />
+
+        <div className="w-full flex flex-col gap-y-16">
+          <WillLearn />
+          <ContentVariousVideos />
+          <ContentDescription />
+          <CoursesValorations />
+          <MoreCoursesByTeacher />
+        </div>
+      </Content>
+
+      <FooterToBuy />
+    </>
+  )
+}
+
+export default CourseDetailsPage

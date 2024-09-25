@@ -1,0 +1,77 @@
+name: Deploy Next.js application to production
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  install-and-build:
+    name: Install dependencies and sync files on VPS
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout code
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Compress node_modules folder into tar file
+        run: tar -czf node_modules.tar.gz node_modules
+
+      - name: Compress next folder into tar file
+        run: tar -czf next.tar.gz .next
+
+      - uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{secrets.VPS_HOST}}
+          username: ${{secrets.VPS_USERNAME}}
+          port: ${{secrets.VPS_PORT}}
+          key: ${{secrets.SSH_KEY}}
+          passphrase: ${{secrets.SSH_PASSPHRASE}}
+          source: "node_modules.tar.gz,next.tar.gz"
+          target: ${{secrets.FOLDER_PATH}}
+
+  update-repository:
+    name: Update the repository on the VPS
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{secrets.VPS_HOST}}
+          username: ${{secrets.VPS_USERNAME}}
+          port: ${{secrets.VPS_PORT}}
+          key: ${{secrets.SSH_KEY}}
+          passphrase: ${{secrets.SSH_PASSPHRASE}}
+          script: |
+            cd ${{secrets.FOLDER_PATH}}
+            git pull origin main
+
+  update-dependencies-on-vps:
+    name: Unzip node_modules.tar.gz and next.tar.gz on the VPS
+    runs-on: ubuntu-22.04
+    needs: install-and-build
+    steps:
+      - uses: appleboy/ssh-action@v1.0.3
+        name: Update the repository on the VPS
+        with:
+          host: ${{secrets.VPS_HOST}}
+          username: ${{secrets.VPS_USERNAME}}
+          port: ${{secrets.VPS_PORT}}
+          key: ${{secrets.SSH_KEY}}
+          passphrase: ${{secrets.SSH_PASSPHRASE}}
+          script: |
+            cd ${{secrets.FOLDER_PATH}}
+            rm -rf node_modules .next
+            tar -xzf node_modules.tar.gz
+            tar -xzf next.tar.gz
+            rm node_modules.tar.gz next.tar.gz
+            npm install
+            pm2 restart icjlex-frontend
+            echo "icjlex.academy dependencies updated successsfully!"
