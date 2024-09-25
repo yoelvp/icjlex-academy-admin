@@ -1,26 +1,29 @@
+import { Suspense, lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
 import { ClientLayout } from '@/layouts/client'
 import { AdminLayout } from '@/layouts/admin'
 
+import HomePage from '@/modules/[client]/home/views'
+import TeachersPage from '@/modules/[client]/teachers/views'
+import TeacherDetailsPage from '@/modules/[client]/teachers/views/(slug)'
+import UsPage from '@/modules/[client]/us/views'
 import ChangePasswordPage from '@/modules/[auth]/change-password/views'
 import ForgotPasswordPage from '@/modules/[auth]/forgot-password/views'
 import RecoveryConfirmationPage from '@/modules/[auth]/forgot-password/views/recovery-confirmation'
 import LoginPage from '@/modules/[auth]/login/views'
 import CoursesPage from '@/modules/[client]/courses/views'
 import CourseDetailsPage from '@/modules/[client]/courses/views/(slug)'
-import HomePage from '@/modules/[client]/home/views'
-import TeachersPage from '@/modules/[client]/teachers/views'
-import TeacherDetailsPage from '@/modules/[client]/teachers/views/(slug)'
-import UsPage from '@/modules/[client]/us/views'
 
-import DashboardPage from '@/modules/dashboard/views'
-import CoursesAdminPage from '@/modules/courses/views'
+// Dashboard pages
+const DashboardPage = lazy(() => import('@/modules/dashboard/views'))
+const CoursesAdminPage = lazy(() => import('@/modules/courses/views'))
 
 const routes = createBrowserRouter([
   // Client pages
   {
     element: <ClientLayout />,
+    errorElement: <div>error</div>,
     children: [
       {
         path: '/',
@@ -74,7 +77,7 @@ const routes = createBrowserRouter([
   // Admin routes
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: <Suspense fallback={<div>Cargando...</div>}><AdminLayout /></Suspense>,
     children: [
       {
         path: '',
@@ -82,6 +85,10 @@ const routes = createBrowserRouter([
       },
       {
         path: 'courses',
+        element: <CoursesAdminPage />
+      },
+      {
+        path: 'teachers',
         element: <CoursesAdminPage />
       }
     ]
