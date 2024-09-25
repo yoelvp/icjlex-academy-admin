@@ -1,4 +1,4 @@
-name: Deploy Next.js application to production
+name: Deploy React application to production
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '20.17.0'
 
       - name: Install dependencies
         run: npm install
@@ -22,11 +22,8 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Compress node_modules folder into tar file
-        run: tar -czf node_modules.tar.gz node_modules
-
-      - name: Compress next folder into tar file
-        run: tar -czf next.tar.gz .next
+      - name: Compress dist folder into tar file
+        run: tar -czf dist
 
       - uses: appleboy/scp-action@v0.1.7
         with:
@@ -35,7 +32,7 @@ jobs:
           port: ${{secrets.VPS_PORT}}
           key: ${{secrets.SSH_KEY}}
           passphrase: ${{secrets.SSH_PASSPHRASE}}
-          source: "node_modules.tar.gz,next.tar.gz"
+          source: "dist.tar.gz"
           target: ${{secrets.FOLDER_PATH}}
 
   update-repository:
@@ -54,7 +51,7 @@ jobs:
             git pull origin main
 
   update-dependencies-on-vps:
-    name: Unzip node_modules.tar.gz and next.tar.gz on the VPS
+    name: Unzip dist.tar.gz on the VPS
     runs-on: ubuntu-22.04
     needs: install-and-build
     steps:
@@ -68,10 +65,7 @@ jobs:
           passphrase: ${{secrets.SSH_PASSPHRASE}}
           script: |
             cd ${{secrets.FOLDER_PATH}}
-            rm -rf node_modules .next
-            tar -xzf node_modules.tar.gz
-            tar -xzf next.tar.gz
-            rm node_modules.tar.gz next.tar.gz
-            npm install
-            pm2 restart icjlex-frontend
-            echo "icjlex.academy dependencies updated successsfully!"
+            rm -rf dist
+            tar -xzf dist.tar.gz
+            rm dist.tar.gz
+            echo "icjlex.academy deploy successsfully!"
