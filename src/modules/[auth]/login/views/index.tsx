@@ -1,18 +1,20 @@
+import type { SubmitHandler } from 'react-hook-form'
+
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '@/@common/components/button'
-import { Content } from '@/@common/components/content'
 import Form from '@/@common/components/form'
+import { Content } from '@/@common/components/content'
 import { IconLockCloseOutline, IconMail } from '@/assets/icons'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginFormSchema } from '../types/Login'
 import { loginFormSchema } from '../schemas/login.schema'
 import { useAuth } from '../hooks/use-auth'
-import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
   const { login } = useAuth()
   const { register, handleSubmit } = useForm<LoginFormSchema>({
-    resolver: zodResolver(loginFormSchema),
+    resolver: yupResolver(loginFormSchema),
     defaultValues: {
       email: '',
       password: ''
