@@ -13,7 +13,7 @@ interface ModalCourseProps {
   onClose: () => void
 }
 
-export const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
+const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
   const {
     register,
     handleSubmit,
@@ -81,3 +81,5 @@ export const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
     </Modal>
   )
 }
+
+export default ModalCourse
