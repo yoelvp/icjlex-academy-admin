@@ -66,7 +66,7 @@ const LoginPage = () => {
         </div>
 
         <div className="flex justify-end">
-          <Link to="/forgot-password" className="underline text-primary-500 hover:text-primary-700 hover:no-underline">
+          <Link to="/auth/forgot-password" className="underline text-primary-500 hover:text-primary-700 hover:no-underline">
             ¿Hás olvidado tu contraseña?
           </Link>
         </div>

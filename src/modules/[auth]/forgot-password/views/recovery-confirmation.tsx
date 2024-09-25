@@ -15,7 +15,7 @@ const RecoveryConfirmationPage = () => {
           </p>
         </div>
         <div>
-          <Button.NextLink href="/login">
+          <Button.NextLink href="/auth/login">
             Iniciar sesión
           </Button.NextLink>
         </div>
