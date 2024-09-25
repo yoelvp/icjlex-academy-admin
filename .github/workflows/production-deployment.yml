@@ -23,7 +23,7 @@ jobs:
         run: npm run build
 
       - name: Compress dist folder into tar file
-        run: tar -czf dist
+        run: tar -czf dist.tar.gz dist
 
       - uses: appleboy/scp-action@v0.1.7
         with:
