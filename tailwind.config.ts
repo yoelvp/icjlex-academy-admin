@@ -4,7 +4,8 @@ import flowbite from 'flowbite-react/tailwind'
 const config: Config = {
   content: [
     './src/modules/**/*.{ts,tsx}',
-    './src/@common/**/*.{ts,tsx}'
+    './src/@common/**/*.{ts,tsx}',
+    './src/@auth/**/*.{ts,tsx}'
   ],
   theme: {
     extend: {
