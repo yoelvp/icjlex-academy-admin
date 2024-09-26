@@ -15,13 +15,12 @@ export type IconPosition = 'left' | 'right'
 
 export interface FormBaseProps extends VariantProps<InputVariant>, Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   className?: string
-  hasError?: boolean
   icon?: IconType
   iconClassName?: string
   iconPosition?: IconPosition
   withIcon?: boolean
   containerClassName?: string
-  action?: string | ((formData: FormData) => void) | undefined
+  error?: string
 }
 
 interface FormComponent extends ForwardRefExoticComponent<

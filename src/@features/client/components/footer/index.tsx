@@ -5,7 +5,7 @@ import { SectionTitle } from './section-title'
 import { PAGES } from '@/@common/utils/pages'
 import { APP_NAME } from '@/config'
 import { IconPhone, IconLocation, IconWhatsapp } from '@/assets/icons'
-import { SocialNetwork } from '../social-network'
+import { SocialNetwork } from '@/@common/components/social-network'
 
 export const Footer: FC = () => {
   const date = new Date()

@@ -71,3 +71,10 @@ export {
 export {
   CiEdit as IconEdit
 } from 'react-icons/ci'
+export {
+  CgMenuLeft as IconMenuLeft,
+  CgMenuRight as IconMenuRight
+} from 'react-icons/cg'
+export {
+  GoHome as IconHome
+} from 'react-icons/go'

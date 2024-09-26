@@ -31,7 +31,7 @@ export const inputVariants = cva(
 )
 
 export const iconVariants = cva(
-  'absolute top-1/2 -translate-y-1/2',
+  'absolute',
   {
     variants: {
       variant: {
@@ -41,9 +41,9 @@ export const iconVariants = cva(
         error: 'text-error-500'
       },
       size: {
-        sm: 'text-sm',
-        md: 'text-lg',
-        lg: 'text-xl'
+        sm: 'text-sm top-[7px] md:top-[9px]',
+        md: 'text-lg top-[9px] md:top-[11px]',
+        lg: 'text-xl top-[12px] md:top-[14px]'
       },
       position: {
         left: 'left-3',
@@ -62,15 +62,15 @@ export const passwordIconVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-primary-100 text-primary-900 hover:bg-primary-200',
-        secondary: 'bg-secondary-200 text-secondary-900 hover:bg-secondary-300',
-        white: 'bg-secondary-200 text-secondary-900 hover:bg-secondary-300',
-        error: 'bg-error-100/50 text-error-500'
+        primary: 'text-primary-900',
+        secondary: 'text-secondary-900',
+        white: 'text-secondary-900',
+        error: 'text-error-500'
       },
       size: {
-        sm: 'h-4 w-8 text-sm md:h-5 md:w-10',
-        md: 'h-[1.4rem] w-12 text-lg md:h-6',
-        lg: 'h-[1.75rem] w-12 md:h-8 text-xl'
+        sm: 'h-4 w-8 text-lg top-[7px] md:top-[7px] md:text-xl md:h-5 md:w-10',
+        md: 'h-[1.4rem] w-12 text-xl top-[7px] md:text-2xl md:top-[8px] md:h-6',
+        lg: 'h-[1.75rem] w-12 text-2xl top-[9px] md:h-8'
       },
       rounded: {
         xs: 'rounded-xs',

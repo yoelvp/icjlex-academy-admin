@@ -61,7 +61,7 @@ const ForgotPasswordPage = () => {
 
         <div className="flex justify-center gap-x-2 text-primary-500">
           Ó
-          <Link to="/login" className="underline font-semibold hover:text-primary-700 hover:no-underline">
+          <Link to="/auth/login" className="underline font-semibold hover:text-primary-700 hover:no-underline">
             Inicia sesión
           </Link>
         </div>
