@@ -1,8 +1,11 @@
 {
   "name": "icjlex-academy-front",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
+  "license": "MIT",
+  "homepage": "https://icjlex.academy",
+  "author": "ngcraftz <hello.ngcraftz@gmail.com>",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
