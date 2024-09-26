@@ -1,17 +1,17 @@
 import type { FC } from 'react'
 
 import { Link, useLocation } from 'react-router-dom'
-import Form from '../form'
 import { useShow } from '@/@common/hooks/useShow'
 import { PAGES } from '@/@common/utils/pages'
 import { Sidebar } from './sidebar'
 import { IconChevronDown, IconMenu, IconSearch } from '@/assets/icons'
-import { useUserState } from '@/@common/store/user.store'
+import { useUserStore } from '@/@auth/store/use-user.store'
+import Form from '@/@common/components/form'
 
 export const Header: FC = () => {
   const { show, open, close } = useShow()
   const { pathname } = useLocation()
-  const user = useUserState((state) => state.user)
+  const user = useUserStore((state) => state.user)
 
   return (
     <div>
@@ -74,7 +74,7 @@ export const Header: FC = () => {
               <IconSearch size="18" />
             </button>
             <button className="w-10 h-10 rounded-full bg-primary-300 text-xs font-bold flex-center">
-              {user?.name}
+              {user?.firstName}
             </button>
           </div>
         </div>

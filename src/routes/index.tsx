@@ -14,6 +14,7 @@ import RecoveryConfirmationPage from '@/modules/[auth]/forgot-password/views/rec
 import LoginPage from '@/modules/[auth]/login/views'
 import CoursesPage from '@/modules/[client]/courses/views'
 import CourseDetailsPage from '@/modules/[client]/courses/views/(slug)'
+import { CheckAuth } from '@/@auth/components/check-auth'
 
 // Dashboard pages
 const DashboardPage = lazy(() => import('@/modules/dashboard/views'))
@@ -77,7 +78,13 @@ const routes = createBrowserRouter([
   // Admin routes
   {
     path: '/admin',
-    element: <Suspense fallback={<div>Cargando...</div>}><AdminLayout /></Suspense>,
+    element: (
+      <Suspense fallback={<div>Cargando...</div>}>
+        <CheckAuth>
+          <AdminLayout />
+        </CheckAuth>
+      </Suspense>
+    ),
     children: [
       {
         path: '',

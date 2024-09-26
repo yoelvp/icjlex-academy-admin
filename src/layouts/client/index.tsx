@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Footer } from '@/@common/components/footer'
-import { Header } from '@/@common/components/header'
+import { Footer } from '@/@features/client/components/footer'
+import { Header } from '@/@features/client/components/header'
 
 export const ClientLayout = () => {
   return (

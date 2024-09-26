@@ -77,7 +77,7 @@ const ChangePasswordPage = () => {
 
         <div className="flex justify-center gap-x-2 text-primary-400">
           Ó
-          <Link to="/login" className="underline font-semibold text-primary-500 hover:text-primary-700 hover:no-underline">
+          <Link to="/auth/login" className="underline font-semibold text-primary-500 hover:text-primary-700 hover:no-underline">
             Inciar sesión
           </Link>
         </div>

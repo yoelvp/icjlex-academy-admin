@@ -5,6 +5,7 @@ import { twVariants } from '@/@common/utils/tailwindcss'
 import { inputVariants, iconVariants } from '@/@common/constants/input-variants'
 
 export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
+  id,
   className,
   containerClassName = '',
   variant,
@@ -14,7 +15,7 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
   iconPosition = 'left',
   iconClassName = '',
   rounded,
-  hasError,
+  error,
   ...props
 }, ref) => {
   return (
@@ -22,24 +23,28 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
       <input
         ref={ref}
         className={twVariants(inputVariants({
-          variant: hasError ? 'error' : variant,
+          variant: Boolean(error) ? 'error' : variant,
           size,
           rounded,
           className
         }))}
         {...props}
       />
+      {Boolean(error) && (
+        <span className="pl-4 text-error-500 text-sm">{error}</span>
+      )}
       {withIcon && Icon && (
-        <div
+        <label
+          htmlFor={id}
           className={twVariants(iconVariants({
-            variant: hasError ? 'error' : variant,
+            variant: Boolean(error) ? 'error' : variant,
             size,
             position: iconPosition,
             className: iconClassName
           }))}
         >
           <Icon />
-        </div>
+        </label>
       )}
     </div>
   )

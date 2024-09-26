@@ -6,6 +6,7 @@ import { inputVariants, passwordIconVariants, iconVariants } from '@/@common/con
 import { IconEye, IconEyeOff } from '@/assets/icons'
 
 export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
+  id,
   className = '',
   variant,
   size,
@@ -14,8 +15,8 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
   icon: Icon,
   iconPosition = 'left',
   iconClassName = '',
-  hasError,
   type,
+  error,
   ...props
 }, ref) => {
   const [isIconPasswordVisible, setIsIconPasswordVisible] = useState(false)
@@ -25,7 +26,7 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
       <input
         ref={ref}
         className={twVariants(inputVariants({
-          variant: hasError ? 'error' : variant,
+          variant: Boolean(error) ? 'error' : variant,
           size,
           rounded,
           className
@@ -33,27 +34,32 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
         type={isIconPasswordVisible ? 'text' : 'password'}
         {...props}
       />
+      {Boolean(error) && (
+        <span className="pl-4 text-error-500 text-sm">{error}</span>
+      )}
       <button
         onClick={() => setIsIconPasswordVisible(!isIconPasswordVisible)}
         className={twVariants(passwordIconVariants({
           variant,
           size,
           rounded,
-          className: 'absolute top-1/2 right-3 -translate-y-1/2'
+          className: 'absolute right-2'
         }))}
       >
         {isIconPasswordVisible ? <IconEyeOff /> : <IconEye />}
       </button>
       {Boolean(withIcon) && Icon && (
-        <div
+        <label
+          htmlFor={id}
           className={twVariants(iconVariants({
-            variant: hasError ? 'error' : variant,
+            variant: Boolean(error) ? 'error' : variant,
             size,
             position: iconPosition,
             className: iconClassName
-          }))}>
+          }))}
+        >
           <Icon />
-        </div>
+        </label>
       )}
     </div>
   )

@@ -23,7 +23,7 @@ export const Masthead = () => {
             <Button.NextLink href="/teachers" variant="secondary" size="lg">
               Nuestros docentes
             </Button.NextLink>
-            <Button.NextLink href="/login" variant="secondary" size="lg">
+            <Button.NextLink href="/auth/login" variant="secondary" size="lg">
               Iniciar ahora
               <IconArrowRoundForward size="24" />
             </Button.NextLink>
