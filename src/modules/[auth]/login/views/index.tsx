@@ -13,7 +13,7 @@ import { useAuth } from '../hooks/use-auth'
 
 const LoginPage = () => {
   const { login } = useAuth()
-  const { register, handleSubmit } = useForm<LoginFormSchema>({
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
     resolver: yupResolver(loginFormSchema),
     defaultValues: {
       email: '',
@@ -37,7 +37,7 @@ const LoginPage = () => {
             className="flex flex-col gap-y-4"
           >
             <Form.Control>
-              <Form.Label>
+              <Form.Label htmlFor='email'>
                 Correo electrónico
               </Form.Label>
               <Form.Input
@@ -45,11 +45,12 @@ const LoginPage = () => {
                 size="lg"
                 withIcon
                 icon={IconMail}
+                error={errors.email?.message}
                 {...register('email')}
               />
             </Form.Control>
             <Form.Control>
-              <Form.Label>
+              <Form.Label htmlFor='password'>
                 Contraseña
               </Form.Label>
               <Form.Password
@@ -57,6 +58,7 @@ const LoginPage = () => {
                 size="lg"
                 withIcon
                 icon={IconLockCloseOutline}
+                error={errors.password?.message}
                 {...register('password')}
               />
             </Form.Control>
