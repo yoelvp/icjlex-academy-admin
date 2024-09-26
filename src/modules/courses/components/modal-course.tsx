@@ -43,7 +43,7 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
           <Form.Label>Título</Form.Label>
           <Form.Input
             placeholder="Ingresa el título..."
-            hasError={Boolean(errors?.name?.message)}
+            error={errors?.name?.message}
             size="lg"
             {...register('name')}
           />

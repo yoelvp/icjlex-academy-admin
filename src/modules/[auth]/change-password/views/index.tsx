@@ -49,7 +49,7 @@ const ChangePasswordPage = () => {
                 size="lg"
                 withIcon
                 icon={IconLockCloseOutline}
-                hasError={Boolean(errors.repeatPassword?.message)}
+                error={errors.repeatPassword?.message}
                 {...register('password')}
               />
               <Form.Error hasError={errors.password?.message}>{errors.password?.message}</Form.Error>
@@ -63,7 +63,7 @@ const ChangePasswordPage = () => {
                 size="lg"
                 withIcon
                 icon={IconLockCloseOutline}
-                hasError={Boolean(errors.repeatPassword?.message)}
+                error={errors.repeatPassword?.message}
                 {...register('repeatPassword')}
               />
               <Form.Error hasError={errors.repeatPassword?.message}>{errors.repeatPassword?.message}</Form.Error>

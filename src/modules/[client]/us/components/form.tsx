@@ -39,7 +39,7 @@ export const UsForm: FC = () => {
         </Form.Label>
         <Form.Input
           placeholder="Ingresa tu nombre..."
-          hasError={Boolean(errors?.name?.message)}
+          error={errors?.name?.message}
           size="lg"
           withIcon
           icon={IconPerson}
@@ -55,7 +55,7 @@ export const UsForm: FC = () => {
           </Form.Label>
           <Form.Input
             placeholder="Ingresa tu correo electrónico..."
-            hasError={Boolean(errors?.email?.message)}
+            error={errors?.email?.message}
             size="lg"
             withIcon
             icon={IconAt}
@@ -70,7 +70,7 @@ export const UsForm: FC = () => {
           </Form.Label>
           <Form.Input
             placeholder="Ingresa tu número de celular..."
-            hasError={Boolean(errors?.cellphone?.message)}
+            error={errors?.cellphone?.message}
             size="lg"
             withIcon
             icon={IconPhone}
@@ -86,7 +86,7 @@ export const UsForm: FC = () => {
         </Form.Label>
         <Form.Input
           placeholder="Ingresa tu mensaje..."
-          hasError={Boolean(errors?.message?.message)}
+          error={errors?.message?.message}
           size="lg"
           withIcon
           icon={IconMail}
