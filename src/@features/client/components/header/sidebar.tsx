@@ -13,7 +13,7 @@ export const Sidebar: FC<Props> = ({ closeSidebar }) => {
     <div className="w-screen h-screen bg-primary-500/40 fixed z-20 top-0 left-0 flex gap-x-4 lg:hidden">
       <div className="w-3/5 h-full bg-white md:w-2/5">
         <section className="flex flex-col gap-y-2 p-4 text-primary-500">
-          <Link to="/login" className="hover:underline">
+          <Link to="/auth/login" className="hover:underline">
             Iniciar sesion
           </Link>
           <a

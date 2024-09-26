@@ -3,10 +3,11 @@ import flowbite from 'flowbite-react/tailwind'
 
 const config: Config = {
   content: [
+    './src/@auth/**/*.{ts,tsx}'
     './src/@common/**/*.{ts,tsx}',
     './src/@features/**/*.{ts,tsx}',
+    './src/layouts/**/*.{ts,tsx}',
     './src/modules/**/*.{ts,tsx}',
-    './src/layouts/**/*.{ts,tsx}'
   ],
   theme: {
     extend: {

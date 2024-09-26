@@ -1,18 +1,20 @@
+import type { SubmitHandler } from 'react-hook-form'
+
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '@/@common/components/button'
-import { Content } from '@/@common/components/content'
 import Form from '@/@common/components/form'
+import { Content } from '@/@common/components/content'
 import { IconLockCloseOutline, IconMail } from '@/assets/icons'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginFormSchema } from '../types/Login'
 import { loginFormSchema } from '../schemas/login.schema'
 import { useAuth } from '../hooks/use-auth'
-import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
   const { login } = useAuth()
-  const { register, handleSubmit } = useForm<LoginFormSchema>({
-    resolver: zodResolver(loginFormSchema),
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
+    resolver: yupResolver(loginFormSchema),
     defaultValues: {
       email: '',
       password: ''
@@ -35,7 +37,7 @@ const LoginPage = () => {
             className="flex flex-col gap-y-4"
           >
             <Form.Control>
-              <Form.Label>
+              <Form.Label htmlFor='email'>
                 Correo electrónico
               </Form.Label>
               <Form.Input
@@ -43,11 +45,12 @@ const LoginPage = () => {
                 size="lg"
                 withIcon
                 icon={IconMail}
+                error={errors.email?.message}
                 {...register('email')}
               />
             </Form.Control>
             <Form.Control>
-              <Form.Label>
+              <Form.Label htmlFor='password'>
                 Contraseña
               </Form.Label>
               <Form.Password
@@ -55,6 +58,7 @@ const LoginPage = () => {
                 size="lg"
                 withIcon
                 icon={IconLockCloseOutline}
+                error={errors.password?.message}
                 {...register('password')}
               />
             </Form.Control>
@@ -66,7 +70,7 @@ const LoginPage = () => {
         </div>
 
         <div className="flex justify-end">
-          <Link to="/forgot-password" className="underline text-primary-500 hover:text-primary-700 hover:no-underline">
+          <Link to="/auth/forgot-password" className="underline text-primary-500 hover:text-primary-700 hover:no-underline">
             ¿Hás olvidado tu contraseña?
           </Link>
         </div>
