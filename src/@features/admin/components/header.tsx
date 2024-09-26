@@ -1,15 +1,18 @@
-import type { FC } from 'react'
-import { IconChevronDown, IconMenu } from '@/assets/icons'
+import { useSidebar } from '../store/use-sidebar.store'
+import { IconChevronDown, IconMenuLeft, IconMenuRight } from '@/assets/icons'
 
-interface HeaderProps {
-  toggleSidebar: () => void
-}
+export const Header  = () => {
+  const toggle = useSidebar((state) => state.toggle)
+  const show = useSidebar((state) => state.show)
 
-export const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   return (
-    <header className="bg-primary-500 h-16 text-white px-4 flex items-center justify-between sm:justify-end sm:px-8">
-      <button className="sm:hidden text-white" onClick={toggleSidebar}>
-        <IconMenu />
+    <header className="w-full bg-primary-500 h-16 text-white px-4 flex items-center justify-between">
+      <button
+        className="w-6 h-6 flex-center rounded-xs text-white transition-[shadow] duration-300 hover:ring hover:ring-white/15"
+        onClick={toggle}
+        aria-label={`${show ? 'Cerrar' : 'Abrir'} barra lateral`}
+      >
+        {show ? <IconMenuLeft size="20" /> : <IconMenuRight size="20" />}
       </button>
 
       <button className="flex-center gap-x-4">

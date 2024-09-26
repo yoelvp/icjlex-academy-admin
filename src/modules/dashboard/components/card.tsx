@@ -26,7 +26,7 @@ export const Card: FC<CardProps> = ({
   return (
     <Link
       to={to}
-      className={`rounded-sm overflow-hidden shadow--primary transform transition-transform hover:scale-105 hover:opacity-90 ${className}`}
+      className={`rounded-sm overflow-hidden shadow--primary transform transition-transform hover:opacity-90 ${className}`}
     >
       <div className="p-6 bg-white">
         <div className="flex justify-between items-center mb-4">
