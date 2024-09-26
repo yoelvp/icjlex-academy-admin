@@ -44,7 +44,7 @@ const ForgotPasswordPage = () => {
               </Form.Label>
               <Form.Input
                 placeholder="Ingresa tu correo electrónico"
-                hasError={Boolean(errors?.email?.message)}
+                error={errors?.email?.message}
                 size="lg"
                 withIcon
                 icon={IconMail}
