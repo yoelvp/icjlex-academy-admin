@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes } from 'react'
-import type { ButtonBaseProps } from '.'
+import type { ButtonBaseProps } from '@/@common/types/Button'
 
 import { Link } from 'react-router-dom'
 import { forwardRef } from 'react'
@@ -10,7 +10,7 @@ interface Props extends ButtonBaseProps, AnchorHTMLAttributes<HTMLAnchorElement>
   href: string
 }
 
-const NextLink = forwardRef<HTMLAnchorElement, Props>(({
+const Icon = forwardRef<HTMLAnchorElement, Props>(({
   children,
   className,
   variant,
@@ -19,14 +19,14 @@ const NextLink = forwardRef<HTMLAnchorElement, Props>(({
 }, ref) => (
   <Link
     to={props.href}
-    {...props}
     ref={ref}
     className={twVariants(buttonVariants({ variant, size, className }))}
+    {...props}
   >
     {children}
   </Link>
 ))
 
-NextLink.displayName = 'Button.NextLink'
+Icon.displayName = 'Link.Icon'
 
-export default NextLink
+export default Icon

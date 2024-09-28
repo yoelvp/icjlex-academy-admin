@@ -3,6 +3,7 @@ import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Spinner } from 'flowbite-react'
 import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
 import { Content } from '@/@common/components/content'
@@ -12,7 +13,7 @@ import { loginFormSchema } from '../schemas/login.schema'
 import { useAuth } from '../hooks/use-auth'
 
 const LoginPage = () => {
-  const { login } = useAuth()
+  const { isLoading, login } = useAuth()
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
     resolver: yupResolver(loginFormSchema),
     defaultValues: {
@@ -37,7 +38,7 @@ const LoginPage = () => {
             className="flex flex-col gap-y-4"
           >
             <Form.Control>
-              <Form.Label htmlFor='email'>
+              <Form.Label htmlFor="email">
                 Correo electrónico
               </Form.Label>
               <Form.Input
@@ -45,25 +46,28 @@ const LoginPage = () => {
                 size="lg"
                 withIcon
                 icon={IconMail}
+                disabled={isLoading}
                 error={errors.email?.message}
                 {...register('email')}
               />
             </Form.Control>
             <Form.Control>
-              <Form.Label htmlFor='password'>
+              <Form.Label htmlFor="password">
                 Contraseña
               </Form.Label>
               <Form.Password
                 placeholder="Ingresa tu contraseña"
                 size="lg"
                 withIcon
+                disabled={isLoading}
                 icon={IconLockCloseOutline}
                 error={errors.password?.message}
                 {...register('password')}
               />
             </Form.Control>
 
-            <Button htmlType="submit">
+            <Button htmlType="submit" disabled={isLoading}>
+              {isLoading && <Spinner color="success" />}
               Iniciar sesión
             </Button>
           </Form>

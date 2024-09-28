@@ -1,6 +1,6 @@
-import type { ButtonHTMLAttributes, ForwardRefExoticComponent, RefAttributes } from 'react'
+import type { AnchorHTMLAttributes, ForwardRefExoticComponent, RefAttributes } from 'react'
 
-import ButtonBase from './button'
+import BaseLink from './base-link'
 import { ButtonBaseProps } from '@/@common/types/Button'
 import Icon from './icon'
 
@@ -15,9 +15,9 @@ import Icon from './icon'
  * @property Link - Subcomponent for handling standard links.
  * @property NextLink - Subcomponent for handling Next.js links.
  */
-interface ButtonComponent extends ForwardRefExoticComponent<
-  ButtonBaseProps & ButtonHTMLAttributes<HTMLButtonElement> &
-  RefAttributes<HTMLButtonElement>
+interface LinkComponent extends ForwardRefExoticComponent<
+  ButtonBaseProps & AnchorHTMLAttributes<HTMLAnchorElement> &
+  RefAttributes<HTMLAnchorElement>
 > {
   Icon: typeof Icon
 }
@@ -29,10 +29,10 @@ interface ButtonComponent extends ForwardRefExoticComponent<
  * additional subcomponents. The `Link` and `NextLink` subcomponents are assigned
  * to `Button` for handling different types of links.
  */
-const Button = ButtonBase as ButtonComponent
-Button.Icon = Icon
+const Link = BaseLink as LinkComponent
+Link.Icon = Icon
 
 /*
  * Export default Button component
  */
-export default Button
+export default Link

@@ -1,9 +1,9 @@
 import type { ButtonHTMLAttributes } from 'react'
-import type { ButtonBaseProps } from '.'
 
 import { forwardRef } from 'react'
 import { twVariants } from '@/@common/utils/tailwindcss'
 import { buttonVariants } from '@/@common/constants/button-variants'
+import { ButtonBaseProps } from '@/@common/types/Button'
 
 interface Props extends ButtonBaseProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> { }
 

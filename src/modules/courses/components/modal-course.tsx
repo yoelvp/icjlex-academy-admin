@@ -66,13 +66,13 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
           </Form.Error>
         </Form.Control>
         <div className="flex gap-8 w-full mt-8">
-          <Button.Link
+          <Button
             variant="error"
             className="w-full cursor-pointer"
             onClick={onClose}
           >
             Cerrar
-          </Button.Link>
+          </Button>
           <Button className="w-full" disabled={!isDirty}>
             Enviar
           </Button>

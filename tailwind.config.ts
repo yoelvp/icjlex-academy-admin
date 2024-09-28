@@ -7,7 +7,8 @@ const config: Config = {
     './src/@common/**/*.{ts,tsx}',
     './src/@features/**/*.{ts,tsx}',
     './src/layouts/**/*.{ts,tsx}',
-    './src/modules/**/*.{ts,tsx}'
+    './src/modules/**/*.{ts,tsx}',
+    flowbite.content()
   ],
   theme: {
     extend: {
@@ -100,6 +101,7 @@ const config: Config = {
       },
       gold: '#FFD700',
       white: '#FFFFFF',
+      dark: '#27272A',
       transparent: 'transparent'
     },
     borderRadius: {
@@ -111,7 +113,7 @@ const config: Config = {
       full: '9999px'
     }
   },
-  plugins: [flowbite.plugin()],
+  plugins: [flowbite.plugin()]
 }
 
 export default config
