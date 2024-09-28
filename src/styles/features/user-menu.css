@@ -1,0 +1,11 @@
+@tailwind components;
+
+@layer components {
+  .menu-section-padding {
+    @apply px-4;
+  }
+
+  .menu-item {
+    @apply hover:text-secondary-800;
+  }
+}
