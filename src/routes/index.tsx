@@ -19,6 +19,7 @@ import { CheckAuth } from '@/@auth/components/check-auth'
 // Dashboard pages
 const DashboardPage = lazy(() => import('@/modules/dashboard/views'))
 const CoursesAdminPage = lazy(() => import('@/modules/courses/views'))
+const DocentsAdminPage = lazy(() => import('@/modules/docents/views'))
 
 const routes = createBrowserRouter([
   // Client pages
@@ -96,7 +97,7 @@ const routes = createBrowserRouter([
       },
       {
         path: 'teachers',
-        element: <CoursesAdminPage />
+        element: <DocentsAdminPage />
       }
     ]
   }
