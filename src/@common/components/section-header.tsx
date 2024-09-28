@@ -1,5 +1,5 @@
 import { IoIosArrowRoundForward } from 'react-icons/io'
-import Button from './button'
+import Link from './link'
 
 interface Props {
   title: string
@@ -31,10 +31,10 @@ export const SectionHeader = ({
         )}
       </div>
       {Boolean(withButton) && buttonLabel && buttonHref && (
-        <Button.NextLink href={buttonHref} variant="primary.underline">
+        <Link href={buttonHref} variant="primary.underline">
           {buttonLabel}
           <IoIosArrowRoundForward size="24" />
-        </Button.NextLink>
+        </Link>
       )}
     </header>
   )
