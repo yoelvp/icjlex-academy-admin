@@ -14,7 +14,7 @@ export const CheckAuth: FC<Props> = ({
   const user = useUserStore((state) => state.user)
   const token = useTokenStore((state) => state.token)
 
-  if (!user || !token) return <Navigate to='/login' replace />
+  if (!user || !token) return <Navigate to="/auth/login" replace />
 
   return children
 }

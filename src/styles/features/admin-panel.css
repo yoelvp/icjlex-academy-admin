@@ -1,0 +1,11 @@
+@tailwind components;
+
+@layer components {
+  .section-panel {
+    @apply bg-primary-50 rounded-sm px-4;
+  }
+
+  .header-height {
+    @apply h-16;
+  }
+}

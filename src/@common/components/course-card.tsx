@@ -1,4 +1,4 @@
-import Button from './button'
+import Link from './link'
 import { Card } from './card'
 import { IconStarFilled, IconWhatsapp } from '@/assets/icons'
 
@@ -52,13 +52,13 @@ export const CourseCard = () => {
           </div>
         </article>
         <div className="flex gap-x-4">
-          <Button.NextLink href="/courses/primer-curso" variant="primary.link" size="sm" className="text-nowrap w-auto !px:0">
+          <Link href="/courses/primer-curso" variant="primary.link" size="sm" className="text-nowrap w-auto !px:0">
             Ver detalles
-          </Button.NextLink>
-          <Button.Link href="/whatsapp" size="sm" className="w-full">
+          </Link>
+          <Link href="/whatsapp" size="sm" className="w-full" target="_blank" rel="noopener noreferrer">
             Inscribirme
             <IconWhatsapp size="18" />
-          </Button.Link>
+          </Link>
         </div>
       </div>
     </Card>

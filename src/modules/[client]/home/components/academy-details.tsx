@@ -1,5 +1,5 @@
 import { ContentFull } from '@/@common/components/content-full'
-import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 import { IconWhatsapp } from '@/assets/icons'
 import { whatsappMessage } from '@/@common/utils/whatsapp'
 
@@ -19,7 +19,7 @@ export const AcademyDetails = () => {
           </p>
         </article>
         <div className="flex flex-col gap-y-4 gap-x-4 sm:flex-row">
-          <Button.Link
+          <Link
             href={whatsappMessage({ message: 'Estoy%interesado%en%estudiar%en%ICJ%LEX%&%CARRANZA%CONSULTORIA' })}
             target="_blank"
             rel="noopener noreferrer"
@@ -28,10 +28,10 @@ export const AcademyDetails = () => {
           >
             Habla con un asesor
             <IconWhatsapp size="16" />
-          </Button.Link>
-          <Button.NextLink href="/courses" size="lg">
+          </Link>
+          <Link href="/courses" size="lg">
             Ver todos los cursos
-          </Button.NextLink>
+          </Link>
         </div>
       </div>
 

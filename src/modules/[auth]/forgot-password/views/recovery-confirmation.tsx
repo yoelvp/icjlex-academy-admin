@@ -1,6 +1,6 @@
 import { Content } from '@/@common/components/content'
-import Button from '@/@common/components/button'
-import { Link } from 'react-router-dom'
+import Link from '@/@common/components/link'
+import { Link as RouterLink } from 'react-router-dom'
 
 const RecoveryConfirmationPage = () => {
   return (
@@ -15,16 +15,16 @@ const RecoveryConfirmationPage = () => {
           </p>
         </div>
         <div>
-          <Button.NextLink href="/auth/login">
+          <Link href="/auth/login">
             Iniciar sesión
-          </Button.NextLink>
+          </Link>
         </div>
 
         <div className="flex justify-center gap-x-2 text-primary-500">
           ¿No recibió el enlace?
-          <Link to="/resend" className="underline font-semibold hover:text-primary-700 hover:no-underline">
+          <RouterLink to="/resend" className="underline font-semibold hover:text-primary-700 hover:no-underline">
             Reenviar
-          </Link>
+          </RouterLink>
         </div>
       </section>
 

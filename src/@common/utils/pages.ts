@@ -1,6 +1,5 @@
 import type { Page } from '@/@common/types/Page'
-
-import { IoChevronDown } from 'react-icons/io5'
+import { IconChevronDown } from '@/assets/icons'
 
 export const PAGES: Page[] = [
   {
@@ -11,7 +10,7 @@ export const PAGES: Page[] = [
     label: 'Cursos',
     href: '/courses',
     withIcon: true,
-    icon: IoChevronDown,
+    icon: IconChevronDown,
     subPages: [
       {
         label: 'Cursos especializados',

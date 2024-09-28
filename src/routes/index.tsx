@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
 import { ClientLayout } from '@/layouts/client'
@@ -16,9 +16,7 @@ import CoursesPage from '@/modules/[client]/courses/views'
 import CourseDetailsPage from '@/modules/[client]/courses/views/(slug)'
 import { CheckAuth } from '@/@auth/components/check-auth'
 
-// Dashboard pages
-const DashboardPage = lazy(() => import('@/modules/dashboard/views'))
-const CoursesAdminPage = lazy(() => import('@/modules/courses/views'))
+import { CoursesAdminPage, DashboardPage, StudentsPage } from './admin.routes'
 
 const routes = createBrowserRouter([
   // Client pages
@@ -97,6 +95,10 @@ const routes = createBrowserRouter([
       {
         path: 'teachers',
         element: <CoursesAdminPage />
+      },
+      {
+        path: 'students',
+        element: <StudentsPage />
       }
     ]
   }

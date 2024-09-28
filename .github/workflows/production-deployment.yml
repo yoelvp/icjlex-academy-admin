@@ -21,8 +21,8 @@ jobs:
 
       - name: Build project
         env:
-          VITE_BASE_URL_API_V1=https://api.icjlex.academy/api/v1
-          VITE_JWT_SECRET_KEY=${{secrets.JWT_SECRET_KEY}}
+          VITE_BASE_URL_API_V1: ${{ vars.BASE_URL_API_V1 }}
+          VITE_JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: npm run build
 
       - name: Compress dist folder into tar file
@@ -30,13 +30,13 @@ jobs:
 
       - uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{secrets.VPS_HOST}}
-          username: ${{secrets.VPS_USERNAME}}
-          port: ${{secrets.VPS_PORT}}
-          key: ${{secrets.SSH_KEY}}
-          passphrase: ${{secrets.SSH_PASSPHRASE}}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          port: ${{ secrets.VPS_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: "dist.tar.gz"
-          target: ${{secrets.FOLDER_PATH}}
+          target: ${{ secrets.FOLDER_PATH }}
 
   update-repository:
     name: Update the repository on the VPS
@@ -44,13 +44,13 @@ jobs:
     steps:
       - uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{secrets.VPS_HOST}}
-          username: ${{secrets.VPS_USERNAME}}
-          port: ${{secrets.VPS_PORT}}
-          key: ${{secrets.SSH_KEY}}
-          passphrase: ${{secrets.SSH_PASSPHRASE}}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          port: ${{ secrets.VPS_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            cd ${{secrets.FOLDER_PATH}}
+            cd ${{ secrets.FOLDER_PATH }}
             git pull origin main
 
   update-dependencies-on-vps:
@@ -61,13 +61,13 @@ jobs:
       - uses: appleboy/ssh-action@v1.0.3
         name: Update the repository on the VPS
         with:
-          host: ${{secrets.VPS_HOST}}
-          username: ${{secrets.VPS_USERNAME}}
-          port: ${{secrets.VPS_PORT}}
-          key: ${{secrets.SSH_KEY}}
-          passphrase: ${{secrets.SSH_PASSPHRASE}}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          port: ${{ secrets.VPS_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            cd ${{secrets.FOLDER_PATH}}
+            cd ${{ secrets.FOLDER_PATH }}
             rm -rf dist
             tar -xzf dist.tar.gz
             rm dist.tar.gz
