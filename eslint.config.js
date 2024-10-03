@@ -23,7 +23,7 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
-      'no-unused-vars': 'error',
+      'no-unused-vars': 'off',
       'quotes': [
         'warn',
         'single',

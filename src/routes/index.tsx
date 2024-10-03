@@ -16,7 +16,12 @@ import CoursesPage from '@/modules/[client]/courses/views'
 import CourseDetailsPage from '@/modules/[client]/courses/views/(slug)'
 import { CheckAuth } from '@/@auth/components/check-auth'
 
-import { CoursesAdminPage, DashboardPage, StudentsPage } from './admin.routes'
+import {
+  CoursesAdminPage,
+  DashboardPage,
+  TeachersAdminPage,
+  StudentsPage
+} from './admin.routes'
 
 const routes = createBrowserRouter([
   // Client pages
@@ -94,7 +99,7 @@ const routes = createBrowserRouter([
       },
       {
         path: 'teachers',
-        element: <CoursesAdminPage />
+        element: <TeachersAdminPage />
       },
       {
         path: 'students',
