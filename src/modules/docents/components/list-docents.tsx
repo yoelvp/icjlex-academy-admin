@@ -1,5 +1,4 @@
 import { FC } from 'react'
-
 import {
   IconDelete,
   IconEdit,
@@ -10,6 +9,7 @@ import {
   IconYoutube
 } from '@/assets/icons'
 import { DocentResult } from '../types/Docent'
+import { useDocents } from '../hooks/use-docents'
 
 interface CourseTableList {
   docents: DocentResult[]
@@ -17,9 +17,32 @@ interface CourseTableList {
 }
 
 export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
+  const { currentPage, totalPages, isLoading, error, setCurrentPage } =
+    useDocents()
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>
+  }
+
   return (
     <div className="rounded-xs overflow-x-auto">
-      <table className="table-auto bg-white ">
+      <table className="table-auto bg-white">
         <thead className="bg-primary-100">
           <tr>
             <th className="py-3 px-6 text-left font-bold text-primary-500">
@@ -49,7 +72,7 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
           </tr>
         </thead>
         <tbody>
-          {docents.map((docent) => (
+          {docents?.map((docent) => (
             <tr key={docent.id} className="border-b border-gray-200">
               <td className="py-3 px-6">
                 <img
@@ -61,7 +84,7 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
               <td className="py-3 px-6">{docent.firstName}</td>
               <td className="py-3 px-6">{docent.lastName}</td>
               <td className="py-3 px-6 flex flex-wrap gap-2 max-w-md">
-                {docent.docentToSpecialty.map((specialty, index) => (
+                {docent.docentToSpecialty?.map((specialty, index) => (
                   <span
                     className="py-1 px-2 bg-primary-100 rounded-xs"
                     key={index}
@@ -74,13 +97,11 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
               <td className="py-3 px-6 max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
                 {docent.aboutMe}
               </td>
-
               <td className="py-3 px-6">
                 {typeof docent.socialMedia === 'object' &&
                 docent.socialMedia !== null ? (
                     <div className="flex space-x-2">
-                      {docent.socialMedia.whatsapp &&
-                      docent.socialMedia.whatsapp.startsWith('http') && (
+                      {docent.socialMedia.whatsapp && (
                         <a
                           href={docent.socialMedia.whatsapp}
                           target="_blank"
@@ -89,8 +110,7 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
                           <IconWhatsapp size={18} className="text-green-600" />
                         </a>
                       )}
-                      {docent.socialMedia.x &&
-                      docent.socialMedia.x.startsWith('http') && (
+                      {docent.socialMedia.x && (
                         <a
                           href={docent.socialMedia.x}
                           target="_blank"
@@ -99,8 +119,7 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
                           <IconX size={18} />
                         </a>
                       )}
-                      {docent.socialMedia.facebook &&
-                      docent.socialMedia.facebook.startsWith('http') && (
+                      {docent.socialMedia.facebook && (
                         <a
                           href={docent.socialMedia.facebook}
                           target="_blank"
@@ -109,8 +128,7 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
                           <IconFacebook size={18} className="text-blue-600" />
                         </a>
                       )}
-                      {docent.socialMedia.linkedin &&
-                      docent.socialMedia.linkedin.startsWith('http') && (
+                      {docent.socialMedia.linkedin && (
                         <a
                           href={docent.socialMedia.linkedin}
                           target="_blank"
@@ -119,8 +137,7 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
                           <IconLinkedin size={18} className="text-blue-800" />
                         </a>
                       )}
-                      {docent.socialMedia.youtube &&
-                      docent.socialMedia.youtube.startsWith('http') && (
+                      {docent.socialMedia.youtube && (
                         <a
                           href={docent.socialMedia.youtube}
                           target="_blank"
@@ -134,9 +151,8 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
                     <span>No disponible</span>
                   )}
               </td>
-
               <td className="py-3 px-6">
-                <div className=" flex-between">
+                <div className="flex-between">
                   <button
                     className="text-blue-500 hover:text-blue-700 mr-6"
                     onClick={toggleModal}
@@ -152,6 +168,32 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
           ))}
         </tbody>
       </table>
+      {/* Botones de Paginación */}
+      <div className="flex justify-between items-center mt-4">
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          className={`py-2 px-4 rounded ${
+            currentPage === 1 ? 'bg-gray-300' : 'bg-primary-500 text-white'
+          }`}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className={`py-2 px-4 rounded ${
+            currentPage === totalPages
+              ? 'bg-gray-300'
+              : 'bg-primary-500 text-white'
+          }`}
+        >
+          Next
+        </button>
+      </div>
     </div>
   )
 }
