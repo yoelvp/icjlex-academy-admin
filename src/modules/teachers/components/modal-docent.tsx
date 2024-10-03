@@ -14,7 +14,7 @@ import {
 import { Modal } from '@/modules/dashboard/components/modal'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { docentSchema } from '../schemas/docent.schema'
-import { useDocentStore } from '../store/docents-store'
+import { useDocentStore } from '../store/docents.store'
 import { Docent } from '../types/Docent'
 import { toast, Toaster } from 'sonner'
 
