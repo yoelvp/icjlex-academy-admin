@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useDocentStore } from '../store/docents-store'
+import { useDocentStore } from '../store/docents.store'
 
 export const useDocents = () => {
   const {

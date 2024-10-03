@@ -212,13 +212,13 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
 
         {/* Botones */}
         <div className="flex gap-8 w-full mt-8">
-          <Button.Link
+          <Button
             variant="error"
             className="w-full cursor-pointer"
             onClick={onClose}
           >
             Cerrar
-          </Button.Link>
+          </Button>
           <Button htmlType="submit" className="w-full" disabled={!isDirty}>
             Enviar
           </Button>
