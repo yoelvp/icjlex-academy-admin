@@ -40,9 +40,23 @@ export const addDocentService = async (
   return response.data
 }
 
-export const getDocentService = async (): Promise<DocentResult[]> => {
-  const response = await axios.get(`${API_URL}/docents`)
-  console.log(response)
+export const getDocentService = async (
+  page: number,
+  size: number,
+  perPage: number
+): Promise<{
+  results: DocentResult[]
+  currentPage: number
+  totalPages: number
+}> => {
+  const response = await axios.get(`${API_URL}/docents`, {
+    params: {
+      page,
+      size,
+      perPage
+    }
+  })
 
-  return response.data.results
+  // La respuesta de axios ya tiene los datos en response.data
+  return response.data // Suponiendo que el backend devuelve { results, currentPage, totalPages }
 }
