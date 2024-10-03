@@ -61,6 +61,7 @@ export const useDocentStore = create<DocentStore>((set, get) => ({
         isLoading: false
       })
     } catch (error) {
+      console.error(error)
       set({
         error: 'Error loading docents',
         isLoading: false

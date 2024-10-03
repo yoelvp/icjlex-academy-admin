@@ -24,10 +24,10 @@ const CoursesPage = () => {
     <Content className="relative py-32 h-full box-border">
       <div className="flex-between mb-6">
         <h1 className="text-3xl font-bold text-primary-500">Docentes</h1>
-        <Button.NextLink href="#" onClick={openModal}>
+        <Button onClick={openModal}>
           <IconAdd size={24} />
           Agregar Docente
-        </Button.NextLink>
+        </Button>
       </div>
 
       <Form className="flex-between mb-8 gap-8">
@@ -37,9 +37,9 @@ const CoursesPage = () => {
           withIcon
           icon={IconSearch}
         />
-        <Button.NextLink size="lg" href="" variant="primary.outline">
+        <Button size="lg" variant="primary.outline">
           Filtrar
-        </Button.NextLink>
+        </Button>
       </Form>
 
       <ListDocents docents={docents} toggleModal={openModal} />
