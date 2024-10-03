@@ -16,7 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { docentSchema } from '../schemas/docent.schema'
 import { useDocentStore } from '../store/docents.store'
 import { Docent } from '../types/Docent'
-import { toast, Toaster } from 'sonner'
+import { toast } from 'sonner'
 
 interface ModalDocentsProps {
   isOpen: boolean
@@ -50,12 +50,6 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Agregar Docente">
-      <Toaster
-        richColors
-        position="bottom-center"
-        closeButton
-        visibleToasts={2}
-      />
       <Form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-y-4 w-full h-[500px] overflow-y-auto"
