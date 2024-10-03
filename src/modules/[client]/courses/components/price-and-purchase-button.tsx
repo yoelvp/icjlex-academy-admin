@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 import { IconWhatsapp } from '@/assets/icons'
 
 export const PriceAndPurchaseButton: FC = () => {
@@ -19,14 +19,14 @@ export const PriceAndPurchaseButton: FC = () => {
           <span className="text-primary-300 line-through">S/. 120.00</span>
         </div>
         <div className="w-full flex md:w-auto lg:w-full">
-          <Button.Link href="/details" variant="white" size="lg" className="w-full lg:hidden">
+          <Link href="/details" variant="white" size="lg" className="w-full lg:hidden">
             Comprar ahora
             <IconWhatsapp size={18} />
-          </Button.Link>
-          <Button.Link href="/details" variant="primary.outline" size="lg" className="w-full hidden lg:flex">
+          </Link>
+          <Link href="/details" variant="primary.outline" size="lg" className="w-full hidden lg:flex">
             Comprar ahora
             <IconWhatsapp size={18} />
-          </Button.Link>
+          </Link>
         </div>
       </div>
     </div>

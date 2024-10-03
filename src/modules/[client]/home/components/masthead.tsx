@@ -1,5 +1,5 @@
 import { ContentFull } from '@/@common/components/content-full'
-import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 import { IconArrowRoundForward } from '@/assets/icons'
 
 export const Masthead = () => {
@@ -20,13 +20,13 @@ export const Masthead = () => {
             </p>
           </article>
           <div className="flex flex-col gap-y-4 gap-x-4 sm:flex-row">
-            <Button.NextLink href="/teachers" variant="secondary" size="lg">
+            <Link href="/teachers" variant="secondary" size="lg">
               Nuestros docentes
-            </Button.NextLink>
-            <Button.NextLink href="/auth/login" variant="secondary" size="lg">
+            </Link>
+            <Link href="/auth/login" variant="secondary" size="lg">
               Iniciar ahora
               <IconArrowRoundForward size="24" />
-            </Button.NextLink>
+            </Link>
           </div>
         </section>
 

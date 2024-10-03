@@ -1,4 +1,4 @@
-import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 import { ListCourses } from '../components/list-courses'
 import { lazy, useState } from 'react'
 import { Course } from '../types/Course'
@@ -10,7 +10,7 @@ const ModalCourse = lazy(() => import('../components/modal-course'))
 
 const CoursesPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false)
-  const [course, _] = useState<Course[]>([
+  const [course, setCourse] = useState<Course[]>([
     {
       id: '1',
       name: 'Introducción a React',
@@ -61,10 +61,13 @@ const CoursesPage = () => {
     <Content className="relative py-32 h-full box-border">
       <div className="flex-between mb-6">
         <h1 className="text-3xl font-bold text-primary-500">Cursos</h1>
-        <Button.NextLink href="#" onClick={openModal}>
+        <Link href="#" onClick={() => {
+          openModal()
+          setCourse([])
+        }}>
           <IconAdd size={24} />
           Agregar Curso
-        </Button.NextLink>
+        </Link>
       </div>
 
       <Form className="flex-between mb-8 gap-8">
@@ -74,9 +77,9 @@ const CoursesPage = () => {
           withIcon
           icon={IconSearch}
         />
-        <Button.NextLink size="lg" href="" variant="primary.outline">
+        <Link size="lg" href="" variant="primary.outline">
           Filtrar
-        </Button.NextLink>
+        </Link>
       </Form>
 
       <ListCourses courses={course} toggleModal={openModal} />

@@ -1,4 +1,4 @@
-import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 import { Card } from '@/@common/components/card'
 import { IconStar, IconStudent } from '@/assets/icons'
 
@@ -64,9 +64,9 @@ export const TeacherCard = () => {
           <p className="text-primary-500">
             Yoel Valverde is a seasoned instructor with over 10 years of experience in the field of web development. He is passionate about teaching and sharing his knowledge with students from all backgrounds.
           </p>
-          <Button.Link href="/teachers/nancy-lozano-diaz" variant="primary.link" className="w-auto">
+          <Link href="/teachers/nancy-lozano-diaz" variant="primary.link" className="w-auto">
             Ver perfil
-          </Button.Link>
+          </Link>
         </div>
       </section>
     </Card>

@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 import { SocialMediaLink } from './social-media-link'
 import { IconArrowRoundForward, IconFacebook, IconInstagram, IconLinkedin, IconX, IconWhatsapp, IconYoutube } from '@/assets/icons'
 
@@ -72,13 +72,13 @@ export const ImageSlider: FC<Props> = ({ images }) => {
             </div>
 
             <div className="w-full flex justify-between">
-              <Button.Link variant={'primary.text'}>
+              <Link variant={'primary.text'}>
                 Ver más
                 <IconArrowRoundForward size="24" />
-              </Button.Link>
-              <Button htmlType="button" variant="primary">
+              </Link>
+              <Link htmlType="button" variant="primary">
                 Ver cursos
-              </Button>
+              </Link>
             </div>
           </section>
         </SwiperSlide>
