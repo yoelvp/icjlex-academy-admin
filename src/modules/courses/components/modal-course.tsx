@@ -47,9 +47,7 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
             size="lg"
             {...register('name')}
           />
-          <Form.Error hasError={errors.description?.message}>
-            {errors.description?.message}
-          </Form.Error>
+          <Form.Error hasError={errors.description?.message} />
         </Form.Control>
 
         <Form.Control>
@@ -61,9 +59,7 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
             <option value="true">Activo</option>
             <option value="false">Inactivo</option>
           </select>
-          <Form.Error hasError={errors.isActive?.message}>
-            {errors.isActive?.message}
-          </Form.Error>
+          <Form.Error hasError={errors.isActive?.message} />
         </Form.Control>
         <div className="flex gap-8 w-full mt-8">
           <Button
