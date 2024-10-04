@@ -1,0 +1,31 @@
+@tailwind components;
+
+@layer components {
+  .custom-table {
+    @apply w-full table-auto rounded-lg bg-white;
+  }
+
+  .custom-table thead tr {
+    @apply bg-primary-400;
+  }
+
+  .custom-table thead tr th {
+    @apply py-3 px-6 text-left font-bold text-primary-50;
+  }
+
+  .custom-table tbody tr td {
+    @apply py-3 px-6;
+  }
+
+  .custom-table tbody tr:nth-child(even) {
+    @apply bg-primary-50/50;
+  }
+
+  .custom-table tbody tr:nth-child(odd) {
+    @apply bg-primary-50;
+  }
+
+  .custom-table tbody tr:hover {
+    @apply bg-primary-100/50;
+  }
+}

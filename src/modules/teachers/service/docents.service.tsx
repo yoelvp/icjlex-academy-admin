@@ -1,10 +1,11 @@
 import { API_URL } from '@/@common/env'
 import axios from 'axios'
 import { Docent, DocentResult } from '../types/Docent'
+import { ResponseData } from '@/@common/types/ResponseData'
 
 export const addDocentService = async (
   docent: Omit<Docent, 'id'>
-): Promise<DocentResult> => {
+) => {
   const formData = new FormData()
 
   // manejo de specialties como array
@@ -27,7 +28,7 @@ export const addDocentService = async (
   formData.append('socialMedia[linkedin]', docent.socialMedia?.linkedin || '')
   formData.append('socialMedia[youtube]', docent.socialMedia?.youtube || '')
 
-  const response = await axios.post<DocentResult>(
+  return await axios.post<DocentResult>(
     `${API_URL}/docents`,
     formData,
     {
@@ -36,27 +37,18 @@ export const addDocentService = async (
       }
     }
   )
-
-  return response.data
 }
 
-export const getDocentService = async (
+export const getAllTeachersService = async (
   page: number,
   size: number,
   perPage: number
-): Promise<{
-  results: DocentResult[]
-  currentPage: number
-  totalPages: number
-}> => {
-  const response = await axios.get(`${API_URL}/docents`, {
+) => {
+  return await axios.get<ResponseData<DocentResult>>(`${API_URL}/docents`, {
     params: {
       page,
       size,
       perPage
     }
   })
-
-  // La respuesta de axios ya tiene los datos en response.data
-  return response.data // Suponiendo que el backend devuelve { results, currentPage, totalPages }
 }

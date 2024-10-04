@@ -1,50 +1,40 @@
+import { lazy } from 'react'
 import Button from '@/@common/components/button'
-import { Content } from '@/@common/components/content'
-import { lazy, useState } from 'react'
 import { IconAdd, IconSearch } from '@/assets/icons'
 import Form from '@/@common/components/form'
 import { ListDocents } from '../components/list-docents'
-import { useDocents } from '../hooks/use-docents'
+import { useShow } from '@/@common/hooks/use-show'
 
 const ModalDocent = lazy(() => import('../components/modal-docent'))
 
 const CoursesPage = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  const { docents } = useDocents()
-
-  const openModal = () => {
-    setIsOpenModal(true)
-  }
-
-  const closeModal = () => {
-    setIsOpenModal(false)
-  }
+  const { show, open, close } = useShow()
 
   return (
-    <Content className="relative py-32 h-full box-border">
-      <div className="flex-between mb-6">
-        <h1 className="text-3xl font-bold text-primary-500">Docentes</h1>
-        <Button onClick={openModal}>
-          <IconAdd size={24} />
-          Agregar Docente
-        </Button>
+    <div className="flex flex-col gap-y-8">
+      <header className="section-panel header-height flex-between">
+        <h2 className="header-title">Docentes</h2>
+
+        <div className="flex items-center gap-x-2">
+          <Form.Input
+            placeholder="Busca lo que quieras..."
+            size="sm"
+            withIcon
+            icon={IconSearch}
+          />
+          <Button onClick={open} size="sm">
+            <IconAdd size={24} />
+            Agregar
+          </Button>
+        </div>
+      </header>
+
+      <div className="section-panel py-4">
+        <ListDocents toggleModal={open} />
       </div>
 
-      <Form className="flex-between mb-8 gap-8">
-        <Form.Input
-          placeholder="Busca lo que quieras..."
-          size="lg"
-          withIcon
-          icon={IconSearch}
-        />
-        <Button size="lg" variant="primary.outline">
-          Filtrar
-        </Button>
-      </Form>
-
-      <ListDocents docents={docents} toggleModal={openModal} />
-      <ModalDocent isOpen={isOpenModal} onClose={closeModal} />
-    </Content>
+      <ModalDocent isOpen={show} onClose={close} />
+    </div>
   )
 }
 

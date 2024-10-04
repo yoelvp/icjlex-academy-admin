@@ -88,7 +88,8 @@ export default tseslint.config(
       'object-curly-spacing': [
         'warn',
         'always'
-      ]
+      ],
+      'react-hooks/exhaustive-deps': 'off'
     }
   }
 )

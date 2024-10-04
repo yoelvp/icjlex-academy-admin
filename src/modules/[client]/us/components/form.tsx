@@ -45,7 +45,7 @@ export const UsForm: FC = () => {
           icon={IconPerson}
           {...register('name')}
         />
-        <Form.Error hasError={errors.name?.message}>{errors.name?.message}</Form.Error>
+        <Form.Error hasError={errors.name?.message} />
       </Form.Control>
 
       <div className="lg:flex  gap-4">
@@ -61,7 +61,7 @@ export const UsForm: FC = () => {
             icon={IconAt}
             {...register('email')}
           />
-          <Form.Error hasError={errors.email?.message}>{errors.email?.message}</Form.Error>
+          <Form.Error hasError={errors.email?.message} />
         </Form.Control>
 
         <Form.Control>
@@ -76,7 +76,7 @@ export const UsForm: FC = () => {
             icon={IconPhone}
             {...register('cellphone')}
           />
-          <Form.Error hasError={errors.cellphone?.message}>{errors.cellphone?.message}</Form.Error>
+          <Form.Error hasError={errors.cellphone?.message} />
         </Form.Control>
       </div>
 
@@ -92,7 +92,7 @@ export const UsForm: FC = () => {
           icon={IconMail}
           {...register('message')}
         />
-        <Form.Error hasError={errors.message?.message}>{errors.message?.message}</Form.Error>
+        <Form.Error hasError={errors.message?.message} />
       </Form.Control>
 
       <Button disabled={!isDirty}>

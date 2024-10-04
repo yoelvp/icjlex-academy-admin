@@ -50,7 +50,7 @@ const ForgotPasswordPage = () => {
                 icon={IconMail}
                 {...register('email')}
               />
-              <Form.Error hasError={errors.email?.message}>{errors.email?.message}</Form.Error>
+              <Form.Error hasError={errors.email?.message} />
             </Form.Control>
 
             <Button htmlType="submit" disabled={!isDirty}>
