@@ -38,7 +38,7 @@ export const Pagination: FC<Props> = ({
   )
 }
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> { }
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button: FC<ButtonProps> = ({
   ...props
