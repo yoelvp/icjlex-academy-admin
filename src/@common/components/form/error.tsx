@@ -1,17 +1,15 @@
-import type { FC, ReactNode } from 'react'
+import type { FC } from 'react'
 
 interface Props {
-  children: ReactNode
   hasError?: string
 }
 
 export const Error: FC<Props> = ({
-  children,
   hasError
 }) => {
   return (
-    <span className={`text-error-400 text-xs ${Boolean(hasError) ? 'block' : 'hidden'}`}>
-      {children}
+    <span className={`text-error-400 text-xs ${hasError ? 'block' : 'hidden'}`}>
+      {hasError}
     </span>
   )
 }
