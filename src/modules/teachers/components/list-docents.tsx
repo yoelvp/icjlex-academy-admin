@@ -8,82 +8,65 @@ import {
   IconX,
   IconYoutube
 } from '@/assets/icons'
-import { DocentResult } from '../types/Docent'
+import classNames from 'classnames'
 import { useDocents } from '../hooks/use-docents'
+import { TableLoading } from '@/@common/components/table-loading'
+import { useDocentStore } from '../store/teachers.store'
+import { usePagination } from '@/@common/hooks/use-pagination'
 
 interface CourseTableList {
-  docents: DocentResult[]
   toggleModal: () => void
 }
 
-export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
-  const { currentPage, totalPages, isLoading, error, setCurrentPage } =
-    useDocents()
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
-    }
-  }
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
-    }
-  }
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>
-  }
+export const ListDocents: FC<CourseTableList> = ({ toggleModal }) => {
+  const teachers = useDocentStore((state) => state.teachers)
+  const pagination = useDocentStore((state) => state.pagination)
+  const { page, perPage, nextPage, prevPage } = usePagination()
+  const { isLoading } = useDocents(page, perPage)
 
   return (
     <div className="rounded-xs overflow-x-auto">
-      <table className="table-auto bg-white">
-        <thead className="bg-primary-100">
+      <table className="custom-table">
+        <thead>
           <tr>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
+            <th>
               Imagen
             </th>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
+            <th>
               Nombre
             </th>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
+            <th>
               Apellido
             </th>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
+            <th>
               Especialidades
             </th>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
+            <th>
               Profesion
             </th>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
+            <th>
               Sobre mí
             </th>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
+            <th>
               Redes Sociales
             </th>
-            <th className="py-3 px-6 text-left font-bold text-primary-500">
-              Acciones
-            </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          {docents?.map((docent) => (
+          <TableLoading numCols={8} isLoading={isLoading} />
+          {!isLoading && teachers?.map((docent) => (
             <tr key={docent.id} className="border-b border-gray-200">
-              <td className="py-3 px-6">
+              <td>
                 <img
                   src={docent.imageUrl || '/placeholder-image.png'}
                   alt={`${docent.firstName} ${docent.lastName}`}
                   className="w-16 h-16 object-cover rounded-full"
                 />
               </td>
-              <td className="py-3 px-6">{docent.firstName}</td>
-              <td className="py-3 px-6">{docent.lastName}</td>
-              <td className="py-3 px-6 flex flex-wrap gap-2 max-w-md">
+              <td>{docent.firstName}</td>
+              <td>{docent.lastName}</td>
+              <td className="flex flex-wrap gap-2 max-w-md">
                 {docent.docentToSpecialty?.map((specialty, index) => (
                   <span
                     className="py-1 px-2 bg-primary-100 rounded-xs"
@@ -93,65 +76,64 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
                   </span>
                 ))}
               </td>
-              <td className="py-3 px-6">{docent.profession}</td>
-              <td className="py-3 px-6 max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
+              <td>{docent.profession}</td>
+              <td className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
                 {docent.aboutMe}
               </td>
-              <td className="py-3 px-6">
-                {typeof docent.socialMedia === 'object' &&
-                docent.socialMedia !== null ? (
-                    <div className="flex space-x-2">
-                      {docent.socialMedia.whatsapp && (
-                        <a
-                          href={docent.socialMedia.whatsapp}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconWhatsapp size={18} className="text-green-600" />
-                        </a>
-                      )}
-                      {docent.socialMedia.x && (
-                        <a
-                          href={docent.socialMedia.x}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconX size={18} />
-                        </a>
-                      )}
-                      {docent.socialMedia.facebook && (
-                        <a
-                          href={docent.socialMedia.facebook}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconFacebook size={18} className="text-blue-600" />
-                        </a>
-                      )}
-                      {docent.socialMedia.linkedin && (
-                        <a
-                          href={docent.socialMedia.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconLinkedin size={18} className="text-blue-800" />
-                        </a>
-                      )}
-                      {docent.socialMedia.youtube && (
-                        <a
-                          href={docent.socialMedia.youtube}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconYoutube size={18} className="text-red-600" />
-                        </a>
-                      )}
-                    </div>
-                  ) : (
-                    <span>No disponible</span>
-                  )}
+              <td>
+                {docent.socialMedia ? (
+                  <div className="flex space-x-2">
+                    {docent.socialMedia.whatsapp && (
+                      <a
+                        href={docent.socialMedia.whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <IconWhatsapp size={18} className="text-green-600" />
+                      </a>
+                    )}
+                    {docent.socialMedia.x && (
+                      <a
+                        href={docent.socialMedia.x}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <IconX size={18} />
+                      </a>
+                    )}
+                    {docent.socialMedia.facebook && (
+                      <a
+                        href={docent.socialMedia.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <IconFacebook size={18} className="text-blue-600" />
+                      </a>
+                    )}
+                    {docent.socialMedia.linkedin && (
+                      <a
+                        href={docent.socialMedia.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <IconLinkedin size={18} className="text-blue-800" />
+                      </a>
+                    )}
+                    {docent.socialMedia.youtube && (
+                      <a
+                        href={docent.socialMedia.youtube}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <IconYoutube size={18} className="text-red-600" />
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <span>No disponible</span>
+                )}
               </td>
-              <td className="py-3 px-6">
+              <td>
                 <div className="flex-between">
                   <button
                     className="text-blue-500 hover:text-blue-700 mr-6"
@@ -168,28 +150,30 @@ export const ListDocents: FC<CourseTableList> = ({ docents, toggleModal }) => {
           ))}
         </tbody>
       </table>
-      {/* Botones de Paginación */}
+
       <div className="flex justify-between items-center mt-4">
         <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className={`py-2 px-4 rounded ${
-            currentPage === 1 ? 'bg-gray-300' : 'bg-primary-500 text-white'
-          }`}
+          onClick={prevPage}
+          disabled={pagination.currentPage === 1}
+          className={classNames(
+            'py-2 px-4 rounded',
+            { 'bg-gray-300': pagination.currentPage === 1 },
+            { 'bg-primary-500 text-white': pagination.currentPage !== 1 }
+          )}
         >
           Previous
         </button>
         <span>
-          Page {currentPage} of {totalPages}
+          Page {page} of {pagination.totalPages} of {pagination.count} elements
         </span>
         <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className={`py-2 px-4 rounded ${
-            currentPage === totalPages
-              ? 'bg-gray-300'
-              : 'bg-primary-500 text-white'
-          }`}
+          onClick={nextPage}
+          disabled={pagination.currentPage === pagination.totalPages}
+          className={classNames(
+            'py-2 px-4 rounded',
+            { 'bg-gray-300': pagination.currentPage === pagination.totalPages },
+            { 'bg-primary-500 text-white': pagination.currentPage !== pagination.totalPages }
+          )}
         >
           Next
         </button>

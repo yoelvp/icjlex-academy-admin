@@ -4,6 +4,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
 
+import { Modal } from '@/@common/components/modal'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { docentSchema } from '../schemas/docent.schema'
+import { Docent } from '../types/Docent'
+import { useCreateTeacher } from '../hooks/use-create-teacher'
 import {
   IconFacebook,
   IconLinkedin,
@@ -11,12 +16,6 @@ import {
   IconX,
   IconYoutube
 } from '@/assets/icons'
-import { Modal } from '@/modules/dashboard/components/modal'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { docentSchema } from '../schemas/docent.schema'
-import { useDocentStore } from '../store/docents.store'
-import { Docent } from '../types/Docent'
-import { toast, Toaster } from 'sonner'
 
 interface ModalDocentsProps {
   isOpen: boolean
@@ -24,7 +23,7 @@ interface ModalDocentsProps {
 }
 
 const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
-  const addDocent = useDocentStore((state) => state.addDocents)
+  const { createTeacher, isLoading } = useCreateTeacher()
 
   const {
     register,
@@ -36,55 +35,41 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
   })
 
   const onSubmit: SubmitHandler<Docent> = async (data) => {
-    try {
-      addDocent(data)
-      console.log(data)
-      toast.success('Docente agregado con exito!')
-      reset()
-    } catch (error) {
-      toast.error('Ocurrió un problema.')
-      console.log(error)
-      reset()
-    }
+    createTeacher(data)
+    reset()
+    onClose()
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Agregar Docente">
-      <Toaster
-        richColors
-        position="bottom-center"
-        closeButton
-        visibleToasts={2}
-      />
+    <Modal isOpen={isOpen} onClose={onClose} title="Agregar docente">
       <Form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-y-4 w-full h-[500px] overflow-y-auto"
+        autoComplete="off"
       >
         {/* Nombre */}
-        <Form.Control>
-          <Form.Label>Nombre</Form.Label>
-          <Form.Input
-            placeholder="Ingresa tu nombre..."
-            size="md"
-            {...register('firstName')}
-          />
-          <Form.Error hasError={errors.firstName?.message}>
-            {errors.firstName?.message}
-          </Form.Error>
-        </Form.Control>
+        <div className="flex flex-col md:flex-row gap-4">
+          <Form.Control>
+            <Form.Label>Nombre</Form.Label>
+            <Form.Input
+              placeholder="Ingresa tu nombre..."
+              size="md"
+              {...register('firstName')}
+            />
+            <Form.Error hasError={errors.firstName?.message} />
+          </Form.Control>
 
-        {/* Apellido */}
-        <Form.Control>
-          <Form.Label>Apellido</Form.Label>
-          <Form.Input
-            placeholder="Ingrese su apellido..."
-            size="md"
-            {...register('lastName')}
-          />
-          <Form.Error hasError={errors.lastName?.message}>
-            {errors.lastName?.message}
-          </Form.Error>
-        </Form.Control>
+          {/* Apellido */}
+          <Form.Control>
+            <Form.Label>Apellido</Form.Label>
+            <Form.Input
+              placeholder="Ingrese su apellido..."
+              size="md"
+              {...register('lastName')}
+            />
+            <Form.Error hasError={errors.lastName?.message} />
+          </Form.Control>
+        </div>
 
         {/* Especialidades */}
         <Form.Control>
@@ -94,9 +79,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
             size="md"
             {...register('specialties', { required: true })}
           />
-          <Form.Error hasError={errors.specialties?.message}>
-            {errors.specialties?.message}
-          </Form.Error>
+          <Form.Error hasError={errors.specialties?.message} />
         </Form.Control>
 
         {/* Acerca de mí */}
@@ -107,9 +90,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
             size="md"
             {...register('aboutMe', { required: true })}
           />
-          <Form.Error hasError={errors.aboutMe?.message}>
-            {errors.aboutMe?.message}
-          </Form.Error>
+          <Form.Error hasError={errors.aboutMe?.message} />
         </Form.Control>
 
         {/* Profesión */}
@@ -120,9 +101,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
             size="md"
             {...register('profession', { required: true })}
           />
-          <Form.Error hasError={errors.profession?.message}>
-            {errors.profession?.message}
-          </Form.Error>
+          <Form.Error hasError={errors.profession?.message} />
         </Form.Control>
 
         {/* Imagen */}
@@ -134,9 +113,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
             size="md"
             {...register('image', { required: true })}
           />
-          <Form.Error hasError={errors.image?.message}>
-            {errors.image?.message}
-          </Form.Error>
+          <Form.Error hasError={errors.image?.message} />
         </Form.Control>
 
         {/* Redes Sociales */}
@@ -151,9 +128,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
               icon={IconYoutube}
               {...register('socialMedia.youtube')}
             />
-            <Form.Error hasError={errors.socialMedia?.youtube?.message}>
-              {errors.socialMedia?.youtube?.message}
-            </Form.Error>
+            <Form.Error hasError={errors.socialMedia?.youtube?.message} />
           </Form.Control>
 
           <Form.Control>
@@ -165,9 +140,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
               icon={IconWhatsapp}
               {...register('socialMedia.whatsapp')}
             />
-            <Form.Error hasError={errors.socialMedia?.whatsapp?.message}>
-              {errors.socialMedia?.whatsapp?.message}
-            </Form.Error>
+            <Form.Error hasError={errors.socialMedia?.whatsapp?.message} />
           </Form.Control>
 
           <Form.Control>
@@ -179,9 +152,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
               icon={IconFacebook}
               {...register('socialMedia.facebook')}
             />
-            <Form.Error hasError={errors.socialMedia?.facebook?.message}>
-              {errors.socialMedia?.facebook?.message}
-            </Form.Error>
+            <Form.Error hasError={errors.socialMedia?.facebook?.message} />
           </Form.Control>
 
           <Form.Control>
@@ -193,9 +164,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
               icon={IconLinkedin}
               {...register('socialMedia.linkedin')}
             />
-            <Form.Error hasError={errors.socialMedia?.linkedin?.message}>
-              {errors.socialMedia?.linkedin?.message}
-            </Form.Error>
+            <Form.Error hasError={errors.socialMedia?.linkedin?.message} />
           </Form.Control>
 
           <Form.Control>
@@ -220,7 +189,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
             Cerrar
           </Button>
           <Button htmlType="submit" className="w-full" disabled={!isDirty}>
-            Enviar
+            {isLoading ? 'Creando...': 'Enviar'}
           </Button>
         </div>
       </Form>

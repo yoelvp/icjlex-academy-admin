@@ -1,35 +1,43 @@
 import { useEffect } from 'react'
-import { useDocentStore } from '../store/docents.store'
+import { toast } from 'sonner'
+import { useDocentStore } from '../store/teachers.store'
+import { getAllTeachersService } from '../service/docents.service'
+import getError from '@/@common/utils/get-errors'
+import { useLoading } from '@/@common/hooks/use-loading'
 
-export const useDocents = () => {
-  const {
-    docents,
-    currentPage,
-    totalPages,
-    size,
-    perPage,
-    isLoading,
-    error,
-    fetchDocents,
-    setCurrentPage,
-    setSize,
-    setPerPage
-  } = useDocentStore()
+export const useDocents = (page: number, perPage: number) => {
+  const { isLoading, loading, loaded } = useLoading()
+  const setTeachers = useDocentStore((state) => state.setTeachers)
+  const setPagination = useDocentStore((state) => state.setPagination)
+  const pagination = useDocentStore((state) => state.pagination)
 
   useEffect(() => {
-    fetchDocents(currentPage) // Llama a la API al cargar el componente
-  }, [currentPage, size, perPage]) // Ejecuta el fetch si cambian estos valores
+    getAllTeachers()
+  }, [page, perPage])
+
+  const getAllTeachers = async () => {
+    loading()
+    try {
+      const { data } = await getAllTeachersService(page, perPage, perPage)
+      setTeachers(data.results)
+      setPagination({
+        count: data.count,
+        totalPages: data.totalPages,
+        currentPage: data.currentPage,
+        perPage: data.perPage,
+        size: data.perPage
+      })
+    } catch (error) {
+      loaded()
+      const { message } = getError(error)
+      toast.error(message)
+    } finally {
+      loaded()
+    }
+  }
 
   return {
-    docents,
-    currentPage,
-    totalPages,
-    size,
-    perPage,
     isLoading,
-    error,
-    setCurrentPage,
-    setSize,
-    setPerPage
+    pagination
   }
 }

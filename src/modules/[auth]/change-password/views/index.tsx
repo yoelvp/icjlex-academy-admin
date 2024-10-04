@@ -52,7 +52,7 @@ const ChangePasswordPage = () => {
                 error={errors.repeatPassword?.message}
                 {...register('password')}
               />
-              <Form.Error hasError={errors.password?.message}>{errors.password?.message}</Form.Error>
+              <Form.Error hasError={errors.password?.message} />
             </Form.Control>
             <Form.Control>
               <Form.Label>
@@ -66,7 +66,7 @@ const ChangePasswordPage = () => {
                 error={errors.repeatPassword?.message}
                 {...register('repeatPassword')}
               />
-              <Form.Error hasError={errors.repeatPassword?.message}>{errors.repeatPassword?.message}</Form.Error>
+              <Form.Error hasError={errors.repeatPassword?.message} />
             </Form.Control>
 
             <Button disabled={!isDirty}>
