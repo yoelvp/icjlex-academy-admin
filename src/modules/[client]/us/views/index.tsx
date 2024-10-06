@@ -9,6 +9,7 @@ import { Mision } from '../components/mision'
 import Objective from '../components/objective'
 import { ContactForm } from '@/modules/[client]/home/components/contact-form'
 import { MeetOurTeachers } from '../components/meet-our-teachers'
+import Collaborators from '../components/collaborators'
 
 const UsPage = () => {
   const images = [
@@ -28,17 +29,15 @@ const UsPage = () => {
       <div className="bg-primary-700 py-32">
         <Mision />
       </div>
-
-      <Content >
-        <Counter />
+      <Counter />
+      <Collaborators />
+      <Content>
         <MeetOurTeachers />
         <ImageSlider images={images} />
       </Content>
-
       <SectionForm />
       <Map />
       <ContactForm />
-
     </>
   )
 }
