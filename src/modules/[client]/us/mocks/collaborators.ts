@@ -10,7 +10,7 @@ export const collaborators = [
   {
     name: 'Edwin Vega Plasencia',
     role: 'Abogado en Derecho Penal y Procesal Penal',
-    slug: 'nancy-lozano',
+    slug: 'edwin-vega',
     description:
       'Cuenta con experiencia como asistente legal en diferentes estudios jurídicos y en la actualidad se desempeña como abogado independiente, brindando asesoramiento y representación efectiva en casos penales. Además, ha participado como voluntario en el Ministerio Público de Trujillo, fortaleciendo su compromiso con la justicia y la defensa de los derechos de las personas. Actualmente, se encuentra cursando la Maestría en Derecho con mención en Derecho Penal en la Universidad Privada Antenor Orrego, para lograr profundizar sus conocimientos y habilidades en el ámbito penal.',
     image: '/us/collaborators/edwin-vega.jpg'
