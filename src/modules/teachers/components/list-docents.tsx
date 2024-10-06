@@ -27,6 +27,24 @@ export const ListDocents: FC<CourseTableList> = ({ toggleModal }) => {
   const pagination = useDocentStore((state) => state.pagination)
   const { page, perPage, nextPage, prevPage } = usePagination()
   const { isLoading } = useDocents(page, perPage)
+  const options = [
+    {
+      label: 'Ver detalles',
+      icon: IconEyeOutline,
+      onClick: () => console.log('Ver detalles')
+    },
+    {
+      label: 'Actualizar',
+      icon: IconEdit,
+      onClick: toggleModal
+    },
+    {
+      label: 'Eliminar',
+      icon: IconDelete,
+      onClick: () => console.log('Eliminar'),
+      className: 'text-red-500 hover:bg-red-600'
+    }
+  ]
 
   return (
     <div className="rounded-xs overflow-x-auto">
@@ -122,24 +140,17 @@ export const ListDocents: FC<CourseTableList> = ({ toggleModal }) => {
                 <td>
                   <Menu variant={'white'} activator={<IconOptions />} size="xs">
                     <div className="flex-col-start px-4 py-2| w-auto gap-2">
-                      <ButtonAction
-                        onClick={() => console.log('Ver detalles')}
-                        icon={IconEyeOutline}
-                        text="Ver detalles"
-                        disabled={false}
-                      />
-                      <ButtonAction
-                        onClick={toggleModal}
-                        icon={IconEdit}
-                        text="Actualizar"
-                        disabled={false}
-                      />
-                      <ButtonAction
-                        onClick={() => console.log('Eliminar')}
-                        icon={IconDelete}
-                        text="Eliminar"
-                        disabled={false}
-                      />
+                      {options.map(
+                        ({ label, icon, onClick, className }, index) => (
+                          <ButtonAction
+                            key={index}
+                            label={label}
+                            icon={icon}
+                            onClick={onClick}
+                            className={className}
+                          />
+                        )
+                      )}
                     </div>
                   </Menu>
                 </td>
