@@ -11,7 +11,6 @@ import {
   IconCheckmark
 } from '@/assets/icons'
 import { CourseCard } from '@/@common/components/course-card'
-import { Pagination } from '@/@common/components/pagination'
 import { useParams } from 'react-router-dom'
 import { useCollaborators } from '../hooks/use-collaborator'
 
@@ -91,9 +90,6 @@ const CollaboratorDetailsPage = () => {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 <CourseCard />
                 <CourseCard />
-              </div>
-              <div>
-                <Pagination />
               </div>
             </div>
           </article>
