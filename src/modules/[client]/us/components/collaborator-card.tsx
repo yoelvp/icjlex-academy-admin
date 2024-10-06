@@ -35,7 +35,7 @@ export const CollaboratorCard = ({
       <img
         src={image}
         alt="Teacher profile image"
-        className="w-full h-48 rounded object-cover object-center"
+        className="w-full h-96 rounded object-cover object-top"
         loading="lazy"
       />
       <section className="px-4 py-6 flex-col-start gap-y-8">
