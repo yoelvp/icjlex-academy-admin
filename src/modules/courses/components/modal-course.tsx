@@ -4,7 +4,6 @@ import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
 import { Modal } from '@/modules/dashboard/components/modal'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Course } from '../types/Course'
 import { courseSchema } from '../schemas/course.schema'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -19,16 +18,16 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
     handleSubmit,
     formState: { errors, isDirty },
     reset
-  } = useForm<Course>({
+  } = useForm({
     resolver: yupResolver(courseSchema),
     defaultValues: {
       name: '',
-      description: '',
-      isActive: true
+      objetive: '',
+      image: ''
     }
   })
 
-  const onSubmit: SubmitHandler<Course> = (data) => {
+  const onSubmit: SubmitHandler<T> = (data) => {
     console.log(data)
     reset()
   }
@@ -37,30 +36,40 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} title="Agregar Curso">
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-y-4 w-full"
+        className="flex flex-col gap-y-4 w-full  overflow-y-auto"
+        autoComplete="off"
       >
         <Form.Control>
-          <Form.Label>Título</Form.Label>
+          <Form.Label>Nombre</Form.Label>
           <Form.Input
-            placeholder="Ingresa el título..."
-            error={errors?.name?.message}
-            size="lg"
+            placeholder="Ingresa el nombre..."
+            size="md"
             {...register('name')}
           />
-          <Form.Error hasError={errors.description?.message} />
+          <Form.Error hasError={errors.name?.message} />
         </Form.Control>
 
         <Form.Control>
-          <Form.Label>Estado</Form.Label>
-          <select
-            className="h-[2.75rem] pl-8 pr-6 md:h-[3rem] border rounded-xl text-base focus:outline-none focus:ring rounded border-primary-400 text-primary-300 placeholder:text-primary-200 disabled:bg-primary-50 disabled:border-primary-400 disabled:hover:text-primary-100 focus:ring-primary-500/20 ring-primary-500 appearance-none focus:border-primary-500"
-            {...register('isActive')}
-          >
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
-          </select>
-          <Form.Error hasError={errors.isActive?.message} />
+          <Form.Label>Objetivo</Form.Label>
+          <Form.Input
+            placeholder="Ingresa el objetivo..."
+            size="md"
+            {...register('objetive')}
+          />
+          <Form.Error hasError={errors.objetive?.message} />
         </Form.Control>
+
+        <Form.Control>
+          <Form.Label>Imagen</Form.Label>
+          <input
+            type="file"
+            accept="image/*"
+            className="block w-full text-sm text-primary-500 border border-primary-400 rounded-lg cursor-pointer  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            {...register('image')}
+          />
+          <Form.Error hasError={errors.image?.message} />
+        </Form.Control>
+
         <div className="flex gap-8 w-full mt-8">
           <Button
             variant="error"
