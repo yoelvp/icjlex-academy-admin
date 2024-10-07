@@ -28,7 +28,9 @@ export {
   IoPhonePortraitOutline as IconPhone,
   IoAt as IconAt,
   IoPricetagOutline as IconTag,
-  IoAddOutline as IconAdd
+  IoAddOutline as IconAdd,
+  IoEllipsisHorizontal as IconOptions,
+  IoEyeOutline as IconEyeOutline
 } from 'react-icons/io5'
 export {
   TbMenu as IconMenu,

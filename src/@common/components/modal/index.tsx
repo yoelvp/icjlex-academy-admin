@@ -28,11 +28,13 @@ export const Modal: FC<Props> = ({
   return createPortal(
     <div className="fixed inset-0 flex items-end justify-center z-50 bg-black/50 sm:items-center">
       <div
-        className={twVariants(modalVariants({
-          variant,
-          size,
-          className: 'h-auto'
-        }))}
+        className={twVariants(
+          modalVariants({
+            variant,
+            size,
+            className: 'h-auto'
+          })
+        )}
       >
         <div className="px-6 py-4 border-b border-primary-600/20 flex justify-between items-center">
           <div>
@@ -42,9 +44,7 @@ export const Modal: FC<Props> = ({
               </h3>
             )}
             {Boolean(description) && (
-              <p className="text-primary-400 text-sm">
-                {description}
-              </p>
+              <p className="text-primary-400 text-sm">{description}</p>
             )}
           </div>
           <button
@@ -55,11 +55,10 @@ export const Modal: FC<Props> = ({
             <IconClose size={24} />
           </button>
         </div>
-        <div className="w-full overflow-scroll max-h-[calc(100vh-150px)] lg:max-h-[60vh]">
-          <div className="mx-4 py-2">
-            {children}
-          </div>
+        <div className="w-full overflow-y-scroll max-h-[calc(100vh-150px)] lg:max-h-[60vh]">
+          <div className="mx-4 py-2">{children}</div>
         </div>
+        <div className="w-full h-[30px]"></div>
       </div>
     </div>,
     document.getElementById('modal') ?? document.createElement('div')

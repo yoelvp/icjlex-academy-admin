@@ -44,10 +44,10 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} title="Agregar docente">
       <Form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-y-4 w-full h-[500px] overflow-y-auto"
+        className="flex flex-col gap-y-4 h-[500px]"
         autoComplete="off"
       >
-        {/* Nombre */}
+        {/* Name */}
         <div className="flex flex-col md:flex-row gap-4">
           <Form.Control>
             <Form.Label>Nombre</Form.Label>
@@ -59,7 +59,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
             <Form.Error hasError={errors.firstName?.message} />
           </Form.Control>
 
-          {/* Apellido */}
+          {/* LastName */}
           <Form.Control>
             <Form.Label>Apellido</Form.Label>
             <Form.Input
@@ -71,7 +71,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
           </Form.Control>
         </div>
 
-        {/* Especialidades */}
+        {/* Especialties */}
         <Form.Control>
           <Form.Label>Especialidades (separadas por comas)</Form.Label>
           <Form.Input
@@ -82,7 +82,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
           <Form.Error hasError={errors.specialties?.message} />
         </Form.Control>
 
-        {/* Acerca de mí */}
+        {/* AboutMe */}
         <Form.Control>
           <Form.Label>Acerca de mí</Form.Label>
           <Form.Input
@@ -93,7 +93,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
           <Form.Error hasError={errors.aboutMe?.message} />
         </Form.Control>
 
-        {/* Profesión */}
+        {/* Profession */}
         <Form.Control>
           <Form.Label>Profesión</Form.Label>
           <Form.Input
@@ -104,19 +104,19 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
           <Form.Error hasError={errors.profession?.message} />
         </Form.Control>
 
-        {/* Imagen */}
+        {/* Image */}
         <Form.Control>
           <Form.Label>Imagen</Form.Label>
-          <Form.Input
+          <input
             type="file"
             accept="image/*"
-            size="md"
+            className="block w-full text-sm text-primary-500 border border-primary-400 rounded-lg cursor-pointer  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             {...register('image', { required: true })}
           />
           <Form.Error hasError={errors.image?.message} />
         </Form.Control>
 
-        {/* Redes Sociales */}
+        {/* SocialMedia */}
         <p className="text-primary-500 font-bold">Redes Sociales</p>
         <div className="grid grid-cols-2 grid-rows-3 gap-x-4 gap-y-2">
           <Form.Control>
@@ -179,7 +179,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
           </Form.Control>
         </div>
 
-        {/* Botones */}
+        {/* Button for Actions */}
         <div className="flex gap-8 w-full mt-8">
           <Button
             variant="error"
@@ -189,7 +189,7 @@ const ModalDocent: FC<ModalDocentsProps> = ({ isOpen, onClose }) => {
             Cerrar
           </Button>
           <Button htmlType="submit" className="w-full" disabled={!isDirty}>
-            {isLoading ? 'Creando...': 'Enviar'}
+            {isLoading ? 'Creando...' : 'Enviar'}
           </Button>
         </div>
       </Form>
