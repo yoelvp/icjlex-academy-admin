@@ -9,44 +9,6 @@ const ModalCourse = lazy(() => import('../components/modal-course'))
 
 const CoursesPage = () => {
   const { show, open, close } = useShow()
-  /*const [course, setCourse] = useState([
-    {
-      id: '1',
-      name: 'Introducción a React',
-      description: 'Ana García',
-      isActive: true
-    },
-    {
-      id: '2',
-      name: 'Diseño UX Avanzado',
-      description: 'Carlos Pérez',
-      isActive: false
-    },
-    {
-      id: '3',
-      name: 'JavaScript Moderno',
-      description: 'Laura Martínez',
-      isActive: true
-    },
-    {
-      id: '4',
-      name: 'JavaScript Moderno',
-      description: 'Laura Martínez',
-      isActive: true
-    },
-    {
-      id: '5',
-      name: 'JavaScript Moderno',
-      description: 'Laura Martínez',
-      isActive: false
-    },
-    {
-      id: '6',
-      name: 'JavaScript Moderno',
-      description: 'Laura Martínez',
-      isActive: true
-    }
-  ]) */
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -68,7 +30,7 @@ const CoursesPage = () => {
       </header>
 
       <div className="section-panel py-4">
-        <ListCourses courses={course} toggleModal={open} />
+        <ListCourses toggleModal={open} />
       </div>
 
       <ModalCourse isOpen={show} onClose={close} />
