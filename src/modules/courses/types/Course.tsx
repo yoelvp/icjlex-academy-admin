@@ -8,5 +8,5 @@ export interface CourseResult {
   name?: string
   objetive?: string
   imageUrl?: null | string
-  isAtive?: boolean
+  isActive?: boolean
 }
