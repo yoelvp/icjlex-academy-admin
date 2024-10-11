@@ -6,11 +6,14 @@ import {
   IconTag,
   IconTeacher
 } from '@/assets/icons'
+import { UseCourseStore } from '@/modules/courses/store/course.store'
 import { useDocentStore } from '@/modules/teachers/store/teachers.store'
 
 const DashboardPage = () => {
   const teachers = useDocentStore((state) => state.pagination.count)
+  const courses = UseCourseStore((state) => state.pagination.count)
   if (!teachers) return
+  if (!courses) return
 
   return (
     <div>
@@ -18,7 +21,7 @@ const DashboardPage = () => {
         <Card
           title="Cursos"
           to="/admin/courses"
-          count={72}
+          count={courses}
           change={+3.7}
           icon={IconCourse}
           details={[
