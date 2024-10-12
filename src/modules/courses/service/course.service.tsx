@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Course, CourseResult } from '../types/Course'
 import { API_URL } from '@/@common/env'
+import { ResponseData } from '@/@common/types/ResponseData'
 
 export const addCourseService = async (course: Course) => {
   const formData = new FormData()
@@ -13,6 +14,15 @@ export const addCourseService = async (course: Course) => {
   return await axios.post<CourseResult>(`${API_URL}/courses`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+
+export const getAllCoursesService = async (page: number, size: number) => {
+  return await axios.get<ResponseData<CourseResult>>(`${API_URL}/courses`, {
+    params: {
+      page,
+      size
     }
   })
 }
