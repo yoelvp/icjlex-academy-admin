@@ -15,13 +15,14 @@ import Form from '@/@common/components/form'
 import Button from '@/@common/components/button'
 import ImageUploader from './image-uploader'
 import { STEPS } from '../utils/constants'
+import classNames from 'classnames'
 
 interface ModalCourseProps {
   isOpen: boolean
   onClose: () => void
 }
 
-const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
+const RegisterCourseForm: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(0)
   const { isLoading: loadingTeacher } = useGetAllTeachers()
   const teachers = useDocentStore((state) => state.teachers)
@@ -77,11 +78,11 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
               }`}
             >
               <div
-                className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${
-                  index <= step
-                    ? 'bg-secondary-500 text-primary-500'
-                    : 'bg-gray-200'
-                }`}
+                className={classNames(
+                  'w-8 h-8 mx-auto rounded-full flex items-center justify-center',
+                  { 'bg-secondary-500 text-primary-500': index <= step },
+                  { 'bg-gray-200': index >= step }
+                )}
               >
                 {index + 1}
               </div>
@@ -223,8 +224,7 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
                     <Form.Error
                       hasError={
                         errors.content[0].details?.[index]?.duration?.message
-                      }
-                    />
+                      }                      />
                   )}
                 </Form.Control>
 
@@ -289,4 +289,4 @@ const ModalCourse: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
   )
 }
 
-export default ModalCourse
+export default RegisterCourseForm

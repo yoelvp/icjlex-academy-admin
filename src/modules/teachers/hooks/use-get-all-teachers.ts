@@ -16,7 +16,7 @@ export const useGetAllTeachers = () => {
   const fetchTeachers = async () => {
     loading()
     try {
-      const { data } = await getAllTeachersService(1, 9999, 9999)
+      const { data } = await getAllTeachersService(1, 9999)
       setTeachers(data.results)
     } catch (error) {
       const { message } = getError(error)
