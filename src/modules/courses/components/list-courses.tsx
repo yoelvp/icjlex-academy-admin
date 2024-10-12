@@ -22,8 +22,8 @@ interface Props {
 export const ListCourses: FC<Props> = ({ toggleModal }) => {
   const courses = UseCourseStore((state) => state.courses)
   const pagination = UseCourseStore((state) => state.pagination)
-  const { page, nextPage, perPage, prevPage } = usePagination()
-  const { isLoading } = useCourses(page, perPage)
+  const { page, nextPage, size, prevPage } = usePagination()
+  const { isLoading } = useCourses(page, size)
   const options = [
     {
       label: 'Ver detalles',
@@ -53,7 +53,7 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
             <th>Nombre del curso</th>
             <th>Docente</th>
             <th>Duración</th>
-            <th>Acciones</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -63,8 +63,10 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
             courses?.map((course) => (
               <tr key={course.id} className="border-b border-gray-200">
                 <td>{course.id}</td>
-                <td className="
-                w-auto">
+                <td
+                  className="
+                w-auto"
+                >
                   <div className="w-64">
                     <img
                       src={course.imageUrl || '/placeholder-image.png'}
@@ -109,10 +111,11 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
             { 'bg-primary-500 text-white': pagination.currentPage !== 1 }
           )}
         >
-          Previous
+          Anterior
         </button>
         <span>
-          Page {page} of {pagination.totalPages} of {pagination.count} elements
+          Pagina {page} de {pagination.totalPages} de {pagination.count}{' '}
+          elementos
         </span>
         <button
           onClick={nextPage}
@@ -126,7 +129,7 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
             }
           )}
         >
-          Next
+          Siguiente
         </button>
       </div>
     </div>
