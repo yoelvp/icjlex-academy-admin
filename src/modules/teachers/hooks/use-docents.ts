@@ -24,8 +24,8 @@ export const useDocents = (page: number, perPage: number) => {
         count: data.count,
         totalPages: data.totalPages,
         currentPage: data.currentPage,
-        perPage: data.perPage,
-        size: data.perPage
+        // perPage: data.perPage,
+        size: data.size
       })
     } catch (error) {
       loaded()
