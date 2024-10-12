@@ -25,8 +25,8 @@ interface CourseTableList {
 export const ListDocents: FC<CourseTableList> = ({ toggleModal }) => {
   const teachers = useDocentStore((state) => state.teachers)
   const pagination = useDocentStore((state) => state.pagination)
-  const { page, perPage, nextPage, prevPage } = usePagination()
-  const { isLoading } = useDocents(page, perPage)
+  const { page, size, nextPage, prevPage } = usePagination()
+  const { isLoading } = useDocents(page, size)
   const options = [
     {
       label: 'Ver detalles',

@@ -5,7 +5,7 @@ import Button from '@/@common/components/button'
 import { useShow } from '@/@common/hooks/use-show'
 import { ListCourses } from '../components/list-courses'
 
-const ModalCourse = lazy(() => import('../components/modal-course'))
+const RegisterCourseForm = lazy(() => import('../components/register-course-form'))
 
 const CoursesPage = () => {
   const { show, open, close } = useShow()
@@ -33,7 +33,7 @@ const CoursesPage = () => {
         <ListCourses toggleModal={open} />
       </div>
 
-      <ModalCourse isOpen={show} onClose={close} />
+      <RegisterCourseForm isOpen={show} onClose={close} />
     </div>
   )
 }
