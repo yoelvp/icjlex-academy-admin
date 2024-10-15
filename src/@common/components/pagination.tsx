@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, FC } from 'react'
+import { ButtonHTMLAttributes, FC } from 'react'
 import { IconChevronBack, IconChevronForward } from '@/assets/icons'
 
 interface PaginationProps {
@@ -8,6 +8,7 @@ interface PaginationProps {
   totalItems: number
   prevPage: () => void
   nextPage: () => void
+  goToPage: (pageNumber: number) => void
 }
 
 export const Pagination: FC<PaginationProps> = ({
@@ -16,7 +17,8 @@ export const Pagination: FC<PaginationProps> = ({
   size,
   totalItems,
   prevPage,
-  nextPage
+  nextPage,
+  goToPage
 }) => {
   const totalPages = Math.ceil(totalItems / size)
 
@@ -26,24 +28,32 @@ export const Pagination: FC<PaginationProps> = ({
         <IconChevronBack />
         <span className="hidden md:block">Anterior</span>
       </Button>
+
       <div className="flex gap-x-2 justify-center items-center">
         {Array.from({ length: totalPages }).map((_, index) => {
           const pageNumber = index + 1
 
           return (
-            <button key={pageNumber}
-              onClick={() => console.log(`Ir a la página ${pageNumber}`)}
-              className={`
-                w-8 h-8 flex-col-center gap-x-4 rounded-sm text-primary-900 transition-colors duration-200 font-medium
-                ${page === pageNumber ? 'bg-primary-500/20' : 'hover:bg-primary-50'}
-              `}
+            <Button
+              key={pageNumber}
+              onClick={() => goToPage(pageNumber)}
+              className={`w-8 h-8 flex items-center justify-center rounded-sm text-primary-900 transition-colors duration-200 font-medium ${
+                page === pageNumber
+                  ? 'bg-primary-500/20'
+                  : 'hover:bg-primary-50'
+              }`}
             >
               {pageNumber}
-            </button>
+            </Button>
           )
         })}
       </div>
-      <Button onClick={nextPage} disabled={page === totalPages}>
+
+      <Button
+        onClick={nextPage}
+        disabled={page === totalPages}
+        className="text-primary-400 flex items-center gap-x-2 px-4 py-2 rounded transition-colors duration-200 hover:text-primary-700 hover:bg-primary-50"
+      >
         <span className="hidden md:block">Siguiente</span>
         <IconChevronForward />
       </Button>
