@@ -5,6 +5,6 @@ export interface LoginData {
   }
   refresh: {
     token: string
-    expire: string
+    expires: string
   }
 }
