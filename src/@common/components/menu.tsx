@@ -37,7 +37,6 @@ export const Menu = ({
       setMenuPosition({ top, right, left })
     }
   }
-  console.log(menuPosition)
 
   useEffect(() => {
     calculateMenuPosition()
