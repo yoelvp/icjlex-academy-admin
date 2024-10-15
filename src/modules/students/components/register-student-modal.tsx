@@ -4,7 +4,7 @@ import { Modal } from '@/@common/components/modal'
 import Button from '@/@common/components/button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { studentPreRegistrationSchema } from '../schemas/student-pre-register.schema'
-import { useStudentPreRegistration } from '../hooks/use-student-pre-registration'
+import { usePreRegisterStudent } from '../hooks'
 import { StudentPreRegistrationData } from '../types/Student'
 import { Spinner } from 'flowbite-react'
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const RegisterStudentModal = ({ isOpen, onClose }: Props) => {
-  const { isLoading, preRegistration } = useStudentPreRegistration()
+  const { isLoading, preRegistration } = usePreRegisterStudent()
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(studentPreRegistrationSchema)
   })
