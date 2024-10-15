@@ -13,7 +13,7 @@ import { useCourses } from '../hooks/use-course'
 import { usePagination } from '@/@common/hooks/use-pagination'
 import { Badge } from '@/@common/components/badge'
 import { TableLoading } from '@/@common/components/table-loading'
-import classNames from 'classnames'
+import { Pagination } from '@/@common/components/pagination'
 
 interface Props {
   toggleModal: () => void
@@ -21,7 +21,6 @@ interface Props {
 
 export const ListCourses: FC<Props> = ({ toggleModal }) => {
   const courses = UseCourseStore((state) => state.courses)
-  const pagination = UseCourseStore((state) => state.pagination)
   const { page, nextPage, size, prevPage } = usePagination()
   const { isLoading } = useCourses(page, size)
   const options = [
@@ -42,6 +41,8 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
       className: 'text-red-500 hover:bg-red-600'
     }
   ]
+
+  const totalItems = 100
 
   return (
     <div className="rounded-xs overflow-x-auto">
@@ -101,37 +102,14 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
             ))}
         </tbody>
       </table>
-      <div className="flex justify-between items-center mt-4">
-        <button
-          onClick={prevPage}
-          disabled={pagination.currentPage === 1}
-          className={classNames(
-            'py-2 px-4 rounded',
-            { 'bg-gray-300': pagination.currentPage === 1 },
-            { 'bg-primary-500 text-white': pagination.currentPage !== 1 }
-          )}
-        >
-          Anterior
-        </button>
-        <span>
-          Pagina {page} de {pagination.totalPages} de {pagination.count}{' '}
-          elementos
-        </span>
-        <button
-          onClick={nextPage}
-          disabled={pagination.currentPage === pagination.totalPages}
-          className={classNames(
-            'py-2 px-4 rounded',
-            { 'bg-gray-300': pagination.currentPage === pagination.totalPages },
-            {
-              'bg-primary-500 text-white':
-                pagination.currentPage !== pagination.totalPages
-            }
-          )}
-        >
-          Siguiente
-        </button>
-      </div>
+      <Pagination
+        containerClassName="py-8"
+        page={page}
+        size={size}
+        totalItems={totalItems}
+        prevPage={prevPage}
+        nextPage={nextPage}
+      />
     </div>
   )
 }
