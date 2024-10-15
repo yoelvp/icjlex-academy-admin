@@ -1,5 +1,4 @@
 import { FC } from 'react'
-
 import { ButtonAction } from '@/@common/components/button-action'
 import { Menu } from '@/@common/components/menu'
 import {
@@ -10,10 +9,11 @@ import {
 } from '@/assets/icons'
 import { UseCourseStore } from '../store/course.store'
 import { useCourses } from '../hooks/use-course'
-import { usePagination } from '@/@common/hooks/use-pagination'
 import { Badge } from '@/@common/components/badge'
 import { TableLoading } from '@/@common/components/table-loading'
+import { usePagination } from '@/@common/hooks/use-pagination'
 import { Pagination } from '@/@common/components/pagination'
+import { getAllCoursesService } from '../service/course.service'
 
 interface Props {
   toggleModal: () => void
@@ -21,8 +21,29 @@ interface Props {
 
 export const ListCourses: FC<Props> = ({ toggleModal }) => {
   const courses = UseCourseStore((state) => state.courses)
-  const { page, nextPage, size, prevPage } = usePagination()
+  const pagination = UseCourseStore((state) => state.pagination)
+  const setPagination = UseCourseStore((state) => state.setPagination)
+
+  const { page, size, prevPage, nextPage } = usePagination({
+    initialPage: pagination?.currentPage || 1,
+    initialSize: pagination?.size || 10,
+    onPageChange: (newPage, newSize) => {
+      const count = pagination?.count ?? 0
+      const totalPages = Math.ceil(count / newSize)
+
+      setPagination({
+        currentPage: newPage,
+        size: newSize,
+        count,
+        totalPages
+      })
+
+      getAllCoursesService(newPage, newSize)
+    }
+  })
+
   const { isLoading } = useCourses(page, size)
+
   const options = [
     {
       label: 'Ver detalles',
@@ -42,11 +63,26 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
     }
   ]
 
-  const totalItems = 100
+  const goToPage = (pageNumber: number) => {
+    if (pagination.count !== null) {
+      const totalPages = Math.ceil(pagination.count / size)
+
+      setPagination({
+        currentPage: pageNumber,
+        size,
+        count: pagination.count,
+        totalPages
+      })
+
+      getAllCoursesService(pageNumber, size)
+    } else {
+      console.error('El conteo de paginación es null')
+    }
+  }
 
   return (
     <div className="rounded-xs overflow-x-auto">
-      <table className="custom-table">
+      <table className="custom-table mb-6">
         <thead>
           <tr>
             <th>N°</th>
@@ -64,10 +100,7 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
             courses?.map((course) => (
               <tr key={course.id} className="border-b border-gray-200">
                 <td>{course.id}</td>
-                <td
-                  className="
-                w-auto"
-                >
+                <td className="w-auto">
                   <div className="w-64">
                     <img
                       src={course.imageUrl || '/placeholder-image.png'}
@@ -83,7 +116,7 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
                 </td>
                 <td>
                   <Menu variant={'white'} activator={<IconOptions />} size="xs">
-                    <div className="flex-col-start px-4 py-2| w-auto gap-2">
+                    <div className="flex-col-start px-4 py-2 w-auto gap-2">
                       {options.map(
                         ({ label, icon, onClick, className }, index) => (
                           <ButtonAction
@@ -103,12 +136,12 @@ export const ListCourses: FC<Props> = ({ toggleModal }) => {
         </tbody>
       </table>
       <Pagination
-        containerClassName="py-8"
-        page={page}
-        size={size}
-        totalItems={totalItems}
+        page={pagination.currentPage || 1}
+        size={pagination.size || 10}
+        totalItems={pagination.count || 0}
         prevPage={prevPage}
         nextPage={nextPage}
+        goToPage={goToPage}
       />
     </div>
   )
