@@ -1,3 +1,5 @@
+import { CookieKeys } from '@/modules/[auth]/login/utils'
+import Cookies from 'js-cookie'
 import { create } from 'zustand'
 
 interface UseTokenStore {
@@ -6,6 +8,6 @@ interface UseTokenStore {
 }
 
 export const useTokenStore = create<UseTokenStore>()((set) => ({
-  token: '',
+  token: Cookies.get(CookieKeys.TOKEN) ?? '',
   setToken: (token: string) => set({ token })
 }))
