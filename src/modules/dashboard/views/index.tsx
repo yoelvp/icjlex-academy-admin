@@ -6,99 +6,22 @@ import {
   IconTag,
   IconTeacher
 } from '@/assets/icons'
+import { UseCourseStore } from '@/modules/courses/store/course.store'
+import { useDocentStore } from '@/modules/teachers/store/teachers.store'
 
 const DashboardPage = () => {
+  const teachersCounter = useDocentStore((state) => state.pagination.count)
+  const coursesCounter = UseCourseStore((state) => state.pagination.count)
+  if (!teachersCounter) return
+  if (!coursesCounter) return
+
   return (
     <div>
       <div className="gap-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <Card
           title="Cursos"
           to="/admin/courses"
-          count={72}
-          change={+3.7}
-          icon={IconCourse}
-          details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
-          ]}
-          className="xl:row-span-1"
-        />
-        <Card
-          title="Cursos"
-          to="/admin/courses"
-          count={72}
-          change={+3.7}
-          icon={IconCourse}
-          details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
-          ]}
-          className="xl:row-span-1"
-        />
-        <Card
-          title="Cursos"
-          to="/admin/courses"
-          count={72}
-          change={+3.7}
-          icon={IconCourse}
-          details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
-          ]}
-          className="xl:row-span-1"
-        />
-        <Card
-          title="Cursos"
-          to="/admin/courses"
-          count={72}
-          change={+3.7}
-          icon={IconCourse}
-          details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
-          ]}
-          className="xl:row-span-1"
-        />
-        <Card
-          title="Cursos"
-          to="/admin/courses"
-          count={72}
-          change={+3.7}
-          icon={IconCourse}
-          details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
-          ]}
-          className="xl:row-span-1"
-        />
-        <Card
-          title="Cursos"
-          to="/admin/courses"
-          count={72}
-          change={+3.7}
-          icon={IconCourse}
-          details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
-          ]}
-          className="xl:row-span-1"
-        />
-        <Card
-          title="Cursos"
-          to="/admin/courses"
-          count={72}
-          change={+3.7}
-          icon={IconCourse}
-          details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
-          ]}
-          className="xl:row-span-1"
-        />
-        <Card
-          title="Cursos"
-          to="/admin/courses"
-          count={72}
+          count={coursesCounter}
           change={+3.7}
           icon={IconCourse}
           details={[
@@ -109,8 +32,8 @@ const DashboardPage = () => {
         />
         <Card
           title="Docentes"
-          to="/admin/students"
-          count={56}
+          to="/admin/teachers"
+          count={teachersCounter}
           change={-2.1}
           icon={IconTeacher}
           details={[

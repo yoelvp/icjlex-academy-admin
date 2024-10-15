@@ -22,6 +22,7 @@ import {
   TeachersAdminPage,
   StudentsPage
 } from './admin.routes'
+import CollaboratorDetailsPage from '@/modules/[client]/us/views/(slug)'
 
 const routes = createBrowserRouter([
   // Client pages
@@ -36,6 +37,10 @@ const routes = createBrowserRouter([
       {
         path: '/us',
         element: <UsPage />
+      },
+      {
+        path: '/us/:slug',
+        element: <CollaboratorDetailsPage />
       },
       {
         path: '/teachers',

@@ -7,18 +7,21 @@ import Button from './button'
 import { IconMenu } from '@/assets/icons'
 import { MenuOptions } from '../types/Menu'
 import { ButtonBaseProps } from '../types/Button'
+import { menuVariants } from '../constants/menu-variants'
 
 interface Props extends ButtonBaseProps {
   children?: ReactNode
   activator?: ReactNode
   options?: MenuOptions[]
+  size?: 'xs' | 'md' | 'lg'
 }
 
 export const Menu = ({
   children,
   activator,
   variant,
-  options
+  options,
+  size
 }: Props) => {
   const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0, left: 0 })
   const dropdownRef = useRef<HTMLDivElement | null>(null)
@@ -54,17 +57,17 @@ export const Menu = ({
 
       {showDropdown && (
         <div
-          className="absolute w-80 z-50 bg-white rounded-sm py-4"
+          className={menuVariants({ size })}
           style={{
             top: menuPosition.top + 8,
             right: menuPosition.right
           }}
         >
-          {children ? children : options?.map((option, index) => (
-            <div key={index}>
-              {option.label}
-            </div>
-          ))}
+          {children
+            ? children
+            : options?.map((option, index) => (
+              <div key={index}>{option.label}</div>
+            ))}
         </div>
       )}
     </div>

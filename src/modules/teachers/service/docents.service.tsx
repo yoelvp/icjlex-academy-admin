@@ -3,9 +3,7 @@ import axios from 'axios'
 import { Docent, DocentResult } from '../types/Docent'
 import { ResponseData } from '@/@common/types/ResponseData'
 
-export const addDocentService = async (
-  docent: Omit<Docent, 'id'>
-) => {
+export const addDocentService = async (docent: Omit<Docent, 'id'>) => {
   const formData = new FormData()
 
   // manejo de specialties como array
@@ -28,27 +26,18 @@ export const addDocentService = async (
   formData.append('socialMedia[linkedin]', docent.socialMedia?.linkedin || '')
   formData.append('socialMedia[youtube]', docent.socialMedia?.youtube || '')
 
-  return await axios.post<DocentResult>(
-    `${API_URL}/docents`,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+  return await axios.post<DocentResult>(`${API_URL}/docents`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
-  )
+  })
 }
 
-export const getAllTeachersService = async (
-  page: number,
-  size: number,
-  perPage: number
-) => {
+export const getAllTeachersService = async (page: number, size: number) => {
   return await axios.get<ResponseData<DocentResult>>(`${API_URL}/docents`, {
     params: {
       page,
-      size,
-      perPage
+      size
     }
   })
 }

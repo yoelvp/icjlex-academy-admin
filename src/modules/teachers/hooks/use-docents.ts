@@ -5,7 +5,7 @@ import { getAllTeachersService } from '../service/docents.service'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 
-export const useDocents = (page: number, perPage: number) => {
+export const useDocents = (page: number, size: number) => {
   const { isLoading, loading, loaded } = useLoading()
   const setTeachers = useDocentStore((state) => state.setTeachers)
   const setPagination = useDocentStore((state) => state.setPagination)
@@ -13,19 +13,18 @@ export const useDocents = (page: number, perPage: number) => {
 
   useEffect(() => {
     getAllTeachers()
-  }, [page, perPage])
+  }, [page, size])
 
   const getAllTeachers = async () => {
     loading()
     try {
-      const { data } = await getAllTeachersService(page, perPage, perPage)
+      const { data } = await getAllTeachersService(page, size)
       setTeachers(data.results)
       setPagination({
         count: data.count,
         totalPages: data.totalPages,
         currentPage: data.currentPage,
-        perPage: data.perPage,
-        size: data.perPage
+        size: data.size
       })
     } catch (error) {
       loaded()
