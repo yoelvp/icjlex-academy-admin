@@ -8,6 +8,7 @@ import { StudentTab } from '../enums/student-tab'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useStudentsUI } from '../hooks'
 import { useGetActiveStudents, useGetPreRegisteredStudents } from '../hooks'
+import { TableEmpty } from '@/@common/components/table-empty'
 
 const RegisterStudentModal = lazy(() => import('../components/register-student-modal'))
 
@@ -112,6 +113,12 @@ const StudentsPage = () => {
               </thead>
               <tbody>
                 <TableLoading numCols={3} isLoading={isLoading} />
+                <TableEmpty
+                  isLoading={isLoading}
+                  show={preRegisteredStudents.length < 1}
+                  numCols={3}
+                />
+
                 {!isLoading && preRegisteredStudents.map((student) => (
                   <tr key={student.id}>
                     <td>
