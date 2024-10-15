@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react'
+import type { FC, MouseEvent, ReactNode } from 'react'
 import type { ModalVariant } from '@/@common/types/Modal'
 
 import { createPortal } from 'react-dom'
@@ -8,7 +8,7 @@ import { modalVariants } from '@/@common/constants/modal-variants'
 
 interface Props extends ModalVariant {
   isOpen?: boolean
-  onClose?: () => void
+  onClose?: (event: MouseEvent<HTMLButtonElement>) => void
   title?: string
   description?: string
   children: ReactNode
@@ -36,10 +36,10 @@ export const Modal: FC<Props> = ({
           })
         )}
       >
-        <div className="px-6 py-4 border-b border-primary-600/20 flex justify-between items-center">
+        <div className="px-6 h-14 border-b border-primary-600/20 flex justify-between items-center">
           <div>
             {Boolean(title) && (
-              <h3 className="text-primary-500 text-2xl font-semibold">
+              <h3 className="text-primary-500 text-xl font-semibold">
                 {title}
               </h3>
             )}
@@ -48,9 +48,12 @@ export const Modal: FC<Props> = ({
             )}
           </div>
           <button
-            onClick={onClose}
             className="rounded-sm border border-primary-300 w-8 h-8 flex-center hover:border-primary-500 hover:bg-primary-50 duration-200 ease-in-out focus:ring focus:bg-primary-50 focus:ring-primary-500/25"
             aria-label={`${isOpen ? 'Cerrar' : 'Abrir'} modal`}
+            onClick={(event) => {
+              event.stopPropagation()
+              onClose?.(event)
+            }}
           >
             <IconClose size={24} />
           </button>

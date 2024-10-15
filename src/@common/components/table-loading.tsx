@@ -12,8 +12,8 @@ export const TableLoading = ({
   return (
     <tr>
       {Array.from({ length: numCols }).map((_, index) => (
-        <td key={index}>
-          <span className="block bg-gray-400 rounded h-6 min-w-24" />
+        <td key={index} className="px-4">
+          <span className="block bg-gray-300 rounded h-6 min-w-24" />
         </td>
       ))}
     </tr>
