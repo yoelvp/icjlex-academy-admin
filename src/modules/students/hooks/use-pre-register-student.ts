@@ -5,7 +5,7 @@ import { StudentPreRegistrationData } from '../types/Student'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { useStudentsStore } from '../store/use-students.store'
 
-export const useStudentPreRegistration = () => {
+export const usePreRegisterStudent = () => {
   const { isLoading, loading, loaded } = useLoading()
   const registeredStudents = useStudentsStore((state) => state.preRegisteredStudents)
   const setRegisteredStudents = useStudentsStore((state) => state.setPreRegisteredStudents)
@@ -13,8 +13,11 @@ export const useStudentPreRegistration = () => {
   const preRegistration = async (student: StudentPreRegistrationData) => {
     loading()
     try {
-      const { data } = await studentPreRegisteredService(student)
-      setRegisteredStudents([data, ...registeredStudents])
+      const { data, status } = await studentPreRegisteredService(student)
+
+      if (status === 200) {
+        setRegisteredStudents([data, ...registeredStudents])
+      }
     } catch (error) {
       loaded()
       const { message } = getError(error)
