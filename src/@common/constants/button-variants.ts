@@ -21,7 +21,7 @@ export const buttonVariants = cva(
         'white.outline': 'default',
         'white.text': 'default',
         'white.link': 'text-white !rounded-none btn-underline btn-underline--white hover:text-secondary-700 disabled:text-secondary-300 focus:!ring-none',
-        'error.outline': 'default',
+        'error.outline': 'border border-error-400 text-error-500 hover:border-error-700 hover:bg-error-100/15 disabled:border-error-300 disabled:text-error-300 focus:ring-error-500/25',
         'error.text': 'default',
         'error.link': 'default',
         'warning.outline': 'default',
