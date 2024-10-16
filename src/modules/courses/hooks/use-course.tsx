@@ -5,17 +5,18 @@ import { getAllCoursesService } from '../service/course.service'
 import getError from '@/@common/utils/get-errors'
 import { toast } from 'sonner'
 
-export const useCourses = (page: number, size: number) => {
+export const useCourses = (page: number | null, size: number | null) => {
   const { isLoading, loading, loaded } = useLoading()
   const setCourses = UseCourseStore((state) => state.setCourses)
   const setPagination = UseCourseStore((state) => state.setPagination)
-  const pagination = UseCourseStore((state) => state.pagination)
 
   useEffect(() => {
-    getAllCourses()
+    const validPage = page ?? 1
+    const validSize = size ?? 10
+    getAllCourses(validPage, validSize)
   }, [page, size])
 
-  const getAllCourses = async () => {
+  const getAllCourses = async (page: number, size: number) => {
     loading()
     try {
       const { data } = await getAllCoursesService(page, size)
@@ -36,7 +37,6 @@ export const useCourses = (page: number, size: number) => {
   }
 
   return {
-    isLoading,
-    pagination
+    isLoading
   }
 }
