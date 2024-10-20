@@ -7,6 +7,7 @@ import { studentPreRegistrationSchema } from '../schemas/student-pre-register.sc
 import { usePreRegisterStudent } from '../hooks'
 import { StudentPreRegistrationData } from '../types/Student'
 import { Spinner } from 'flowbite-react'
+import { useStudentsStore } from '../store/use-students.store'
 
 interface Props {
   isOpen: boolean
@@ -15,8 +16,10 @@ interface Props {
 
 const RegisterStudentModal = ({ isOpen, onClose }: Props) => {
   const { isLoading, preRegistration } = usePreRegisterStudent()
+  const preRegisterStudent = useStudentsStore((state) => state.preRegistered)
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
-    resolver: yupResolver(studentPreRegistrationSchema)
+    resolver: yupResolver(studentPreRegistrationSchema),
+    defaultValues: preRegisterStudent ? preRegisterStudent : {}
   })
 
   const onHandleSubmit: SubmitHandler<StudentPreRegistrationData> = (data) => {
@@ -28,7 +31,12 @@ const RegisterStudentModal = ({ isOpen, onClose }: Props) => {
   }
 
   return (
-    <Modal title="Registrar nuevo estudiante" isOpen={isOpen} onClose={onClose} size="sm">
+    <Modal
+      title={`${preRegisterStudent ? 'Editar' : 'Registrar'} estudiante`}
+      isOpen={isOpen}
+      onClose={onClose}
+      size="sm"
+    >
       <Form onSubmit={handleSubmit(onHandleSubmit)} className="pt-4 flex flex-col gap-y-4">
         <Form.Control>
           <Form.Label htmlFor="email">
@@ -56,7 +64,15 @@ const RegisterStudentModal = ({ isOpen, onClose }: Props) => {
         </Form.Control>
 
         <div className="flex justify-end items-center gap-x-4 mt-4">
-          <Button variant="error.outline" size="sm">
+          <Button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              onClose()
+            }}
+            variant="error.outline"
+            size="sm"
+          >
             Cancelar
           </Button>
           <Button type="submit" size="sm" disabled={isLoading}>

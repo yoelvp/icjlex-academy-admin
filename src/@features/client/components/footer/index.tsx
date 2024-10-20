@@ -1,11 +1,11 @@
 import type { FC } from 'react'
 
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { SectionTitle } from './section-title'
 import { PAGES } from '@/@common/utils/pages'
-import { APP_NAME } from '@/config'
 import { IconPhone, IconLocation, IconWhatsapp } from '@/assets/icons'
 import { SocialNetwork } from '@/@common/components/social-network'
+import { APP_NAME } from '@/@common/env'
 
 export const Footer: FC = () => {
   const date = new Date()

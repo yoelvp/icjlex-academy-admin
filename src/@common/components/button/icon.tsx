@@ -1,30 +1,26 @@
-import type { AnchorHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
 
-import { Link } from 'react-router-dom'
 import { forwardRef } from 'react'
-import { buttonVariants } from '@/@common/constants/button-variants'
+import { buttonIconVariants } from '@/@common/constants/button-variants'
 import { twVariants } from '@/@common/utils/tailwindcss'
 import { ButtonBaseProps } from '@/@common/types/Button'
 
-interface Props extends ButtonBaseProps, AnchorHTMLAttributes<HTMLAnchorElement> {
-  href: string
-}
+type Props = ButtonBaseProps & ButtonHTMLAttributes<HTMLButtonElement>
 
-const Icon = forwardRef<HTMLAnchorElement, Props>(({
+const Icon = forwardRef<HTMLButtonElement, Props>(({
   children,
   className,
   variant,
   size,
   ...props
 }, ref) => (
-  <Link
-    to={props.href}
-    {...props}
+  <button
     ref={ref}
-    className={twVariants(buttonVariants({ variant, size, className }))}
+    className={twVariants(buttonIconVariants({ variant, size, className }))}
+    {...props}
   >
     {children}
-  </Link>
+  </button>
 ))
 
 Icon.displayName = 'Button.Icon'

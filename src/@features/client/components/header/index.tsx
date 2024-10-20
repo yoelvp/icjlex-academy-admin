@@ -12,6 +12,7 @@ import { Menu } from '@/@common/components/menu'
 import { getUserInitials } from '@/@common/utils/get-initials'
 import { UserMenu } from './user-menu'
 import Link from '@/@common/components/link'
+import { WHATSAPP_ADMIN_NUMBER_PHONE } from '@/@common/env'
 
 export const Header: FC = () => {
   const { pathname } = useLocation()
@@ -83,7 +84,10 @@ export const Header: FC = () => {
               </Menu>
             ) : (
               <Link
-                href={whatsappMessage({ message: 'Quiero saber más información acerca de los cursos que brindan' })}
+                href={whatsappMessage({
+                  message: 'Quiero saber más información acerca de los cursos que brindan',
+                  phoneNumber: WHATSAPP_ADMIN_NUMBER_PHONE
+                })}
                 variant="white"
                 target="_blank"
                 rel="noopener noreferrer"
