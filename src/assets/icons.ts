@@ -33,6 +33,9 @@ export {
   IoEyeOutline as IconEyeOutline
 } from 'react-icons/io5'
 export {
+  MdDeleteOutline as IconDelete
+} from 'react-icons/md'
+export {
   TbMenu as IconMenu,
   TbBrandLinkedin as IconLinkedin
 } from 'react-icons/tb'
@@ -58,8 +61,7 @@ export {
   LuFileSignature as IconCourse
 } from 'react-icons/lu'
 export {
-  RiPresentationLine as IconPresentation,
-  RiDeleteBin7Line as IconDelete
+  RiPresentationLine as IconPresentation
 } from 'react-icons/ri'
 export {
   BiSupport as IconSupport

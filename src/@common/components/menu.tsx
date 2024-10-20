@@ -1,27 +1,27 @@
 import type { ReactNode } from 'react'
 
 import { useEffect, useRef, useState } from 'react'
+import classNames from 'classnames'
 import { useShow } from '../hooks/use-show'
 import { useClickOutside } from '../hooks/use-click-outside'
 import Button from './button'
 import { IconMenu } from '@/assets/icons'
 import { MenuOptions } from '../types/Menu'
 import { ButtonBaseProps } from '../types/Button'
-import { menuVariants } from '../constants/menu-variants'
+import { Link } from 'react-router-dom'
+import { Spinner } from 'flowbite-react'
 
 interface Props extends ButtonBaseProps {
   children?: ReactNode
   activator?: ReactNode
   options?: MenuOptions[]
-  size?: 'xs' | 'md' | 'lg'
 }
 
 export const Menu = ({
   children,
   activator,
   variant,
-  options,
-  size
+  options
 }: Props) => {
   const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0, left: 0 })
   const dropdownRef = useRef<HTMLDivElement | null>(null)
@@ -37,7 +37,6 @@ export const Menu = ({
       setMenuPosition({ top, right, left })
     }
   }
-  console.log(menuPosition)
 
   useEffect(() => {
     calculateMenuPosition()
@@ -45,7 +44,7 @@ export const Menu = ({
 
   return (
     <div ref={dropdownRef} className="w-fit">
-      <Button
+      <Button.Icon
         onClick={(event) => {
           event.stopPropagation()
           toggleDropdown()
@@ -53,21 +52,56 @@ export const Menu = ({
         variant={variant}
       >
         {activator ? activator : <IconMenu />}
-      </Button>
+      </Button.Icon>
 
       {showDropdown && (
         <div
-          className={menuVariants({ size })}
+          className={classNames(
+            'absolute z-50 bg-white rounded-sm shadow--primary py-2'
+          )}
           style={{
             top: menuPosition.top + 8,
             right: menuPosition.right
           }}
         >
-          {children
-            ? children
-            : options?.map((option, index) => (
-              <div key={index}>{option.label}</div>
-            ))}
+          {children ? children : options?.map((option, index) => (
+            <div
+              key={index}
+              className={classNames(
+                'px-3 py-1',
+                { 'border-t border-t-gray-200': option.dividerTop },
+                { 'border-b border-b-gray-200': option.dividerBottom }
+              )}
+            >
+              {option.href ? (
+                <Link
+                  key={index}
+                  to={option.href ?? ''}
+                  className={classNames(
+                    'w-full text-left rounded-sm pl-4 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2',
+                    { 'text-error-400': option.isDelete }
+                  )}
+                  rel={option.rel}
+                  target={option.target}
+                >
+                  {option.icon && <option.icon size="16" />}
+                  {option.label}
+                </Link>
+              ) : (
+                <button
+                  key={index}
+                  onClick={option.onClick}
+                  className={classNames(
+                    'w-full text-left rounded-sm pl-4 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2',
+                    { 'text-error-400 hover:text-error-700 hover:bg-error-50/50': option.isDelete }
+                  )}
+                >
+                  {option.icon && !option.isLoading ? <option.icon size="16" /> : <Spinner size="md" color="warning" />}
+                  {option.label}
+                </button>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </div>

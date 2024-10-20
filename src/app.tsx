@@ -1,6 +1,9 @@
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import routes from '@/routes'
+import { AxiosInterceptor } from './lib'
+
+AxiosInterceptor()
 
 const App = () => {
   return (

@@ -2,6 +2,7 @@ import { ContentFull } from '@/@common/components/content-full'
 import Link from '@/@common/components/link'
 import { IconWhatsapp } from '@/assets/icons'
 import { whatsappMessage } from '@/@common/utils/whatsapp'
+import { WHATSAPP_ADMIN_NUMBER_PHONE } from '@/@common/env'
 
 export const AcademyDetails = () => {
   return (
@@ -20,7 +21,7 @@ export const AcademyDetails = () => {
         </article>
         <div className="flex flex-col gap-y-4 gap-x-4 sm:flex-row">
           <Link
-            href={whatsappMessage({ message: 'Estoy%interesado%en%estudiar%en%ICJ%LEX%&%CARRANZA%CONSULTORIA' })}
+            href={whatsappMessage({ message: 'Hola! quiero saber más información acerca de los cursos que brinda su academia', phoneNumber: WHATSAPP_ADMIN_NUMBER_PHONE })}
             target="_blank"
             rel="noopener noreferrer"
             variant="primary.outline"

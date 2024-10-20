@@ -6,8 +6,5 @@ export const studentPreRegistrationSchema = object({
     .email('Ingrese un correo electrónico válido'),
   phone: string()
     .required('Campo requerido')
-    .min(6, 'Debe tener al menos 6 carácteres'),
-  password: string()
-    .required('Campo requerido')
-    .min(6, 'La contraseña debe tener al menos 6 carácteres')
+    .min(6, 'Debe tener al menos 6 carácteres')
 })
