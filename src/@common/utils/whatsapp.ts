@@ -1,7 +1,12 @@
-import { WHATSAPP_LINK } from '@/config'
+import { WHATSAPP_BASE_URL } from '../env'
 
-export const whatsappMessage = ({ message }: { message: string }): string => {
-  const sendMessage = `${WHATSAPP_LINK}?text=${message}`
+interface MessageProps {
+  message: string
+  phoneNumber: string
+}
+
+export const whatsappMessage = ({ message, phoneNumber }: MessageProps): string => {
+  const sendMessage = `${WHATSAPP_BASE_URL}/${phoneNumber}?text=${message}`
 
   return sendMessage
 }
