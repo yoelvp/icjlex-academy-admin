@@ -15,7 +15,9 @@ export interface Student {
 }
 
 export interface StudentPreRegistration {
-  id: string
+  id?: string
   email: string
   phone: string
 }
+
+export type StudentType = 'active' | 'registered'
