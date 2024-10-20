@@ -6,19 +6,44 @@ import { useShow } from '@/@common/hooks/use-show'
 import { useStudentsStore } from '../store/use-students.store'
 import { StudentTab } from '../enums/student-tab'
 import { TableLoading } from '@/@common/components/table-loading'
-import { useStudentsUI } from '../hooks'
-import { useGetActiveStudents, useGetPreRegisteredStudents } from '../hooks'
+import { useGetAllStudents, useStudentsUI } from '../hooks'
 import { TableEmpty } from '@/@common/components/table-empty'
+import { Menu } from '@/@common/components'
+import { IconDelete, IconEdit, IconEye, IconWhatsapp } from '@/assets/icons'
+import StudentDetailsDrawer from '../components/student-details-drawer'
+import { StudentPreRegistrationData } from '../types/Student'
+import { whatsappMessage } from '@/@common/utils/whatsapp'
+import { APP_NAME } from '@/@common/env'
+import { useStudents } from '../hooks/use-students'
 
 const RegisterStudentModal = lazy(() => import('../components/register-student-modal'))
 
 const StudentsPage = () => {
   const { show, open, close } = useShow()
+  const setStudentId = useStudentsStore((state) => state.setStudentId)
   const activeStudents = useStudentsStore((state) => state.activeStudents)
   const preRegisteredStudents = useStudentsStore((state) => state.preRegisteredStudents)
-  const { tab, handleTabIndex } = useStudentsUI()
-  const { isLoading: isLoadingActive } = useGetActiveStudents({ page: 1, size: 10 })
-  const { isLoading } = useGetPreRegisteredStudents({ page: 1, size: 10 })
+  const setPreRegisteredStudent = useStudentsStore((state) => state.setPreRegistered)
+  const { isLoadingActive, isLoadingPreRegister } = useGetAllStudents({ page: 1, size: 100 }, { page: 1, size: 100 })
+  const { isLoading: isLoadingDelete, deleteStudent } = useStudents()
+  const {
+    tab,
+    handleTabIndex,
+    showActiveStudentDrawer,
+    openActiveStudentDrawer,
+    closeActiveStudentDrawer
+  } = useStudentsUI()
+  const studentId = useStudentsStore((state) => state.studentId)
+
+  const handleEditStudent = (student: StudentPreRegistrationData) => {
+    setPreRegisteredStudent(student)
+    open()
+  }
+
+  const handleClosePreRegisteredModal = () => {
+    setPreRegisteredStudent(null)
+    close()
+  }
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -32,7 +57,7 @@ const StudentsPage = () => {
           <Button size="sm" onClick={open}>
             {show && (
               <Suspense fallback={<Spinner size="sm" />}>
-                <RegisterStudentModal isOpen={show} onClose={close} />
+                <RegisterStudentModal isOpen={show} onClose={handleClosePreRegisteredModal} />
               </Suspense>
             )}
             Crear
@@ -72,7 +97,7 @@ const StudentsPage = () => {
                 {!isLoadingActive && activeStudents.map((student) => (
                   <tr key={student.id}>
                     <td>
-                      <img src="https://r2.yoelvalverde.dev/masthead.webp" alt="Image" className="w-8 h-8 rounded-full border border-primary-200 text-xs" />
+                      <img src={student.imageUrl} alt="Image" className="w-8 h-8 rounded-full border border-primary-200 text-xs" />
                     </td>
                     <td>
                       {student.firstName} {student.lastName}
@@ -87,7 +112,37 @@ const StudentsPage = () => {
                       {'3'}
                     </td>
                     <td>
-                      ...
+                      <div className="border-l border-l-gray-300 flex justify-center">
+                        <Menu
+                          variant="white"
+                          options={[
+                            {
+                              label: 'Ver detalles',
+                              icon: IconEye,
+                              onClick: () => {
+                                if (student.id !== studentId) {
+                                  setStudentId(student.id)
+                                }
+
+                                openActiveStudentDrawer()
+                              }
+                            },
+                            {
+                              label: 'Editar',
+                              icon: IconEdit,
+                              onClick: () => console.log('Editar')
+                            },
+                            {
+                              label: 'Eliminar',
+                              icon: IconDelete,
+                              isDelete: true,
+                              dividerTop: true,
+                              onClick: () => deleteStudent(student.id, 'active'),
+                              isLoading: isLoadingDelete
+                            }
+                          ]}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -112,14 +167,14 @@ const StudentsPage = () => {
                 </tr>
               </thead>
               <tbody>
-                <TableLoading numCols={3} isLoading={isLoading} />
+                <TableLoading numCols={3} isLoading={isLoadingPreRegister} />
                 <TableEmpty
-                  isLoading={isLoading}
+                  isLoading={isLoadingPreRegister}
                   show={preRegisteredStudents.length < 1}
                   numCols={3}
                 />
 
-                {!isLoading && preRegisteredStudents.map((student) => (
+                {!isLoadingPreRegister && preRegisteredStudents.map((student) => (
                   <tr key={student.id}>
                     <td>
                       {student.email}
@@ -127,8 +182,37 @@ const StudentsPage = () => {
                     <td>
                       {student.phone}
                     </td>
-                    <td className="text-right">
-                      menu
+                    <td>
+                      <div className="border-l border-l-gray-300 flex justify-center">
+                        <Menu
+                          variant="white"
+                          options={[
+                            {
+                              label: 'Confirmar cuenta',
+                              icon: IconWhatsapp,
+                              href: whatsappMessage({
+                                message: `Tu correo electrónico fue registrado en ${APP_NAME}, puedes actualizar tus datos en https://icjlec.acacemy/user/update?id=ID&t=TOKEN y empezar a aprender.\nEl limite está en ti`,
+                                phoneNumber: student.phone
+                              }),
+                              rel: 'noopener noreferrer',
+                              target: '_blank'
+                            },
+                            {
+                              label: 'Editar',
+                              icon: IconEdit,
+                              onClick: () => handleEditStudent(student)
+                            },
+                            {
+                              label: 'Eliminar',
+                              icon: IconDelete,
+                              isDelete: true,
+                              dividerTop: true,
+                              onClick: () => deleteStudent(student.id ?? '', 'registered'),
+                              isLoading: isLoadingDelete
+                            }
+                          ]}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -137,6 +221,11 @@ const StudentsPage = () => {
           </Tabs.Item>
         </Tabs>
       </section>
+
+      <StudentDetailsDrawer
+        show={showActiveStudentDrawer}
+        close={closeActiveStudentDrawer}
+      />
     </div>
   )
 }
