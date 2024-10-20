@@ -2,6 +2,10 @@ import { axios } from '@/lib'
 import { Student, StudentPreRegistration, StudentPreRegistrationData } from '../types/Student'
 import { ResponseData } from '@/@common/types/ResponseData'
 
+export const getStudentByIdService = (studentId: string) => {
+  return axios.get<Student>(`/students/${studentId}`)
+}
+
 export const studentPreRegisteredService = (student: StudentPreRegistrationData) => {
   return axios.post<StudentPreRegistration>('/students/pre-register', student)
 }
@@ -22,4 +26,8 @@ export const getAllPreRegisteredStudentsService = ({ page, size }: { page: numbe
       size
     }
   })
+}
+
+export const deleteStudentService = (studentId: string) => {
+  return axios.delete(`/students/${studentId}`)
 }
