@@ -23,6 +23,7 @@ import {
   StudentsPage
 } from './admin.routes'
 import CollaboratorDetailsPage from '@/modules/[client]/us/views/(slug)'
+import UpdateDataPage from '@/modules/[user]/update-data/views'
 
 const routes = createBrowserRouter([
   // Client pages
@@ -57,6 +58,21 @@ const routes = createBrowserRouter([
       {
         path: '/courses/:slug',
         element: <CourseDetailsPage />
+      }
+    ]
+  },
+  // User routes
+  {
+    path: '/user',
+    element: <ClientLayout />,
+    children: [
+      {
+        path: 'update-data',
+        element: <UpdateDataPage />
+      },
+      {
+        path: 'courses',
+        element: <UpdateDataPage />
       }
     ]
   },
