@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom'
 import classNames from 'classnames'
-import { Sidebar } from '@/@features/admin/components/sidebar'
-import { Header } from '@/@features/admin/components/header'
-import Content from '@/@features/admin/components/content'
-import { useSidebar } from '@/@features/admin/store/use-sidebar.store'
+import { Sidebar } from './components/sidebar'
+import { Header } from './components/header'
+import Content from './components/content'
+import { useSidebar } from '@/store/use-sidebar.store'
 
 export const AdminLayout = () => {
   const show = useSidebar((state) => state.show)
