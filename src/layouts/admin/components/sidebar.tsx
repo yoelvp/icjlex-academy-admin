@@ -2,9 +2,8 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { ADMIN_ROUTES } from '@/layouts/admin/constants/routes'
 import { APP_SHORT_NAME } from '@/@common/env'
-import { useSidebar } from '../store/use-sidebar.store'
-import { OptionLink } from '@/layouts/admin/components/option-link'
-import { OptionButton } from '@/layouts/admin/components/option-button'
+import { useSidebar } from '@/store/use-sidebar.store'
+import { Option } from '@/layouts/admin/components/option'
 
 export const Sidebar = () => {
   const show = useSidebar((state) => state.show)
@@ -32,14 +31,7 @@ export const Sidebar = () => {
 
       <nav className={classNames('py-4', { 'px-4': show }, { 'px-2': !show })}>
         {ADMIN_ROUTES.map((option, index) => (
-          <div key={index}>
-            {!option.subOptions && (
-              <OptionLink option={option} showLabel={show} />
-            )}
-            {Boolean(option.subOptions) && (
-              <OptionButton option={option} showLabel={show} />
-            )}
-          </div>
+          <Option key={index} option={option} showLabel={show} />
         ))}
       </nav>
     </aside>
