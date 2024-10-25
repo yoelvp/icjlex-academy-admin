@@ -1,5 +1,7 @@
+import { ResponseData } from '@/@common/types/ResponseData'
 import { axios } from '@/lib'
 import { UpdateStudent } from '@/modules/[user]/update-data/types/UpdateStudent'
+import { Student, StudentPreRegistration, StudentPreRegistrationData } from '@/modules/students/types/Student'
 
 export const validateDataUpdateService = (id: string) => {
   return axios.get<{ isUpdated: boolean }>('/students/validate-data-update', {
@@ -23,4 +25,38 @@ export const updateMainDataService = (userId: string, data: UpdateStudent) => {
       'Content-Type': 'multipart/form-data'
     }
   })
+}
+
+export const assignCourseToStudentService = (studentId: string, courseId: string) => {
+  return axios.post(`/students/${studentId}/courses`, { courseId, isPaid: true })
+}
+
+export const getStudentByIdService = (studentId: string) => {
+  return axios.get<Student>(`/students/${studentId}/with-courses`)
+}
+
+export const studentPreRegisteredService = (student: StudentPreRegistrationData) => {
+  return axios.post<StudentPreRegistration>('/students/pre-register', student)
+}
+
+export const getAllActiveStudentsService = ({ page, size }: { page: number, size: number }) => {
+  return axios.get<ResponseData<Student>>('/students', {
+    params: {
+      page,
+      size
+    }
+  })
+}
+
+export const getAllPreRegisteredStudentsService = ({ page, size }: { page: number, size: number }) => {
+  return axios.get<ResponseData<StudentPreRegistration>>('/students/pre-registered', {
+    params: {
+      page,
+      size
+    }
+  })
+}
+
+export const deleteStudentService = (studentId: string) => {
+  return axios.delete(`/students/${studentId}`)
 }
