@@ -1,6 +1,7 @@
 import type { User } from '@/@auth/models/User'
+import type { Student } from '@/modules/students/types/Student'
 
-export const getUserInitials = (user: User) => {
+export const getUserInitials = (user: User | Student) => {
   const initialFirstName = user.firstName.charAt(0)
   const initialLastName = user.lastName.charAt(0)
 
