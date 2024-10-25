@@ -1,9 +1,12 @@
 import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
-import { deleteStudentService, getStudentByIdService } from '../services/student.service'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { StudentType } from '../types/Student'
 import { useStudentsStore } from '../store/use-students.store'
+import {
+  assignCourseToStudentService,
+  deleteStudentService
+} from '@/_services/students.service'
 
 export const useStudents = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -12,22 +15,18 @@ export const useStudents = () => {
   const registeredStudents = useStudentsStore((state) => state.preRegisteredStudents)
   const setPreRegisteredStudents = useStudentsStore((state) => state.setPreRegisteredStudents)
 
-  const getStudentById = async (studentId: string) => {
+  const assignCourseToStudent = async (studentId: string, courseId: string) => {
     try {
       loading()
-      const { data, status, statusText } = await getStudentByIdService(studentId)
+      const { status } = await assignCourseToStudentService(studentId, courseId)
 
       if (status === 200) {
-        console.log(data)
-      }
-
-      if (status !== 200) {
-        toast.warning(statusText)
+        setActiveStudents(activeStudents.filter((student) => student.id !== studentId))
       }
     } catch (error) {
       loaded()
       const { message } = getError(error)
-      toast.error(message)
+      toast.success(message)
     } finally {
       loaded()
     }
@@ -58,7 +57,7 @@ export const useStudents = () => {
 
   return {
     isLoading,
-    getStudentById,
+    assignCourseToStudent,
     deleteStudent
   }
 }
