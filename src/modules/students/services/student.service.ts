@@ -1,6 +1,10 @@
+import type {
+  Student,
+  StudentPreRegistration,
+  StudentPreRegistrationData
+} from '../types/Student'
+import type { ResponseData } from '@/@common/types/ResponseData'
 import { axios } from '@/lib'
-import { Student, StudentPreRegistration, StudentPreRegistrationData } from '../types/Student'
-import { ResponseData } from '@/@common/types/ResponseData'
 
 export const getStudentByIdService = (studentId: string) => {
   return axios.get<Student>(`/students/${studentId}`)
