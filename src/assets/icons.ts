@@ -33,7 +33,8 @@ export {
   IoEyeOutline as IconEyeOutline
 } from 'react-icons/io5'
 export {
-  MdDeleteOutline as IconDelete
+  MdDeleteOutline as IconDelete,
+  MdOutlineBookmarkAdd as IconBookmarkAdd
 } from 'react-icons/md'
 export {
   TbMenu as IconMenu,
