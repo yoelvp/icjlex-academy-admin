@@ -11,7 +11,13 @@ import { useCreateContentFromCourse } from '../hooks/content/use-create-content-
 import { UseCourseStore } from '../store/course.store'
 import { toast } from 'sonner'
 
-const ResourcesFromCourse = ({ isOpen, onClose }) => {
+interface Props {
+  isOpen: boolean
+  onClose: () => void
+  courseCreatedId: string
+}
+
+const ResourcesFromCourse = ({ isOpen, onClose, courseCreatedId }: Props) => {
   const { addContent, isLoading } = useCreateContentFromCourse()
   const courseId = UseCourseStore.getState().courseId
 
@@ -39,7 +45,7 @@ const ResourcesFromCourse = ({ isOpen, onClose }) => {
 
   const [sections, setSections] = useState([{ title: '', isEditing: false }])
 
-  const toggleEdit = (index) => {
+  const toggleEdit = (index: number) => {
     const updatedSections = sections.map((section, i) =>
       i === index ? { ...section, isEditing: !section.isEditing } : section
     )
@@ -51,7 +57,7 @@ const ResourcesFromCourse = ({ isOpen, onClose }) => {
     setSections([...sections, newSection])
   }
 
-  const handleRemoveSection = (index) => {
+  const handleRemoveSection = (index: number) => {
     setSections(sections.filter((_, i) => i !== index))
   }
 
