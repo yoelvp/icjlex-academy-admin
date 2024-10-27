@@ -1,19 +1,36 @@
+import { useState } from 'react'
+import { Badge, Checkbox } from 'flowbite-react'
+import classNames from 'classnames'
 import Form from '@/@common/components/form'
 import { Modal } from '@/@common/components/modal'
-import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Selector } from './selector'
 import Button from '@/@common/components/button'
 import { JoditEditorComponent } from './jodit-editor'
 import ImageUploader from './image-uploader'
-import { Badge, Checkbox } from 'flowbite-react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { courseSchema } from '../schemas/course.schema'
 import { useDocentStore } from '@/modules/teachers/store/teachers.store'
 import { useGetAllTeachers } from '@/modules/teachers/hooks/use-get-all-teachers'
 import { UseCourseStore } from '../store/course.store'
+import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 
-const MyModal = ({ isOpen, onClose, onSubmit }) => {
+interface Props {
+  isOpen: boolean
+  onClose: () => void
+  openCreateResourceModal: () => void
+  updateCourseId: (id: string) => void
+}
+
+const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateResourceModal }: Props) => {
+  const teachers = useDocentStore((state) => state.teachers)
+  const { isLoading: loadingTeacher } = useGetAllTeachers()
+  const { setCourseId } = UseCourseStore()
+  const openConfirmModal = useConfirmModalStore((state) => state.open)
+
+  const [activeTab, setActiveTab] = useState('main')
+  const [isScheduled, setIsScheduled] = useState(false)
+  const TABS = ['main', 'description', 'details']
   const {
     register,
     handleSubmit,
@@ -34,58 +51,75 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
     }
   })
 
-  const teachers = useDocentStore((state) => state.teachers)
-  const { isLoading: loadingTeacher } = useGetAllTeachers()
-  const { setCourseId } = UseCourseStore()
-
-  const [activeTab, setActiveTab] = useState('main')
-  const [isScheduled, setIsScheduled] = useState(false)
-  const TABS = ['main', 'description', 'details']
-
   const handleCheckboxChange = (option: 'yes' | 'no') => {
     setIsScheduled(option === 'yes')
     setValue('startDate', option === 'yes' ? new Date().toISOString() : '') // ISO string o cadena vacía
   }
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     setActiveTab(tab)
   }
 
   const handleNext = () => {
     const currentIndex = TABS.indexOf(activeTab)
+
     if (currentIndex < TABS.length - 1) {
       setActiveTab(TABS[currentIndex + 1])
+    }
+
+    if (currentIndex == TABS.length - 1) {
+      handleSubmit(handleFormSubmit)
+      console.log('Crear')
     }
   }
 
   const handlePrev = () => {
     const currentIndex = TABS.indexOf(activeTab)
+
     if (currentIndex > 0) {
       setActiveTab(TABS[currentIndex - 1])
+    }
+
+    if (currentIndex === 0) {
+      onClose()
     }
   }
 
   const handleFormSubmit = async (data) => {
-    console.log('Datos del formulario:', data)
-    await onSubmit(data)
-    setCourseId(data.courseId)
-    console.log('id el curso', data.courseId)
-    reset()
-    onClose()
-    setActiveTab('main')
+    /* console.log('Datos del formulario:', data) */
+    /* await onSubmit(data) */
+    /* setCourseId(data.courseId) */
+    /* console.log('id el curso', data.courseId) */
+    /* reset() */
+    /* onClose() */
+    /* setActiveTab('main') */
+    openConfirmModal({
+      title: '¿Quiere agregar el contenido del curso ahora?',
+      options: [
+        {
+          content: 'Sí, crear secciones',
+          onClick: () => console.log('Crear curso y secciones')
+        },
+        {
+          content: 'No, solo crear curso',
+          onClick: () => console.log('Crear solo el curso')
+        }
+      ]
+    })
   }
 
   return (
-    isOpen && (
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          setActiveTab('main')
-          onClose()
-        }}
-        title={'Agregar Curso'}
-      >
-        <Form onSubmit={handleSubmit(handleFormSubmit)}>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        setActiveTab('main')
+        onClose()
+      }}
+      title="Crear curso"
+      className="min-h-[580px]"
+    >
+      <div className="h-full grid grid-rows-[1fr_auto]">
+        <Form autoComplete="off">
           <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
             <ul
               className="flex flex-wrap -mb-px text-sm font-medium text-center"
@@ -94,11 +128,11 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
               {TABS.map((tab) => (
                 <li key={tab} className="me-2" role="presentation">
                   <button
-                    className={`inline-block p-4 border-b-2 rounded-none ${
-                      activeTab === tab
-                        ? 'text-blue-600 border-blue-600'
-                        : 'hover:text-gray-600 hover:border-gray-300'
-                    }`}
+                    className={classNames(
+                      'inline-block p-4 border-b-2 rounded-none',
+                      { 'text-primary-500 border-b-primary-600': activeTab === tab },
+                      { 'border-b-primary-50/50 hover:text-gray-600 hover:border-b-primary-50': activeTab !== tab }
+                    )}
                     type="button"
                     onClick={() => handleTabClick(tab)}
                     aria-selected={activeTab === tab}
@@ -112,7 +146,7 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
             </ul>
           </div>
 
-          <div id="default-tab-content">
+          <div id="default-tab-content" className="h-full">
             {activeTab === 'main' && (
               <div className="space-y-4">
                 <Form.Control>
@@ -175,77 +209,52 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
                   </select>
                   <Form.Error hasError={errors.isActive?.message} />
                 </Form.Control>
-
-                <div className="w-full flex justify-between mt-8">
-                  <Button type="button" variant={'error'} onClick={onClose}>
-                    Cancelar
-                  </Button>
-                  <Button type="button" onClick={handleNext}>
-                    Siguiente
-                  </Button>
-                </div>
               </div>
             )}
             {activeTab === 'description' && (
-              <>
-                <div className="flex" role="tabpanel">
-                  <Controller
-                    name="objetive"
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <JoditEditorComponent
-                        placeholder="Escribe aquí..."
-                        onChange={onChange}
-                      />
-                    )}
-                  />
-                </div>
-                <div className="w-full flex justify-between mt-8">
-                  <Button
-                    type="button"
-                    variant={'primary.outline'}
-                    onClick={handlePrev}
-                  >
-                    Anterior
-                  </Button>
-                  <Button type="button" onClick={handleNext}>
-                    Siguiente
-                  </Button>
-                </div>
-              </>
+              <div className="flex" role="tabpanel">
+                <Controller
+                  name="objetive"
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <JoditEditorComponent
+                      placeholder="Escribe aquí..."
+                      onChange={onChange}
+                    />
+                  )}
+                />
+              </div>
             )}
             {activeTab === 'details' && (
               <>
                 <div role="tabpanel" className="space-y-4">
                   <Form.Control>
-                    <div className="flex flex-col justify-between">
-                      <Form.Label className="mb-2">
-                        Selecciona tu imagen
-                      </Form.Label>
+                    <Form.Label className="mb-1 flex justify-between">
+                      Selecciona tu imagen
                       <Badge
-                        color="info"
+                        color="gray"
                         size="sm"
-                        className="font-thin text-xs"
+                        className="font-thin text-xs text-primary-700"
                       >
                         opcional
                       </Badge>
-                    </div>
+                    </Form.Label>
                     <ImageUploader name={'image'} setValue={setValue} />
                     <Form.Error hasError={errors.image?.message} />
                   </Form.Control>
 
                   <section className="flex gap-6">
                     <Form.Control>
-                      <div className="flex justify-between">
-                        <Form.Label>Precio</Form.Label>
+                      <Form.Label className="mb-1 flex justify-between">
+                        Precio
                         <Badge
-                          color="info"
+                          color="gray"
                           size="sm"
                           className="font-thin text-xs"
                         >
                           opcional
                         </Badge>
-                      </div>
+                      </Form.Label>
                       <Form.Input
                         placeholder="120.00"
                         size="md"
@@ -255,18 +264,16 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
                     </Form.Control>
 
                     <Form.Control>
-                      <div className="flex justify-between">
-                        <Form.Label className="mb-2">
-                          Programar publicación
-                        </Form.Label>
+                      <Form.Label className="mb-1 flex justify-between">
+                        Programar publicación
                         <Badge
-                          color="info"
+                          color="gray"
                           size="sm"
                           className="font-thin text-xs"
                         >
                           opcional
                         </Badge>
-                      </div>
+                      </Form.Label>
                       <div className="flex items-center w-full gap-2">
                         <Checkbox
                           id="yes"
@@ -280,30 +287,33 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
                           onChange={() => handleCheckboxChange('no')}
                         />
                         <label htmlFor="no">No</label>
+                        {isScheduled && (
+                          <Form.Input type="date" {...register('startDate')} />
+                        )}
                       </div>
-                      {isScheduled && (
-                        <Form.Input type="date" {...register('startDate')} />
-                      )}
                     </Form.Control>
                   </section>
-                </div>
-                <div className="w-full flex justify-between mt-8">
-                  <Button
-                    type="button"
-                    variant={'primary.outline'}
-                    onClick={handlePrev}
-                  >
-                    Anterior
-                  </Button>
-                  <Button type="submit">Crear</Button>
                 </div>
               </>
             )}
           </div>
         </Form>
-      </Modal>
-    )
+
+        <div className="w-full flex justify-end gap-x-4 mt-8">
+          <Button
+            type="button"
+            variant={activeTab === 'main' ? 'error.outline' : 'primary'}
+            onClick={handlePrev}
+          >
+            {activeTab === 'main' ? 'Cancelar' : 'Anterior'}
+          </Button>
+          <Button type="button" onClick={handleNext}>
+            {activeTab === 'details' ? 'Crear' : 'Siguiente'}
+          </Button>
+        </div>
+      </div>
+    </Modal>
   )
 }
 
-export default MyModal
+export default RegisterCourseFormModal
