@@ -31,16 +31,17 @@ export const JoditEditorComponent = ({
           setContent(newContent)
           onChange(newContent) // Llama a la prop onChange para pasar el contenido
         }}
+        className="h-full"
         // onChange={(newContent) => {}} // Puede dejarse vacío o usar para otra lógica
       />
       <style>{`
         .jodit-wysiwyg {
-          height: 28vh !important; 
-          width: 100% !important; 
+          height: 25vh !important;
+          width: 100% !important;
         }
         .jodit-container {
-          height: 100% !important; 
-          width: 100% !important; 
+          height: 100% !important;
+          width: 100% !important;
         }
       `}</style>
     </div>
