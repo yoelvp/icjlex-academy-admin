@@ -13,7 +13,8 @@ export const ADMIN_ROUTES: Options[] = [
   {
     name: 'Dashboard',
     path: '/admin',
-    icon: IconHome
+    icon: IconHome,
+    disabled: true
   },
   {
     name: 'Cursos',
@@ -33,25 +34,13 @@ export const ADMIN_ROUTES: Options[] = [
   {
     name: 'Categorias',
     path: '/admin/categories',
-    icon: IconCategory
+    icon: IconCategory,
+    disabled: true
   },
   {
     name: 'Tags',
     path: '/admin/tags',
-    icon: IconTag
-  },
-  {
-    name: 'Opciones',
     icon: IconTag,
-    subOptions: [
-      {
-        name: 'Opcion 01',
-        path: '/admin/options/1'
-      },
-      {
-        name: 'Opcion 02',
-        path: '/admin/options/2'
-      }
-    ]
+    disabled: true
   }
 ] as const

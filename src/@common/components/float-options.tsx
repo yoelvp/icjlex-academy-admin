@@ -11,7 +11,7 @@ export const FloatOptions: FC = () => {
       <a
         href={whatsappMessage({
           phoneNumber: WHATSAPP_ADMIN_NUMBER_PHONE,
-          message: '¡Hola! quiero saber más información acerca de los cursos que brinda su academia'
+          message: '¡Hola! quiero saber más información acerca de los cursos que brinda su academia ICJ LEX & CARRANZA CONSULTORES'
         })}
         className="h-8 w-8 rounded-full bg-primary-500 flex-center text-white hover:bg-primary-400 md:w-12 md:h-12"
       >

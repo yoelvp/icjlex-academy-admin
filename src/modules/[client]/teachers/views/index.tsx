@@ -24,7 +24,14 @@ const TeachersPage = () => {
           <TeacherCard />
         </section>
 
-        <Pagination />
+        <Pagination
+          page={1}
+          totalItems={12}
+          size={100}
+          nextPage={() => console.log('Next Page')}
+          prevPage={() => console.log('Prev. page')}
+          goToPage={() => console.log('Go to page')}
+        />
       </div>
     </Content>
   )

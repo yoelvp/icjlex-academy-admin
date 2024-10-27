@@ -1,4 +1,4 @@
-import { useSidebar } from '../store/use-sidebar.store'
+import { useSidebar } from '@/store/use-sidebar.store'
 import { IconChevronDown, IconMenuLeft, IconMenuRight } from '@/assets/icons'
 
 export const Header  = () => {

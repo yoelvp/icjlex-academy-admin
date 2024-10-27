@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Footer } from '@/@features/client/components/footer'
-import { Header } from '@/@features/client/components/header'
+import { Footer } from './components/footer'
+import { Header } from './components/header'
 import { FloatOptions } from '@/@common/components/float-options'
 
 export const ClientLayout = () => {

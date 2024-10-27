@@ -26,7 +26,7 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
       <input
         ref={ref}
         className={twVariants(inputVariants({
-          variant: Boolean(error) ? 'error' : variant,
+          variant: error ? 'error' : variant,
           size,
           rounded,
           className
@@ -38,6 +38,7 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
         <span className="pl-4 text-error-500 text-sm">{error}</span>
       )}
       <button
+        type="button"
         onClick={() => setIsIconPasswordVisible(!isIconPasswordVisible)}
         className={twVariants(passwordIconVariants({
           variant,
@@ -52,7 +53,7 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
         <label
           htmlFor={id}
           className={twVariants(iconVariants({
-            variant: Boolean(error) ? 'error' : variant,
+            variant: error ? 'error' : variant,
             size,
             position: iconPosition,
             className: iconClassName

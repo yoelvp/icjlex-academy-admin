@@ -9,17 +9,20 @@ import { TableLoading } from '@/@common/components/table-loading'
 import { useGetAllStudents, useStudentsUI } from '../hooks'
 import { TableEmpty } from '@/@common/components/table-empty'
 import { Menu } from '@/@common/components'
-import { IconDelete, IconEdit, IconEye, IconWhatsapp } from '@/assets/icons'
+import { IconBookmarkAdd, IconDelete, IconEdit, IconEye, IconWhatsapp } from '@/assets/icons'
 import StudentDetailsDrawer from '../components/student-details-drawer'
 import { StudentPreRegistrationData } from '../types/Student'
 import { whatsappMessage } from '@/@common/utils/whatsapp'
-import { APP_NAME } from '@/@common/env'
+import { APP_NAME_WITHOUT_AMP } from '@/@common/env'
 import { useStudents } from '../hooks/use-students'
+import { getUserInitials } from '@/@common/utils/get-initials'
 
 const RegisterStudentModal = lazy(() => import('../components/register-student-modal'))
+const AssignCourseToStudentModal = lazy(() => import('../components/assign-course-to-student-modal'))
 
 const StudentsPage = () => {
   const { show, open, close } = useShow()
+  const { show: showAssignModal, open: openAssignModal, close: closeAssignModal } = useShow()
   const setStudentId = useStudentsStore((state) => state.setStudentId)
   const activeStudents = useStudentsStore((state) => state.activeStudents)
   const preRegisteredStudents = useStudentsStore((state) => state.preRegisteredStudents)
@@ -43,6 +46,11 @@ const StudentsPage = () => {
   const handleClosePreRegisteredModal = () => {
     setPreRegisteredStudent(null)
     close()
+  }
+
+  const handleShowAssignCourseModal = (studentId: string) => {
+    setStudentId(studentId)
+    openAssignModal()
   }
 
   return (
@@ -97,7 +105,17 @@ const StudentsPage = () => {
                 {!isLoadingActive && activeStudents.map((student) => (
                   <tr key={student.id}>
                     <td>
-                      <img src={student.imageUrl} alt="Image" className="w-8 h-8 rounded-full border border-primary-200 text-xs" />
+                      {student.imageUrl ? (
+                        <img
+                          src={student.imageUrl}
+                          alt="Image"
+                          className="w-8 h-8 rounded-full border border-primary-200 text-xs"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 flex-center text-xs font-bold rounded-full border border-primary-200">
+                          {getUserInitials(student)}
+                        </div>
+                      )}
                     </td>
                     <td>
                       {student.firstName} {student.lastName}
@@ -126,6 +144,11 @@ const StudentsPage = () => {
 
                                 openActiveStudentDrawer()
                               }
+                            },
+                            {
+                              label: 'Inscribir a curso',
+                              icon: IconBookmarkAdd,
+                              onClick: () => handleShowAssignCourseModal(student.id)
                             },
                             {
                               label: 'Editar',
@@ -191,7 +214,7 @@ const StudentsPage = () => {
                               label: 'Confirmar cuenta',
                               icon: IconWhatsapp,
                               href: whatsappMessage({
-                                message: `Tu correo electrónico fue registrado en ${APP_NAME}, puedes actualizar tus datos en https://icjlec.acacemy/user/update?id=ID&t=TOKEN y empezar a aprender.\nEl limite está en ti`,
+                                message: `Tu correo electrónico fue registrado en ${APP_NAME_WITHOUT_AMP}, puedes actualizar tus datos en https://icjlec.acacemy/user/update?id=ID&t=TOKEN y empezar a aprender.\nEl limite está en ti`,
                                 phoneNumber: student.phone
                               }),
                               rel: 'noopener noreferrer',
@@ -222,10 +245,21 @@ const StudentsPage = () => {
         </Tabs>
       </section>
 
-      <StudentDetailsDrawer
-        show={showActiveStudentDrawer}
-        close={closeActiveStudentDrawer}
-      />
+      {showActiveStudentDrawer && (
+        <StudentDetailsDrawer
+          show={showActiveStudentDrawer}
+          close={closeActiveStudentDrawer}
+        />
+      )}
+
+      {showAssignModal && (
+        <Suspense fallback={<Spinner size="sm" />}>
+          <AssignCourseToStudentModal
+            isOpen={showAssignModal}
+            onClose={closeAssignModal}
+          />
+        </Suspense>
+      )}
     </div>
   )
 }
