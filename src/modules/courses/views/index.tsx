@@ -1,4 +1,4 @@
-import { lazy, useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import {
   IconAdd,
   IconDelete,
@@ -9,26 +9,25 @@ import {
 import Form from '@/@common/components/form'
 import Button from '@/@common/components/button'
 import { useShow } from '@/@common/hooks/use-show'
-import ResourcesFromCourse from '../components/resources-from-course'
 import { Loader } from '../components/loader'
 import { useCreateCourse } from '../hooks/use-create-courses'
-import { Tabs } from 'flowbite-react'
+import { Spinner, Tabs } from 'flowbite-react'
 import { CourseTab } from '../enums/course-tab'
 import { useCourseUI } from '../hooks/use-courses-ui'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useCourses } from '../hooks/use-course'
 import { UseCourseStore } from '../store/course.store'
 import { Menu } from '@/@common/components'
-// import { UseCourseStore } from '../store/course.store'
 
-const RegisterCourseForm = lazy(
-  () => import('../components/register-course-form')
-)
+const RegisterCourseForm = lazy(() => import('../components/register-course-form'))
+const ResourcesFromCourse = lazy(() => import('../components/resources-from-course'))
 
 const CoursesPage = () => {
-  const { show, open, close } = useShow()
   const [loading, setLoading] = useState(false)
   const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+  const [courseCreatedId, setCourseCreatedId] = useState<string | null>(null)
+  const { show, open, close } = useShow()
+  const { show: showResourcesModal, open: openResourcesModal, close: closeResourcesModal } = useShow()
   const { tab, handleTabIndex } = useCourseUI()
   const { isLoading } = useCourses(1, 10)
   const courses = UseCourseStore((state) => state.courses)
@@ -59,6 +58,10 @@ const CoursesPage = () => {
 
   const handleResourcesClose = () => {
     setIsResourcesOpen(false)
+  }
+
+  const handleCreatedCourseId = (id: string) => {
+    setCourseCreatedId(id)
   }
 
   return (
@@ -176,15 +179,22 @@ const CoursesPage = () => {
       </section>
 
       {loading && <Loader />}
-      <RegisterCourseForm
-        isOpen={show}
-        onClose={handleRegisterCourseClose}
-        onSubmit={handleSubmit} // Pasa la función onSubmit aquí
-      />
-      <ResourcesFromCourse
-        isOpen={isResourcesOpen}
-        onClose={handleResourcesClose}
-      />
+      <Suspense fallback={<Spinner size="lg" color="info" />}>
+        <RegisterCourseForm
+          isOpen={show}
+          onClose={handleRegisterCourseClose}
+          openCreateResourceModal={openResourcesModal}
+          updateCourseId={handleCreatedCourseId}
+        />
+      </Suspense>
+
+      <Suspense fallback={<Spinner size="lg" color="info" />}>
+        <ResourcesFromCourse
+          isOpen={showResourcesModal}
+          onClose={closeResourcesModal}
+          courseCreatedId={courseCreatedId ?? ''}
+        />
+      </Suspense>
     </div>
   )
 }
