@@ -9,6 +9,7 @@ export const useCreateCourse = () => {
   const { isLoading, loading, loaded } = useLoading()
   // const courses = UseCourseStore((state) => state.courses)
   const setCourse = UseCourseStore((state) => state.setCourses)
+  const setCourseId = UseCourseStore((state) => state.setCourseId)
 
   const createCourse = async (course: Course) => {
     try {
@@ -21,7 +22,12 @@ export const useCreateCourse = () => {
       if (status === 200) {
         // const oldCourse = courses.slice(1)
         setCourse([newCourse])
+
+        //almacenamdo en id del curso creado
+        setCourseId(newCourse.id)
         toast.success('Se creó un nuevo curso')
+
+        return newCourse.id
       }
     } catch (error) {
       loaded()
