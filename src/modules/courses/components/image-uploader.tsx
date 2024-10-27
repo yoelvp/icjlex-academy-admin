@@ -1,22 +1,42 @@
 import React, { useState } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
-import { Course } from '../types/Course'
+import { UseFormSetValue, Path, PathValue, FieldValues } from 'react-hook-form'
 
-type Props = {
-  name: 'image'
-  setValue: UseFormSetValue<Course>
+type Props<T extends FieldValues> = {
+  name: Path<T> // Asegura que name sea una ruta válida en T
+  setValue: UseFormSetValue<T> // Usamos el setValue directamente
+  acceptedFileTypes?: string[] // Tipos de archivo aceptados
+  maxFileSize?: number // Tamaño máximo del archivo en bytes
 }
 
-const ImageUploader = ({ name, setValue }: Props) => {
-  const [isDragActive, setIsDragActive] = useState<boolean>(false)
+const ImageUploader = <T extends FieldValues>({
+  name,
+  setValue,
+  acceptedFileTypes = ['image/jpeg', 'image/png', 'image/gif'], // Tipos de archivo por defecto
+  maxFileSize = 5 * 1024 * 1024 // Tamaño máximo por defecto: 5MB
+}: Props<T>) => {
+  const [isDragActive, setIsDragActive] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleDragEnter = () => {
-    setIsDragActive(true)
-  }
+  const handleDragEnter = () => setIsDragActive(true)
+  const handleDragLeave = () => setIsDragActive(false)
 
-  const handleDragLeave = () => {
-    setIsDragActive(false)
+  const validateFile = (file: File) => {
+    if (!acceptedFileTypes.includes(file.type)) {
+      setError('Tipo de archivo no aceptado. Solo se permiten imágenes.')
+
+      return false
+    }
+    if (file.size > maxFileSize) {
+      setError(
+        `El archivo debe ser menor de ${maxFileSize / (1024 * 1024)} MB.`
+      )
+
+      return false
+    }
+    setError(null)
+
+    return true
   }
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -24,21 +44,21 @@ const ImageUploader = ({ name, setValue }: Props) => {
     setIsDragActive(false)
     const file = e.dataTransfer.files[0]
 
-    if (file) {
-      setValue(name, file) // Register file in react-hook-form
-      setPreview(URL.createObjectURL(file)) //show preview
+    if (file && validateFile(file)) {
+      setValue(name, file as PathValue<T, Path<T>>) // Casting a PathValue
+      setPreview(URL.createObjectURL(file))
     }
   }
 
   const handleClick = () => {
     const fileInput = document.createElement('input')
     fileInput.type = 'file'
-    fileInput.accept = 'image/jpeg, image/png, image/gif'
+    fileInput.accept = acceptedFileTypes.join(', ') // Aceptar solo tipos especificados
     fileInput.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
-      if (file) {
-        setValue(name, file) // Register file in react-hook-form
-        setPreview(URL.createObjectURL(file)) // show preview
+      if (file && validateFile(file)) {
+        setValue(name, file as PathValue<T, Path<T>>) // Casting a PathValue
+        setPreview(URL.createObjectURL(file))
       }
     }
     fileInput.click()
@@ -47,7 +67,8 @@ const ImageUploader = ({ name, setValue }: Props) => {
   return (
     <div
       className={`flex flex-col justify-center items-center w-full h-48 border-2 border-dashed rounded-lg p-5 transition-all
-        ${isDragActive
+        ${
+    isDragActive
       ? 'bg-sky-50 border-sky-400'
       : 'border-gray-300 cursor-pointer'
     }`}
@@ -64,11 +85,12 @@ const ImageUploader = ({ name, setValue }: Props) => {
           ? 'Suelta tu archivo aquí'
           : 'Arrastra y suelta tu imagen aquí'}
       </p>
+      {error && <span className="text-red-500 text-sm">{error}</span>}
       {preview && (
         <img
           src={preview}
           alt="Vista previa"
-          className="mt-3 w-[200px] h-[150px] object-cover rounded"
+          className="mt-3 w-[200px] h-[150px] object-cover rounded-sm"
         />
       )}
     </div>
