@@ -1,292 +1,309 @@
-import { FC } from 'react'
-
-import { useState } from 'react'
-
-import { Modal } from '@/modules/dashboard/components/modal'
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
-import { courseSchema } from '../schemas/course.schema'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useDocentStore } from '@/modules/teachers/store/teachers.store'
-import { useCreateCourse } from '../hooks/use-create-courses'
-import { Course } from '../types/Course'
-import { useGetAllTeachers } from '@/modules/teachers/hooks/use-get-all-teachers'
-
 import Form from '@/@common/components/form'
+import { Modal } from '@/@common/components/modal'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { Selector } from './selector'
 import Button from '@/@common/components/button'
+import { JoditEditorComponent } from './jodit-editor'
 import ImageUploader from './image-uploader'
-import { STEPS } from '../utils/constants'
-import classNames from 'classnames'
+import { Badge, Checkbox } from 'flowbite-react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { courseSchema } from '../schemas/course.schema'
+import { useDocentStore } from '@/modules/teachers/store/teachers.store'
+import { useGetAllTeachers } from '@/modules/teachers/hooks/use-get-all-teachers'
+import { UseCourseStore } from '../store/course.store'
 
-interface ModalCourseProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
-const RegisterCourseForm: FC<ModalCourseProps> = ({ isOpen, onClose }) => {
-  const [step, setStep] = useState(0)
-  const { isLoading: loadingTeacher } = useGetAllTeachers()
-  const teachers = useDocentStore((state) => state.teachers)
-  const { createCourse, isLoading } = useCreateCourse()
-
+const MyModal = ({ isOpen, onClose, onSubmit }) => {
   const {
     register,
     handleSubmit,
-    control,
     setValue,
-    formState: { errors, isDirty },
-    reset
-  } = useForm<Course>({
+    control,
+    reset,
+    formState: { errors }
+  } = useForm({
     resolver: yupResolver(courseSchema),
     defaultValues: {
       name: '',
-      objetive: '',
       docentId: '',
-      content: [
-        { title: '', details: [{ titleClass: '', duration: '', videoUrl: '' }] }
-      ]
+      features: [],
+      objetive: '',
+      image: File || null,
+      price: '',
+      startDate: Date || ''
     }
   })
 
-  const { fields: contentFields } = useFieldArray({
-    control,
-    name: 'content'
-  })
+  const teachers = useDocentStore((state) => state.teachers)
+  const { isLoading: loadingTeacher } = useGetAllTeachers()
+  const { setCourseId } = UseCourseStore()
 
-  const { fields: detailsFields } = useFieldArray({
-    control,
-    name: 'content.0.details'
-  })
+  const [activeTab, setActiveTab] = useState('main')
+  const [isScheduled, setIsScheduled] = useState(false)
+  const TABS = ['main', 'description', 'details']
 
-  const onSubmit: SubmitHandler<Course> = (data) => {
-    createCourse(data)
-    reset()
-    onClose()
+  const handleCheckboxChange = (option: 'yes' | 'no') => {
+    setIsScheduled(option === 'yes')
+    setValue('startDate', option === 'yes' ? new Date().toISOString() : '') // ISO string o cadena vacía
   }
 
-  const nextStep = () => setStep((prev) => Math.min(prev + 1, STEPS.length - 1))
-  const prevStep = () => setStep((prev) => Math.max(prev - 1, 0))
+  const handleTabClick = (tab) => {
+    setActiveTab(tab)
+  }
+
+  const handleNext = () => {
+    const currentIndex = TABS.indexOf(activeTab)
+    if (currentIndex < TABS.length - 1) {
+      setActiveTab(TABS[currentIndex + 1])
+    }
+  }
+
+  const handlePrev = () => {
+    const currentIndex = TABS.indexOf(activeTab)
+    if (currentIndex > 0) {
+      setActiveTab(TABS[currentIndex - 1])
+    }
+  }
+
+  const handleFormSubmit = async (data) => {
+    console.log('Datos del formulario:', data)
+    await onSubmit(data)
+    setCourseId(data.courseId)
+    console.log('id el curso', data.courseId)
+    reset()
+    onClose()
+    setActiveTab('main')
+  }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Agregar Curso">
-      <div className="mb-4">
-        <div className="flex justify-between mb-2">
-          {STEPS.map((s, index) => (
-            <div
-              key={index}
-              className={`w-1/4 text-center ${
-                index <= step ? 'text-primary-400' : 'text-gray-400'
-              }`}
+    isOpen && (
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          setActiveTab('main')
+          onClose()
+        }}
+        title={'Agregar Curso'}
+      >
+        <Form onSubmit={handleSubmit(handleFormSubmit)}>
+          <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <ul
+              className="flex flex-wrap -mb-px text-sm font-medium text-center"
+              role="tablist"
             >
-              <div
-                className={classNames(
-                  'w-8 h-8 mx-auto rounded-full flex items-center justify-center',
-                  { 'bg-secondary-500 text-primary-500': index <= step },
-                  { 'bg-gray-200': index >= step }
-                )}
-              >
-                {index + 1}
-              </div>
-              <div className="mt-2 text-sm">{s.title}</div>
-            </div>
-          ))}
-        </div>
-        <div className="relative pt-1">
-          <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-primary-200">
-            <div
-              style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
-              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary-600"
-            ></div>
-          </div>
-        </div>
-      </div>
-
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        {step === 0 && (
-          <div className="space-y-4">
-            <Form.Control>
-              <Form.Label>Nombre del curso</Form.Label>
-              <Form.Input
-                placeholder="Violencia contra Niñas, Niños y Adolescente en el ámbito..."
-                size="md"
-                {...register('name')}
-              />
-              <Form.Error hasError={errors.name?.message} />
-            </Form.Control>
-
-            <Form.Control>
-              <Form.Label>Objetivo</Form.Label>
-              <Form.Input
-                placeholder="El curso tiene como objetivo enseñar a los estudiantes..."
-                size="md"
-                {...register('objetive')}
-              />
-              <Form.Error hasError={errors.objetive?.message} />
-            </Form.Control>
-
-            <Form.Control>
-              <Form.Label>Docente</Form.Label>
-              <select
-                className="text-sm text-primary-500 border border-primary-400 rounded-lg "
-                {...register('docentId')}
-              >
-                <option value="">
-                  {loadingTeacher
-                    ? 'Cargando docentes...'
-                    : 'Selecciona un docente'}
-                </option>
-
-                {!loadingTeacher &&
-                  teachers.map((teacher) => (
-                    <option
-                      key={teacher.id}
-                      className="text-sm text-primary-500 border border-primary-400 rounded-lg"
-                      value={teacher.id}
-                    >
-                      {teacher.firstName} {teacher.lastName}
-                    </option>
-                  ))}
-              </select>
-              <Form.Error hasError={errors.docentId?.message} />
-            </Form.Control>
-          </div>
-        )}
-        {step === 1 && (
-          <div className="space-y-6 w-full h-full">
-            {contentFields.map((field, index) => (
-              <div
-                key={field.id}
-                className="p-4 border border-primary-100 rounded-xs"
-              >
-                <Form.Control>
-                  <Form.Label
-                    htmlFor={`content.${index}.title`}
-                    className="font-bold"
+              {TABS.map((tab) => (
+                <li key={tab} className="me-2" role="presentation">
+                  <button
+                    className={`inline-block p-4 border-b-2 rounded-none ${
+                      activeTab === tab
+                        ? 'text-blue-600 border-blue-600'
+                        : 'hover:text-gray-600 hover:border-gray-300'
+                    }`}
+                    type="button"
+                    onClick={() => handleTabClick(tab)}
+                    aria-selected={activeTab === tab}
                   >
-                    Título del Contenido
-                  </Form.Label>
-                  <Form.Input
-                    {...register(`content.${index}.title`)}
-                    id={`content.${index}.title`}
-                    type="text"
-                  />
-                  {errors.content && errors.content[index] && (
-                    <Form.Error
-                      hasError={errors.content[index].title?.message}
-                    />
-                  )}
-                </Form.Control>
-              </div>
-            ))}
+                    {tab === 'main' && 'Información principal'}
+                    {tab === 'description' && 'Descripción'}
+                    {tab === 'details' && 'Detalles'}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
-        )}
 
-        {step === 2 && (
-          <div className="space-y-4">
-            {detailsFields.map((field, index) => (
-              <div
-                key={field.id}
-                className="p-4 border border-primary-100 rounded-xs space-y-6"
-              >
+          <div id="default-tab-content">
+            {activeTab === 'main' && (
+              <div className="space-y-4">
                 <Form.Control>
-                  <Form.Label htmlFor={`content.0.details.${index}.titleClass`}>
-                    Título de la Clase
-                  </Form.Label>
+                  <Form.Label>Nombre del curso</Form.Label>
                   <Form.Input
-                    {...register(`content.0.details.${index}.titleClass`)}
-                    id={`content.0.details.${index}.titleClass`}
-                    type="text"
+                    placeholder="Violencia contra Niñas, Niños y Adolescente en el ámbito..."
+                    size="md"
+                    {...register('name')}
                   />
-                  {errors.content &&
-                    errors.content[0] &&
-                    errors.content[0].details && (
-                    <Form.Error
-                      hasError={
-                        errors.content[0]?.details?.[index]?.titleClass
-                          ?.message
-                      }
-                    />
-                  )}
+                  <Form.Error hasError={errors.name?.message} />
+                </Form.Control>
+                <Form.Control>
+                  <Form.Label>Docente</Form.Label>
+                  <select
+                    className="text-sm text-primary-500 border border-primary-400 rounded-lg "
+                    {...register('docentId')}
+                  >
+                    <option value="">
+                      {loadingTeacher
+                        ? 'Cargando docentes...'
+                        : 'Selecciona un docente'}
+                    </option>
+
+                    {!loadingTeacher &&
+                      teachers.map((teacher) => (
+                        <option
+                          key={teacher.id}
+                          className="text-sm text-primary-500 border border-primary-400 rounded-lg"
+                          value={teacher.id}
+                        >
+                          {teacher.firstName} {teacher.lastName}
+                        </option>
+                      ))}
+                  </select>
+                  <Form.Error hasError={errors.docentId?.message} />
+                </Form.Control>
+                <Form.Control>
+                  <Form.Label>Características</Form.Label>
+                  <Controller
+                    name="features"
+                    control={control}
+                    render={({ field }) => (
+                      <Selector
+                        value={field.value || []}
+                        onChange={field.onChange}
+                        placeholder="4 horas de video, 4 recursos descargables..."
+                      />
+                    )}
+                  />
+                  <Form.Error hasError={errors.features?.message} />
+                </Form.Control>
+                <Form.Control>
+                  <Form.Label>Estado</Form.Label>
+                  <select {...register('isActive')}>
+                    <option value="" disabled selected>
+                      Seleccione una opción
+                    </option>
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
+                  </select>
+                  <Form.Error hasError={errors.isActive?.message} />
                 </Form.Control>
 
-                <Form.Control className="mt-2">
-                  <Form.Label htmlFor={`content.0.details.${index}.duration`}>
-                    Duración
-                  </Form.Label>
-                  <Form.Input
-                    {...register(`content.0.details.${index}.duration`)}
-                    id={`content.0.details.${index}.duration`}
-                    type="text"
-                    placeholder="HH:MM:SS"
-                  />
-                  {errors.content &&
-                    errors.content[0] &&
-                    errors.content[0].details && (
-                    <Form.Error
-                      hasError={
-                        errors.content[0].details?.[index]?.duration?.message
-                      }                      />
-                  )}
-                </Form.Control>
-
-                <Form.Control className="mt-2">
-                  <Form.Label htmlFor={`content.0.details.${index}.videoUrl`}>
-                    URL del Video
-                  </Form.Label>
-                  <Form.Input
-                    {...register(`content.0.details.${index}.videoUrl`)}
-                    id={`content.0.details.${index}.videoUrl`}
-                    type="text"
-                  />
-                  {errors.content &&
-                    errors.content[0] &&
-                    errors.content[0].details && (
-                    <Form.Error
-                      hasError={
-                        errors.content?.[0].details?.[index]?.videoUrl
-                          ?.message
-                      }
-                    />
-                  )}
-                </Form.Control>
+                <div className="w-full flex justify-between mt-8">
+                  <Button type="button" variant={'error'} onClick={onClose}>
+                    Cancelar
+                  </Button>
+                  <Button type="button" onClick={handleNext}>
+                    Siguiente
+                  </Button>
+                </div>
               </div>
-            ))}
-          </div>
-        )}
+            )}
+            {activeTab === 'description' && (
+              <>
+                <div className="flex" role="tabpanel">
+                  <Controller
+                    name="objetive"
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <JoditEditorComponent
+                        placeholder="Escribe aquí..."
+                        onChange={onChange}
+                      />
+                    )}
+                  />
+                </div>
+                <div className="w-full flex justify-between mt-8">
+                  <Button
+                    type="button"
+                    variant={'primary.outline'}
+                    onClick={handlePrev}
+                  >
+                    Anterior
+                  </Button>
+                  <Button type="button" onClick={handleNext}>
+                    Siguiente
+                  </Button>
+                </div>
+              </>
+            )}
+            {activeTab === 'details' && (
+              <>
+                <div role="tabpanel" className="space-y-4">
+                  <Form.Control>
+                    <div className="flex flex-col justify-between">
+                      <Form.Label className="mb-2">
+                        Selecciona tu imagen
+                      </Form.Label>
+                      <Badge
+                        color="info"
+                        size="sm"
+                        className="font-thin text-xs"
+                      >
+                        opcional
+                      </Badge>
+                    </div>
+                    <ImageUploader name={'image'} setValue={setValue} />
+                    <Form.Error hasError={errors.image?.message} />
+                  </Form.Control>
 
-        {step === 3 && (
-          <div className="space-y-4 p-4 border border-primary-100 rounded-xs">
-            <Form.Control>
-              <Form.Label className="">
-                Selecciona la imagen del curso
-              </Form.Label>
-              <ImageUploader name="image" setValue={setValue} />
-              <Form.Error hasError={errors.image?.message} />
-            </Form.Control>
-          </div>
-        )}
+                  <section className="flex gap-6">
+                    <Form.Control>
+                      <div className="flex justify-between">
+                        <Form.Label>Precio</Form.Label>
+                        <Badge
+                          color="info"
+                          size="sm"
+                          className="font-thin text-xs"
+                        >
+                          opcional
+                        </Badge>
+                      </div>
+                      <Form.Input
+                        placeholder="120.00"
+                        size="md"
+                        {...register('price')}
+                      />
+                      <Form.Error hasError={errors.price?.message} />
+                    </Form.Control>
 
-        <div className="mt-8 flex justify-between">
-          <Button
-            type="button"
-            variant={'white'}
-            onClick={prevStep}
-            className={` ${step === 0 ? 'invisible' : ''}`}
-          >
-            Anterior
-          </Button>
-          {step < STEPS.length - 1 ? (
-            <Button type="button" onClick={nextStep}>
-              Siguiente
-            </Button>
-          ) : (
-            <Button type="submit" disabled={!isDirty}>
-              {isLoading ? 'Creando...' : 'Enviar'}
-            </Button>
-          )}
-        </div>
-      </Form>
-    </Modal>
+                    <Form.Control>
+                      <div className="flex justify-between">
+                        <Form.Label className="mb-2">
+                          Programar publicación
+                        </Form.Label>
+                        <Badge
+                          color="info"
+                          size="sm"
+                          className="font-thin text-xs"
+                        >
+                          opcional
+                        </Badge>
+                      </div>
+                      <div className="flex items-center w-full gap-2">
+                        <Checkbox
+                          id="yes"
+                          checked={isScheduled}
+                          onChange={() => handleCheckboxChange('yes')}
+                        />
+                        <label htmlFor="yes">Si</label>
+                        <Checkbox
+                          id="no"
+                          checked={!isScheduled}
+                          onChange={() => handleCheckboxChange('no')}
+                        />
+                        <label htmlFor="no">No</label>
+                      </div>
+                      {isScheduled && (
+                        <Form.Input type="date" {...register('startDate')} />
+                      )}
+                    </Form.Control>
+                  </section>
+                </div>
+                <div className="w-full flex justify-between mt-8">
+                  <Button
+                    type="button"
+                    variant={'primary.outline'}
+                    onClick={handlePrev}
+                  >
+                    Anterior
+                  </Button>
+                  <Button type="submit">Crear</Button>
+                </div>
+              </>
+            )}
+          </div>
+        </Form>
+      </Modal>
+    )
   )
 }
 
-export default RegisterCourseForm
+export default MyModal
