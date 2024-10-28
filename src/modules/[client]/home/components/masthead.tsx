@@ -1,8 +1,13 @@
+import { useTokenStore } from '@/@auth/store/use-token.store'
+import { useUserStore } from '@/@auth/store/use-user.store'
 import { ContentFull } from '@/@common/components/content-full'
 import Link from '@/@common/components/link'
 import { IconArrowRoundForward } from '@/assets/icons'
 
 export const Masthead = () => {
+  const user = useUserStore((state) => state.user)
+  const token = useTokenStore((state) => state.token)
+
   return (
     <div className="relative">
       <ContentFull
@@ -23,10 +28,17 @@ export const Masthead = () => {
             <Link href="/teachers" variant="secondary" size="lg">
               Nuestros docentes
             </Link>
-            <Link href="/auth/login" variant="secondary" size="lg">
-              Iniciar ahora
-              <IconArrowRoundForward size="24" />
-            </Link>
+            {user && token ? (
+              <Link href="/courses" variant="secondary" size="lg">
+                Nuestros cursos
+                <IconArrowRoundForward size="24" />
+              </Link>
+            ): (
+              <Link href="/auth/login" variant="secondary" size="lg">
+                Iniciar ahora
+                <IconArrowRoundForward size="24" />
+              </Link>
+            )}
           </div>
         </section>
 
