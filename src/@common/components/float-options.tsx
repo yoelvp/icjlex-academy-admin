@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import { IconWhatsapp } from '@/assets/icons'
 import { whatsappMessage } from '../utils/whatsapp'
-import { WHATSAPP_ADMIN_NUMBER_PHONE } from '../env'
+import { APP_NAME_WITHOUT_AMP, WHATSAPP_ADMIN_NUMBER_PHONE } from '../env'
 import { createPortal } from 'react-dom'
 
 export const FloatOptions: FC = () => {
@@ -11,7 +11,7 @@ export const FloatOptions: FC = () => {
       <a
         href={whatsappMessage({
           phoneNumber: WHATSAPP_ADMIN_NUMBER_PHONE,
-          message: '¡Hola! quiero saber más información acerca de los cursos que brinda su academia ICJ LEX & CARRANZA CONSULTORES'
+          message: `¡Hola! quiero saber más información acerca de los cursos que brinda ${APP_NAME_WITHOUT_AMP}, estoy interesado en llevar un curso en su academia virtual`
         })}
         className="h-8 w-8 rounded-full bg-primary-500 flex-center text-white hover:bg-primary-400 md:w-12 md:h-12"
       >
