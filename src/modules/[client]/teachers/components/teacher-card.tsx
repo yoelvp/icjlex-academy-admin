@@ -2,7 +2,7 @@ import Link from '@/@common/components/link'
 import { Card } from '@/@common/components/card'
 import { IconStar, IconStudent } from '@/assets/icons'
 
-export const TeacherCard = () => {
+export const TeacherCard = ({ teacher }) => {
   const data = [
     {
       label: 'Cursos',
@@ -19,26 +19,32 @@ export const TeacherCard = () => {
   return (
     <Card>
       <img
-        src="https://www.fairviewer.org/wp-content/uploads/2017/12/1Q01257.jpg"
-        alt="Teacher profile image"
-        className="w-full h-48 rounded object-cover object-center"
+        src={
+          teacher.imageUrl ||
+          'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'
+        }
+        alt={teacher.firstName}
+        className="w-full h-60 rounded object-cover object-center"
         loading="lazy"
       />
       <section className="px-4 py-6 flex-col-start gap-y-8">
         <article className="flex gap-x-4 items-start">
           <img
-            src="https://www.fairviewer.org/wp-content/uploads/2017/12/1Q01257.jpg"
-            alt="Teacher profile image"
+            src={
+              teacher.imageUrl ||
+              'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'
+            }
+            alt={teacher.firstName}
             className="w-8 h-8 rounded-full object-cover object-center"
             loading="lazy"
           />
           <div className="flex-col-start gap-y-4">
             <div>
               <h4 className="text-primary-700 font-bold text-xl leading-4">
-                Yoel Valverde
+                {teacher.firstName} {teacher.lastName}
               </h4>
               <span className="text-xs font-medium text-primary-400">
-                Software developer
+                {teacher.profession}
               </span>
             </div>
             <div className="flex flex-wrap gap-y-4 gap-x-8">
@@ -60,11 +66,9 @@ export const TeacherCard = () => {
             </div>
           </div>
         </article>
-        <div className="flex flex-col gap-y-4">
-          <p className="text-primary-500">
-            Yoel Valverde is a seasoned instructor with over 10 years of experience in the field of web development. He is passionate about teaching and sharing his knowledge with students from all backgrounds.
-          </p>
-          <Link href="/teachers/nancy-lozano-diaz" variant="primary.link" className="w-auto">
+        <div className="flex-between flex-col w-full h-[160px]">
+          <p className="text-primary-500 line-clamp-4">{teacher.aboutMe}</p>
+          <Link href={teacher.id} variant="primary.link" className="w-auto">
             Ver perfil
           </Link>
         </div>
