@@ -1,4 +1,5 @@
 import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 
 export const UsHero = () => {
   return (
@@ -11,9 +12,9 @@ export const UsHero = () => {
         <p className="text-[24px] text-primary-50">Y brindamos educación de calidad</p>
 
         <div className="flex-between pt-16 p-4 gap-4 flex-col md:flex-row">
-          <Button htmlType="button" variant="secondary">
+          <Link href="/teachers" variant="secondary">
             Nuestros docentes
-          </Button>
+          </Link>
           <Button htmlType="button" variant="secondary">
             Nuestros cursos de actualización
           </Button>
@@ -21,8 +22,6 @@ export const UsHero = () => {
             Nuestros cursos especializados
           </Button>
         </div>
-      </div>
-
-    </div>
+      </div>    </div>
   )
 }
