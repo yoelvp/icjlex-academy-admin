@@ -1,20 +1,26 @@
-import type { FC } from 'react'
-
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 import Link from '@/@common/components/link'
 import { SocialMediaLink } from './social-media-link'
-import { IconArrowRoundForward, IconFacebook, IconInstagram, IconLinkedin, IconX, IconWhatsapp, IconYoutube } from '@/assets/icons'
+import {
+  IconArrowRoundForward,
+  IconFacebook,
+  IconInstagram,
+  IconLinkedin,
+  IconX,
+  IconWhatsapp,
+  IconYoutube
+} from '@/assets/icons'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
-interface Props {
-  images: string[]
-}
+export const ImageSlider = ({ teachers }) => {
+  if (!teachers || teachers.length === 0) {
+    return <p>No hay docentes disponibles</p>
+  }
 
-export const ImageSlider: FC<Props> = ({ images }) => {
   return (
     <Swiper
       modules={[Navigation, Pagination, Autoplay]}
@@ -33,40 +39,75 @@ export const ImageSlider: FC<Props> = ({ images }) => {
       }}
       className="py-4"
     >
-      {images.map((image, index) => (
-        <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center' }}>
+      {teachers?.map((teacher, index) => (
+        <SwiperSlide
+          key={index}
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
           <section className="m-2 px-4 py-6 shadow--primary rounded-lg flex flex-col gap-8 text-center justify-center items-center max-w-[400px]">
+            <img
+              src={
+                teacher.imageUrl ||
+                'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'
+              }
+              alt={teacher.firstName}
+              className="rounded-full border-2 border-primary-200 h-[128px] w-[128px] object-cover object-top"
+            />
 
-            <img src={image} alt="teacher image" className="rounded-full border-2 border-primary-200 h-[128px] w-[128px] object-cover object-top" />
-
-            <div className="grid gap-2">
-              <span className="text-[24px] text-primary-500 font-semibold">Shechira Katherine Mendoza Avila</span>
-              <p className="text-primary-300">Derecho Notarial y Registral</p>
-              <p className="text-primary-500 pt-4">Estudios culminados en la maestría d de la Universidad Señor de Sipán, con 04 años de experiencia en materia registral ejerciendo como analista registral en la Sunarp. Asimismo cuenta con cursos de especialización en derecho civil, notarial, registral y familia.            </p>
+            <div className="gap-2 h-60 w-full flex flex-col">
+              <div>
+                <span className="text-[24px] text-primary-500 font-semibold">
+                  {teacher.firstName} {teacher.lastName}
+                </span>
+                <p className="text-primary-300">{teacher.profession}</p>
+              </div>
+              <div>
+                <p className="text-primary-500 pt-4 line-clamp-5 text-start">
+                  {teacher.aboutMe}
+                </p>
+              </div>
             </div>
 
             <div className="flex justify-start gap-4">
-              <SocialMediaLink href="https://youtube.com" variant="secondary">
+              <SocialMediaLink
+                href={teacher?.socialMedia?.linkedin || '#'}
+                variant="secondary"
+              >
                 <IconLinkedin size={18} />
               </SocialMediaLink>
 
-              <SocialMediaLink href="https://youtube.com" variant="secondary">
+              <SocialMediaLink
+                href={teachers?.socialMedia?.facebook || '#'}
+                variant="secondary"
+              >
                 <IconFacebook size={18} />
               </SocialMediaLink>
 
-              <SocialMediaLink href="https://youtube.com" variant="secondary">
+              <SocialMediaLink
+                href={teachers?.socialMedia?.x || '#'}
+                variant="secondary"
+              >
                 <IconX size={18} />
               </SocialMediaLink>
 
-              <SocialMediaLink href="https://youtube.com" variant="secondary">
+              <SocialMediaLink
+                href={teachers?.socialMedia?.instagram || '#'}
+                variant="secondary"
+              >
                 <IconInstagram size={18} />
               </SocialMediaLink>
 
-              <SocialMediaLink href="https://youtube.com" variant="secondary">
+              <SocialMediaLink
+                href={teachers?.socialMedia?.youtube || '#'}
+                variant="secondary"
+              >
                 <IconYoutube size={18} />
               </SocialMediaLink>
 
-              <SocialMediaLink href="https://youtube.com" variant="secondary">
+              <SocialMediaLink
+                href={teachers?.socialMedia?.whatsapp || '#'}
+                variant="secondary"
+              >
                 <IconWhatsapp size={18} />
               </SocialMediaLink>
             </div>
@@ -76,13 +117,11 @@ export const ImageSlider: FC<Props> = ({ images }) => {
                 Ver más
                 <IconArrowRoundForward size="24" />
               </Link>
-              <Link htmlType="button" variant="primary">
-                Ver cursos
-              </Link>
+              <Link variant="primary">Ver cursos</Link>
             </div>
           </section>
         </SwiperSlide>
       ))}
-    </Swiper >
+    </Swiper>
   )
 }
