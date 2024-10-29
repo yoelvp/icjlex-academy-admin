@@ -41,3 +41,7 @@ export const getAllTeachersService = async (page: number, size: number) => {
     }
   })
 }
+
+export const getTeacherByIdService = (id) => {
+  return axios.get(`${API_URL}/docents/${id}`)
+}
