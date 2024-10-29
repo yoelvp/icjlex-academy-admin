@@ -22,7 +22,10 @@ const Collaborators = () => {
               key={index}
               name={collaborator.name}
               role={collaborator.role}
-              image={collaborator.image}
+              image={
+                collaborator.image ||
+                'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'
+              }
               description={collaborator.description}
               slug={collaborator.slug}
             />
