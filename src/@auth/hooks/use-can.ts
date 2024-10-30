@@ -2,9 +2,10 @@ import { HttpStatusCode } from 'axios'
 import { toast } from 'sonner'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
-import { getPermissionByRoleIdService } from '@/_services/auth.service'
 import { PermissionName } from '../utils/permissions'
 import { useCanStore } from '../store/use-can.store'
+import { getPermissionByUserIdService } from '@/_services/permissions.service'
+import { PermissionsByUserResponse } from '../types/Permission'
 
 export const useCan = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -20,15 +21,14 @@ export const useCan = () => {
     return Boolean(permissions?.[key])
   }
 
-  const handleChangeRole = async (roleId: string) => {
+  const handleChangeRole = async (roleId: string): Promise<PermissionsByUserResponse | undefined> => {
     try {
       loading()
-      const { data, status } = await getPermissionByRoleIdService(roleId)
+      const { data, status } = await getPermissionByUserIdService(roleId)
 
       if (status === HttpStatusCode.Ok) {
-        console.log(data)
+        return data
       }
-
     } catch (error) {
       loaded()
       const { message } = getError(error)
