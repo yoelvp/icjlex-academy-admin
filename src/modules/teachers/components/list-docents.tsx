@@ -77,7 +77,7 @@ export const ListDocents: FC<CourseTableList> = ({ toggleModal }) => {
                 <td>{docent.lastName}</td>
                 <td className="max-w-md">
                   {docent.docentToSpecialty
-                    ?.map((specialty) => specialty.specialtyName)
+                    ?.map((specialty) => specialty)
                     .join(', ')}
                 </td>
                 <td>{docent.profession}</td>
