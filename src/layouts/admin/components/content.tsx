@@ -8,7 +8,7 @@ const Content: FC<Props> = ({
   children
 }) => {
   return (
-    <div className="px-6 py-8 bg-primary-50/60">
+    <div className="h-full px-6 py-8 bg-primary-50/60">
       {children}
     </div>
   )
