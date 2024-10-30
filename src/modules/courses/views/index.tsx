@@ -9,22 +9,20 @@ import {
 import Form from '@/@common/components/form'
 import Button from '@/@common/components/button'
 import { useShow } from '@/@common/hooks/use-show'
-import { Loader } from '../components/loader'
-import { useCreateCourse } from '../hooks/use-create-courses'
-import { Spinner, Tabs } from 'flowbite-react'
+import { Tabs } from 'flowbite-react'
 import { CourseTab } from '../enums/course-tab'
 import { useCourseUI } from '../hooks/use-courses-ui'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useCourses } from '../hooks/use-course'
 import { UseCourseStore } from '../store/course.store'
-import { LoadingModal, Menu, Skeleton } from '@/@common/components'
+import { LoadingModal, Menu } from '@/@common/components'
 
 const RegisterCourseForm = lazy(() => import('../components/register-course-form'))
 const ResourcesFromCourse = lazy(() => import('../components/resources-from-course'))
 
 const CoursesPage = () => {
-  const [loading, setLoading] = useState(false)
-  const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+  /* const [loading, setLoading] = useState(false) */
+  /* const [isResourcesOpen, setIsResourcesOpen] = useState(false) */
   const [courseCreatedId, setCourseCreatedId] = useState<string | null>(null)
   const { show, open, close } = useShow()
   const { show: showResourcesModal, open: openResourcesModal, close: closeResourcesModal } = useShow()
@@ -34,31 +32,26 @@ const CoursesPage = () => {
 
   // const courseId = UseCourseStore((state) => state.courseId)
 
-  const { createCourse } = useCreateCourse()
+  /* const { createCourse } = useCreateCourse() */
 
   const handleRegisterCourseClose = () => {
     close() // Cierra el modal de registro de curso
   }
 
-  const handleSubmit = async (data) => {
-    createCourse(data)
-    /* setCourseId(data.courseId)
-    console.log(data.courseId) */
-    console.log(data)
-    setLoading(true) // Muestra el loader
+  /* const handleSubmit = async (data) => { */
+  /*   createCourse(data) */
+  /*   console.log(data) */
+  /*   setLoading(true) // Muestra el loader */
+  /**/
+  /*   await new Promise((resolve) => setTimeout(resolve, 500)) */
+  /**/
+  /*   setLoading(false) // Oculta el spinner */
+  /*   setIsResourcesOpen(true) // Abre el modal de recursos */
+  /* } */
 
-    // Simula un retraso para el envío de datos
-    await new Promise((resolve) => setTimeout(resolve, 500))
-
-    // Aquí puedes agregar la lógica para enviar los datos a tu API
-
-    setLoading(false) // Oculta el spinner
-    setIsResourcesOpen(true) // Abre el modal de recursos
-  }
-
-  const handleResourcesClose = () => {
-    setIsResourcesOpen(false)
-  }
+  /* const handleResourcesClose = () => { */
+  /*   setIsResourcesOpen(false) */
+  /* } */
 
   const handleCreatedCourseId = (id: string) => {
     setCourseCreatedId(id)

@@ -1,20 +1,17 @@
-import axios from 'axios'
-import { Course, CourseResult } from '../types/Course'
+import { Course, CourseResult, RegisterCourseForm } from '../types/Course'
 import { API_URL } from '@/@common/env'
 import { ResponseData } from '@/@common/types/ResponseData'
+import { axios } from '@/lib'
 
-export const addCourseService = async (course: Course) => {
+export const addCourseService = (course: RegisterCourseForm) => {
   const formData = new FormData()
 
-  // Convertir 'price' a número decimal
-  const priceAsNumber = parseFloat(course.price ?? '0') // Usa '0' si price es undefined
-  console.log(priceAsNumber)
+  const priceAsNumber = parseFloat(course.price ?? '0')
 
-  // Modificación de la función formatDate para aceptar null
+  // TODO: Pasar la función a una util
   const formatDate = (date: Date | ''): string => {
-    if (date === '') return '' // Retorna cadena vacía si el valor es ""
+    if (date === '') return ''
 
-    // Formatea la fecha si es de tipo Date
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const day = String(date.getDate()).padStart(2, '0')
@@ -23,37 +20,29 @@ export const addCourseService = async (course: Course) => {
   }
 
   // Uso del formato con solo Date o cadena vacía
-  const formattedStartDate = formatDate(course.startDate as Date | '')
+  const formattedStartDate = formatDate(course.publicationDate as Date | '')
 
   // Aquí no debería dar error
 
   formData.append('name', course.name)
   formData.append('docentId', course.docentId)
-  formData.append('isActive', course.isActive ? 'true' : 'false')
-  formData.append('objetive', course.objetive)
-  // formData.append('content', JSON.stringify(course))
+  formData.append('objective', course.objective)
   formData.append('price', priceAsNumber.toString())
-  course.features.forEach(
-    (feature: { name: string; value: string }, index: number) => {
-      formData.append(`features[${index}][name]`, feature.name)
-      formData.append(`features[${index}][value]`, feature.value)
-    }
-  )
-  formData.append('startDate', formattedStartDate)
+  formData.append('includes', JSON.stringify(course.includes))
+  formData.append('includes', JSON.stringify(course.youWillLearn))
+  formData.append('publicationDate', formattedStartDate)
 
   const imageFile = course.image // Cambia esto si `data.image` no es la fuente correcta
 
   if (imageFile && imageFile instanceof File) {
     formData.append('image', imageFile)
-    console.log('Tipo de imagen:', typeof imageFile)
-    console.log('Contenido de imagen:', imageFile)
   } else {
     console.error('La imagen no es un archivo válido.')
 
     return
   }
 
-  return await axios.post<CourseResult>(`${API_URL}/courses`, formData, {
+  return axios.post<CourseResult>(`${API_URL}/courses`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
