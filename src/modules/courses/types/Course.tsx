@@ -3,6 +3,7 @@ import { courseSchema } from '../schemas/course.schema'
 import { resourceCourseSchema } from '../schemas/resources-from-course.schema'
 
 export type Course = InferType<typeof courseSchema>
+export type RegisterCourse = InferType<typeof courseSchema>
 
 export type ContentCourse = InferType<typeof resourceCourseSchema>
 
