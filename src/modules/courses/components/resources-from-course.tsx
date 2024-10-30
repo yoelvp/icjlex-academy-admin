@@ -10,15 +10,16 @@ import { resourceCourseSchema } from '../schemas/resources-from-course.schema'
 import { useCreateContentFromCourse } from '../hooks/content/use-create-content-from-course'
 import { UseCourseStore } from '../store/course.store'
 import { toast } from 'sonner'
+import { ContentCourse } from '../types/Course'
 
 interface Props {
   isOpen: boolean
   onClose: () => void
-  courseCreatedId: string
+  courseCreatedId?: string
 }
 
-const ResourcesFromCourse = ({ isOpen, onClose, courseCreatedId }: Props) => {
-  const { addContent, isLoading } = useCreateContentFromCourse()
+const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
+  const { isLoading } = useCreateContentFromCourse()
   const courseId = UseCourseStore.getState().courseId
 
   const {
@@ -61,20 +62,22 @@ const ResourcesFromCourse = ({ isOpen, onClose, courseCreatedId }: Props) => {
     setSections(sections.filter((_, i) => i !== index))
   }
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: ContentCourse) => {
     if (!courseId) {
       toast.error('No se ha creado un curso para agregar contenido!')
 
       return
     }
 
-    const resource = {
-      title: data.content.title, // Accede a title directamente desde el objeto content
-      details: data.content.details // Usa directamente details del objeto content
-    }
+    console.log(data)
+
+    /* const resource = { */
+    /*   title: data.content.title, // Accede a title directamente desde el objeto content */
+    /*   details: data.content.details // Usa directamente details del objeto content */
+    /* } */
 
     try {
-      await addContent(resource)
+      /* await addContent(resource) */
       reset()
       onClose()
       toast.success('Contenido agregado exitosamente!')
