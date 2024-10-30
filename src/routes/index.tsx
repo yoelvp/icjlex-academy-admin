@@ -49,7 +49,7 @@ const routes = createBrowserRouter([
         element: <TeachersPage />
       },
       {
-        path: '/teachers/:slug',
+        path: '/teachers/:id',
         element: <TeacherDetailsPage />
       },
       {

@@ -14,7 +14,7 @@ export const MeetOurTeachers = () => {
         con amplia experiencia en su campo, dedicados a impartir conocimientos
         prácticos y actualizados, brindando una educación de calidad.
       </span>
-      <Link href="#" variant="primary.link" size={'md'} className="mx-auto">
+      <Link href="/teachers" variant="primary.link" size={'md'} className="mx-auto">
         Ver todos los docentes
         <IconArrowRoundForward size="24" />
       </Link>

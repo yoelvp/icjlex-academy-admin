@@ -12,7 +12,7 @@ export type DocentResult = {
   valorations: number
   imageUrl: null | string
   socialMedia: SocialMediaClass | null
-  docentToSpecialty: DocentToSpecialty[]
+  docentToSpecialty: string[]
 }
 
 export interface DocentToSpecialty {

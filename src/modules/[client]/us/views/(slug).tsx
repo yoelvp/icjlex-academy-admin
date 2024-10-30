@@ -99,7 +99,10 @@ const CollaboratorDetailsPage = () => {
       <section className="w-full gap-y-4 lg:gap-y-8 lg:flex-col-center lg:w-[360px]">
         <div className="h-80 w-80">
           <img
-            src={image}
+            src={
+              image ||
+              'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'
+            }
             alt={`${name} profile image`}
             className="w-full h-full rounded-full object-cover object-top border-4 border-primary-500/25"
             loading="lazy"

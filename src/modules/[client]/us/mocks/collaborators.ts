@@ -16,11 +16,12 @@ export const collaborators = [
     image: '/us/collaborators/edwin-vega.jpg'
   },
   {
-    name: 'Nancy Lozano Diaz',
-    role: 'Abogada',
-    slug: 'nancy-lozano',
+    name: 'ALDO ELIS CARRANZA RIOS',
+    role: 'Fundador',
+    slug: 'aldo-carranza',
+
     description:
-      'Cuenta con una sólida formación en derecho y experiencia en asistencia jurídica, desarrollando un gran interés por el derecho de familia. Se ha desempeñado como asistente legal en un estudio jurídico y ha participado como voluntario en instituciones como el Colegio de Abogados de la Libertad y el Ministerio Público de Trujillo.',
+    'Egresado de la Universidad Privada Antenor Orrego, maestrando en la Universidad Nacional de Trujillo. Ex Subprefecto Distrital de Curgos, escritor, político y actualmente Abogado litigante.',
     image: ''
   }
 ]

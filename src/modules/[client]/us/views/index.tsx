@@ -10,15 +10,10 @@ import Objective from '../components/objective'
 import { ContactForm } from '@/modules/[client]/home/components/contact-form'
 import { MeetOurTeachers } from '../components/meet-our-teachers'
 import Collaborators from '../components/collaborators'
+import { useTeachers } from '../../teachers/hooks/use-teachers'
 
 const UsPage = () => {
-  const images = [
-    '/us/teachers/sechira-mendoza.png',
-    '/us/teachers/sechira-mendoza.png',
-    '/us/teachers/sechira-mendoza.png',
-    '/us/teachers/sechira-mendoza.png',
-    '/us/teachers/sechira-mendoza.png'
-  ]
+  const { isLoading, teachers } = useTeachers(1, 6)
 
   return (
     <>
@@ -33,7 +28,7 @@ const UsPage = () => {
       <Collaborators />
       <Content>
         <MeetOurTeachers />
-        <ImageSlider images={images} />
+        <ImageSlider teachers={teachers} />
       </Content>
       <SectionForm />
       <Map />
