@@ -15,10 +15,6 @@ interface UseCanStore {
     permission: PermissionName | null
     permissions: PermissionName[] | null
   }) => void
-  // setRole: (rol: string) => void
-  // setRoles: (rol: string[]) => void
-  // setPermission: (permission: PermissionName) => void
-  // setPermissions: (permissions: PermissionName[]) => void
 }
 
 export const useCanStore = create<UseCanStore>()(persist(
@@ -35,10 +31,6 @@ export const useCanStore = create<UseCanStore>()(persist(
       permission,
       permissions
     })
-    // setRole: (role: string | null) => set({ role, isAdmin: true }),
-    // setRoles: (roles: string[] | null) => set({ roles, isAdmin: true }),
-    // setPermission: (permission: PermissionName | null) => set({ permission, isAdmin: true }),
-    // setPermissions: (permissions: PermissionName[] | null) => set({ permissions, isAdmin: true })
   }),
   {
     name: 'can'

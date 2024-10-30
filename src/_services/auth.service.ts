@@ -14,7 +14,3 @@ export const getUserByIdService = (userId: string) => {
 export const getRolesByUserIdService = (userId: string) => {
   return axios.get(`/roles/user/${userId}`)
 }
-
-export const getPermissionByRoleIdService = (roleId: string) => {
-  return axios.get(`/roles/permissions/${roleId}`)
-}
