@@ -1,17 +1,17 @@
-import type { FC } from 'react'
-
 import { IconRadioButtonOff } from '@/assets/icons'
 import { PriceAndPurchaseButton } from './price-and-purchase-button'
 
-export const DetailsCourseByPurchased: FC = () => {
+export const DetailsCourseByPurchased = ({ course }) => {
   return (
     <section className="w-full h-auto py-8 px-4 rounded border border-primary-400 flex flex-col gap-8 md:border-none lg:shadow--primary lg:max-w-[300px] xl:min-w-[360px]">
       <div className="hidden lg:block">
-        <PriceAndPurchaseButton />
+        <PriceAndPurchaseButton price={course.price} />
       </div>
 
       <div className="flex flex-col gap-4 w-full">
-        <span className="text-primary-700 font-semibold">El curso incluye: </span>
+        <span className="text-primary-700 font-semibold">
+          El curso incluye:{' '}
+        </span>
         <div className="flex flex-col gap-2">
           <span className="text-primary-500 flex gap-4 items-center">
             <IconRadioButtonOff size={16} className="text-primary-400" />
