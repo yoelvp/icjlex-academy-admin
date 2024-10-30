@@ -4,6 +4,8 @@ import {
   IconCategory,
   IconCourse,
   IconHome,
+  IconMailbox,
+  IconPerson,
   IconStudent,
   IconTag,
   IconTeacher
@@ -32,6 +34,12 @@ export const ADMIN_ROUTES: Options[] = [
     icon: IconStudent
   },
   {
+    name: 'Contacto',
+    path: '/admin/contact',
+    icon: IconMailbox,
+    disabled: true
+  },
+  {
     name: 'Categorias',
     path: '/admin/categories',
     icon: IconCategory,
@@ -42,5 +50,16 @@ export const ADMIN_ROUTES: Options[] = [
     path: '/admin/tags',
     icon: IconTag,
     disabled: true
+  },
+  {
+    name: 'Administración',
+    icon: IconPerson,
+    disabled: true,
+    subOptions: [
+      {
+        name: 'Usuarios',
+        path: '/admin/users'
+      }
+    ]
   }
 ] as const

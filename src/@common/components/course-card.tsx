@@ -1,13 +1,19 @@
 import Link from './link'
 import { Card } from './card'
 import { IconStarFilled, IconWhatsapp } from '@/assets/icons'
+import { Course } from '@/_models/Course.model'
+import { formatCurrency } from '../utils/currencies'
 
-export const CourseCard = () => {
+interface Props {
+  course?: Course
+}
+
+export const CourseCard = ({ course }: Props) => {
   return (
     <Card>
       <div className="relative h-64 rounded overflow-hidden">
         <img
-          src="https://teoriadelderecho.com/wp-content/uploads/2017/12/USMP-anuncia-curso-gratuito-en-derechos-humanos-dirigido-a-estudiantes.jpg"
+          src={course?.imageUrl ? course.imageUrl : 'https://teoriadelderecho.com/wp-content/uploads/2017/12/USMP-anuncia-curso-gratuito-en-derechos-humanos-dirigido-a-estudiantes.jpg'}
           alt="Course image"
           className="h-full w-full object-cover object-center"
         />
@@ -16,7 +22,7 @@ export const CourseCard = () => {
         <article className="flex flex-col gap-y-2">
           <div>
             <h4 className="text-primary-700 font-bold">
-              Violencia contra Niñas, Niños y Adolescente en el Ámbito Familiar
+              {course?.name}
             </h4>
             <p className="text-sm text-primary-500">
               <span className="text-primary-400">{'Nancy Lozano Díaz'}</span> &bull; <span className="text-primary-300">{'Abogada'}</span>
@@ -44,15 +50,15 @@ export const CourseCard = () => {
           </div>
           <div className="flex items-center gap-x-1">
             <span className="font-bold text-primary-500 text-2xl">
-              S/. 140.00
+              {formatCurrency(course?.price ?? 0)}
             </span>
             <span className="hidden text-primary-300 text-sm font-medium">
-              S/. 160.00
+              {formatCurrency((course?.price ?? 0) + 5)}
             </span>
           </div>
         </article>
         <div className="flex gap-x-4">
-          <Link href="/courses/primer-curso" variant="primary.link" size="sm" className="text-nowrap w-auto !px:0">
+          <Link href={`/courses/${course?.id}`} variant="primary.link" size="sm" className="text-nowrap w-auto !px:0">
             Ver detalles
           </Link>
           <Link href="/whatsapp" size="sm" className="w-full" target="_blank" rel="noopener noreferrer">

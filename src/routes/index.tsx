@@ -18,6 +18,7 @@ import { CheckAuth } from '@/@auth/components/check-auth'
 
 import {
   CoursesAdminPage,
+  CourseDetailsAdminPage,
   DashboardPage,
   TeachersAdminPage,
   StudentsPage
@@ -117,6 +118,10 @@ const routes = createBrowserRouter([
       {
         path: 'courses',
         element: <CoursesAdminPage />
+      },
+      {
+        path: 'courses/:id',
+        element: <CourseDetailsAdminPage />
       },
       {
         path: 'teachers',

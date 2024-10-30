@@ -75,7 +75,7 @@ export const Header: FC = () => {
               className="bg-transparent"
               containerClassName="hidden lg:block lg:w-auto"
             />
-            <button className="hidden sm:flex lg:hidden">
+            <button className="hidden md:flex lg:hidden">
               <IconSearch size="18" />
             </button>
             {user ? (
@@ -88,6 +88,7 @@ export const Header: FC = () => {
                   message: 'Quiero saber más información acerca de los cursos que brindan',
                   phoneNumber: WHATSAPP_ADMIN_NUMBER_PHONE
                 })}
+                className="hidden sm:flex"
                 variant="white"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -100,7 +101,7 @@ export const Header: FC = () => {
         </div>
       </header>
 
-      {show && <Sidebar closeSidebar={close} />}
+      {show && <Sidebar closeSidebar={close} show={show} />}
     </div>
   )
 }

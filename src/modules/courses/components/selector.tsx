@@ -43,7 +43,6 @@ export const Selector = <T extends OptionType>({
     <CreatableSelect
       isMulti={isMulti}
       name={name}
-      // Mapea las opciones para que `react-select` las interprete correctamente
       value={
         value.map((opt) => ({
           ...opt,

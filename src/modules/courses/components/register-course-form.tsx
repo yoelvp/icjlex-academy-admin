@@ -1,91 +1,136 @@
+import type { RegisterCourse } from '../types/Course'
+
+import { useState } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Controller, useForm } from 'react-hook-form'
+import { Badge } from 'flowbite-react'
+import SelectCreatable from 'react-select/creatable'
+import classNames from 'classnames'
 import Form from '@/@common/components/form'
 import { Modal } from '@/@common/components/modal'
-import { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { Selector } from './selector'
 import Button from '@/@common/components/button'
-import { JoditEditorComponent } from './jodit-editor'
+import TextEditor from '@/@common/components/text-editor'
 import ImageUploader from './image-uploader'
-import { Badge, Checkbox } from 'flowbite-react'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { courseSchema } from '../schemas/course.schema'
 import { useDocentStore } from '@/modules/teachers/store/teachers.store'
 import { useGetAllTeachers } from '@/modules/teachers/hooks/use-get-all-teachers'
-import { UseCourseStore } from '../store/course.store'
+import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
+import { Switch } from '@/@common/components'
 
-const MyModal = ({ isOpen, onClose, onSubmit }) => {
+interface Props {
+  isOpen: boolean
+  onClose: () => void
+  openCreateResourceModal: () => void
+  updateCourseId: (id: string) => void
+}
+
+const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateResourceModal }: Props) => {
+  const [activeTab, setActiveTab] = useState('main')
+  const { isLoading: loadingTeacher } = useGetAllTeachers()
+  const openConfirmModal = useConfirmModalStore((state) => state.open)
+  const teachers = useDocentStore((state) => state.teachers)
   const {
     register,
     handleSubmit,
     setValue,
+    trigger,
     control,
-    reset,
+    watch,
     formState: { errors }
-  } = useForm({
+  } = useForm<RegisterCourse>({
     resolver: yupResolver(courseSchema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
       docentId: '',
-      features: [],
-      objetive: '',
+      youWillLearn: [],
+      includes: [],
+      objective: '',
       image: File || null,
       price: '',
-      startDate: Date || ''
+      publicationDate: Date || ''
     }
   })
 
-  const teachers = useDocentStore((state) => state.teachers)
-  const { isLoading: loadingTeacher } = useGetAllTeachers()
-  const { setCourseId } = UseCourseStore()
-
-  const [activeTab, setActiveTab] = useState('main')
-  const [isScheduled, setIsScheduled] = useState(false)
   const TABS = ['main', 'description', 'details']
 
-  const handleCheckboxChange = (option: 'yes' | 'no') => {
-    setIsScheduled(option === 'yes')
-    setValue('startDate', option === 'yes' ? new Date().toISOString() : '') // ISO string o cadena vacía
-  }
-
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     setActiveTab(tab)
   }
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const currentIndex = TABS.indexOf(activeTab)
+
     if (currentIndex < TABS.length - 1) {
       setActiveTab(TABS[currentIndex + 1])
+    }
+
+    if (currentIndex == TABS.length - 1) {
+      console.log('Crear')
+      console.log('Errors')
+      console.log(errors)
+      console.log('End Errors')
+      if (await trigger()) {
+        openConfirmModal({
+          title: '¿Quiere agregar el contenido del curso ahora?',
+          options: [
+            {
+              content: 'Sí, crear secciones',
+              onClick: () => {
+                updateCourseId('12jkjne91829')
+                onClose()
+                openCreateResourceModal()
+              }
+            },
+            {
+              content: 'No, solo crear curso',
+              onClick: () => {
+                console.log('Errors')
+                console.log(errors)
+                console.log('End Errors')
+                handleSubmit(handleFormSubmit)()
+              }
+            }
+          ]
+        })
+      }
     }
   }
 
   const handlePrev = () => {
     const currentIndex = TABS.indexOf(activeTab)
+
     if (currentIndex > 0) {
       setActiveTab(TABS[currentIndex - 1])
     }
+
+    if (currentIndex === 0) {
+      onClose()
+    }
   }
 
-  const handleFormSubmit = async (data) => {
-    console.log('Datos del formulario:', data)
-    await onSubmit(data)
-    setCourseId(data.courseId)
-    console.log('id el curso', data.courseId)
-    reset()
-    onClose()
-    setActiveTab('main')
+  const handleFormSubmit = async (data: RegisterCourse) => {
+    const formattedData = {
+      ...data,
+      includes: data.includes.map((include) => include.label),
+      youWillLearn: data.youWillLearn.map((include) => include.label)
+    }
+    console.log(formattedData)
+    console.log('Se ejecuto la funcoan para envio de dato')
   }
 
   return (
-    isOpen && (
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          setActiveTab('main')
-          onClose()
-        }}
-        title={'Agregar Curso'}
-      >
-        <Form onSubmit={handleSubmit(handleFormSubmit)}>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        setActiveTab('main')
+        onClose()
+      }}
+      title="Crear curso"
+      className="min-h-[580px]"
+    >
+      <div className="h-full grid grid-rows-[1fr_auto]">
+        <Form autoComplete="off">
           <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
             <ul
               className="flex flex-wrap -mb-px text-sm font-medium text-center"
@@ -94,11 +139,11 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
               {TABS.map((tab) => (
                 <li key={tab} className="me-2" role="presentation">
                   <button
-                    className={`inline-block p-4 border-b-2 rounded-none ${
-                      activeTab === tab
-                        ? 'text-blue-600 border-blue-600'
-                        : 'hover:text-gray-600 hover:border-gray-300'
-                    }`}
+                    className={classNames(
+                      'inline-block p-4 border-b-2 rounded-none',
+                      { 'text-primary-500 border-b-primary-600': activeTab === tab },
+                      { 'border-b-primary-50/50 hover:text-gray-600 hover:border-b-primary-50': activeTab !== tab }
+                    )}
                     type="button"
                     onClick={() => handleTabClick(tab)}
                     aria-selected={activeTab === tab}
@@ -112,7 +157,7 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
             </ul>
           </div>
 
-          <div id="default-tab-content">
+          <div id="default-tab-content" className="h-full">
             {activeTab === 'main' && (
               <div className="space-y-4">
                 <Form.Control>
@@ -130,7 +175,7 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
                     className="text-sm text-primary-500 border border-primary-400 rounded-lg "
                     {...register('docentId')}
                   >
-                    <option value="">
+                    <option disabled value="">
                       {loadingTeacher
                         ? 'Cargando docentes...'
                         : 'Selecciona un docente'}
@@ -149,103 +194,118 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
                   </select>
                   <Form.Error hasError={errors.docentId?.message} />
                 </Form.Control>
+
                 <Form.Control>
-                  <Form.Label>Características</Form.Label>
+                  <Form.Label>
+                    Objetivo
+                  </Form.Label>
+                  <Form.Input
+                    type="text"
+                    placeholder="Ingresa el objetivo del curso"
+                    error={errors.objective?.message}
+                    {...register('objective')}
+                  />
+                </Form.Control>
+
+                <Form.Control>
+                  <Form.Label>
+                    Lo que aprenderá
+                  </Form.Label>
                   <Controller
-                    name="features"
+                    name="youWillLearn"
                     control={control}
                     render={({ field }) => (
-                      <Selector
+                      <SelectCreatable
+                        {...field}
+                        isMulti
                         value={field.value || []}
+                        isClearable
+                        formatCreateLabel={(value) => `Crear ${value}`}
                         onChange={field.onChange}
-                        placeholder="4 horas de video, 4 recursos descargables..."
+                        placeholder="Lo que el estudiante aprenderá"
+                        menuPosition="fixed"
+                        noOptionsMessage={() => 'No hay opciones disponibles'}
                       />
                     )}
                   />
-                  <Form.Error hasError={errors.features?.message} />
-                </Form.Control>
-                <Form.Control>
-                  <Form.Label>Estado</Form.Label>
-                  <select {...register('isActive')}>
-                    <option value="" disabled selected>
-                      Seleccione una opción
-                    </option>
-                    <option value="true">Si</option>
-                    <option value="false">No</option>
-                  </select>
-                  <Form.Error hasError={errors.isActive?.message} />
+                  <Form.Error hasError={errors.youWillLearn?.message} />
                 </Form.Control>
 
-                <div className="w-full flex justify-between mt-8">
-                  <Button type="button" variant={'error'} onClick={onClose}>
-                    Cancelar
-                  </Button>
-                  <Button type="button" onClick={handleNext}>
-                    Siguiente
-                  </Button>
-                </div>
+                <Form.Control>
+                  <Form.Label>
+                    Incluye
+                  </Form.Label>
+                  <Controller
+                    name="includes"
+                    control={control}
+                    render={({ field }) => (
+                      <SelectCreatable
+                        {...field}
+                        isMulti
+                        value={field.value || []}
+                        isClearable
+                        formatCreateLabel={(value) => `Crear ${value}`}
+                        onChange={field.onChange}
+                        placeholder="Lo que el curso incluye"
+                        menuPosition="fixed"
+                        noOptionsMessage={() => 'No hay opciones disponibles'}
+                      />
+                    )}
+                  />
+                  <Form.Error hasError={errors.includes?.message} />
+                </Form.Control>
               </div>
             )}
             {activeTab === 'description' && (
-              <>
-                <div className="flex" role="tabpanel">
+              <div className="flex" role="tabpanel">
+                <Form.Control>
+                  <Form.Label>
+                    Detalles del curso
+                  </Form.Label>
                   <Controller
-                    name="objetive"
+                    name="description"
                     control={control}
-                    render={({ field: { onChange } }) => (
-                      <JoditEditorComponent
-                        placeholder="Escribe aquí..."
-                        onChange={onChange}
+                    render={({ field }) => (
+                      <TextEditor
+                        {...field}
+                        placeholder="Escribe los detalles del curso"
                       />
                     )}
                   />
-                </div>
-                <div className="w-full flex justify-between mt-8">
-                  <Button
-                    type="button"
-                    variant={'primary.outline'}
-                    onClick={handlePrev}
-                  >
-                    Anterior
-                  </Button>
-                  <Button type="button" onClick={handleNext}>
-                    Siguiente
-                  </Button>
-                </div>
-              </>
+                  <Form.Error hasError={errors.description?.message} />
+                </Form.Control>
+              </div>
             )}
             {activeTab === 'details' && (
               <>
                 <div role="tabpanel" className="space-y-4">
                   <Form.Control>
-                    <div className="flex flex-col justify-between">
-                      <Form.Label className="mb-2">
-                        Selecciona tu imagen
-                      </Form.Label>
+                    <Form.Label className="mb-1 flex justify-between">
+                      Selecciona tu imagen
                       <Badge
-                        color="info"
+                        color="gray"
                         size="sm"
-                        className="font-thin text-xs"
+                        className="font-thin text-xs text-primary-700"
                       >
                         opcional
                       </Badge>
-                    </div>
+                    </Form.Label>
                     <ImageUploader name={'image'} setValue={setValue} />
                     <Form.Error hasError={errors.image?.message} />
                   </Form.Control>
 
                   <section className="flex gap-6">
                     <Form.Control>
-                      <div className="flex justify-between">
-                        <Form.Label>Precio</Form.Label>
+                      <Form.Label className="mb-1 flex justify-between">
+                        Precio
                         <Badge
-                          color="info"
+                          color="gray"
                           size="sm"
                           className="font-thin text-xs"
                         >
                           opcional
                         </Badge>
-                      </div>
+                      </Form.Label>
                       <Form.Input
                         placeholder="120.00"
                         size="md"
@@ -255,55 +315,52 @@ const MyModal = ({ isOpen, onClose, onSubmit }) => {
                     </Form.Control>
 
                     <Form.Control>
-                      <div className="flex justify-between">
-                        <Form.Label className="mb-2">
-                          Programar publicación
-                        </Form.Label>
+                      <Form.Label className="mb-1 flex justify-between">
+                        Programar publicación
                         <Badge
-                          color="info"
+                          color="gray"
                           size="sm"
                           className="font-thin text-xs"
                         >
                           opcional
                         </Badge>
-                      </div>
-                      <div className="flex items-center w-full gap-2">
-                        <Checkbox
-                          id="yes"
-                          checked={isScheduled}
-                          onChange={() => handleCheckboxChange('yes')}
+                      </Form.Label>
+                      <div className="h-10 flex items-center w-full gap-x-4">
+                        <Controller
+                          name="schedulePublication"
+                          control={control}
+                          render={({ field }) => (
+                            <Switch {...field} />
+                          )}
                         />
-                        <label htmlFor="yes">Si</label>
-                        <Checkbox
-                          id="no"
-                          checked={!isScheduled}
-                          onChange={() => handleCheckboxChange('no')}
-                        />
-                        <label htmlFor="no">No</label>
+                        {watch('schedulePublication') && (
+                          <Form.Input type="date" {...register('publicationDate')} />
+                        )}
                       </div>
-                      {isScheduled && (
-                        <Form.Input type="date" {...register('startDate')} />
-                      )}
+                      <Form.Error hasError={errors.publicationDate?.message} />
                     </Form.Control>
                   </section>
-                </div>
-                <div className="w-full flex justify-between mt-8">
-                  <Button
-                    type="button"
-                    variant={'primary.outline'}
-                    onClick={handlePrev}
-                  >
-                    Anterior
-                  </Button>
-                  <Button type="submit">Crear</Button>
                 </div>
               </>
             )}
           </div>
         </Form>
-      </Modal>
-    )
+
+        <div className="w-full flex justify-end gap-x-4 mt-8">
+          <Button
+            type="button"
+            variant={activeTab === 'main' ? 'error.outline' : 'primary'}
+            onClick={handlePrev}
+          >
+            {activeTab === 'main' ? 'Cancelar' : 'Anterior'}
+          </Button>
+          <Button type="button" onClick={handleNext}>
+            {activeTab === 'details' ? 'Crear' : 'Siguiente'}
+          </Button>
+        </div>
+      </div>
+    </Modal>
   )
 }
 
-export default MyModal
+export default RegisterCourseFormModal

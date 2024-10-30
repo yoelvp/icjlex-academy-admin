@@ -59,7 +59,8 @@ export {
 } from 'react-icons/pi'
 export {
   LuBookMarked as IconBookMarked,
-  LuFileSignature as IconCourse
+  LuFileSignature as IconCourse,
+  LuMailbox as IconMailbox
 } from 'react-icons/lu'
 export {
   RiPresentationLine as IconPresentation
@@ -78,7 +79,8 @@ export {
 } from 'react-icons/ci'
 export {
   CgMenuLeft as IconMenuLeft,
-  CgMenuRight as IconMenuRight
+  CgMenuRight as IconMenuRight,
+  CgProfile as IconProfile
 } from 'react-icons/cg'
 export {
   GoHome as IconHome

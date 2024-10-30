@@ -12,6 +12,7 @@ interface Props extends ModalVariant {
   title?: string
   description?: string
   children: ReactNode
+  className?: string
 }
 
 export const Modal: FC<Props> = ({
@@ -21,6 +22,7 @@ export const Modal: FC<Props> = ({
   onClose,
   variant,
   size,
+  className = '',
   children
 }) => {
   if (!isOpen) return null
@@ -32,7 +34,7 @@ export const Modal: FC<Props> = ({
           modalVariants({
             variant,
             size,
-            className: 'h-auto'
+            className: `h-full grid grid-rows-[auto_1fr] max-h-[calc(100vh-150px)] lg:max-h-[60vh] ${className}`
           })
         )}
       >
@@ -58,10 +60,9 @@ export const Modal: FC<Props> = ({
             <IconClose size={24} />
           </button>
         </div>
-        <div className="w-full overflow-y-scroll max-h-[calc(100vh-150px)] lg:max-h-[60vh]">
-          <div className="mx-4 py-2">{children}</div>
+        <div className="w-full overflow-y-scroll h-full">
+          <div className="mx-4 pt-2 pb-4 h-full">{children}</div>
         </div>
-        <div className="w-full h-[30px]"></div>
       </div>
     </div>,
     document.getElementById('modal') ?? document.createElement('div')
