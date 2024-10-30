@@ -13,7 +13,7 @@ import Collaborators from '../components/collaborators'
 import { useTeachers } from '../../teachers/hooks/use-teachers'
 
 const UsPage = () => {
-  const { isLoading, teachers } = useTeachers(1, 6)
+  const { teachers } = useTeachers(1, 6)
 
   return (
     <>
