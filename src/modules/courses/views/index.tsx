@@ -17,7 +17,7 @@ import { useCourseUI } from '../hooks/use-courses-ui'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useCourses } from '../hooks/use-course'
 import { UseCourseStore } from '../store/course.store'
-import { Menu } from '@/@common/components'
+import { LoadingModal, Menu, Skeleton } from '@/@common/components'
 
 const RegisterCourseForm = lazy(() => import('../components/register-course-form'))
 const ResourcesFromCourse = lazy(() => import('../components/resources-from-course'))
@@ -129,15 +129,9 @@ const CoursesPage = () => {
                             variant="white"
                             options={[
                               {
-                                label: 'Ver detalles',
+                                label: 'Detalles del curso',
                                 icon: IconEye,
-                                onClick: () => {
-                                  /*  if (student.id !== studentId) {
-                                    setStudentId(student.id)
-                                  }
-
-                                  openActiveStudentDrawer() */
-                                }
+                                href: `/admin/courses/${course.id}`
                               },
                               {
                                 label: 'Editar',
@@ -178,23 +172,26 @@ const CoursesPage = () => {
         </Tabs>
       </section>
 
-      {loading && <Loader />}
-      <Suspense fallback={<Spinner size="lg" color="info" />}>
-        <RegisterCourseForm
-          isOpen={show}
-          onClose={handleRegisterCourseClose}
-          openCreateResourceModal={openResourcesModal}
-          updateCourseId={handleCreatedCourseId}
-        />
-      </Suspense>
+      {show && (
+        <Suspense fallback={<LoadingModal />}>
+          <RegisterCourseForm
+            isOpen={show}
+            onClose={handleRegisterCourseClose}
+            openCreateResourceModal={openResourcesModal}
+            updateCourseId={handleCreatedCourseId}
+          />
+        </Suspense>
+      )}
 
-      <Suspense fallback={<Spinner size="lg" color="info" />}>
-        <ResourcesFromCourse
-          isOpen={showResourcesModal}
-          onClose={closeResourcesModal}
-          courseCreatedId={courseCreatedId ?? ''}
-        />
-      </Suspense>
+      {showResourcesModal && (
+        <Suspense fallback={<LoadingModal />}>
+          <ResourcesFromCourse
+            isOpen={showResourcesModal}
+            onClose={closeResourcesModal}
+            courseCreatedId={courseCreatedId ?? ''}
+          />
+        </Suspense>
+      )}
     </div>
   )
 }
