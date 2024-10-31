@@ -113,7 +113,9 @@ const routes = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <DashboardPage />
+        element: (
+          <DashboardPage />
+        )
       },
       {
         path: 'courses',
@@ -125,7 +127,11 @@ const routes = createBrowserRouter([
       },
       {
         path: 'teachers',
-        element: <TeachersAdminPage />
+        element: (
+          <Suspense fallback={<div>Loading page</div>}>
+            <TeachersAdminPage />
+          </Suspense>
+        )
       },
       {
         path: 'students',

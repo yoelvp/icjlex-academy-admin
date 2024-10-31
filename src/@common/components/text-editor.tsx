@@ -32,7 +32,7 @@ const TextEditor = forwardRef<Jodit, Props>(({
 
       <style>{`
         .jodit-wysiwyg {
-          height: 25vh !important;
+          height: 100% !important;
           width: 100% !important;
         }
         .jodit-container {
