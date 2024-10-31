@@ -1,12 +1,13 @@
-import { getAllTeachersService } from '@/modules/teachers/service/docents.service'
-import { DocentResult } from '@/modules/teachers/types/Docent'
+import type { Teacher } from '@/_models/Teacher.model'
+
 import { useEffect, useState } from 'react'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
+import { getAllTeachersService } from '@/_services/teachers.service'
 
 export const useTeachers = (page: number, size: number) => {
-  const [teachers, setTeachers] = useState<DocentResult[] | null>(null)
+  const [teachers, setTeachers] = useState<Teacher[] | null>(null)
   const { isLoading, loaded, loading } = useLoading()
 
   useEffect(() => {
