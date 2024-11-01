@@ -4,24 +4,25 @@ import {
   IconArrowRoundBack,
   IconDelete,
   IconEdit,
-  IconEye
+  IconEye,
+  IconList
 } from '@/assets/icons'
 import Button from '@/@common/components/button'
 import { useShow } from '@/@common/hooks/use-show'
 import { TableLoading } from '@/@common/components/table-loading'
-import { useCourses } from '../hooks/use-course'
-import { UseCourseStore } from '../store/course.store'
 import { LoadingModal, Menu } from '@/@common/components'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { Tabs } from 'flowbite-react'
+import { List, Tabs } from 'flowbite-react'
+import { useCoursesInformation } from '../hooks/use-get-courses-information'
 
-const ResourcesFromCourse = lazy(() => import('../components/resources-from-course'))
+const ResourcesFromCourse = lazy(
+  () => import('../components/resources-from-course')
+)
 
 const CoursesPage = () => {
   const { show, open, close } = useShow()
-  const { isLoading } = useCourses(1, 10)
-  const courses = UseCourseStore((state) => state.courses)
+  const { courses, isLoading } = useCoursesInformation(1, 999)
 
   return (
     <div className="flex-col gap-y-8 grid grid-rows-[auto_1fr]">
@@ -37,9 +38,7 @@ const CoursesPage = () => {
           >
             <IconArrowRoundBack size="24" />
           </Link>
-          <h2 className="header-title">
-            Detalles del curso
-          </h2>
+          <h2 className="header-title">Detalles del curso</h2>
         </div>
         <Button type="button" onClick={open} size="sm">
           <IconAdd size={24} />
@@ -52,14 +51,13 @@ const CoursesPage = () => {
           variant="underline"
           /* onActiveTabChange={handleTabIndex} */
         >
-          <Tabs.Item
+          {/* <Tabs.Item
             title="Información principal"
           >
             Buenas noches
-          </Tabs.Item>
+          </Tabs.Item> */}
           <Tabs.Item
             title="Información principal"
-            /* active={tab === CourseTab.ACTIVE || tab === ''} */
           >
             <table className="custom-table mb-6">
               <thead>
@@ -80,15 +78,21 @@ const CoursesPage = () => {
                     <tr key={course.id} className="border-b border-gray-200">
                       <td>{course.id}</td>
                       <td className="max-w-sm">{course.name}</td>
-                      <td className="w-[15%]">
-                        2
-                      </td>
+                      <td className="w-[15%]">{course.numClasses}</td>
                       <td>
-                        3
+                        {course.includes && course.includes.trim() !== '' ? (
+                          <List>
+                            {course.includes.split(',').map((item, index) => (
+                              <List.Item icon={IconList} key={index}>
+                                {item.trim()}
+                              </List.Item>
+                            ))}
+                          </List>
+                        ) : (
+                          <p>No hay elementos incluidos.</p>
+                        )}
                       </td>
-                      <td>
-                        12:15 horas
-                      </td>
+                      <td>{course.totalClassTime}</td>
                       <td>
                         <div className="border-l border-l-gray-300 flex justify-center">
                           <Menu

@@ -21,12 +21,20 @@ import {
 } from '@/assets/icons'
 import { MenuOptions } from '@/@common/types/Menu'
 
-const RegisterTeacherModal = lazy(() => import('../components/register-teacher-modal'))
-const TeacherDetailsDrawer  = lazy(() => import('../components/teacher-details-drawer'))
+const RegisterTeacherModal = lazy(
+  () => import('../components/register-teacher-modal')
+)
+const TeacherDetailsDrawer = lazy(
+  () => import('../components/teacher-details-drawer')
+)
 
 const CoursesPage = () => {
   const { show, open, close } = useShow()
-  const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
+  const {
+    show: showDetailsDrawer,
+    open: openDetailsDrawer,
+    close: closeDetailsDrawer
+  } = useShow()
   const teachers = useDocentStore((state) => state.teachers)
   const { isLoading } = useDocents(1, 1000)
   const options: MenuOptions[] = [
@@ -114,7 +122,10 @@ const CoursesPage = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            <IconWhatsapp size={18} className="text-green-600" />
+                            <IconWhatsapp
+                              size={18}
+                              className="text-green-600"
+                            />
                           </a>
                         )}
                         {docent.socialMedia.x && (
@@ -159,7 +170,12 @@ const CoursesPage = () => {
                     )}
                   </td>
                   <td>
-                    <Menu variant={'white'} activator={<IconOptions />} size="xs" options={options} />
+                    <Menu
+                      variant={'white'}
+                      activator={<IconOptions />}
+                      size="xs"
+                      options={options}
+                    />
                   </td>
                 </tr>
               ))}
@@ -169,10 +185,7 @@ const CoursesPage = () => {
 
       {show && (
         <Suspense fallback={<LoadingModal />}>
-          <RegisterTeacherModal
-            isOpen={show}
-            onClose={close}
-          />
+          <RegisterTeacherModal isOpen={show} onClose={close} />
         </Suspense>
       )}
 

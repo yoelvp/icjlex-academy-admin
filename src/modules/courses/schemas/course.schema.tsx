@@ -37,7 +37,7 @@ export const courseSchema = object().shape({
       'El precio debe ser un número con hasta dos decimales'
     )
     .optional(),
-  schedulePublication: boolean().default(false),
+  isActive: boolean().default(false),
   publicationDate: mixed()
     .test(
       'isValidDate',
@@ -46,11 +46,11 @@ export const courseSchema = object().shape({
         value === '' ||
         (typeof value === 'string' && !isNaN(Date.parse(value))) ||
         value instanceof Date
-    )
+    ).nullable()
     .transform((value) => {
       return typeof value === 'string' && value !== '' ? new Date(value) : value
     })
-    .when('schedulePublication', {
+    .when('isActive', {
       is: true,
       then: (schema) => schema.required('La fecha de publicación es obligatoria cuando se programa la publicación'),
       otherwise: (schema) => schema.notRequired().nullable().optional()

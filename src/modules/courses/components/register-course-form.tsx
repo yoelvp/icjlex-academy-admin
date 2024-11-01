@@ -16,6 +16,8 @@ import { useDocentStore } from '@/modules/teachers/store/teachers.store'
 import { useGetAllTeachers } from '@/modules/teachers/hooks/use-get-all-teachers'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 import { Switch } from '@/@common/components'
+import { useCreateCourse } from '../hooks/use-create-courses'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   isOpen: boolean
@@ -24,11 +26,19 @@ interface Props {
   updateCourseId: (id: string) => void
 }
 
-const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateResourceModal }: Props) => {
+const RegisterCourseFormModal = ({
+  isOpen,
+  onClose,
+  updateCourseId
+}: // openCreateResourceModal
+Props) => {
   const [activeTab, setActiveTab] = useState('main')
   const { isLoading: loadingTeacher } = useGetAllTeachers()
   const openConfirmModal = useConfirmModalStore((state) => state.open)
+  const closeConfirmModal = useConfirmModalStore((state) => state.close)
   const teachers = useDocentStore((state) => state.teachers)
+  const navigate = useNavigate()
+  const { createCourse } = useCreateCourse()
   const {
     register,
     handleSubmit,
@@ -48,7 +58,7 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
       objective: '',
       image: File || null,
       price: '',
-      publicationDate: Date || ''
+      publicationDate: ''
     }
   })
 
@@ -78,8 +88,11 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
               content: 'Sí, crear secciones',
               onClick: () => {
                 updateCourseId('12jkjne91829')
+                handleSubmit(handleFormSubmit)()
                 onClose()
-                openCreateResourceModal()
+                navigate('/admin/courses/5')
+                // openCreateResourceModal()
+                closeConfirmModal()
               }
             },
             {
@@ -89,6 +102,8 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
                 console.log(errors)
                 console.log('End Errors')
                 handleSubmit(handleFormSubmit)()
+                closeConfirmModal()
+                onClose()
               }
             }
           ]
@@ -113,9 +128,13 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
     const formattedData = {
       ...data,
       includes: data.includes.map((include) => include.label),
-      youWillLearn: data.youWillLearn.map((include) => include.label)
+      youWillLearn: data.youWillLearn.map((include) => include.label),
+      // isActive: data.isActive,
+      startDate: data.isActive ? data.publicationDate : null
     }
+    delete formattedData.publicationDate
     console.log(formattedData)
+    createCourse(formattedData)
     console.log('Se ejecuto la funcoan para envio de dato')
   }
 
@@ -141,8 +160,14 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
                   <button
                     className={classNames(
                       'inline-block p-4 border-b-2 rounded-none',
-                      { 'text-primary-500 border-b-primary-600': activeTab === tab },
-                      { 'border-b-primary-50/50 hover:text-gray-600 hover:border-b-primary-50': activeTab !== tab }
+                      {
+                        'text-primary-500 border-b-primary-600':
+                          activeTab === tab
+                      },
+                      {
+                        'border-b-primary-50/50 hover:text-gray-600 hover:border-b-primary-50':
+                          activeTab !== tab
+                      }
                     )}
                     type="button"
                     onClick={() => handleTabClick(tab)}
@@ -182,7 +207,7 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
                     </option>
 
                     {!loadingTeacher &&
-                      teachers.map((teacher) => (
+                      teachers?.map((teacher) => (
                         <option
                           key={teacher.id}
                           className="text-sm text-primary-500 border border-primary-400 rounded-lg"
@@ -196,9 +221,7 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
                 </Form.Control>
 
                 <Form.Control>
-                  <Form.Label>
-                    Objetivo
-                  </Form.Label>
+                  <Form.Label>Objetivo</Form.Label>
                   <Form.Input
                     type="text"
                     placeholder="Ingresa el objetivo del curso"
@@ -208,9 +231,7 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
                 </Form.Control>
 
                 <Form.Control>
-                  <Form.Label>
-                    Lo que aprenderá
-                  </Form.Label>
+                  <Form.Label>Lo que aprenderá</Form.Label>
                   <Controller
                     name="youWillLearn"
                     control={control}
@@ -232,9 +253,7 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
                 </Form.Control>
 
                 <Form.Control>
-                  <Form.Label>
-                    Incluye
-                  </Form.Label>
+                  <Form.Label>Incluye</Form.Label>
                   <Controller
                     name="includes"
                     control={control}
@@ -259,9 +278,7 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
             {activeTab === 'description' && (
               <div className="flex" role="tabpanel">
                 <Form.Control>
-                  <Form.Label>
-                    Detalles del curso
-                  </Form.Label>
+                  <Form.Label>Detalles del curso</Form.Label>
                   <Controller
                     name="description"
                     control={control}
@@ -327,14 +344,15 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
                       </Form.Label>
                       <div className="h-10 flex items-center w-full gap-x-4">
                         <Controller
-                          name="schedulePublication"
+                          name="isActive"
                           control={control}
-                          render={({ field }) => (
-                            <Switch {...field} />
-                          )}
+                          render={({ field }) => <Switch {...field} />}
                         />
-                        {watch('schedulePublication') && (
-                          <Form.Input type="date" {...register('publicationDate')} />
+                        {watch('isActive') && (
+                          <Form.Input
+                            type="date"
+                            {...register('publicationDate')}
+                          />
                         )}
                       </div>
                       <Form.Error hasError={errors.publicationDate?.message} />
@@ -364,3 +382,39 @@ const RegisterCourseFormModal = ({ isOpen, onClose, updateCourseId, openCreateRe
 }
 
 export default RegisterCourseFormModal
+
+/*
+{
+    "isActive": false,
+    "price": "120.00",
+    "image": {},
+    "description": "<p>bla bla bla</p>",
+    "includes": [
+        "bla"
+    ],
+    "youWillLearn": [
+        "bla bla"
+    ],
+    "objective": "Hacer un test",
+    "docentId": "74542e48-c7d9-46e0-9d79-795ed4f0162e",
+    "name": "Test01",
+    "startDate": null
+
+    {
+    "isActive": false,
+    "price": "120.00",
+    "image": {},
+    "description": "<p>bqfq</p>",
+    "includes": [
+        "nj"
+    ],
+    "youWillLearn": [
+        "dkn",
+        "db"
+    ],
+    "objective": "qñd",
+    "docentId": "74542e48-c7d9-46e0-9d79-795ed4f0162e",
+    "name": "test",
+    "startDate": null
+}
+} */

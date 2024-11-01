@@ -1,38 +1,36 @@
-import { Course, CourseResult, RegisterCourseForm } from '../types/Course'
+import {
+  Course,
+  CourseInfomation,
+  CourseResult,
+  RegisterCourseForm
+} from '../types/Course'
 import { API_URL } from '@/@common/env'
 import { ResponseData } from '@/@common/types/ResponseData'
 import { axios } from '@/lib'
+import { formatDate } from '../utils/format-date'
 
 export const addCourseService = (course: RegisterCourseForm) => {
   const formData = new FormData()
 
   const priceAsNumber = parseFloat(course.price ?? '0')
 
-  // TODO: Pasar la función a una util
-  const formatDate = (date: Date | ''): string => {
-    if (date === '') return ''
-
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-
-    return `${year}-${month}-${day}`
-  }
-
   // Uso del formato con solo Date o cadena vacía
-  const formattedStartDate = formatDate(course.publicationDate as Date | '')
-
-  // Aquí no debería dar error
+  const formattedStartDate = formatDate(course.publicationDate as Date | null)
 
   formData.append('name', course.name)
   formData.append('docentId', course.docentId)
   formData.append('objective', course.objective)
   formData.append('price', priceAsNumber.toString())
   formData.append('includes', JSON.stringify(course.includes))
-  formData.append('includes', JSON.stringify(course.youWillLearn))
-  formData.append('publicationDate', formattedStartDate)
+  formData.append('youWillLearn', JSON.stringify(course.youWillLearn))
+  // Solo añade publicationDate si formattedStartDate no es null
+  if (formattedStartDate !== null) {
+    formData.append('publicationDate', formattedStartDate)
+  } else {
+    formData.append('publicationDate', '') // O, puedes omitir este campo por completo
+  }
 
-  const imageFile = course.image // Cambia esto si `data.image` no es la fuente correcta
+  const imageFile = course.image
 
   if (imageFile && imageFile instanceof File) {
     formData.append('image', imageFile)
@@ -42,7 +40,7 @@ export const addCourseService = (course: RegisterCourseForm) => {
     return
   }
 
-  return axios.post<CourseResult>(`${API_URL}/courses`, formData, {
+  return axios.post<CourseResult>('/courses', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -67,4 +65,16 @@ export const updateCourseService = async (
   courseData: Partial<Course>
 ) => {
   return await axios.patch(`${API_URL}/courses/${courseId}`, courseData)
+}
+
+export const getCoursesInformation = async (page: number, size: number) => {
+  return await axios.get<ResponseData<CourseInfomation>>(
+    `${API_URL}/courses/details`,
+    {
+      params: {
+        page,
+        size
+      }
+    }
+  )
 }

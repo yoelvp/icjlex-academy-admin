@@ -85,3 +85,6 @@ export {
 export {
   GoHome as IconHome
 } from 'react-icons/go'
+export {
+  HiCheckCircle as IconList
+} from 'react-icons/hi'

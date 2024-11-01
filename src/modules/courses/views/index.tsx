@@ -4,6 +4,7 @@ import {
   IconDelete,
   IconEdit,
   IconEye,
+  IconOptions,
   IconSearch
 } from '@/assets/icons'
 import Form from '@/@common/components/form'
@@ -18,43 +19,67 @@ import { UseCourseStore } from '../store/course.store'
 import { LoadingModal, Menu } from '@/@common/components'
 import { formatCurrency } from '@/@common/utils/currencies'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
+import { MenuOptions } from '@/@common/types/Menu'
 
-const RegisterCourseForm = lazy(() => import('../components/register-course-form'))
-const ResourcesFromCourse = lazy(() => import('../components/resources-from-course'))
+const RegisterCourseForm = lazy(
+  () => import('../components/register-course-form')
+)
+const ResourcesFromCourse = lazy(
+  () => import('../components/resources-from-course')
+)
+
+const CourseDetailsDrawer = lazy(
+  () => import('../components/course-details-drawer')
+)
 
 const CoursesPage = () => {
-  /* const [loading, setLoading] = useState(false) */
-  /* const [isResourcesOpen, setIsResourcesOpen] = useState(false) */
   const [courseCreatedId, setCourseCreatedId] = useState<string | null>(null)
   const { show, open, close } = useShow()
-  const { show: showResourcesModal, open: openResourcesModal, close: closeResourcesModal } = useShow()
+  const {
+    show: showResourcesModal,
+    open: openResourcesModal,
+    close: closeResourcesModal
+  } = useShow()
   const { tab, handleTabIndex } = useCourseUI()
   const { isLoading } = useCourses(1, 10)
   const courses = UseCourseStore((state) => state.courses)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
+  const {
+    show: showDetailsDrawer,
+    open: openDetailsDrawer,
+    close: closeDetailsDrawer
+  } = useShow()
 
-  // const courseId = UseCourseStore((state) => state.courseId)
-
-  /* const { createCourse } = useCreateCourse() */
+  const options: MenuOptions[] = [
+    {
+      label: 'Agregar detalles',
+      icon: IconEye,
+      href: '/admin/courses/5'
+    },
+    {
+      label: 'Ver detalles',
+      icon: IconEye,
+      onClick: openDetailsDrawer
+    },
+    {
+      label: 'Editar',
+      icon: IconEdit,
+      onClick: () => console.log('Editar')
+    },
+    {
+      label: 'Eliminar',
+      icon: IconDelete,
+      isDelete: true,
+      dividerTop: true,
+      onClick: () => console.log('delete course')
+      // deleteStudent(student.id, 'active'),
+      // isLoading: isLoadingDelete
+    }
+  ]
 
   const handleRegisterCourseClose = () => {
     close() // Cierra el modal de registro de curso
   }
-
-  /* const handleSubmit = async (data) => { */
-  /*   createCourse(data) */
-  /*   console.log(data) */
-  /*   setLoading(true) // Muestra el loader */
-  /**/
-  /*   await new Promise((resolve) => setTimeout(resolve, 500)) */
-  /**/
-  /*   setLoading(false) // Oculta el spinner */
-  /*   setIsResourcesOpen(true) // Abre el modal de recursos */
-  /* } */
-
-  /* const handleResourcesClose = () => { */
-  /*   setIsResourcesOpen(false) */
-  /* } */
 
   const handleCreatedCourseId = (id: string) => {
     setCourseCreatedId(id)
@@ -121,27 +146,9 @@ const CoursesPage = () => {
                         <div className="border-l border-l-gray-300 flex justify-center">
                           <Menu
                             variant="white"
-                            options={[
-                              {
-                                label: 'Detalles del curso',
-                                icon: IconEye,
-                                href: `/admin/courses/${course.id}`
-                              },
-                              {
-                                label: 'Editar',
-                                icon: IconEdit,
-                                onClick: () => console.log('Editar')
-                              },
-                              {
-                                label: 'Eliminar',
-                                icon: IconDelete,
-                                isDelete: true,
-                                dividerTop: true,
-                                onClick: () => console.log('delete course')
-                                // deleteStudent(student.id, 'active'),
-                                // isLoading: isLoadingDelete
-                              }
-                            ]}
+                            activator={<IconOptions />}
+                            size="xs"
+                            options={options}
                           />
                         </div>
                       </td>
@@ -151,10 +158,7 @@ const CoursesPage = () => {
             </table>
           </Tabs.Item>
 
-          <Tabs.Item
-            title="Próximos"
-            active={tab === CourseTab.INACTIVE}
-          >
+          <Tabs.Item title="Próximos" active={tab === CourseTab.INACTIVE}>
             <table className="custom-table">
               <thead>
                 <tr>
@@ -170,27 +174,13 @@ const CoursesPage = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    01
-                  </td>
-                  <td>
-                    Image
-                  </td>
-                  <td>
-                    Últimas modificatorias con código procesal penal
-                  </td>
-                  <td>
-                    Sergio Chavez Panduro
-                  </td>
-                  <td>
-                    20 de noviembre, 2024
-                  </td>
-                  <td>
-                    08:00 p.m.
-                  </td>
-                  <td>
-                    {formatCurrency(15)}
-                  </td>
+                  <td>01</td>
+                  <td>Image</td>
+                  <td>Últimas modificatorias con código procesal penal</td>
+                  <td>Sergio Chavez Panduro</td>
+                  <td>20 de noviembre, 2024</td>
+                  <td>08:00 p.m.</td>
+                  <td>{formatCurrency(15)}</td>
                   <td>
                     <div className="border-l border-l-gray-300 flex justify-center">
                       <Menu
@@ -201,7 +191,8 @@ const CoursesPage = () => {
                             icon: IconEye,
                             onClick: () => {
                               openConfirmModal({
-                                title: '¿Está seguro que quiere publicar este curso?',
+                                title:
+                                  '¿Está seguro que quiere publicar este curso?',
                                 subTitle: 'Esta acción no se puede deshacer.',
                                 options: {
                                   content: 'Sí',
@@ -224,7 +215,8 @@ const CoursesPage = () => {
                             dividerTop: true,
                             onClick: () => {
                               openConfirmModal({
-                                title: '¿Está seguro que quiere eliminar este curso?',
+                                title:
+                                  '¿Está seguro que quiere eliminar este curso?',
                                 subTitle: 'Esta acción no se puede deshacer.',
                                 options: {
                                   content: 'Sí',
@@ -263,6 +255,15 @@ const CoursesPage = () => {
             isOpen={showResourcesModal}
             onClose={closeResourcesModal}
             courseCreatedId={courseCreatedId ?? ''}
+          />
+        </Suspense>
+      )}
+
+      {showDetailsDrawer && (
+        <Suspense fallback={<div children="Cargando..." />}>
+          <CourseDetailsDrawer
+            show={showDetailsDrawer}
+            close={closeDetailsDrawer}
           />
         </Suspense>
       )}

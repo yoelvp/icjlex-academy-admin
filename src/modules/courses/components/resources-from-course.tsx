@@ -11,6 +11,7 @@ import { useCreateContentFromCourse } from '../hooks/content/use-create-content-
 import { UseCourseStore } from '../store/course.store'
 import { toast } from 'sonner'
 import { ContentCourse } from '../types/Course'
+import { addContentFromService } from '../service/content-from-course.service'
 
 interface Props {
   isOpen: boolean
@@ -33,15 +34,15 @@ const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
     resolver: yupResolver(resourceCourseSchema),
     defaultValues: {
       content: {
-        title: '', // Cambia aquí a un objeto con title
-        details: [{ titleClass: '', duration: '', url: '' }] // Aquí es un array de objetos
+        title: '',
+        details: [{ titleClass: '', duration: '', url: '' }]
       }
     }
   })
 
-  const { fields } = useFieldArray({
+  const { append, remove } = useFieldArray({
     control,
-    name: 'content.details' // Cambia aquí para que se refiera a 'details'
+    name: 'content.details'
   })
 
   const [sections, setSections] = useState([{ title: '', isEditing: false }])
@@ -56,28 +57,24 @@ const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
   const handleAddSection = () => {
     const newSection = { title: '', isEditing: false }
     setSections([...sections, newSection])
+    append({ titleClass: '', duration: '', url: '' }) // Agrega un nuevo campo en details
   }
 
   const handleRemoveSection = (index: number) => {
     setSections(sections.filter((_, i) => i !== index))
+    remove(index) // Remueve el campo correspondiente en details
   }
 
   const onSubmit = async (data: ContentCourse) => {
+    console.log(data)
+
     if (!courseId) {
       toast.error('No se ha creado un curso para agregar contenido!')
 
       return
     }
-
-    console.log(data)
-
-    /* const resource = { */
-    /*   title: data.content.title, // Accede a title directamente desde el objeto content */
-    /*   details: data.content.details // Usa directamente details del objeto content */
-    /* } */
-
     try {
-      /* await addContent(resource) */
+      await addContentFromService(courseId, data)
       reset()
       onClose()
       toast.success('Contenido agregado exitosamente!')
@@ -94,32 +91,26 @@ const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
       onClose={onClose}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Control>
-          <Form.Label>Título del contenido</Form.Label>
-          <Form.Input
-            {...register('content.title')} // Registra el título del contenido
-            placeholder="Título del contenido"
-          />
-          <Form.Error hasError={errors.content?.title?.message} />
-        </Form.Control>
         <Accordion flush>
           {sections.map((section, sectionIndex) => (
             <Accordion.Panel key={sectionIndex}>
               <div className="bg-primary-50 flex">
                 <Accordion.Title className="bg-transparent border-none !rounded-none !focus:ring-0 !focus:outline-none w-full">
-                  <div className="flex items-center max-w-full ">
+                  <div className="flex items-center max-w-full">
                     {section.isEditing ? (
                       <input
-                        className="border p-1 mr-2 w-full "
+                        className="border p-1 mr-2 w-full"
                         value={section.title}
                         onChange={(e) => {
                           const updatedSections = [...sections]
                           updatedSections[sectionIndex].title = e.target.value
                           setSections(updatedSections)
-                          setValue(
-                            `content.details.${sectionIndex}.titleClass`,
-                            e.target.value
-                          )
+                          setValue('content.title', e.target.value) // Actualiza 'content.title' cada vez que cambia
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            toggleEdit(sectionIndex) // Cambia de vuelta a modo de visualización
+                          }
                         }}
                         autoFocus
                       />
@@ -135,6 +126,7 @@ const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
                     />
                   </div>
                 </Accordion.Title>
+
                 <Button type="button" onClick={handleAddSection}>
                   <IconAdd />
                 </Button>
@@ -149,54 +141,46 @@ const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
                 )}
               </div>
               <Accordion.Content>
-                {fields.map((_, detailIndex) => (
-                  <div key={detailIndex}>
-                    <Form.Control>
-                      <Form.Label>Nombre de la clase</Form.Label>
-                      <Form.Input
-                        {...register(
-                          `content.details.${detailIndex}.titleClass`
-                        )}
-                        placeholder="Nombre de la clase"
-                      />
-                      <Form.Error
-                        hasError={
-                          errors.content?.details?.[detailIndex]?.titleClass
-                            ?.message
-                        }
-                      />
-                    </Form.Control>
-                    <div className="flex mt-4 gap-4">
-                      <Form.Control>
-                        <Form.Label>Duración</Form.Label>
-                        <Form.Input
-                          {...register(
-                            `content.details.${detailIndex}.duration`
-                          )}
-                          placeholder="Duración de la clase"
-                        />
-                        <Form.Error
-                          hasError={
-                            errors.content?.details?.[detailIndex]?.duration
-                              ?.message
-                          }
-                        />
-                      </Form.Control>
-                      <Form.Control>
-                        <Form.Label>Url del video</Form.Label>
-                        <Form.Input
-                          {...register(`content.details.${detailIndex}.url`)}
-                          placeholder="URL del video"
-                        />
-                        <Form.Error
-                          hasError={
-                            errors.content?.details?.[detailIndex]?.url?.message
-                          }
-                        />
-                      </Form.Control>
-                    </div>
-                  </div>
-                ))}
+                <Form.Control>
+                  <Form.Label>Nombre de la clase</Form.Label>
+                  <Form.Input
+                    {...register(`content.details.${sectionIndex}.titleClass`)}
+                    placeholder="Nombre de la clase"
+                  />
+                  <Form.Error
+                    hasError={
+                      errors.content?.details?.[sectionIndex]?.titleClass
+                        ?.message
+                    }
+                  />
+                </Form.Control>
+                <div className="flex mt-4 gap-4">
+                  <Form.Control>
+                    <Form.Label>Duración</Form.Label>
+                    <Form.Input
+                      {...register(`content.details.${sectionIndex}.duration`)}
+                      placeholder="Duración de la clase"
+                    />
+                    <Form.Error
+                      hasError={
+                        errors.content?.details?.[sectionIndex]?.duration
+                          ?.message
+                      }
+                    />
+                  </Form.Control>
+                  <Form.Control>
+                    <Form.Label>Url del video</Form.Label>
+                    <Form.Input
+                      {...register(`content.details.${sectionIndex}.url`)}
+                      placeholder="URL del video"
+                    />
+                    <Form.Error
+                      hasError={
+                        errors.content?.details?.[sectionIndex]?.url?.message
+                      }
+                    />
+                  </Form.Control>
+                </div>
               </Accordion.Content>
             </Accordion.Panel>
           ))}
