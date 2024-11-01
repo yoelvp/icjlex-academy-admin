@@ -4,7 +4,7 @@ import Form from '@/@common/components/form'
 import { useShow } from '@/@common/hooks/use-show'
 import { LoadingModal, Menu } from '@/@common/components'
 import { TableLoading } from '@/@common/components/table-loading'
-import { useDocentStore } from '../store/teachers.store'
+import { useTeacherStore } from '../store/teachers.store'
 import { useDocents } from '../hooks/use-docents'
 import {
   IconAdd,
@@ -19,45 +19,19 @@ import {
   IconX,
   IconYoutube
 } from '@/assets/icons'
-import { MenuOptions } from '@/@common/types/Menu'
+import { getFullName } from '@/@common/utils/get-full-names'
 
-const RegisterTeacherModal = lazy(
-  () => import('../components/register-teacher-modal')
-)
-const TeacherDetailsDrawer = lazy(
-  () => import('../components/teacher-details-drawer')
-)
+const RegisterTeacherModal = lazy(() => import('../components/register-teacher-modal'))
+const TeacherDetailsDrawer = lazy(() => import('../components/teacher-details-drawer'))
+const UpdateImageModal = lazy(() => import('../components/update-image-modal'))
 
 const CoursesPage = () => {
   const { show, open, close } = useShow()
-  const {
-    show: showDetailsDrawer,
-    open: openDetailsDrawer,
-    close: closeDetailsDrawer
-  } = useShow()
-  const teachers = useDocentStore((state) => state.teachers)
+  const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
+  const { show: showUpdateImageModal, open: openUpdateImageModal, close: closeUpdateImageModal } = useShow()
+  const teachers = useTeacherStore((state) => state.teachers)
   const { isLoading } = useDocents(1, 1000)
-  const options: MenuOptions[] = [
-    {
-      label: 'Ver detalles',
-      icon: IconEyeOutline,
-      onClick: openDetailsDrawer
-    },
-    {
-      label: 'Actualizar',
-      icon: IconEdit,
-      onClick: () => {
-        console.log('Editar')
-      }
-    },
-    {
-      label: 'Eliminar',
-      icon: IconDelete,
-      onClick: () => console.log('Eliminar'),
-      isDelete: true,
-      dividerTop: true
-    }
-  ]
+  const setTeacher = useTeacherStore((state) => state.setTeacher)
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -82,103 +56,132 @@ const CoursesPage = () => {
         <table className="custom-table">
           <thead>
             <tr>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
+              <th>N°</th>
+              <th>Nombres</th>
               <th>Especialidades</th>
               <th>Profesion</th>
-              <th>Sobre mí</th>
-              <th>Redes Sociales</th>
+              <th>Redes sociales</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <TableLoading numCols={8} isLoading={isLoading} />
-            {!isLoading &&
-              teachers?.map((docent) => (
-                <tr key={docent.id} className="border-b border-gray-200">
-                  <td>
+            <TableLoading numCols={6} isLoading={isLoading} />
+            {!isLoading && teachers?.map((teacher, index) => (
+              <tr key={teacher.id} className="border-b border-gray-200">
+                <td>
+                  {index + 1}
+                </td>
+                <td className="max-w-[320px] overflow-hidden">
+                  <div className="w-full h-full relative group/image flex justify-start items-center gap-x-4">
                     <img
-                      src={docent.imageUrl || '/placeholder-image.png'}
-                      alt={`${docent.firstName} ${docent.lastName}`}
-                      className="w-16 h-16 object-cover rounded-full"
+                      src={teacher.imageUrl || '/placeholder-image.png'}
+                      alt={`${teacher.firstName} ${teacher.lastName}`}
+                      className="w-10 h-10 object-cover object-center rounded-full border border-primary-500/25"
                     />
-                  </td>
-                  <td>{docent.firstName}</td>
-                  <td>{docent.lastName}</td>
-                  <td className="max-w-md">
-                    {docent.specialties ? docent.specialties.join(', ') : '-'}
-                  </td>
-                  <td>{docent.profession}</td>
-                  <td className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
-                    {docent.about}
-                  </td>
-                  <td>
-                    {docent.socialMedia ? (
-                      <div className="flex space-x-2">
-                        {docent.socialMedia.whatsapp && (
-                          <a
-                            href={docent.socialMedia.whatsapp}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconWhatsapp
-                              size={18}
-                              className="text-green-600"
-                            />
-                          </a>
-                        )}
-                        {docent.socialMedia.x && (
-                          <a
-                            href={docent.socialMedia.x}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconX size={18} />
-                          </a>
-                        )}
-                        {docent.socialMedia.facebook && (
-                          <a
-                            href={docent.socialMedia.facebook}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconFacebook size={18} className="text-blue-600" />
-                          </a>
-                        )}
-                        {docent.socialMedia.linkedin && (
-                          <a
-                            href={docent.socialMedia.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconLinkedin size={18} className="text-blue-800" />
-                          </a>
-                        )}
-                        {docent.socialMedia.youtube && (
-                          <a
-                            href={docent.socialMedia.youtube}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <IconYoutube size={18} className="text-red-600" />
-                          </a>
-                        )}
-                      </div>
-                    ) : (
-                      <span>No disponible</span>
-                    )}
-                  </td>
-                  <td>
-                    <Menu
-                      variant={'white'}
-                      activator={<IconOptions />}
-                      size="xs"
-                      options={options}
-                    />
-                  </td>
-                </tr>
-              ))}
+                    <span className="w-full text-nowrap text-ellipsis">
+                      {getFullName(teacher)}
+                    </span>
+                    <button
+                      onClick={() => {
+                        setTeacher(teacher)
+                        openUpdateImageModal()
+                      }}
+                      className="hidden absolute top-2 left-0 border border-primary-500/25 bg-zinc-800/80 text-white rounded-sm px-1 group-hover/image:block"
+                    >
+                      <IconEdit size="22" />
+                    </button>
+                  </div>
+                </td>
+                <td className="max-w-md">
+                  {teacher.specialties ? teacher.specialties.join(', ') : '-'}
+                </td>
+                <td>{teacher.profession}</td>
+                <td>
+                  {teacher.socialMedia ? (
+                    <div className="flex space-x-2">
+                      {teacher.socialMedia.whatsapp && (
+                        <a
+                          href={teacher.socialMedia.whatsapp}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconWhatsapp
+                            size={18}
+                            className="text-green-600"
+                          />
+                        </a>
+                      )}
+                      {teacher.socialMedia.x && (
+                        <a
+                          href={teacher.socialMedia.x}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconX size={18} />
+                        </a>
+                      )}
+                      {teacher.socialMedia.facebook && (
+                        <a
+                          href={teacher.socialMedia.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconFacebook size={18} className="text-blue-600" />
+                        </a>
+                      )}
+                      {teacher.socialMedia.linkedin && (
+                        <a
+                          href={teacher.socialMedia.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconLinkedin size={18} className="text-blue-800" />
+                        </a>
+                      )}
+                      {teacher.socialMedia.youtube && (
+                        <a
+                          href={teacher.socialMedia.youtube}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconYoutube size={18} className="text-red-600" />
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <span>No disponible</span>
+                  )}
+                </td>
+                <td>
+                  <Menu
+                    variant={'white'}
+                    activator={<IconOptions />}
+                    size="xs"
+                    options={[
+                      {
+                        label: 'Ver detalles',
+                        icon: IconEyeOutline,
+                        onClick: openDetailsDrawer
+                      },
+                      {
+                        label: 'Actualizar',
+                        icon: IconEdit,
+                        onClick: () => {
+                          console.log('Editar')
+                        }
+                      },
+                      {
+                        label: 'Eliminar',
+                        icon: IconDelete,
+                        onClick: () => console.log('Eliminar'),
+                        isDelete: true,
+                        dividerTop: true
+                      }
+                    ]}
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -194,6 +197,17 @@ const CoursesPage = () => {
           <TeacherDetailsDrawer
             show={showDetailsDrawer}
             close={closeDetailsDrawer}
+          />
+        </Suspense>
+      )}
+      {showUpdateImageModal && (
+        <Suspense fallback={<LoadingModal />}>
+          <UpdateImageModal
+            show={showUpdateImageModal}
+            close={() => {
+              closeUpdateImageModal()
+              setTeacher(null)
+            }}
           />
         </Suspense>
       )}

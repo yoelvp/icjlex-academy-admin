@@ -102,6 +102,12 @@ const StudentsPage = () => {
               </thead>
               <tbody>
                 <TableLoading numCols={6} isLoading={isLoadingActive} />
+                <TableEmpty
+                  show={activeStudents.length < 1}
+                  numCols={6}
+                  isLoading={isLoadingActive}
+                  message="No hay alumnos registrados"
+                />
                 {!isLoadingActive && activeStudents.map((student) => (
                   <tr key={student.id}>
                     <td>

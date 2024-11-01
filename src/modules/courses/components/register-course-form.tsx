@@ -12,7 +12,7 @@ import Button from '@/@common/components/button'
 import TextEditor from '@/@common/components/text-editor'
 import ImageUploader from './image-uploader'
 import { courseSchema } from '../schemas/course.schema'
-import { useDocentStore } from '@/modules/teachers/store/teachers.store'
+import { useTeacherStore } from '@/modules/teachers/store/teachers.store'
 import { useGetAllTeachers } from '@/modules/teachers/hooks/use-get-all-teachers'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 import { Switch } from '@/@common/components'
@@ -36,7 +36,7 @@ Props) => {
   const { isLoading: loadingTeacher } = useGetAllTeachers()
   const openConfirmModal = useConfirmModalStore((state) => state.open)
   const closeConfirmModal = useConfirmModalStore((state) => state.close)
-  const teachers = useDocentStore((state) => state.teachers)
+  const teachers = useTeacherStore((state) => state.teachers)
   const navigate = useNavigate()
   const { createCourse } = useCreateCourse()
   const {

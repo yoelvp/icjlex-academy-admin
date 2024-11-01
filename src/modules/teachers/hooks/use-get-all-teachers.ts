@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { useDocentStore } from '../store/teachers.store'
+import { useTeacherStore } from '../store/teachers.store'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { getAllTeachersService } from '@/_services/teachers.service'
 
 export const useGetAllTeachers = () => {
   const { isLoading, loading, loaded } = useLoading()
-  const setTeachers = useDocentStore((state) => state.setTeachers)
+  const setTeachers = useTeacherStore((state) => state.setTeachers)
 
   useEffect(() => {
     fetchTeachers()

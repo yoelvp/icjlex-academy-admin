@@ -2,6 +2,7 @@ import { axios } from '@/lib'
 import { ResponseData } from '@/@common/types/ResponseData'
 import { Teacher } from '@/_models/Teacher.model'
 import { TeacherData } from '@/modules/teachers/types/Docent'
+import { UpdateTeacherImage } from '@/modules/teachers/types/TeacherFormFields'
 
 export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
   const formData = new FormData()
@@ -43,4 +44,19 @@ export const getAllTeachersService = (page: number, size: number) => {
 
 export const getTeacherByIdService = (id: string) => {
   return axios.get(`/docents/${id}`)
+}
+
+// Update image of docent
+export const updateImageTeacherService = (teacherId: string, data?: UpdateTeacherImage) => {
+  const formData = new FormData()
+
+  if (data?.image) {
+    formData.append('image', data.image)
+  }
+
+  return axios.patch<{ teacherId: string, imageUrl?: string }>(`/docents/update-image/${teacherId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 }

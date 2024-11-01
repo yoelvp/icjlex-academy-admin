@@ -7,10 +7,10 @@ import {
   IconTeacher
 } from '@/assets/icons'
 import { UseCourseStore } from '@/modules/courses/store/course.store'
-import { useDocentStore } from '@/modules/teachers/store/teachers.store'
+import { useTeacherStore } from '@/modules/teachers/store/teachers.store'
 
 const DashboardPage = () => {
-  const teachersCounter = useDocentStore((state) => state.pagination.count)
+  const teachersCounter = useTeacherStore((state) => state.pagination.count)
   const coursesCounter = UseCourseStore((state) => state.pagination.count)
   if (!teachersCounter) return
   if (!coursesCounter) return
