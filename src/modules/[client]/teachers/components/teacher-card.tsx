@@ -1,6 +1,7 @@
 import Link from '@/@common/components/link'
 import { Card } from '@/@common/components/card'
 import { IconStar, IconStudent } from '@/assets/icons'
+import { RenderHTML } from '@/@common/components'
 
 export const TeacherCard = ({ teacher }) => {
   const data = [
@@ -67,7 +68,7 @@ export const TeacherCard = ({ teacher }) => {
           </div>
         </article>
         <div className="flex-between flex-col w-full h-[160px]">
-          <p className="text-primary-500 line-clamp-4">{teacher.aboutMe}</p>
+          <RenderHTML content={teacher.about} />
           <Link href={teacher.id} variant="primary.link" className="w-auto">
             Ver perfil
           </Link>

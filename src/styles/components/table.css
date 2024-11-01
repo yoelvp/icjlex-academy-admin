@@ -14,7 +14,7 @@
   }
 
   .custom-table tbody tr td {
-    @apply py-3 px-6;
+    @apply py-3 px-6 border-b border-b-primary-100;
   }
 
   .custom-table tbody tr:nth-child(even) {
@@ -22,11 +22,11 @@
   }
 
   .custom-table tbody tr:nth-child(odd) {
-    @apply bg-primary-50;
+    @apply bg-primary-50/15;
   }
 
   .custom-table tbody tr:hover {
-    @apply bg-primary-100/50;
+    @apply bg-primary-100/35;
   }
 
   .custom-table tbody tr td:last-child {

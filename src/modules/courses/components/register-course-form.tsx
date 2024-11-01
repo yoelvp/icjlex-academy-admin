@@ -129,7 +129,7 @@ Props) => {
       ...data,
       includes: data.includes.map((include) => include.label),
       youWillLearn: data.youWillLearn.map((include) => include.label),
-      isActive: data.isActive ? 'true' : 'false',
+      // isActive: data.isActive,
       startDate: data.isActive ? data.publicationDate : null
     }
     delete formattedData.publicationDate
@@ -382,3 +382,39 @@ Props) => {
 }
 
 export default RegisterCourseFormModal
+
+/*
+{
+    "isActive": false,
+    "price": "120.00",
+    "image": {},
+    "description": "<p>bla bla bla</p>",
+    "includes": [
+        "bla"
+    ],
+    "youWillLearn": [
+        "bla bla"
+    ],
+    "objective": "Hacer un test",
+    "docentId": "74542e48-c7d9-46e0-9d79-795ed4f0162e",
+    "name": "Test01",
+    "startDate": null
+
+    {
+    "isActive": false,
+    "price": "120.00",
+    "image": {},
+    "description": "<p>bqfq</p>",
+    "includes": [
+        "nj"
+    ],
+    "youWillLearn": [
+        "dkn",
+        "db"
+    ],
+    "objective": "qñd",
+    "docentId": "74542e48-c7d9-46e0-9d79-795ed4f0162e",
+    "name": "test",
+    "startDate": null
+}
+} */

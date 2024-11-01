@@ -11,6 +11,8 @@ import { IconLockCloseOutline, IconMail } from '@/assets/icons'
 import { LoginFormSchema } from '../types/Login'
 import { loginFormSchema } from '../schemas/login.schema'
 import { useAuth } from '../hooks/use-auth'
+import { whatsappMessage } from '@/@common/utils/whatsapp'
+import { APP_NAME_WITHOUT_AMP, WHATSAPP_ADMIN_NUMBER_PHONE } from '@/@common/env'
 
 const LoginPage = () => {
   const { isLoading, login } = useAuth()
@@ -86,7 +88,10 @@ const LoginPage = () => {
             ¿No tienes una cuenta?
           </span>
           <a
-            href="https://wa.me/51942208501?text=Estoy%interesado%en%estudiar%en%ICJ%LEX%&%CARRANZA%CONSULTORIA"
+            href={whatsappMessage({
+              message:`Quiero registrarme en ${APP_NAME_WITHOUT_AMP} y poder adquirir uno de sus cursos.`,
+              phoneNumber: WHATSAPP_ADMIN_NUMBER_PHONE
+            })}
             className="text-primary-700 font-semibold underline hover:no-underline"
             target="_blank"
             rel="noopener noreferrer"

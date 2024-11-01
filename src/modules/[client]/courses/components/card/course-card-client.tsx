@@ -10,7 +10,7 @@ interface CourseCardProps {
 }
 
 export const CourseCardFind: FC<CourseCardProps> = ({ course }) => {
-  const formattedPrice = useFormattedPrice(course.price)
+  const formattedPrice = useFormattedPrice(course.price ?? '')
   if (!course) {
     return null // O manejar un estado de carga/placeholder
   }

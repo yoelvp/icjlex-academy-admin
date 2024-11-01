@@ -15,6 +15,7 @@ import { Pagination } from '@/@common/components/pagination'
 import { useParams } from 'react-router-dom'
 import Link from '@/@common/components/link'
 import { useTeachersById } from '../hooks/use-teachers-by-id'
+import { RenderHTML } from '@/@common/components'
 
 const TeacherDetailsPage = () => {
   const { id } = useParams()
@@ -77,8 +78,7 @@ const TeacherDetailsPage = () => {
             <div className="flex-col-start gap-y-8">
               <article className="flex-col-start gap-y-4">
                 <SectionHeading>Sobre mí</SectionHeading>
-
-                <p>{teachers?.aboutMe}</p>
+                <RenderHTML content={teachers?.aboutMe ?? ''}/>
               </article>
 
               <article className="flex-col-start gap-y-4">

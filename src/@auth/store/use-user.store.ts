@@ -2,6 +2,7 @@ import type { User } from '../models/User'
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { AuthStorageKeys } from '../enums/storage-keys.enum'
 
 interface UseUserStore {
   user: User | null
@@ -14,6 +15,6 @@ export const useUserStore = create<UseUserStore>()(persist(
     setUser: (user: User | null) => set({ user })
   }),
   {
-    name: 'user'
+    name: AuthStorageKeys.USER
   }
 ))
