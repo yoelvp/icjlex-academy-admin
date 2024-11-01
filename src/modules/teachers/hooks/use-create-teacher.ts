@@ -15,9 +15,13 @@ export const useCreateTeacher = () => {
     try {
       loading()
       const { data: newTeacher, status } = await createTeacherService(docent)
+      let oldTeachers = teachers
 
       if (status === HttpStatusCode.Ok) {
-        const oldTeachers = teachers.slice(0, -1)
+        if (teachers.length == 10) {
+          oldTeachers = teachers.slice(0, -1)
+        }
+
         setTeachers([newTeacher, ...oldTeachers])
         toast.success('Se creó un nuevo docente')
       }
