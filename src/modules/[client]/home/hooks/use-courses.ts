@@ -17,7 +17,7 @@ export const useCourses = () => {
       const { data, status } = await getCoursesService()
 
       if (status === HttpStatus.OK) {
-        setCourses(data)
+        setCourses(data.results)
       }
     } catch (error) {
       loadedCourses()
