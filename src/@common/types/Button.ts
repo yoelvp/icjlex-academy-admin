@@ -25,6 +25,8 @@ export interface ButtonBaseProps extends VariantProps<ButtonVariant> {
   className?: string
   children?: ReactNode
   disabled?: boolean
+  isLoading?: boolean
+  loaderPosition?: LoaderPosition
   htmlType?: 'submit' | 'button' | 'reset'
 }
 
@@ -32,3 +34,8 @@ export interface ButtonBaseProps extends VariantProps<ButtonVariant> {
  * Icon position in Button
  */
 export type IconPosition = 'left' | 'right'
+
+/**
+ * Icon loader pissition in Button
+ */
+export type LoaderPosition = IconPosition
