@@ -15,7 +15,7 @@ interface CourseContent {
 export interface Course {
   id: string
   name: string
-  imageUrl: string
+  imageUrl: string | null
   price: number
   teacher: TeacherBasicData
   valoration: {
