@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense } from 'react'
 import {
   IconAdd,
   IconDelete,
@@ -15,34 +15,20 @@ import { CourseTab } from '../enums/course-tab'
 import { useCourseUI } from '../hooks/use-courses-ui'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useCourses } from '../hooks/use-course'
-// import { UseCourseStore } from '../store/course.store'
+import { UseCourseStore } from '../store/course.store'
 import { LoadingModal, Menu } from '@/@common/components'
 import { formatCurrency } from '@/@common/utils/currencies'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 import { MenuOptions } from '@/@common/types/Menu'
 
-const RegisterCourseForm = lazy(
-  () => import('../components/register-course-form')
-)
-const ResourcesFromCourse = lazy(
-  () => import('../components/resources-from-course')
-)
-
-const CourseDetailsDrawer = lazy(
-  () => import('../components/course-details-drawer')
-)
+const RegisterCourseModal = lazy(() => import('../components/register-course-modal'))
+const CourseDetailsDrawer = lazy(() => import('../components/course-details-drawer'))
 
 const CoursesPage = () => {
-  const [courseCreatedId, setCourseCreatedId] = useState<string | null>(null)
   const { show, open, close } = useShow()
-  const {
-    show: showResourcesModal,
-    open: openResourcesModal,
-    close: closeResourcesModal
-  } = useShow()
   const { tab, handleTabIndex } = useCourseUI()
   const { isLoading } = useCourses(1, 10)
-  // const courses = UseCourseStore((state) => state.courses)
+  const courses = UseCourseStore((state) => state.courses)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
   const {
     show: showDetailsDrawer,
@@ -76,14 +62,6 @@ const CoursesPage = () => {
       // isLoading: isLoadingDelete
     }
   ]
-
-  const handleRegisterCourseClose = () => {
-    close() // Cierra el modal de registro de curso
-  }
-
-  const handleCreatedCourseId = (id: string) => {
-    setCourseCreatedId(id)
-  }
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -126,39 +104,32 @@ const CoursesPage = () => {
               </thead>
               <tbody>
                 <TableLoading numCols={7} isLoading={isLoading} />
-                <td>01</td>
-                <td>Image</td>
-                <td>Últimas modificatorias con código procesal penal</td>
-                <td>Sergio Chavez Panduro</td>
-                <td>20 de noviembre, 2024</td>
-                <td>08:00 p.m.</td>
-                {/* {!isLoading &&
-                  courses?.map((course) => (
-                    <tr key={course.id} className="border-b border-gray-200">
-                      <td>{course.id}</td>
-                      <td className="w-32">
-                        <img
-                          src={course.imageUrl || '/placeholder-image.png'}
-                          alt={`Thumbnail ${course.name}`}
-                          className="w-full h-10 object-cover rounded-xs object-center"
+                {!isLoading && courses?.map((course) => (
+                  <tr key={course.id} className="border-b border-gray-200">
+                    <td>{course.id}</td>
+                    <td className="w-32">
+                      <img
+                        src={course.imageUrl || '/placeholder-image.png'}
+                        alt={`Thumbnail ${course.name}`}
+                        className="w-full h-10 object-cover rounded-xs object-center"
+                      />
+                    </td>
+                    <td className="w-xl">{course.name}</td>
+                    <td>Docent</td>
+                    <td className="w-[15%]">S/. {course.price}</td>
+                    <td>S/. {course.price}</td>
+                    <td>
+                      <div className="border-l border-l-gray-300 flex justify-center">
+                        <Menu
+                          variant="white"
+                          activator={<IconOptions />}
+                          size="xs"
+                          options={options}
                         />
-                      </td>
-                      <td className="w-xl">{course.name}</td>
-                      <td>Docent</td>
-                      <td className="w-[15%]">S/. {course.price}</td>
-                      <td>S/. {course.price}</td>
-                      <td>
-                        <div className="border-l border-l-gray-300 flex justify-center">
-                          <Menu
-                            variant="white"
-                            activator={<IconOptions />}
-                            size="xs"
-                            options={options}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))} */}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
                 <td>
                   <div className="border-l border-l-gray-300 flex justify-center">
                     <Menu
@@ -255,21 +226,9 @@ const CoursesPage = () => {
 
       {show && (
         <Suspense fallback={<LoadingModal />}>
-          <RegisterCourseForm
+          <RegisterCourseModal
             isOpen={show}
-            onClose={handleRegisterCourseClose}
-            openCreateResourceModal={openResourcesModal}
-            updateCourseId={handleCreatedCourseId}
-          />
-        </Suspense>
-      )}
-
-      {showResourcesModal && (
-        <Suspense fallback={<LoadingModal />}>
-          <ResourcesFromCourse
-            isOpen={showResourcesModal}
-            onClose={closeResourcesModal}
-            courseCreatedId={courseCreatedId ?? ''}
+            onClose={close}
           />
         </Suspense>
       )}
