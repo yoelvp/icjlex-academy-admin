@@ -37,7 +37,8 @@ export const courseSchema = object().shape({
       'El precio debe ser un número con hasta dos decimales'
     )
     .optional(),
-  isActive: boolean().default(false),
+  isScheduled: boolean().default(false).optional().nullable(),
+  isFree: boolean().default(false).optional().nullable(),
   publicationDate: mixed()
     .test(
       'isValidDate',
