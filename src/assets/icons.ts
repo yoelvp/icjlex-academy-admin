@@ -30,7 +30,8 @@ export {
   IoPricetagOutline as IconTag,
   IoAddOutline as IconAdd,
   IoEllipsisHorizontal as IconOptions,
-  IoEyeOutline as IconEyeOutline
+  IoEyeOutline as IconEyeOutline,
+  IoTimeOutline as IconTimeOutline
 } from 'react-icons/io5'
 export {
   MdDeleteOutline as IconDelete,
@@ -45,7 +46,8 @@ export {
   FaRegStar as IconStar
 } from 'react-icons/fa'
 export {
-  FaXTwitter as IconX
+  FaXTwitter as IconX,
+  FaGift as IconGift
 } from 'react-icons/fa6'
 export {
   FiYoutube as IconYoutube

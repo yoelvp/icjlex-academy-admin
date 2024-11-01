@@ -15,7 +15,7 @@ import { CourseTab } from '../enums/course-tab'
 import { useCourseUI } from '../hooks/use-courses-ui'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useCourses } from '../hooks/use-course'
-import { UseCourseStore } from '../store/course.store'
+// import { UseCourseStore } from '../store/course.store'
 import { LoadingModal, Menu } from '@/@common/components'
 import { formatCurrency } from '@/@common/utils/currencies'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
@@ -42,7 +42,7 @@ const CoursesPage = () => {
   } = useShow()
   const { tab, handleTabIndex } = useCourseUI()
   const { isLoading } = useCourses(1, 10)
-  const courses = UseCourseStore((state) => state.courses)
+  // const courses = UseCourseStore((state) => state.courses)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
   const {
     show: showDetailsDrawer,
@@ -53,8 +53,8 @@ const CoursesPage = () => {
   const options: MenuOptions[] = [
     {
       label: 'Agregar detalles',
-      icon: IconEye,
-      href: '/admin/courses/5'
+      icon: IconAdd,
+      href: '/admin/courses/5jjabjvanakbjbq8$'
     },
     {
       label: 'Ver detalles',
@@ -126,8 +126,13 @@ const CoursesPage = () => {
               </thead>
               <tbody>
                 <TableLoading numCols={7} isLoading={isLoading} />
-
-                {!isLoading &&
+                <td>01</td>
+                <td>Image</td>
+                <td>Últimas modificatorias con código procesal penal</td>
+                <td>Sergio Chavez Panduro</td>
+                <td>20 de noviembre, 2024</td>
+                <td>08:00 p.m.</td>
+                {/* {!isLoading &&
                   courses?.map((course) => (
                     <tr key={course.id} className="border-b border-gray-200">
                       <td>{course.id}</td>
@@ -153,7 +158,17 @@ const CoursesPage = () => {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  ))} */}
+                <td>
+                  <div className="border-l border-l-gray-300 flex justify-center">
+                    <Menu
+                      variant="white"
+                      activator={<IconOptions />}
+                      size="xs"
+                      options={options}
+                    />
+                  </div>
+                </td>
               </tbody>
             </table>
           </Tabs.Item>
