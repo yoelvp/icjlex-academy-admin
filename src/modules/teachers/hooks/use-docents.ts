@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { useDocentStore } from '../store/teachers.store'
+import { useTeacherStore } from '../store/teachers.store'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { getAllTeachersService } from '@/_services/teachers.service'
 
 export const useDocents = (page: number, size: number) => {
   const { isLoading, loading, loaded } = useLoading()
-  const setTeachers = useDocentStore((state) => state.setTeachers)
-  const setPagination = useDocentStore((state) => state.setPagination)
-  const pagination = useDocentStore((state) => state.pagination)
+  const setTeachers = useTeacherStore((state) => state.setTeachers)
+  const setPagination = useTeacherStore((state) => state.setPagination)
+  const pagination = useTeacherStore((state) => state.pagination)
 
   useEffect(() => {
     getAllTeachers()

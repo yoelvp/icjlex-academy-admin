@@ -2,14 +2,14 @@ import type { TeacherData } from '../types/Docent'
 import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
-import { useDocentStore } from '../store/teachers.store'
+import { useTeacherStore } from '../store/teachers.store'
 import { HttpStatusCode } from 'axios'
 import { createTeacherService } from '@/_services/teachers.service'
 
 export const useCreateTeacher = () => {
   const { isLoading, loading, loaded } = useLoading()
-  const teachers = useDocentStore((state) => state.teachers)
-  const setTeachers = useDocentStore((state) => state.setTeachers)
+  const teachers = useTeacherStore((state) => state.teachers)
+  const setTeachers = useTeacherStore((state) => state.setTeachers)
 
   const createTeacher = async (docent: TeacherData) => {
     try {
