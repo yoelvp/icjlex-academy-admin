@@ -7,7 +7,8 @@ export type RegisterCourse = InferType<typeof courseSchema>
 
 export type ContentCourse = InferType<typeof resourceCourseSchema>
 
-export interface RegisterCourseForm extends Omit<RegisterCourse, 'youWillLearn' | 'includes'> {
+export interface RegisterCourseForm
+  extends Omit<RegisterCourse, 'youWillLearn' | 'includes'> {
   youWillLearn: string[]
   includes: string[]
 }
@@ -15,10 +16,84 @@ export interface RegisterCourseForm extends Omit<RegisterCourse, 'youWillLearn' 
 export interface CourseResult {
   id?: string
   name?: string
-  objetive?: string
-  imageUrl?: null | string
-  price: number
-  features: string
-  startDate: string
+  objective?: string
+  imageUrl?: string
+  price?: number
+  youWillLearn?: string
+  includes?: string
+  description?: string
+  startDate?: Date
   isActive?: boolean
+  contents?: Content[]
+  docentToCourse?: DocentToCourse[]
+}
+
+interface Content {
+  title: string
+  details: Detail[]
+}
+
+interface Detail {
+  titleClass: string
+  duration: string
+  url: string
+}
+
+interface DocentToCourse {
+  id: string
+  docentId: string
+  courseId: string
+  docent: Docent
+}
+
+interface Docent {
+  id: string
+  firstName: string
+  lastName: string
+  profession: string
+  aboutMe: string
+  valorations: number
+  imageUrl: null
+  socialMedia: null
+}
+
+/* interface for courseInfomation */
+export interface CourseInfomation {
+  id: string
+  name: string
+  imageUrl: string
+  price: number
+  objective: null
+  description: null
+  youWillLearn: null
+  includes: string | null
+  contents: Content[]
+  teacher: Teacher
+  valoration: Valoration
+  numClasses: number
+  totalClassTime: string
+}
+
+interface Content {
+  title: string
+  numClasses: string
+  totalClassTime: string
+  videos: Video[]
+}
+
+interface Video {
+  name: string
+  duration: string
+}
+
+interface Teacher {
+  firstName: string
+  lastName: string
+  imageUrl: string
+  profession: string
+}
+
+interface Valoration {
+  value: string
+  quantity: number
 }
