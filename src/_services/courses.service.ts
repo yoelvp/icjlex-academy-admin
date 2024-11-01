@@ -1,4 +1,5 @@
 import { IdAndNameFields } from '@/@common/types/IdAndName'
+import { ResponseData } from '@/@common/types/ResponseData'
 import { Course } from '@/_models/Course.model'
 import { axios } from '@/lib'
 
@@ -8,7 +9,7 @@ export const getAllCoursesOnlyNameService = () => {
 
 /** Course for final user/client */
 export const getCoursesService = () => {
-  return axios.get<Course[]>('/courses/client', {
+  return axios.get<ResponseData<Course>>('/courses/details', {
     params: {
       page: 1,
       size: 3
