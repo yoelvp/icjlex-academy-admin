@@ -1,34 +1,29 @@
 import {
   Course,
   CourseInfomation,
-  CourseResult,
-  RegisterCourseForm
+  CourseResult
 } from '../types/Course'
 import { API_URL } from '@/@common/env'
 import { ResponseData } from '@/@common/types/ResponseData'
 import { axios } from '@/lib'
-import { formatDate } from '../utils/format-date'
+import { CourseFormData } from '../types/CourseFormFields'
 
-export const addCourseService = (course: RegisterCourseForm) => {
+export const addCourseService = (course: CourseFormData) => {
   const formData = new FormData()
-
-  const priceAsNumber = parseFloat(course.price ?? '0')
-
-  // Uso del formato con solo Date o cadena vacía
-  const formattedStartDate = formatDate(course.publicationDate as Date | null)
-
   formData.append('name', course.name)
   formData.append('docentId', course.docentId)
   formData.append('objective', course.objective)
-  formData.append('price', priceAsNumber.toString())
-  formData.append('includes', JSON.stringify(course.includes))
-  formData.append('youWillLearn', JSON.stringify(course.youWillLearn))
-  // Solo añade publicationDate si formattedStartDate no es null
-  if (formattedStartDate !== null) {
-    formData.append('publicationDate', formattedStartDate)
-  } else {
-    formData.append('publicationDate', '') // O, puedes omitir este campo por completo
-  }
+  formData.append('description', course.description)
+  formData.append('isScheduled', `${course.isScheduled}`)
+  formData.append('isFree', `${course.isFree ?? false}`)
+  formData.append('price', course.price?.toString() ?? '')
+  formData.append('publicationDate', `${course.publicationDate}`)
+  course.includes.forEach((include) => {
+    formData.append('includes[]', include)
+  })
+  course.youWillLearn.forEach((learn) => {
+    formData.append('youWillLearn[]', learn)
+  })
 
   const imageFile = course.image
 
@@ -51,8 +46,8 @@ export const getCourseByIdService = (courseId: string) => {
   return axios.get<Course>(`/courses/${courseId}`)
 }
 
-export const getAllCoursesService = async (page: number, size: number) => {
-  return await axios.get<ResponseData<CourseResult>>(`${API_URL}/courses`, {
+export const getAllCoursesService = (page: number, size: number) => {
+  return axios.get<ResponseData<CourseResult>>('/courses', {
     params: {
       page,
       size

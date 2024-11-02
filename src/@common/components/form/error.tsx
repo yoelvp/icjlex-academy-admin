@@ -8,7 +8,7 @@ export const Error: FC<Props> = ({
   hasError
 }) => {
   return (
-    <span className={`text-error-400 text-xs ${hasError ? 'block' : 'hidden'}`}>
+    <span className={`text-error-400 pl-2 text-xs ${hasError ? 'block' : 'hidden'}`}>
       {hasError}
     </span>
   )

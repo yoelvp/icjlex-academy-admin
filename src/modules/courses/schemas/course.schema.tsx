@@ -20,16 +20,11 @@ export const courseSchema = object().shape({
   description: string().required('Campo requerido'),
   image: mixed()
     .nullable()
-    .required('La imagen es obligatoria.')
     .test('fileSize', 'La imagen es muy grande.', (value) => {
-      return value && value instanceof File && value.size <= 2 * 1024 * 1024
+      return value !== null && value instanceof File && value.size <= 2 * 1024 * 1024
     })
     .test('fileType', 'El formato de archivo no es válido.', (value) => {
-      return (
-        value &&
-        value instanceof File &&
-        ['image/jpeg', 'image/png', 'image/gif'].includes(value.type)
-      )
+      return value !== null && value instanceof File && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type)
     }),
   price: string()
     .matches(
@@ -37,20 +32,22 @@ export const courseSchema = object().shape({
       'El precio debe ser un número con hasta dos decimales'
     )
     .optional(),
-  isActive: boolean().default(false),
+  isScheduled: boolean().default(false).optional().nullable(),
+  isFree: boolean().default(false).optional().nullable(),
   publicationDate: mixed()
     .test(
       'isValidDate',
       'La fecha debe estar en formato ISO o vacía',
       (value) =>
         value === '' ||
+        value === null ||
         (typeof value === 'string' && !isNaN(Date.parse(value))) ||
         value instanceof Date
     ).nullable()
     .transform((value) => {
       return typeof value === 'string' && value !== '' ? new Date(value) : value
     })
-    .when('isActive', {
+    .when('isScheduled', {
       is: true,
       then: (schema) => schema.required('La fecha de publicación es obligatoria cuando se programa la publicación'),
       otherwise: (schema) => schema.notRequired().nullable().optional()

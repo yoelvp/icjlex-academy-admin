@@ -23,7 +23,7 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
       <input
         ref={ref}
         className={twVariants(inputVariants({
-          variant: Boolean(error) ? 'error' : variant,
+          variant: error ? 'error' : variant,
           size,
           rounded,
           className
@@ -31,13 +31,13 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
         {...props}
       />
       {Boolean(error) && (
-        <span className="pl-4 text-error-500 text-sm">{error}</span>
+        <span className="pl-2 text-error-400 text-xs">{error}</span>
       )}
       {withIcon && Icon && (
         <label
           htmlFor={id}
           className={twVariants(iconVariants({
-            variant: Boolean(error) ? 'error' : variant,
+            variant: error ? 'error' : variant,
             size,
             position: iconPosition,
             className: iconClassName

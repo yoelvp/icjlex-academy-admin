@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
   className?: string
-  value?: boolean
+  value?: boolean | null
   onChange?: (checked: boolean) => void
 }
 
@@ -29,7 +29,7 @@ export const Switch = forwardRef<HTMLInputElement, Props>(({
         className
       )}
       onClick={toggleSwitch}
-      aria-checked={value}
+      aria-checked={value ?? false}
       role="switch"
     >
       <motion.span
@@ -47,9 +47,9 @@ export const Switch = forwardRef<HTMLInputElement, Props>(({
       <input
         type="checkbox"
         ref={ref}
-        checked={value}
+        checked={value ?? false}
         className="sr-only"
-        defaultValue={1}
+        onChange={(e) => onChange?.(e.target.checked)}
         {...props}
       />
     </motion.button>

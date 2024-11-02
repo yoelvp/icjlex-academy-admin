@@ -1,5 +1,3 @@
-import type { RegisterCourse } from '../types/Course'
-
 import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, useForm } from 'react-hook-form'
@@ -18,47 +16,38 @@ import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 import { Switch } from '@/@common/components'
 import { useCreateCourse } from '../hooks/use-create-courses'
 import { useNavigate } from 'react-router-dom'
+import { CourseFields, CourseFormData } from '../types/CourseFormFields'
 
 interface Props {
   isOpen: boolean
   onClose: () => void
-  openCreateResourceModal: () => void
-  updateCourseId: (id: string) => void
 }
 
-const RegisterCourseFormModal = ({
+const RegisterCourseModal = ({
   isOpen,
-  onClose,
-  updateCourseId
-}: // openCreateResourceModal
-Props) => {
+  onClose
+}: Props) => {
   const [activeTab, setActiveTab] = useState('main')
   const { isLoading: loadingTeacher } = useGetAllTeachers()
   const openConfirmModal = useConfirmModalStore((state) => state.open)
   const closeConfirmModal = useConfirmModalStore((state) => state.close)
   const teachers = useTeacherStore((state) => state.teachers)
   const navigate = useNavigate()
-  const { createCourse } = useCreateCourse()
+  const { isLoading: isLoadingCreateCourse, createCourse } = useCreateCourse()
   const {
+    control,
     register,
-    handleSubmit,
     setValue,
     trigger,
-    control,
     watch,
+    getValues,
     formState: { errors }
-  } = useForm<RegisterCourse>({
+  } = useForm<CourseFields>({
     resolver: yupResolver(courseSchema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      docentId: '',
-      youWillLearn: [],
-      includes: [],
-      objective: '',
-      image: File || null,
-      price: '',
-      publicationDate: ''
+      isFree: false,
+      isScheduled: false
     }
   })
 
@@ -76,34 +65,29 @@ Props) => {
     }
 
     if (currentIndex == TABS.length - 1) {
-      console.log('Crear')
-      console.log('Errors')
-      console.log(errors)
-      console.log('End Errors')
       if (await trigger()) {
         openConfirmModal({
           title: '¿Quiere agregar el contenido del curso ahora?',
           options: [
             {
-              content: 'Sí, crear secciones',
+              content: 'Sí, agregar secciones',
+              isLoading: isLoadingCreateCourse,
               onClick: () => {
-                updateCourseId('12jkjne91829')
-                handleSubmit(handleFormSubmit)()
-                onClose()
-                navigate('/admin/courses/5')
-                // openCreateResourceModal()
-                closeConfirmModal()
+                handleFormSubmit().then(() => {
+                  onClose()
+                  navigate('/admin/courses/5')
+                  closeConfirmModal()
+                })
               }
             },
             {
               content: 'No, solo crear curso',
+              isLoading: isLoadingCreateCourse,
               onClick: () => {
-                console.log('Errors')
-                console.log(errors)
-                console.log('End Errors')
-                handleSubmit(handleFormSubmit)()
-                closeConfirmModal()
-                onClose()
+                handleFormSubmit().then(() => {
+                  /* closeConfirmModal() */
+                  /* onClose() */
+                })
               }
             }
           ]
@@ -124,18 +108,26 @@ Props) => {
     }
   }
 
-  const handleFormSubmit = async (data: RegisterCourse) => {
-    const formattedData = {
+  const handleFormSubmit = async () => {
+    const data = getValues()
+    const publicationDate = data.publicationDate instanceof Date ? data.publicationDate.toISOString() : 'null'
+    let image: File | null = null
+
+    if (data.image && data.image instanceof File) {
+      image = data.image
+    }
+
+    const formattedData: CourseFormData = {
       ...data,
       includes: data.includes.map((include) => include.label),
       youWillLearn: data.youWillLearn.map((include) => include.label),
-      // isActive: data.isActive,
-      startDate: data.isActive ? data.publicationDate : null
+      publicationDate,
+      image
     }
-    delete formattedData.publicationDate
+
     console.log(formattedData)
-    createCourse(formattedData)
-    console.log('Se ejecuto la funcoan para envio de dato')
+
+    /* await createCourse(formattedData) */
   }
 
   return (
@@ -190,9 +182,9 @@ Props) => {
                   <Form.Input
                     placeholder="Violencia contra Niñas, Niños y Adolescente en el ámbito..."
                     size="md"
+                    error={errors.name?.message}
                     {...register('name')}
                   />
-                  <Form.Error hasError={errors.name?.message} />
                 </Form.Control>
                 <Form.Control>
                   <Form.Label>Docente</Form.Label>
@@ -294,72 +286,103 @@ Props) => {
               </div>
             )}
             {activeTab === 'details' && (
-              <>
-                <div role="tabpanel" className="space-y-4">
+              <div role="tabpanel" className="space-y-4">
+                <Form.Control>
+                  <Form.Label className="mb-1 flex justify-between">
+                    Selecciona tu imagen
+                    <Badge
+                      color="gray"
+                      size="sm"
+                      className="font-thin text-xs text-primary-700"
+                    >
+                      opcional
+                    </Badge>
+                  </Form.Label>
+                  <ImageUploader name={'image'} setValue={setValue} />
+                  <Form.Error hasError={errors.image?.message} />
+                </Form.Control>
+
+                <section className="flex gap-6">
                   <Form.Control>
                     <Form.Label className="mb-1 flex justify-between">
-                      Selecciona tu imagen
+                      <span>Precio {watch('isFree') && '(es gratis)'}</span>
                       <Badge
                         color="gray"
                         size="sm"
-                        className="font-thin text-xs text-primary-700"
+                        className="font-thin text-xs"
                       >
                         opcional
                       </Badge>
                     </Form.Label>
-                    <ImageUploader name={'image'} setValue={setValue} />
-                    <Form.Error hasError={errors.image?.message} />
-                  </Form.Control>
-
-                  <section className="flex gap-6">
-                    <Form.Control>
-                      <Form.Label className="mb-1 flex justify-between">
-                        Precio
-                        <Badge
-                          color="gray"
-                          size="sm"
-                          className="font-thin text-xs"
-                        >
-                          opcional
-                        </Badge>
-                      </Form.Label>
-                      <Form.Input
-                        placeholder="120.00"
-                        size="md"
-                        {...register('price')}
-                      />
-                      <Form.Error hasError={errors.price?.message} />
-                    </Form.Control>
-
-                    <Form.Control>
-                      <Form.Label className="mb-1 flex justify-between">
-                        Programar publicación
-                        <Badge
-                          color="gray"
-                          size="sm"
-                          className="font-thin text-xs"
-                        >
-                          opcional
-                        </Badge>
-                      </Form.Label>
-                      <div className="h-10 flex items-center w-full gap-x-4">
-                        <Controller
-                          name="isActive"
-                          control={control}
-                          render={({ field }) => <Switch {...field} />}
-                        />
-                        {watch('isActive') && (
-                          <Form.Input
-                            type="date"
-                            {...register('publicationDate')}
+                    <div className="h-10 flex items-center w-full gap-x-4">
+                      <Controller
+                        name="isFree"
+                        control={control}
+                        render={({ field }) => (
+                          <Switch
+                            {...field}
+                            onChange={(checked) => {
+                              if (checked) {
+                                setValue('price', '')
+                                setValue('isFree', true)
+                              } else {
+                                setValue('isFree', false)
+                              }
+                            }}
                           />
                         )}
-                      </div>
-                      <Form.Error hasError={errors.publicationDate?.message} />
-                    </Form.Control>
-                  </section>
-                </div>
-              </>
+                      />
+                      {!watch('isFree') && (
+                        <Form.Input
+                          placeholder="120.00"
+                          size="md"
+                          {...register('price')}
+                        />
+                      )}
+                    </div>
+                    <Form.Error hasError={errors.price?.message} />
+                  </Form.Control>
+
+                  <Form.Control>
+                    <Form.Label className="mb-1 flex justify-between">
+                      Programar publicación
+                      <Badge
+                        color="gray"
+                        size="sm"
+                        className="font-thin text-xs"
+                      >
+                        opcional
+                      </Badge>
+                    </Form.Label>
+                    <div className="h-10 flex items-center w-full gap-x-4">
+                      <Controller
+                        name="isScheduled"
+                        control={control}
+                        render={({ field }) => (
+                          <Switch
+                            {...field}
+                            onChange={(value) => {
+                              if (value) {
+                                setValue('isScheduled', true)
+                              } else {
+                                setValue('isScheduled', false)
+                                setValue('publicationDate', null)
+                              }
+                            }}
+                          />
+                        )}
+                      />
+                      {watch('isScheduled') && (
+                        <Form.Input
+                          type="date"
+                          {...register('publicationDate')}
+                        />
+                      )}
+                    </div>
+                    <Form.Error hasError={errors.publicationDate?.message} />
+                  </Form.Control>
+                </section>
+              </div>
             )}
           </div>
         </Form>
@@ -381,40 +404,4 @@ Props) => {
   )
 }
 
-export default RegisterCourseFormModal
-
-/*
-{
-    "isActive": false,
-    "price": "120.00",
-    "image": {},
-    "description": "<p>bla bla bla</p>",
-    "includes": [
-        "bla"
-    ],
-    "youWillLearn": [
-        "bla bla"
-    ],
-    "objective": "Hacer un test",
-    "docentId": "74542e48-c7d9-46e0-9d79-795ed4f0162e",
-    "name": "Test01",
-    "startDate": null
-
-    {
-    "isActive": false,
-    "price": "120.00",
-    "image": {},
-    "description": "<p>bqfq</p>",
-    "includes": [
-        "nj"
-    ],
-    "youWillLearn": [
-        "dkn",
-        "db"
-    ],
-    "objective": "qñd",
-    "docentId": "74542e48-c7d9-46e0-9d79-795ed4f0162e",
-    "name": "test",
-    "startDate": null
-}
-} */
+export default RegisterCourseModal

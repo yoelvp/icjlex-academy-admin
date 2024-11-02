@@ -2,26 +2,28 @@ import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { UseCourseStore } from '../store/course.store'
-import { RegisterCourseForm } from '../types/Course'
 import { addCourseService } from '../service/course.service'
+import { CourseFormData } from '../types/CourseFormFields'
+import { HttpStatusCode } from 'axios'
 
 export const useCreateCourse = () => {
   const { isLoading, loading, loaded } = useLoading()
-  const setCourse = UseCourseStore((state) => state.setCourses)
+  const courses = UseCourseStore((state) => state.courses)
+  const setCourses = UseCourseStore((state) => state.setCourses)
   const setCourseId = UseCourseStore((state) => state.setCourseId)
 
-  const createCourse = async (course: RegisterCourseForm) => {
+  const createCourse = async (course: CourseFormData) => {
+    loading()
     try {
-      loading()
-
-      /* const { data: newCourse, status } = await addCourseService(course) */
+      let oldCourses = courses
       const response = await addCourseService(course)
 
-      if (response?.status === 200) {
-        // const oldCourse = courses.slice(1)
-        setCourse([response.data])
+      if (response?.status === HttpStatusCode.Ok) {
+        if (courses.length == 10) {
+          oldCourses = courses.slice(0, -1)
+        }
+        setCourses([response.data, ...oldCourses])
 
-        //almacenamdo en id del curso creado
         setCourseId(response?.data.id ?? '')
         toast.success('Se creó un nuevo curso')
 
