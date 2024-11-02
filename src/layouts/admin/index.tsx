@@ -15,7 +15,7 @@ export const AdminLayout = () => {
       <div className={classNames('flex flex-1 flex-col overflow-hidden', { 'ml-64': show, 'ml-16': !show })}>
         <Header />
 
-        <div className="flex-1 overflow-y-scroll w-full">
+        <div className="flex-1 h-full overflow-y-hidden w-full">
           <Content>
             <Outlet />
           </Content>
