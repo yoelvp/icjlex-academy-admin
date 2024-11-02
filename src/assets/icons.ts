@@ -43,7 +43,8 @@ export {
 } from 'react-icons/tb'
 export {
   FaStar as IconStarFilled,
-  FaRegStar as IconStar
+  FaRegStar as IconStar,
+  FaInbox as IconInboxFilled
 } from 'react-icons/fa'
 export {
   FaXTwitter as IconX,
@@ -68,7 +69,8 @@ export {
   RiPresentationLine as IconPresentation
 } from 'react-icons/ri'
 export {
-  BiSupport as IconSupport
+  BiSupport as IconSupport,
+  BiDockRight as IconDockRight
 } from 'react-icons/bi'
 export {
   BsPlayBtn as IconPlay
@@ -77,7 +79,8 @@ export {
   MdOutlineCategory as IconCategory
 } from 'react-icons/md'
 export {
-  CiEdit as IconEdit
+  CiImageOn as IconImageOn,
+  CiImageOff as IconImageOff
 } from 'react-icons/ci'
 export {
   CgMenuLeft as IconMenuLeft,
@@ -90,3 +93,6 @@ export {
 export {
   HiCheckCircle as IconList
 } from 'react-icons/hi'
+export {
+  GrEdit as IconEdit
+} from 'react-icons/gr'
