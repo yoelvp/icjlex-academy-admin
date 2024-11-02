@@ -46,14 +46,8 @@ const RegisterCourseModal = ({
     resolver: yupResolver(courseSchema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      docentId: '',
-      youWillLearn: [],
-      includes: [],
-      objective: '',
-      image: File || null,
-      price: '',
-      publicationDate: ''
+      isFree: false,
+      isScheduled: false
     }
   })
 
@@ -91,8 +85,8 @@ const RegisterCourseModal = ({
               isLoading: isLoadingCreateCourse,
               onClick: () => {
                 handleFormSubmit().then(() => {
-                  closeConfirmModal()
-                  onClose()
+                  /* closeConfirmModal() */
+                  /* onClose() */
                 })
               }
             }
@@ -116,7 +110,7 @@ const RegisterCourseModal = ({
 
   const handleFormSubmit = async () => {
     const data = getValues()
-    const publicationDate = data.publicationDate instanceof Date ? data.publicationDate.toISOString() : ''
+    const publicationDate = data.publicationDate instanceof Date ? data.publicationDate.toISOString() : 'null'
     let image: File | null = null
 
     if (data.image && data.image instanceof File) {
@@ -131,7 +125,9 @@ const RegisterCourseModal = ({
       image
     }
 
-    await createCourse(formattedData)
+    console.log(formattedData)
+
+    /* await createCourse(formattedData) */
   }
 
   return (
@@ -323,7 +319,17 @@ const RegisterCourseModal = ({
                         name="isFree"
                         control={control}
                         render={({ field }) => (
-                          <Switch {...field} />
+                          <Switch
+                            {...field}
+                            onChange={(checked) => {
+                              if (checked) {
+                                setValue('price', '')
+                                setValue('isFree', true)
+                              } else {
+                                setValue('isFree', false)
+                              }
+                            }}
+                          />
                         )}
                       />
                       {!watch('isFree') && (
@@ -353,7 +359,17 @@ const RegisterCourseModal = ({
                         name="isScheduled"
                         control={control}
                         render={({ field }) => (
-                          <Switch {...field} />
+                          <Switch
+                            {...field}
+                            onChange={(value) => {
+                              if (value) {
+                                setValue('isScheduled', true)
+                              } else {
+                                setValue('isScheduled', false)
+                                setValue('publicationDate', null)
+                              }
+                            }}
+                          />
                         )}
                       />
                       {watch('isScheduled') && (
