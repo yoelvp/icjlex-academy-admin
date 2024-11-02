@@ -1,55 +1,52 @@
-import { FC, ReactNode } from 'react'
+import type { IconType } from 'react-icons'
+
+import { FC, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import Button from './button'
-import { IconClose } from '@/assets/icons'
+import { Drawer as DrawerFlowbite } from 'flowbite-react'
+import classNames from 'classnames'
 
 interface Props {
   title: string
-  description?: string
+  show: boolean
   onClose: () => void
   children: ReactNode
+  titleIcon?: IconType
+  contentClassName?: string
 }
 
 export const Drawer: FC<Props> = ({
   title,
-  description,
   onClose,
+  show,
+  titleIcon,
+  contentClassName,
   children
 }) => {
   return createPortal(
-    <div
-      onClick={onClose}
-      className="fixed left-0 top-0 z-50 w-full h-screen bg-primary-500/20 flex justify-end"
+    <DrawerFlowbite
+      onClose={onClose}
+      open={show}
+      title={title}
+      position="right"
+      theme={{
+        root: {
+          backdrop: 'fixed inset-0 z-50 bg-gray-900/50',
+          base: 'fixed z-100 overflow-y-auto bg-white p-4 transition-transform'
+        }
+      }}
+      className={classNames(
+        'w-full sm:w-[440px] md:w-[480px]',
+        contentClassName
+      )}
     >
-      <section
-        onClick={(event) => event.stopPropagation()}
-        className="w-[24rem] h-full bg-white"
-      >
-        <header className="flex-between gap-x-4 px-4 h-16 border-b border-b-gray-200">
-          <article>
-            <h4 className="text-xl font-bold text-primary-700 leading-[100%]">
-              {title}
-            </h4>
-            {description && (
-              <span className="text-sm text-primary-400">{description}</span>
-            )}
-          </article>
-          <Button.Icon
-            size="xs"
-            onClick={onClose}
-            variant="primary.outline"
-            className="!rounded-sm"
-          >
-            <IconClose size="24" />
-          </Button.Icon>
-        </header>
-        <div className="h-full p-4">
-          <div>
-            {children}
-          </div>
+      <DrawerFlowbite.Header title={title} titleIcon={titleIcon} />
+
+      <DrawerFlowbite.Items>
+        <div className="h-full">
+          {children}
         </div>
-      </section>
-    </div>,
+      </DrawerFlowbite.Items>
+    </DrawerFlowbite>,
     document.getElementById('drawers') ?? document.createElement('div')
   )
 }
