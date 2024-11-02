@@ -57,7 +57,7 @@ export const Menu = ({
       {showDropdown && (
         <div
           className={classNames(
-            'absolute z-50 bg-white rounded-sm shadow--primary py-2'
+            'absolute z-50 bg-white rounded-sm shadow--primary py-1'
           )}
           style={{
             top: menuPosition.top + 8,
@@ -68,7 +68,7 @@ export const Menu = ({
             <div
               key={index}
               className={classNames(
-                'px-3 py-1',
+                'py-1',
                 { 'border-t border-t-gray-200': option.dividerTop },
                 { 'border-b border-b-gray-200': option.dividerBottom }
               )}
@@ -78,7 +78,7 @@ export const Menu = ({
                   key={index}
                   to={option.href ?? ''}
                   className={classNames(
-                    'w-full text-left rounded-sm pl-4 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2',
+                    'w-full text-left pl-6 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2',
                     { 'text-error-400': option.isDelete }
                   )}
                   rel={option.rel}
@@ -92,8 +92,9 @@ export const Menu = ({
                   key={index}
                   onClick={option.onClick}
                   className={classNames(
-                    'w-full text-left rounded-sm pl-4 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2',
-                    { 'text-error-400 hover:text-error-700 hover:bg-error-50/50': option.isDelete }
+                    'w-full text-left pl-6 pr-12 py-2 flex-start gap-x-2',
+                    { 'text-error-400 hover:text-error-700 hover:bg-error-50/50': option.isDelete },
+                    { 'text-primary-500 hover:text-primary-700 hover:bg-primary-50': !option.isDelete }
                   )}
                 >
                   {option.icon && !option.isLoading ? <option.icon size="16" /> : <Spinner size="md" color="warning" />}
