@@ -47,9 +47,9 @@ export const Switch = forwardRef<HTMLInputElement, Props>(({
       <input
         type="checkbox"
         ref={ref}
-        checked={value}
+        checked={value ?? false}
         className="sr-only"
-        defaultValue={1}
+        onChange={(e) => onChange?.(e.target.checked)}
         {...props}
       />
     </motion.button>
