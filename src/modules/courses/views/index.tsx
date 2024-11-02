@@ -109,7 +109,7 @@ const CoursesPage = () => {
                     <td>{course.id}</td>
                     <td className="w-32">
                       <img
-                        src={course.imageUrl || '/placeholder-image.png'}
+                        src={course.imageUrl || '/image-placeholder.png'}
                         alt={`Thumbnail ${course.name}`}
                         className="w-full h-10 object-cover rounded-xs object-center"
                       />
@@ -130,16 +130,6 @@ const CoursesPage = () => {
                     </td>
                   </tr>
                 ))}
-                <td>
-                  <div className="border-l border-l-gray-300 flex justify-center">
-                    <Menu
-                      variant="white"
-                      activator={<IconOptions />}
-                      size="xs"
-                      options={options}
-                    />
-                  </div>
-                </td>
               </tbody>
             </table>
           </Tabs.Item>
