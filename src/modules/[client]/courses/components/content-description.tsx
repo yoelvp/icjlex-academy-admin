@@ -1,10 +1,16 @@
-import type { FC } from 'react'
+import { RenderHTML } from '@/@common/components'
 
-export const ContentDescription: FC = () => {
+export const ContentDescription = ({ course }) => {
   return (
     <div className="flex flex-col gap-8">
       <h4 className="text-primary-700 font-semibold text-2xl">Descripción</h4>
-      <p className="text-primary-700">Acá debe ir contenido HTML que debe ser interpretado y renderizado, por la data que viene de base de dato API</p>
+      {course?.description ? (
+        <RenderHTML content={course?.description} />
+      ) : (
+        <p className="text-primary-700">
+          No se ha proporcionado una descripción para este curso.
+        </p>
+      )}
     </div>
   )
 }
