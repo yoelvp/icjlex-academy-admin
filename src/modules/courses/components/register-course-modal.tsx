@@ -33,7 +33,7 @@ const RegisterCourseModal = ({
   const closeConfirmModal = useConfirmModalStore((state) => state.close)
   const teachers = useTeacherStore((state) => state.teachers)
   const navigate = useNavigate()
-  const { isLoading: isLoadingCreateCourse, createCourse } = useCreateCourse()
+  const { isLoading: isLoadingCreateCourse } = useCreateCourse()
   const {
     control,
     register,

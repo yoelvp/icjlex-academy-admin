@@ -9,7 +9,11 @@ import { useLoading } from '@/@common/hooks/use-loading'
 
 export const useCourses = () => {
   const [courses, setCourses] = useState<Course[] | null>(null)
-  const { isLoading: isLoadingCourses, loading: loadingCourses, loaded: loadedCourses } = useLoading()
+  const {
+    isLoading: isLoadingCourses,
+    loading: loadingCourses,
+    loaded: loadedCourses
+  } = useLoading()
 
   const getAllCourses = async () => {
     try {
@@ -28,9 +32,16 @@ export const useCourses = () => {
     }
   }
 
+  const getCourseDetailsById = (id: string) => {
+    if (!courses) return null
+
+    return courses.find((course) => course.id === id) || null
+  }
+
   return {
     isLoadingCourses,
     courses,
-    getAllCourses
+    getAllCourses,
+    getCourseDetailsById
   }
 }

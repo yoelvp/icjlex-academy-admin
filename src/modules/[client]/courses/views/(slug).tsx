@@ -6,38 +6,34 @@ import { ContentVariousVideos } from '../components/content-various-videos'
 import { ContentDescription } from '../components/content-description'
 import { CoursesValorations } from '../components/courses-valorations'
 import { MoreCoursesByTeacher } from '../components/more-courses-by-teacher'
-import { FooterToBuy } from '../components/footer-to-buy'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { CourseResult } from '@/modules/courses/types/Course'
-import { getCourseByIdService } from '@/modules/courses/service/get-course-by-id.service'
 import { ContentFull } from '@/@common/components/content-full'
+import { useEffect } from 'react'
+import { useCourses } from '../../hooks/use-courses'
+import { useParams } from 'react-router-dom'
+import { Spinner } from 'flowbite-react'
+import { FooterToBuy } from '../components/footer-to-buy'
 
 const CourseDetailsPage = () => {
   const { id } = useParams()
-  const [course, setCourse] = useState<CourseResult | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { isLoadingCourses, getAllCourses, getCourseDetailsById } = useCourses()
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const { data } = await getCourseByIdService(id)
-        setCourse(data)
-      } catch (error) {
-        console.log('Error al carga el detalle del curso', error)
-      } finally {
-        setLoading(false)
-      }
-    }
+    getAllCourses()
+  }, [])
 
-    fetchCourse()
-  }, [id])
+  const course = getCourseDetailsById(id || '')
+  if (!course)
+    return (
+      <div className="min-h-[60vh] flex-center">
+        <Spinner />
+      </div>
+    )
 
   return (
     <>
-      {loading ? (
-        <ContentFull containerClassName="min-h-[60vh] py-32">
-          <p className="text-primary-300">Cargando detalles del curso...</p>
+      {isLoadingCourses ? (
+        <ContentFull containerClassName="min-h-[100vh] py-32">
+          <Spinner />
         </ContentFull>
       ) : (
         <>
@@ -47,15 +43,15 @@ const CourseDetailsPage = () => {
             <DetailsCourseByPurchased course={course} />
 
             <div className="w-full flex flex-col gap-y-16">
-              <WillLearn />
+              <WillLearn course={course} />
               <ContentVariousVideos />
-              <ContentDescription />
+              <ContentDescription course={course} />
               <CoursesValorations />
               <MoreCoursesByTeacher />
             </div>
           </Content>
 
-          <FooterToBuy price={course?.price} />
+          <FooterToBuy price={course.price} name={course.name}/>
         </>
       )}
     </>

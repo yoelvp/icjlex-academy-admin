@@ -12,7 +12,7 @@ export const getCoursesService = () => {
   return axios.get<ResponseData<Course>>('/courses/details', {
     params: {
       page: 1,
-      size: 3
+      size: 99
     }
   })
 }
