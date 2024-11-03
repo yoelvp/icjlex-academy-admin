@@ -1,3 +1,4 @@
-export { useGetPublishedCourses } from './use-get-published-courses'
-export { useGetUpcomingCourses } from './use-get-upcoming-courses'
-export { useCreateCourse } from './use-create-courses'
+export * from './use-get-course-contents'
+export * from './use-get-published-courses'
+export * from './use-get-upcoming-courses'
+export * from './use-create-courses'
