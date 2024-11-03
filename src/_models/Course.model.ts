@@ -12,6 +12,12 @@ interface CourseContent {
   videos: CourseVideo[]
 }
 
+interface CourseVideo {
+  className: string
+  duration: string
+  videoUrl: string | null
+}
+
 export interface Course {
   id: string
   name: string
@@ -33,4 +39,9 @@ export interface CourseDetails extends Course {
   youWillLearn: string[]
   content: CourseContent[]
   description: string
+}
+
+export interface CourseContents {
+  sectionName: string
+  classes: CourseVideo[]
 }
