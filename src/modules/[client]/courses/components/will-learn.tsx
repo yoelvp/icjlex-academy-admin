@@ -1,40 +1,24 @@
-import type { FC } from 'react'
+import { IconList } from '@/assets/icons'
+import { List } from 'flowbite-react'
 
-import { IconCheckmark } from '@/assets/icons'
-
-export const WillLearn: FC = () => {
+export const WillLearn = ({ course }) => {
   return (
     <div className="w-full flex flex-col gap-8">
       <h2 className="text-primary-700 font-semibold text-2xl">
         Lo que aprenderás
       </h2>
 
-      <ul className="flex flex-col gap-y-2">
-        <li className="flex items-center gap-2">
-          <IconCheckmark size={18} className="text-primary-500" />
-          <span className="text-primary-700">Primer punto a aprender</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <IconCheckmark size={18} className="text-primary-500" />
-          <span className="text-primary-700">Primer punto a aprender</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <IconCheckmark size={18} className="text-primary-500" />
-          <span className="text-primary-700">Primer punto a aprender</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <IconCheckmark size={18} className="text-primary-500" />
-          <span className="text-primary-700">Primer punto a aprender</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <IconCheckmark size={18} className="text-primary-500" />
-          <span className="text-primary-700">Primer punto a aprender</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <IconCheckmark size={18} className="text-primary-500" />
-          <span className="text-primary-700">Primer punto a aprender</span>
-        </li>
-      </ul>
+      {course.youWillLearn && course.youWillLearn.trim() !== '' ? (
+        <List>
+          {course.youWillLearn.split(',').map((item, index) => (
+            <List.Item icon={IconList} key={index}>
+              {item.trim()}
+            </List.Item>
+          ))}
+        </List>
+      ) : (
+        <p>No hay elementos incluidos.</p>
+      )}
     </div>
   )
 }
