@@ -1,19 +1,9 @@
+import { RenderHTML } from '@/@common/components'
 import { RatingCourse } from './rating'
 import { ContentFull } from '@/@common/components/content-full'
 import { Link } from 'react-router-dom'
 
 export const HeroPage = ({ course }) => {
-  const renderObjetive = (objetive: string) => {
-    // Comprobar si el texto contiene etiquetas HTML
-    const isHtml = /<\/?[a-z][\s\S]*>/i.test(objetive)
-
-    return isHtml ? (
-      <div dangerouslySetInnerHTML={{ __html: objetive }} />
-    ) : (
-      <p>{objetive}</p>
-    )
-  }
-
   return (
     <ContentFull
       containerClassName="h-auto bg-gradient-to-r from-primary-500 to-primary-400 mb-8 md:mb-0"
@@ -31,14 +21,14 @@ export const HeroPage = ({ course }) => {
         </article>
 
         <article className="grid gap-2">
-          <h1 className="text-white text-2xl font-semibold">{course.name}</h1>
-          <p className="text-primary-50">
-            {course.objetive ? (
-              renderObjetive(course.objetive)
+          <h1 className="text-white text-2xl font-semibold">{course?.name}</h1>
+          <div className="text-primary-50">
+            {course?.objective ? (
+              <RenderHTML content={course?.objective} />
             ) : (
               <p>No se ha proporcionado un objetivo para este curso.</p>
             )}
-          </p>
+          </div>
         </article>
 
         <article className="flex flex-col gap-y-4">
@@ -51,10 +41,10 @@ export const HeroPage = ({ course }) => {
                 to="/teachers/nancy-lozano-diaz"
                 className="text-white underline"
               >
-                Nancy Lozano Diaz
+                {course?.teacher.firstName} {course?.teacher.lastName}
               </Link>
               <div className="w-auto rounded-lg bg-secondary-500 px-2 text-xs">
-                Abogado (a)
+                {course?.teacher.profession}
               </div>
             </div>
           </div>
@@ -72,8 +62,11 @@ export const HeroPage = ({ course }) => {
 
       <div className="w-full sm:w-6/12 h-80">
         <img
-          src={course.imageUrl}
-          alt={course.name}
+          src={
+            course?.imageUrl ||
+            'https://cdn.pixabay.com/photo/2020/12/05/14/08/man-5806011_1280.jpg'
+          }
+          alt={course?.name}
           className="rounded object-cover object-center w-full h-full"
         />
       </div>
