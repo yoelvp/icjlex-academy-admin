@@ -1,25 +1,22 @@
 import { Card } from '@/@common/components'
 import Link from '@/@common/components/link'
 import { IconStarFilled, IconWhatsapp } from '@/assets/icons'
-import { CourseResult } from '@/modules/courses/types/Course'
-import { FC } from 'react'
 import { useFormattedPrice } from '../../utils/format-price'
 
-interface CourseCardProps {
-  course: CourseResult // Asegúrate de que sea un solo curso
-}
-
-export const CourseCardFind: FC<CourseCardProps> = ({ course }) => {
+export const CourseCardFind = ({ course }) => {
   const formattedPrice = useFormattedPrice(course.price ?? '')
   if (!course) {
-    return null // O manejar un estado de carga/placeholder
+    return null
   }
 
   return (
     <Card>
       <div className="relative h-64 rounded overflow-hidden">
         <img
-          src={course.imageUrl ?? ''}
+          src={
+            course?.imageUrl ||
+            'https://cdn.pixabay.com/photo/2020/12/05/14/08/man-5806011_1280.jpg'
+          }
           alt={course.name}
           className="h-full w-full object-cover object-center"
         />
@@ -29,8 +26,23 @@ export const CourseCardFind: FC<CourseCardProps> = ({ course }) => {
           <div>
             <h4 className="text-primary-700 font-bold">{course.name}</h4>
             <p className="text-sm text-primary-500">
-              <span className="text-primary-400">{'Nancy Lozano Díaz'}</span>{' '}
-              &bull; <span className="text-primary-300">{'Abogada'}</span>
+              <span className="text-primary-400">
+                {course?.teacher ? (
+                  <>
+                    <span className="text-primary-400">
+                      {course?.teacher?.firstName} {course?.teacher?.lastName}
+                    </span>{' '}
+                    &bull;{' '}
+                    <span className="text-primary-300">
+                      {course?.teacher?.profession}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-primary-400">
+                    ICJ LEX &amp; CARRANZA CONSULTORES
+                  </span>
+                )}
+              </span>{' '}
             </p>
           </div>
           <div className="flex justify-start items-center gap-x-2">
