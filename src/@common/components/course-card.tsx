@@ -16,7 +16,11 @@ export const CourseCard = ({ course }: Props) => {
     <Card>
       <div className="relative h-64 rounded overflow-hidden">
         <img
-          src={course?.imageUrl ? course.imageUrl : 'https://teoriadelderecho.com/wp-content/uploads/2017/12/USMP-anuncia-curso-gratuito-en-derechos-humanos-dirigido-a-estudiantes.jpg'}
+          src={
+            course?.imageUrl
+              ? course?.imageUrl
+              : 'https://cdn.pixabay.com/photo/2020/12/05/14/08/man-5806011_1280.jpg'
+          }
           alt="Course image"
           className="h-full w-full object-cover object-center"
         />
@@ -37,10 +41,18 @@ export const CourseCard = ({ course }: Props) => {
             <p className="text-sm text-primary-500">
               {course?.teacher ? (
                 <>
-                  <span className="text-primary-400">{course?.teacher?.firstName} {course?.teacher?.lastName}</span> &bull; <span className="text-primary-300">{course?.teacher?.profession}</span>
+                  <span className="text-primary-400">
+                    {course?.teacher?.firstName} {course?.teacher?.lastName}
+                  </span>{' '}
+                  &bull;{' '}
+                  <span className="text-primary-300">
+                    {course?.teacher?.profession}
+                  </span>
                 </>
               ) : (
-                <span className="text-primary-400">ICJ LEX &amp; CARRANZA CONSULTORES</span>
+                <span className="text-primary-400">
+                  ICJ LEX &amp; CARRANZA CONSULTORES
+                </span>
               )}
             </p>
           </div>
@@ -74,7 +86,12 @@ export const CourseCard = ({ course }: Props) => {
           </div>
         </article>
         <div className="flex gap-x-4">
-          <Link href={`/courses/${course?.id}`} variant="primary.link" size="sm" className="text-nowrap w-auto !px:0">
+          <Link
+            href={`/courses/${course?.id}`}
+            variant="primary.link"
+            size="sm"
+            className="text-nowrap w-auto !px:0"
+          >
             Ver detalles
           </Link>
           <Link
