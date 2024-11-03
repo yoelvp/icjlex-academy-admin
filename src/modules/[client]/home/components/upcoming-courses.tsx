@@ -3,8 +3,8 @@ import { useEffect, type FC } from 'react'
 import { Content } from '@/@common/components/content'
 import { SectionHeader } from '@/@common/components/section-header'
 import { CourseCard } from '@/@common/components/course-card'
-import { useCourses } from '../hooks/use-courses'
 import { Spinner } from 'flowbite-react'
+import { useCourses } from '../../hooks/use-courses'
 
 export const UpcomingCourses: FC = () => {
   const { courses, isLoadingCourses, getAllCourses } = useCourses()
