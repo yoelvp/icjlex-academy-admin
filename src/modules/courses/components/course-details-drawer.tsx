@@ -1,4 +1,4 @@
-import { Accordion, Drawer, List, ListItem } from 'flowbite-react'
+import { Accordion, List } from 'flowbite-react'
 import { CourseCard } from './course-card'
 import {
   IconBookMarked,
@@ -7,6 +7,7 @@ import {
   IconTimeOutline
 } from '@/assets/icons'
 import Button from '@/@common/components/button'
+import { Drawer } from '@/@common/components'
 
 interface Props {
   show: boolean
@@ -33,26 +34,16 @@ const data = [
 const CourseDetailsDrawer = ({ show, close }: Props) => {
   return (
     <Drawer
-      open={show}
+      show={show}
       onClose={close}
-      position="right"
-      className="!z-100 !w-[400px]"
-      theme={{
-        root: {
-          backdrop: 'fixed inset-0 z-50 right-0 bg-gray-900/50'
-        }
-      }}
+      title="Detalles del curso"
     >
-      <Drawer.Header
-        title="Curso: Reorganización de sociedades, como fusiones, escisiones, y adquisiciones"
-        className="!text-primary-500"
-      />
       <div className="space-y-4">
         <div>
           <img
-            src="https://pub-30e31d4cd51446e8ba0b8450392a0d56.r2.dev/public/courses/image-25.jpeg"
+            src="/image-placeholder.png"
             alt="Course image"
-            className="rounded w-full h-full"
+            className="rounded w-full h-48 object-center object-cover"
           />
 
           <div className="flex-between py-2">
@@ -94,7 +85,10 @@ const CourseDetailsDrawer = ({ show, close }: Props) => {
         </CourseCard>
 
         <CourseCard title="Temario del curso">
-          <Accordion flush alwaysOpen={false}>
+          <Accordion
+            flush
+            alwaysOpen={false}
+          >
             {data.map((item, index) => (
               <Accordion.Panel key={index}>
                 {/* Título principal del acordeón con enumeración */}
