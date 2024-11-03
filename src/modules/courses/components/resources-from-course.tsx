@@ -8,10 +8,10 @@ import { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { resourceCourseSchema } from '../schemas/resources-from-course.schema'
 import { useCreateContentFromCourse } from '../hooks/content/use-create-content-from-course'
-import { UseCourseStore } from '../store/course.store'
 import { toast } from 'sonner'
 import { ContentCourse } from '../types/Course'
 import { addContentFromService } from '../service/content-from-course.service'
+import { useParams } from 'react-router-dom'
 
 interface Props {
   isOpen: boolean
@@ -21,7 +21,7 @@ interface Props {
 
 const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
   const { isLoading } = useCreateContentFromCourse()
-  const courseId = UseCourseStore.getState().courseId
+  const params = useParams()
 
   const {
     control,
@@ -67,14 +67,15 @@ const ResourcesFromCourse = ({ isOpen, onClose }: Props) => {
 
   const onSubmit = async (data: ContentCourse) => {
     console.log(data)
+    console.log(params)
 
-    if (!courseId) {
+    if (!params.id) {
       toast.error('No se ha creado un curso para agregar contenido!')
 
       return
     }
     try {
-      await addContentFromService(courseId, data)
+      await addContentFromService(params.id ?? '', data)
       reset()
       onClose()
       toast.success('Contenido agregado exitosamente!')
