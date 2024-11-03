@@ -30,15 +30,15 @@
     @apply w-full;
   }
 
-  .custom-table tbody tr:nth-child(even) {
-    @apply bg-primary-50/40;
-  }
+  /* .custom-table tbody tr:not(.sub-table):nth-child(even) { */
+  /*   @apply bg-primary-50/40; */
+  /* } */
+  /**/
+  /* .custom-table tbody tr:not(.sub-table):nth-child(odd) { */
+  /*   @apply bg-primary-50/20; */
+  /* } */
 
-  .custom-table tbody tr:nth-child(odd) {
-    @apply bg-primary-50/20;
-  }
-
-  .custom-table tbody tr:hover {
+  .custom-table tbody tr:not(.sub-table):hover {
     @apply bg-primary-100/30;
   }
 
