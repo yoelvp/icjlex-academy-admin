@@ -31,7 +31,7 @@ const data = [
   }
 ]
 
-const CourseDetailsDrawer = ({ show, close }: Props) => {
+const UpdateDetailsDrawer = ({ show, close }: Props) => {
   return (
     <Drawer
       show={show}
@@ -131,4 +131,4 @@ const CourseDetailsDrawer = ({ show, close }: Props) => {
   )
 }
 
-export default CourseDetailsDrawer
+export default UpdateDetailsDrawer

@@ -2,8 +2,10 @@ import { lazy, Suspense } from 'react'
 import {
   IconAdd,
   IconDelete,
+  IconDockRight,
   IconEdit,
   IconEye,
+  IconImageOn,
   IconOptions,
   IconSearch
 } from '@/assets/icons'
@@ -19,7 +21,6 @@ import { UseCourseStore } from '../store/course.store'
 import { LoadingModal, Menu } from '@/@common/components'
 import { formatCurrency } from '@/@common/utils/currencies'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
-import { MenuOptions } from '@/@common/types/Menu'
 
 const RegisterCourseModal = lazy(() => import('../components/register-course-modal'))
 const CourseDetailsDrawer = lazy(() => import('../components/course-details-drawer'))
@@ -30,38 +31,7 @@ const CoursesPage = () => {
   const { isLoading } = useCourses(1, 10)
   const courses = UseCourseStore((state) => state.courses)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
-  const {
-    show: showDetailsDrawer,
-    open: openDetailsDrawer,
-    close: closeDetailsDrawer
-  } = useShow()
-
-  const options: MenuOptions[] = [
-    {
-      label: 'Agregar detalles',
-      icon: IconAdd,
-      href: '/admin/courses/5jjabjvanakbjbq8$'
-    },
-    {
-      label: 'Ver detalles',
-      icon: IconEye,
-      onClick: openDetailsDrawer
-    },
-    {
-      label: 'Editar',
-      icon: IconEdit,
-      onClick: () => console.log('Editar')
-    },
-    {
-      label: 'Eliminar',
-      icon: IconDelete,
-      isDelete: true,
-      dividerTop: true,
-      onClick: () => console.log('delete course')
-      // deleteStudent(student.id, 'active'),
-      // isLoading: isLoadingDelete
-    }
-  ]
+  const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -93,38 +63,68 @@ const CoursesPage = () => {
             <table className="custom-table mb-6 table-auto">
               <thead>
                 <tr>
-                  <th className="w-3">N°</th>
-                  <th>Imagen</th>
+                  <th>N°</th>
                   <th>Nombre del curso</th>
                   <th>Docente</th>
                   <th>Precio</th>
-                  <th>Duración</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <TableLoading numCols={7} isLoading={isLoading} />
+                <TableLoading numCols={5} isLoading={isLoading} />
                 {!isLoading && courses?.map((course) => (
-                  <tr key={course.id} className="border-b border-gray-200">
+                  <tr key={course.id} className="group">
                     <td>{course.id}</td>
-                    <td className="w-32">
-                      <img
-                        src={course.imageUrl || '/image-placeholder.png'}
-                        alt={`Thumbnail ${course.name}`}
-                        className="w-full h-10 object-cover rounded-xs object-center"
-                      />
-                    </td>
-                    <td className="w-xl">{course.name}</td>
-                    <td>Docent</td>
-                    <td className="w-[15%]">S/. {course.price}</td>
-                    <td>S/. {course.price}</td>
                     <td>
-                      <div className="border-l border-l-gray-300 flex justify-center">
+                      <div className="relative flex items-center gap-x-4">
+                        <img
+                          src={course.imageUrl || '/image-placeholder.png'}
+                          alt={`Thumbnail ${course.name}`}
+                          className="w-12 h-8 object-cover rounded-xs object-center"
+                        />
+                        <span>
+                          {course.name}
+                        </span>
+                        <button
+                          onClick={openDetailsDrawer}
+                          className="hidden absolute left-0 top-1/2 -translate-y-1/2 group-hover:flex gap-x-1 items-center px-1 py-px rounded-xs bg-zinc-900/40 hover:bg-zinc-900/60 text-white text-xs uppercase"
+                        >
+                          <IconDockRight size="14" />
+                          Abrir
+                        </button>
+                      </div>
+                    </td>
+                    <td>Docent</td>
+                    <td>{formatCurrency(course.price ?? 0)}</td>
+                    <td>
+                      <div className="flex justify-center">
                         <Menu
                           variant="white"
                           activator={<IconOptions />}
                           size="xs"
-                          options={options}
+                          options={[
+                            {
+                              label: 'Ver detalles',
+                              icon: IconEye,
+                              href: `/admin/courses/${course.id}`
+                            },
+                            {
+                              label: 'Actualizar imagen',
+                              icon: IconImageOn
+                            },
+                            {
+                              label: 'Editar',
+                              icon: IconEdit,
+                              onClick: () => console.log('Update')
+                            },
+                            {
+                              label: 'Eliminar',
+                              icon: IconDelete,
+                              isDelete: true,
+                              dividerTop: true,
+                              onClick: () => console.log('delete course')
+                            }
+                          ]}
                         />
                       </div>
                     </td>

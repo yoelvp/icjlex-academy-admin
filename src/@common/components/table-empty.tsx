@@ -1,3 +1,5 @@
+import { IconInboxFilled } from '@/assets/icons'
+
 interface Props {
   isLoading: boolean
   show: boolean
@@ -17,7 +19,10 @@ export const TableEmpty = ({
     return (
       <tr>
         <td colSpan={numCols} className="px-4 text-center">
-          {message}
+          <div className="flex flex-col justify-center items-center gap-y-1 text-gray-400">
+            <IconInboxFilled size="48" className="text-zinc-300/50" />
+            {message}
+          </div>
         </td>
       </tr>
     )
