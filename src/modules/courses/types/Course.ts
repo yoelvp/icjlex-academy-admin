@@ -97,3 +97,17 @@ interface Valoration {
   value: string
   quantity: number
 }
+
+export interface PublishedCourse {
+  id: string
+  imageUrl: string | null
+  name: string
+  teacher: Teacher
+  price: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface UpcomingCourse extends PublishedCourse {
+  publicationDate: Date | null
+}
