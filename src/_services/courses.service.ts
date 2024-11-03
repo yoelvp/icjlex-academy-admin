@@ -1,7 +1,17 @@
-import { IdAndNameFields } from '@/@common/types/IdAndName'
-import { ResponseData } from '@/@common/types/ResponseData'
-import { Course } from '@/_models/Course.model'
+import type { PublishedCourse, UpcomingCourse } from '@/modules/courses/types/Course'
+import type { IdAndNameFields } from '@/@common/types/IdAndName'
+import type { ResponseData } from '@/@common/types/ResponseData'
+import type { Course } from '@/_models/Course.model'
+
 import { axios } from '@/lib'
+
+export const getAllPublishedCoursesService = () => {
+  return axios.get<ResponseData<PublishedCourse>>('/courses')
+}
+
+export const getAllUpcomingCoursesService = () => {
+  return axios.get<ResponseData<UpcomingCourse>>('/courses/soon')
+}
 
 export const getAllCoursesOnlyNameService = () => {
   return axios.get<IdAndNameFields[]>('/courses/only-name')
