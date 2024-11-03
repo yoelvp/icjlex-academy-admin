@@ -85,8 +85,8 @@ const RegisterCourseModal = ({
               isLoading: isLoadingCreateCourse,
               onClick: () => {
                 handleFormSubmit().then(() => {
-                  /* closeConfirmModal() */
-                  /* onClose() */
+                  closeConfirmModal()
+                  onClose()
                 })
               }
             }
@@ -125,9 +125,7 @@ const RegisterCourseModal = ({
       image
     }
 
-    console.log(formattedData)
-
-    /* await createCourse(formattedData) */
+    await createCourse(formattedData)
   }
 
   return (
