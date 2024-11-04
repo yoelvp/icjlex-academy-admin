@@ -65,7 +65,7 @@ export const useAuth = () => {
       const userRoles = (roles?.roles?.length ?? 0) > 1 ? roles?.roles : null
 
       setInitialCan({
-        isAdmin: roles.roles?.includes('ADMIN') ? true : false,
+        isAdmin: (roles.roles?.includes('ADMIN') || roles.roles?.includes('SUBMANAGER')) ? true : false,
         permission: userPermission!,
         permissions: userPermissions!,
         role: userRole!,
@@ -83,6 +83,13 @@ export const useAuth = () => {
     setToken(null)
     setRefreshToken(null)
     setUser(null)
+    setInitialCan({
+      isAdmin: false,
+      permission: null,
+      permissions: null,
+      role: null,
+      roles: null
+    })
     navigate('/')
   }
 
