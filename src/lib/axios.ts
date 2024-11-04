@@ -1,7 +1,6 @@
 import axiosHttp, { InternalAxiosRequestConfig } from 'axios'
 import { API_URL } from '@/@common/env'
-import Cookies from 'js-cookie'
-import { CookieKeys } from '@/modules/[auth]/login/utils'
+import { AuthStorageKeys } from '@/@auth/enums/storage-keys.enum'
 
 export const axios = axiosHttp.create({
   baseURL: API_URL
@@ -16,7 +15,8 @@ export const AxiosInterceptor = () => {
   ]
 
   const updateHeader = (request: InternalAxiosRequestConfig) => {
-    const token = Cookies.get(CookieKeys.TOKEN)
+    const tokenStore = JSON.parse(localStorage.getItem(AuthStorageKeys.TOKEN) ?? 'null')
+    const token = tokenStore?.state?.token ?? ''
 
     if (!whitelistEnpoints.includes(request.url ?? '/')) {
       request.headers.Authorization = `jwt ${token}`
