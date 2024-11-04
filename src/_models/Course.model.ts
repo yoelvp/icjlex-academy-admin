@@ -39,7 +39,7 @@ export interface CourseDetails extends Course {
   numStudents: number
   includes: string[]
   youWillLearn: string[]
-  content: CourseContent[]
+  contents: CourseContent[]
   description: string
 }
 
