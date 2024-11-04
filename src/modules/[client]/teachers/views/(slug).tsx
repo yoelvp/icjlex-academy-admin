@@ -16,10 +16,12 @@ import { useParams } from 'react-router-dom'
 import Link from '@/@common/components/link'
 import { useTeachersById } from '../hooks/use-teachers-by-id'
 import { RenderHTML } from '@/@common/components'
+import { useGetCoursesByTeacherId } from '../hooks'
 
 const TeacherDetailsPage = () => {
   const { id } = useParams()
   const { isLoading, teachers } = useTeachersById(id)
+  const { isLoading: isLoadingCourses, courses, pagination } = useGetCoursesByTeacherId()
 
   const data = [
     {
@@ -78,50 +80,39 @@ const TeacherDetailsPage = () => {
             <div className="flex-col-start gap-y-8">
               <article className="flex-col-start gap-y-4">
                 <SectionHeading>Sobre mí</SectionHeading>
-                <RenderHTML content={teachers?.aboutMe ?? ''}/>
+                <RenderHTML content={teachers?.aboutMe ?? ''} />
               </article>
 
               <article className="flex-col-start gap-y-4">
                 <SectionHeading>Especialidades</SectionHeading>
                 <ul>
-                  {teachers?.docentToSpecialty &&
-                  teachers.docentToSpecialty.length > 0 ? (
-                      teachers.docentToSpecialty.map((specialty, index) => (
-                        <li key={index} className="flex-start gap-x-2">
-                          <IconCheckmark className="text-primary-500 text-2xl" />
-                          <span>{specialty}</span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="flex-start gap-x-2">
+                  {teachers?.docentToSpecialty && teachers.docentToSpecialty.length > 0 ? (
+                    teachers.docentToSpecialty.map((specialty, index) => (
+                      <li key={index} className="flex-start gap-x-2">
                         <IconCheckmark className="text-primary-500 text-2xl" />
-                        <span>No hay especialidades disponibles</span>
+                        <span>{specialty}</span>
                       </li>
-                    )}
+                    ))
+                  ) : (
+                    <li className="flex-start gap-x-2">
+                      <IconCheckmark className="text-primary-500 text-2xl" />
+                      <span>No hay especialidades disponibles</span>
+                    </li>
+                  )}
                 </ul>
               </article>
 
               <article className="flex-col-start gap-y-4">
-                <SectionHeading>Mis cursos (6)</SectionHeading>
+                <SectionHeading>Mis cursos {pagination.totalItems}</SectionHeading>
 
                 <div className="flex-col-center gap-y-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
-                    <CourseCard />
+                    {isLoadingCourses && courses && courses?.map((course) => (
+                      <CourseCard key={course.id} course={course} />
+                    ))}
                   </div>
                   <div>
-                    <Pagination
-                      page={1}
-                      totalItems={12}
-                      size={100}
-                      nextPage={() => console.log('Next Page')}
-                      prevPage={() => console.log('Prev. page')}
-                      goToPage={() => console.log('Go to page')}
-                    />
+                    <Pagination {...pagination} withLabels withInfo={false} withSize={false} size={9} />
                   </div>
                 </div>
               </article>
