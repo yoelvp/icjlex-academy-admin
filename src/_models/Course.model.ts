@@ -20,7 +20,7 @@ interface CourseValoration {
 interface CourseVideo {
   className: string
   duration: string
-  videoUrl: string | null
+  url: string | null
 }
 
 export interface Course {

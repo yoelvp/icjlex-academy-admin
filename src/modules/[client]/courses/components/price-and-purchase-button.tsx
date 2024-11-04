@@ -1,14 +1,18 @@
 import Link from '@/@common/components/link'
 import { IconSend, IconWhatsapp } from '@/assets/icons'
-import { useFormattedPrice } from '../utils/format-price'
 import Button from '@/@common/components/button'
 import { useState } from 'react'
 import { whatsappMessage } from '@/@common/utils/whatsapp'
 import { WHATSAPP_ADMIN_NUMBER_PHONE } from '@/@common/env'
 import { Modal } from 'flowbite-react'
+import { formatCurrency } from '@/@common/utils/currencies'
 
-export const PriceAndPurchaseButton = ({ price, name }) => {
-  const formattedPrice = useFormattedPrice(price)
+interface Props {
+  price?: number
+  name?: string
+}
+
+export const PriceAndPurchaseButton = ({ price, name }: Props) => {
   const [openModal, setOpenModal] = useState(false)
 
   return (
@@ -21,9 +25,9 @@ export const PriceAndPurchaseButton = ({ price, name }) => {
       <div className="w-full flex justify-center items-center gap-x-4 sm:gap-x-8 lg:flex-col lg:gap-y-4">
         <div className="flex flex-col items-end lg:items-center xl:flex-row xl:gap-x-2">
           <span className="text-white text-2xl text-nowrap font-bold leading-8 sm:text-3xl md:text-4xl lg:text-primary-700 xl:leading-normal">
-            S/. {formattedPrice}
+            {formatCurrency(price ?? 0)}
           </span>
-          <span className="text-primary-300 line-through">S/. 120.00</span>
+          {/* <span className="text-primary-300 line-through">S/. 120.00</span> */}
         </div>
         <div className="w-full flex md:w-auto lg:w-full">
           <Button

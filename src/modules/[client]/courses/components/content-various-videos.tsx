@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconChevronDown, IconChevronUp, IconPlay } from '@/assets/icons'
 import { CourseDetails } from '@/_models/Course.model'
+import { ValidateStudentHasPaidCourse } from '@/_models/Student.model'
 
 interface Props {
   course: CourseDetails | null
+  paidCourse: ValidateStudentHasPaidCourse | null
 }
 
-export const ContentVariousVideos = ({ course }: Props) => {
+export const ContentVariousVideos = ({ course, paidCourse }: Props) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   const handleToggle = (index: number) => {
@@ -67,9 +69,20 @@ export const ContentVariousVideos = ({ course }: Props) => {
                   <div key={contentIndex} className="text-primary-500 flex gap-2 items-center py-2 justify-between">
                     <div className="text-wrap flex items-center overflow-hidden whitespace-nowrap gap-2">
                       <IconPlay size={24} className="text-primary-400" />
-                      <Link to="/" className="text-primary-500 hover:text-primary-300">
-                        {video.name}
-                      </Link>
+                      {paidCourse && paidCourse.isPaid ? (
+                        <Link
+                          to={video.url ?? '/'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary-500 hover:text-primary-300"
+                        >
+                          {video.name}
+                        </Link>
+                      ) : (
+                        <span className="text-primary-500 hover:text-primary-300">
+                          {video.name}
+                        </span>
+                      )}
                     </div>
                     <span className="text-primary-300">
                       {video?.duration}
