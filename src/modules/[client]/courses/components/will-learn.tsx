@@ -15,11 +15,15 @@ export const WillLearn = ({ course }: Props) => {
 
       {course?.youWillLearn ? (
         <List>
-          {Array.isArray(course.youWillLearn) && course.youWillLearn.map((item, index) => (
+          {Array.isArray(course.youWillLearn) ? course.youWillLearn.map((item, index) => (
             <List.Item icon={IconList} key={index}>
               {item.trim()}
             </List.Item>
-          ))}
+          )) : (
+            <List.Item icon={IconList}>
+              {course.youWillLearn}
+            </List.Item>
+          )}
         </List>
       ) : (
         <p>No hay elementos incluidos.</p>
