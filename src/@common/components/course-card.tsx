@@ -8,7 +8,7 @@ import { WHATSAPP_ADMIN_NUMBER_PHONE } from '../env'
 import { Popover } from 'flowbite-react'
 
 interface Props {
-  course?: Course
+  course: Course | null
 }
 
 export const CourseCard = ({ course }: Props) => {
