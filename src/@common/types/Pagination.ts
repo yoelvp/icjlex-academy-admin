@@ -1,6 +1,16 @@
 export interface Pagination {
-  count: number | null
-  size: number | null
-  totalPages: number | null
-  currentPage: number | null
+  page?: number
+  totalItems?: number
+  totalPages?: number
+}
+
+export interface ResPagination {
+  currentPage?: number
+  count?: number
+  totalPages?: number
+}
+
+export interface ReqWithPagination {
+  page?: number
+  size?: number
 }
