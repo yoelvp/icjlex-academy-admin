@@ -1,5 +1,3 @@
-import { RenderHTML } from '@/@common/components'
-import { RatingCourse } from './rating'
 import { ContentFull } from '@/@common/components/content-full'
 import { Link } from 'react-router-dom'
 import { CourseDetails } from '@/_models/Course.model'
