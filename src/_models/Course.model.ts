@@ -12,16 +12,18 @@ interface CourseContent {
   videos: CourseVideo[]
 }
 
+interface CourseValoration {
+  value: string
+  quantity: number
+}
+
 export interface Course {
   id: string
   name: string
   imageUrl: string | null
   price: number
   teacher: TeacherBasicData
-  valoration: {
-    value: string
-    quantity: number
-  }
+  valoration: CourseValoration
   numClasses: number
   totalClassTime: string
 }
