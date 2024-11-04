@@ -1,34 +1,34 @@
-import type { Teacher } from '@/_models/Teacher.model'
-import type { Pagination } from '@/@common/types/Pagination'
+import type { Course } from '@/_models/Course.model'
 
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { HttpStatusCode } from 'axios'
+import { HttpStatus } from '@/_utils/http-status.enum'
+import { getCoursesService } from '@/_services/courses.service'
 import { useLoading } from '@/@common/hooks/use-loading'
-import { getAllTeachersService } from '@/_services/teachers-client.service'
-import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
 import { usePagination } from '@/@common/hooks/use-pagination'
+import { Pagination } from '@/@common/types/Pagination'
+import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
 import { responseMapper } from '@/@common/utils/response-mapper'
 import getError from '@/@common/utils/get-errors'
 
-export const useTeachers = () => {
-  const [teachers, setTeachers] = useState<Teacher[] | null>(null)
+export const useGetCoursesByTeacherId = () => {
+  const [courses, setCourses] = useState<Course[] | null>(null)
   const [paginationState, setPaginationState] = useState<Pagination>(DEFAULT_PAGINATION)
   const pagination = usePagination(paginationState)
-  const { isLoading, loaded, loading } = useLoading()
+  const { isLoading, loading, loaded } = useLoading()
 
   useEffect(() => {
-    getAllTeachers()
+    getAllCourses()
   }, [pagination.page, pagination.size])
 
-  const getAllTeachers = async () => {
+  const getAllCourses = async () => {
     try {
       loading()
-      const { data: resData, status } = await getAllTeachersService({ ...pagination })
+      const { data: resData, status } = await getCoursesService()
 
-      if (status === HttpStatusCode.Ok) {
+      if (status === HttpStatus.OK) {
         const data = responseMapper(resData)
-        setTeachers(data.results)
+        setCourses(data.results)
         setPaginationState(data)
       }
     } catch (error) {
@@ -42,7 +42,7 @@ export const useTeachers = () => {
 
   return {
     isLoading,
-    teachers,
+    courses,
     pagination
   }
 }

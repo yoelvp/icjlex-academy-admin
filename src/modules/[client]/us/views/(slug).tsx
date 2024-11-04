@@ -10,7 +10,6 @@ import {
   IconStar,
   IconCheckmark
 } from '@/assets/icons'
-import { CourseCard } from '@/@common/components/course-card'
 import { useParams } from 'react-router-dom'
 import { useCollaborators } from '../hooks/use-collaborator'
 
@@ -88,8 +87,9 @@ const CollaboratorDetailsPage = () => {
           <article className="flex-col-start gap-y-4">
             <div className="flex-col-center gap-y-4">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                <CourseCard />
-                <CourseCard />
+                course card
+                {/* <CourseCard /> */}
+                {/* <CourseCard /> */}
               </div>
             </div>
           </article>

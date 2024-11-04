@@ -5,7 +5,7 @@ import { TeacherCard } from '../components/teacher-card'
 import { useTeachers } from '../hooks/use-teachers'
 
 const TeachersPage = () => {
-  const { isLoading, teachers } = useTeachers(1, 999)
+  const { isLoading, teachers, pagination } = useTeachers()
 
   return (
     <Content className="mt-16 mb-24">
@@ -28,14 +28,7 @@ const TeachersPage = () => {
           </section>
         )}
 
-        <Pagination
-          page={1}
-          totalItems={12}
-          size={100}
-          nextPage={() => console.log('Next Page')}
-          prevPage={() => console.log('Prev. page')}
-          goToPage={() => console.log('Go to page')}
-        />
+        <Pagination {...pagination} withSize={false} withInfo={false} size={12} withLabels />
       </div>
     </Content>
   )
