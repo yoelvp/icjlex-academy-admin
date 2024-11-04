@@ -25,8 +25,8 @@ const CourseDetailsPage = () => {
 
         <div className="w-full flex flex-col gap-y-16">
           <WillLearn course={course} />
-          <ContentVariousVideos />
-          <ContentDescription course={course} />
+          <ContentVariousVideos course={course} />
+          <ContentDescription description={course?.description ?? ''} />
           <CoursesValorations />
           <MoreCoursesByTeacher />
         </div>
