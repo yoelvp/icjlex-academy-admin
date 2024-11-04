@@ -1,43 +1,28 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
-interface UsePaginationOptions {
-  initialPage?: number
-  initialSize?: number
-  onPageChange?: (page: number, size: number) => void
+interface UsePaginationProps {
+  page?: number
+  totalItems?: number
+  totalPages?: number
 }
 
-export const usePagination = ({
-  initialPage = 1,
-  initialSize = 10,
-  onPageChange
-}: UsePaginationOptions = {}) => {
-  const [page, setPage] = useState(initialPage)
-  const [size, setSize] = useState(initialSize)
+export const usePagination = ({ page, totalItems, totalPages }: UsePaginationProps = {}) => {
+  const [currentPage, setCurrentPage] = useState(page ?? 1)
+  const [size, setSize] = useState(10)
 
-  const prevPageRef = useRef(page)
-  const prevSizeRef = useRef(size)
-
-  useEffect(() => {
-    if (
-      onPageChange &&
-      (prevPageRef.current !== page || prevSizeRef.current !== size)
-    ) {
-      onPageChange(page, size)
-    }
-
-    // Actualiza las referencias previas
-    prevPageRef.current = page
-    prevSizeRef.current = size
-  }, [page, size, onPageChange])
-
-  const nextPage = () => setPage((prev) => prev + 1)
-  const prevPage = () => setPage((prev) => Math.max(prev - 1, 1))
+  const nextPage = () => setCurrentPage((prev) => prev + 1)
+  const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1))
+  const goToPage = (page: number) => setCurrentPage(page)
+  const handleSize = (newSize: number) => setSize(newSize)
 
   return {
-    page,
+    page: currentPage,
     size,
-    setSize,
     prevPage,
-    nextPage
+    nextPage,
+    goToPage,
+    handleSize,
+    totalItems,
+    totalPages
   }
 }

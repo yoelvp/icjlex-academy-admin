@@ -2,11 +2,17 @@ import type { PublishedCourse, UpcomingCourse } from '@/modules/courses/types/Co
 import type { IdAndNameFields } from '@/@common/types/IdAndName'
 import type { ResWithPagination } from '@/@common/types/ResponseData'
 import type { Course, CourseContents } from '@/_models/Course.model'
+import type { ReqWithPagination } from '@/@common/types/Pagination'
 
 import { axios } from '@/lib'
 
-export const getAllPublishedCoursesService = () => {
-  return axios.get<ResWithPagination<PublishedCourse>>('/courses')
+export const getAllPublishedCoursesService = ({ page, size }: ReqWithPagination) => {
+  return axios.get<ResWithPagination<PublishedCourse>>('/courses', {
+    params: {
+      page,
+      size
+    }
+  })
 }
 
 export const getAllUpcomingCoursesService = () => {
