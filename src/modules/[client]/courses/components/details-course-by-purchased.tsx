@@ -19,7 +19,7 @@ export const DetailsCourseByPurchased = ({ course }: Props) => {
         </span>
         {course?.includes ? (
           <div className="flex flex-col gap-2">
-            {Array.isArray(course.includes) && course.includes.map((item, index) => (
+            {Array.isArray(course.includes) ? course.includes.map((item, index) => (
               <span
                 className="text-primary-500 flex gap-4 items-center"
                 key={index}
@@ -27,7 +27,12 @@ export const DetailsCourseByPurchased = ({ course }: Props) => {
                 <IconRadioButtonOff size={16} className="text-primary-400" />
                 <p className="text-primary-500">{item}</p>
               </span>
-            ))}
+            )) : (
+              <span className="text-primary-500 flex gap-4 items-center">
+                <IconRadioButtonOff size={16} className="text-primary-400" />
+                <p className="text-primary-500">{course.includes}</p>
+              </span>
+            )}
           </div>
         ) : (
           <span className="text-primary-500 flex gap-4 items-center">
