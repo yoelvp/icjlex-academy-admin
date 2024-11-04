@@ -1,37 +1,61 @@
 import type { IdParams } from '@/@common/types'
 
-import { lazy, Suspense, useState } from 'react'
+import { Fragment, lazy, Suspense, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import classNames from 'classnames'
-import { List, Tabs } from 'flowbite-react'
+import { Tabs } from 'flowbite-react'
 import Button from '@/@common/components/button'
 import { useShow } from '@/@common/hooks/use-show'
 import { TableLoading } from '@/@common/components/table-loading'
 import { LoadingModal, Menu, RenderHTML } from '@/@common/components'
-import { useCoursesInformation } from '../hooks/use-get-courses-information'
 import {
   IconAdd,
   IconArrowRoundBack,
   IconCheckmark,
-  IconDelete,
-  IconEdit,
-  IconEye,
-  IconList
+  IconChevronDown,
+  IconEdit
 } from '@/assets/icons'
 import { formatCurrency } from '@/@common/utils/currencies'
 import Form from '@/@common/components/form'
+import { useGetCourseContents } from '../hooks'
+import { useCourseContentsStore } from '../store'
+import { CourseContents } from '@/_models/Course.model'
+import { TableEmpty } from '@/@common/components/table-empty'
 
 const ResourcesFromCourse = lazy(() => import('../components/resources-from-course'))
 
 const CoursesPage = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
   const { show, open, close } = useShow()
-  const { courses, isLoading } = useCoursesInformation(1, 999)
   const params = useParams<IdParams>()
-  console.log(params.id)
+  const { isLoading } = useGetCourseContents(params.id ?? '')
+  const contents = useCourseContentsStore((state) => state.contents)
 
   const handleEditTitle = () => {
     setIsEditingTitle(true)
+  }
+  const handleContentExpand = (index: number) => {
+    setExpandedSections((prevExpandedSections) => {
+      const newExpandedSections = new Set(prevExpandedSections)
+      if (newExpandedSections.has(index)) {
+        newExpandedSections.delete(index)
+      } else {
+        newExpandedSections.add(index)
+      }
+
+      return newExpandedSections
+    })
+  }
+
+  const countTotalVideos = (section: CourseContents): number => {
+    let count = 0
+
+    section.classes.forEach((courseClass) => {
+      if (courseClass.videoUrl) count++
+    })
+
+    return count
   }
 
   return (
@@ -198,67 +222,72 @@ const CoursesPage = () => {
             <table className="custom-table mb-6">
               <thead>
                 <tr>
-                  <th>N°</th>
+                  <th></th>
                   <th>Nombre</th>
-                  <th>Videos</th>
-                  <th>Recursos</th>
-                  <th>Total de video</th>
+                  <th>Cantidad de videos</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <TableLoading numCols={6} isLoading={isLoading} />
-
-                {!isLoading &&
-                  courses?.map((course) => (
-                    <tr key={course.id} className="border-b border-gray-200">
-                      <td>{course.id}</td>
-                      <td className="max-w-sm">{course.name}</td>
-                      <td className="w-[15%]">{course.numClasses}</td>
+                <TableLoading numCols={4} isLoading={isLoading} />
+                <TableEmpty show={(contents?.length ?? 0) < 1} numCols={4} isLoading={isLoading} />
+                {!isLoading && contents?.map((content, index) => (
+                  <Fragment key={content.sectionName}>
+                    <tr className="border-b border-gray-200">
                       <td>
-                        {course.includes && course.includes.trim() !== '' ? (
-                          <List>
-                            {course.includes.split(',').map((item, index) => (
-                              <List.Item icon={IconList} key={index}>
-                                {item.trim()}
-                              </List.Item>
-                            ))}
-                          </List>
-                        ) : (
-                          <p>No hay elementos incluidos.</p>
-                        )}
+                        <button
+                          type="button"
+                          onClick={() => handleContentExpand(index)}
+                          className="w-8 h-8 rounded-sm border border-primary-500/50 flex-center hover:bg-primary-50"
+                        >
+                          <IconChevronDown />
+                        </button>
                       </td>
-                      <td>{course.totalClassTime}</td>
+                      <td>
+                        {content.sectionName}
+                      </td>
+                      <td>
+                        {countTotalVideos(content)}
+                      </td>
                       <td>
                         <div className="border-l border-l-gray-300 flex justify-center">
                           <Menu
                             variant="white"
-                            options={[
-                              {
-                                label: 'Ver detalles',
-                                icon: IconEye,
-                                onClick: () => {
-                                  console.log('Ver detalles')
-                                }
-                              },
-                              {
-                                label: 'Editar',
-                                icon: IconEdit,
-                                onClick: () => console.log('Editar')
-                              },
-                              {
-                                label: 'Eliminar',
-                                icon: IconDelete,
-                                isDelete: true,
-                                dividerTop: true,
-                                onClick: () => console.log('delete course')
-                              }
-                            ]}
+                            options={[]}
                           />
                         </div>
                       </td>
                     </tr>
-                  ))}
+                    {expandedSections.has(index) && (
+                      <tr className="sub-table">
+                        <td colSpan={4}>
+                          <table className="w-full custom-table">
+                            <thead>
+                              <tr>
+                                <th className="text-primary-700">Nombre del curso</th>
+                                <th className="text-primary-700">Duración</th>
+                                <th className="text-primary-700">URL del video</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {content?.classes?.map((contentClass) => (
+                                <tr key={contentClass.className}>
+                                  <td>{contentClass.className}</td>
+                                  <td>
+                                    {contentClass.duration}
+                                  </td>
+                                  <td>
+                                    {contentClass.videoUrl}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
+                ))}
               </tbody>
             </table>
           </Tabs.Item>
