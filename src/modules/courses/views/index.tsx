@@ -25,6 +25,7 @@ import { usePublishedCoursesStore } from '../store/published-courses.store'
 import { useUpcomingCoursesStore } from '../store/upcoming-courses.store'
 import { TableEmpty } from '@/@common/components/table-empty'
 import { useGetPublishedCourses, useGetUpcomingCourses } from '../hooks'
+import { Pagination } from '@/@common/components'
 
 const RegisterCourseModal = lazy(() => import('../components/register-course-modal'))
 const CourseDetailsDrawer = lazy(() => import('../components/course-details-drawer'))
@@ -32,7 +33,7 @@ const CourseDetailsDrawer = lazy(() => import('../components/course-details-draw
 const CoursesPage = () => {
   const { show, open, close } = useShow()
   const { tab, handleTabIndex } = useCourseUI()
-  const { isLoading: isLoadingPublished } = useGetPublishedCourses()
+  const { isLoading: isLoadingPublished, pagination: publishPagination } = useGetPublishedCourses()
   const { isLoading: isLoadingUpcoming } = useGetUpcomingCourses()
   const publishedCourses = usePublishedCoursesStore((state) => state.courses)
   const upcomingCourses = useUpcomingCoursesStore((state) => state.courses)
@@ -143,6 +144,7 @@ const CoursesPage = () => {
                 ))}
               </tbody>
             </table>
+            <Pagination {...publishPagination} />
           </Tabs.Item>
 
           <Tabs.Item title="Próximos" active={tab === CourseTab.INACTIVE}>
