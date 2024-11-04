@@ -52,7 +52,7 @@ const CoursesPage = () => {
     let count = 0
 
     section.classes.forEach((courseClass) => {
-      if (courseClass.videoUrl) count++
+      if (courseClass.url) count++
     })
 
     return count
@@ -277,7 +277,7 @@ const CoursesPage = () => {
                                     {contentClass.duration}
                                   </td>
                                   <td>
-                                    {contentClass.videoUrl}
+                                    {contentClass.url}
                                   </td>
                                 </tr>
                               ))}
