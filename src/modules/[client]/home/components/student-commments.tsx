@@ -1,7 +1,12 @@
 import type { FC } from 'react'
 import { SectionHeader } from '@/@common/components/section-header'
 import { Content } from '@/@common/components/content'
-import { IconStar, IconArrowRoundForward, IconArrowRoundBack } from '@/assets/icons'
+import {
+  IconStar,
+  /* IconArrowRoundForward, */
+  /* IconArrowRoundBack, */
+  IconStarFilled
+} from '@/assets/icons'
 
 export const StudentComments: FC = () => {
   return (
@@ -13,47 +18,47 @@ export const StudentComments: FC = () => {
       <div className="flex-col-center gap-y-4">
         <div className="bg-primary-50 border-2 border-primary-200 w-32 h-32 rounded-full flex-center">
           <span className="text-2xl text-primary-500 font-semibold">
-            YV
+            VC
           </span>
         </div>
         <strong className="text-primary-500 text-lg font-semibold">
-          Yoel Valverde
+          Valdir Contreras
         </strong>
       </div>
 
-      <div className="w-full flex-between max-w-[720px]">
-        <div className="relative">
-          <button className="relative z-[10] flex-center">
-            <IconArrowRoundBack size="48" className="text-primary-500" />
-          </button>
-          <div className="absolute top-1/2 -translate-y-1/2 -left-2 w-8 h-8 rounded-full bg-secondary-500" />
-        </div>
+      <div className="w-full flex-center max-w-[720px]">
+        {/* <div className="relative"> */}
+        {/*   <button className="relative z-[10] flex-center"> */}
+        {/*     <IconArrowRoundBack size="48" className="text-primary-500" /> */}
+        {/*   </button> */}
+        {/*   <div className="absolute top-1/2 -translate-y-1/2 -left-2 w-8 h-8 rounded-full bg-secondary-500" /> */}
+        {/* </div> */}
 
         <div className="flex-center gap-x-2">
-          <IconStar className="text-gold text-xl md:text-2xl" />
-          <IconStar className="text-gold text-xl md:text-2xl" />
-          <IconStar className="text-gold text-xl md:text-2xl" />
-          <IconStar className="text-gold text-xl md:text-2xl" />
+          <IconStarFilled className="text-gold text-xl md:text-2xl" />
+          <IconStarFilled className="text-gold text-xl md:text-2xl" />
+          <IconStarFilled className="text-gold text-xl md:text-2xl" />
+          <IconStarFilled className="text-gold text-xl md:text-2xl" />
           <IconStar className="text-gold text-xl md:text-2xl" />
         </div>
 
-        <div className="relative">
-          <button className="relative z-10 flex-center">
-            <IconArrowRoundForward size="48" className="text-primary-500" />
-          </button>
-          <div className="absolute top-1/2 -translate-y-1/2 -right-2 w-8 h-8 rounded-full bg-secondary-500" />
-        </div>
+        {/* <div className="relative"> */}
+        {/*   <button className="relative z-10 flex-center"> */}
+        {/*     <IconArrowRoundForward size="48" className="text-primary-500" /> */}
+        {/*   </button> */}
+        {/*   <div className="absolute top-1/2 -translate-y-1/2 -right-2 w-8 h-8 rounded-full bg-secondary-500" /> */}
+        {/* </div> */}
       </div>
 
       <div className="max-w-[480px] mx-auto">
         <p>
-          El curso es excelente, aprendí demasiado con su contenido y los profesores saben del tema, lo mejor es que saben como llegar al alumno y que aprenda de manera efectiva y eficaz.
+          ¡Estoy muy emocionado por comenzar mi aprendizaje en esta academia! He estado buscando un lugar donde realmente pueda profundizar en los temas que me apasionan, y los cursos aquí parecen ser justo lo que necesito. No puedo esperar a sumergirme en el material, aprender de expertos y llevar mis habilidades al siguiente nivel. ¡Es genial saber que cuento con una comunidad y mentores que me guiarán en este camino! 🔥💪
         </p>
       </div>
 
-      <div>
-        1 2 3 4 5 6
-      </div>
+      {/* <div> */}
+      {/*   1 2 3 4 5 6 */}
+      {/* </div> */}
     </Content>
   )
 }
