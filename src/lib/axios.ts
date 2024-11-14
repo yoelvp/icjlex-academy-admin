@@ -1,4 +1,5 @@
 import axiosHttp, { InternalAxiosRequestConfig } from 'axios'
+import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/@common/env'
 import { AuthStorageKeys } from '@/@auth/enums/storage-keys.enum'
 
@@ -31,5 +32,11 @@ export const AxiosInterceptor = () => {
 
   axios.interceptors.request.use((request) => {
     return updateHeader(request)
+  })
+
+  axios.interceptors.response.use((response) => {
+    response.data = camelcaseKeys(response.data, { deep: true })
+
+    return response
   })
 }
