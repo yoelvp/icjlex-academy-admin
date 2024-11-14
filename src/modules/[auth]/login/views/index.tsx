@@ -8,11 +8,11 @@ import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
 import { Content } from '@/@common/components/content'
 import { IconLockCloseOutline, IconMail } from '@/assets/icons'
-import { LoginFormSchema } from '../types/Login'
-import { loginFormSchema } from '../schemas/login.schema'
-import { useAuth } from '../hooks/use-auth'
 import { whatsappMessage } from '@/@common/utils/whatsapp'
+import { useAuth } from '@/@auth/hooks/use-auth'
 import { APP_NAME_WITHOUT_AMP, WHATSAPP_ADMIN_NUMBER_PHONE } from '@/@common/env'
+import { LoginFormSchema } from '@/@auth/types/Login'
+import { loginFormSchema } from '@/@auth/schemas/login.schema'
 
 const LoginPage = () => {
   const { isLoading, login } = useAuth()

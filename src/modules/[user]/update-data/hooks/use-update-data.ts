@@ -5,7 +5,7 @@ import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { updateMainDataService } from '@/_services/students.service'
 import { HttpStatus } from '@/_utils/http-status.enum'
-import { useAuth } from '@/modules/[auth]/login/hooks/use-auth'
+import { useAuth } from '@/@auth/hooks/use-auth'
 
 export const useUpdateData = () => {
   const { login } = useAuth()
