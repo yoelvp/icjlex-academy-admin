@@ -26,12 +26,16 @@ interface CourseVideo {
 export interface Course {
   id: string
   name: string
+  slug: string
   imageUrl: string | null
   price: number
-  teacher: TeacherBasicData
-  valoration: CourseValoration
-  numClasses: number
-  totalClassTime: string
+  isScheduled: boolean | null
+  isFree: boolean
+  publicationDate: Date | null
+  teachers: TeacherBasicData[]
+  valoration?: CourseValoration
+  numClasses?: number
+  totalClassTime?: string
 }
 
 export interface CourseDetails extends Course {
