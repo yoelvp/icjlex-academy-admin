@@ -1,32 +1,19 @@
 import { Content } from '@/@common/components/content'
-import { ListOfCourses } from '../components/list-of-courses'
-import { SearchCourse } from '../components/search-course'
-import { useEffect, useState } from 'react'
-import { Spinner } from 'flowbite-react'
-import { useCourses } from '../../hooks/use-courses'
+/* import { ListOfCourses } from '../components/list-of-courses' */
+/* import { SearchCourse } from '../components/search-course' */
+/* import { useEffect, useState } from 'react' */
+/* import { Spinner } from 'flowbite-react' */
 
 const CoursesPage = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const { courses, getAllCourses, isLoadingCourses } = useCourses()
-
-  useEffect(() => {
-    getAllCourses()
-  }, [])
-
-  const filteredCourses = courses
-    ? courses.filter((course) =>
-      course.name?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    : []
-
   return (
     <Content className="py-32 flex flex-col lg:grid grid-cols-1 gap-8 lg:grid-cols-4">
-      <SearchCourse
-        coursesCounter={courses?.length}
-        loading={isLoadingCourses}
-        setSearchTerm={setSearchTerm}
-      />
-      {isLoadingCourses ? (
+      Test
+      {/* <SearchCourse */}
+      {/*   coursesCounter={courses?.length} */}
+      {/*   loading={isLoadingCourses} */}
+      {/*   setSearchTerm={setSearchTerm} */}
+      {/* /> */}
+      {/* isLoadingCourses ? (
         <div className="h-screen">
           <Spinner />
         </div>
@@ -36,7 +23,7 @@ const CoursesPage = () => {
         </div>
       ) : (
         <ListOfCourses courses={filteredCourses} />
-      )}
+      ) */}
     </Content>
   )
 }

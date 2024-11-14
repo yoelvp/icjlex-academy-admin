@@ -6,7 +6,7 @@ import { DetailsCourseByPurchased } from '../components/details-course-by-purcha
 import { ContentVariousVideos } from '../components/content-various-videos'
 import { ContentDescription } from '../components/content-description'
 import { CoursesValorations } from '../components/courses-valorations'
-import { MoreCoursesByTeacher } from '../components/more-courses-by-teacher'
+/* import { MoreCoursesByTeacher } from '../components/more-courses-by-teacher' */
 import { FooterToBuy } from '../components/footer-to-buy'
 import { useGetCheckStudentPaidCourse, useGetCourseDetails } from '../hooks'
 import { CoursePlaceholder } from '../components/course-placeholder'
@@ -70,7 +70,7 @@ const CourseDetailsPage = () => {
           </div>
           <ContentDescription description={course?.description ?? ''} />
           <CoursesValorations />
-          <MoreCoursesByTeacher />
+          {/* <MoreCoursesByTeacher /> */}
         </div>
       </Content>
 
