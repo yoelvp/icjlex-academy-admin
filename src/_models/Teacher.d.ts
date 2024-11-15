@@ -9,16 +9,12 @@ export interface Teacher {
   id: string
   firstName: string
   lastName: string
+  slug: string
   profession: string
   about: string
   imageUrl: string | null
-  specialties: string[]
-  socialMedia: {
-    linkedin: string | null
-    youtube: string | null
-    facebook: string | null
-    x: string | null
-    instagram: string | null
-    whatsapp: string | null
-  }
+  specialties: (string | undefined)[]
+  socialMedia: string[]
 }
+
+export type UpdateTeacher = Teacher
