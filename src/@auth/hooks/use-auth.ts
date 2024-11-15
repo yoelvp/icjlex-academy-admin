@@ -1,4 +1,3 @@
-
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { HttpStatusCode } from 'axios'
@@ -6,10 +5,15 @@ import { useTokenStore } from '@/@auth/store/use-token.store'
 import { useUserStore } from '@/@auth/store/use-user.store'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
-import { getRolesAndPermissionsByUserIdService, getUserByIdService, loginService, logoutService } from '@/_services/auth.service'
 import { useCanStore } from '@/@auth/store/use-can.store'
 import { ROLES } from '@/@auth/utils/roles'
 import { LoginFormSchema } from '../types/Login'
+import {
+  getRolesAndPermissionsByUserIdService,
+  loginService,
+  logoutService
+} from '@/_services/auth.service'
+import { getUserByIdService } from '@/_services/users-client.service'
 
 export const useAuth = () => {
   const navigate = useNavigate()

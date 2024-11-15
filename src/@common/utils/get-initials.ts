@@ -1,4 +1,4 @@
-import type { User } from '@/@auth/models/User'
+import type { User } from '@/_models/User'
 import type { Student } from '@/modules/students/types/Student'
 
 export const getUserInitials = (user: User | Student | null) => {

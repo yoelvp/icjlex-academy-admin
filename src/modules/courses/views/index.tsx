@@ -12,26 +12,26 @@ import {
   IconSearch
 } from '@/assets/icons'
 import Form from '@/@common/components/form'
-import Button from '@/@common/components/button'
 import { useShow } from '@/@common/hooks/use-show'
 import { Tabs } from 'flowbite-react'
 import { CourseTab } from '../enums/course-tab'
 import { useCourseUI } from '../hooks/use-courses-ui'
 import { TableLoading } from '@/@common/components/table-loading'
-import { LoadingModal, Menu } from '@/@common/components'
+/* import { LoadingModal, Menu } from '@/@common/components' */
 import { formatCurrency } from '@/@common/utils/currencies'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 import { usePublishedCoursesStore } from '../store/published-courses.store'
 import { useUpcomingCoursesStore } from '../store/upcoming-courses.store'
 import { TableEmpty } from '@/@common/components/table-empty'
 import { useGetPublishedCourses, useGetUpcomingCourses } from '../hooks'
-import { Pagination } from '@/@common/components'
+import { Menu, Pagination } from '@/@common/components'
+import Link from '@/@common/components/link'
 
-const RegisterCourseModal = lazy(() => import('../components/register-course-modal'))
+/* const RegisterCourseModal = lazy(() => import('../components/register-course-modal')) */
 const CourseDetailsDrawer = lazy(() => import('../components/course-details-drawer'))
 
 const CoursesPage = () => {
-  const { show, open, close } = useShow()
+  /* const { show, open, close } = useShow() */
   const { tab, handleTabIndex } = useCourseUI()
   const { isLoading: isLoadingPublished, pagination: publishPagination } = useGetPublishedCourses()
   const { isLoading: isLoadingUpcoming } = useGetUpcomingCourses()
@@ -43,7 +43,9 @@ const CoursesPage = () => {
   return (
     <div className="flex flex-col gap-y-8">
       <header className="section-panel header-height flex-between">
-        <h2 className="header-title">Cursos</h2>
+        <h2 className="header-title">
+          Registrar curso
+        </h2>
         <div className="flex items-center gap-x-2">
           <Form.Input
             placeholder="Busca lo que quieras..."
@@ -51,10 +53,10 @@ const CoursesPage = () => {
             withIcon
             icon={IconSearch}
           />
-          <Button type="button" onClick={open} size="sm">
+          <Link href="/admin/courses/create" size="sm">
             <IconAdd size={24} />
-            Agregar
-          </Button>
+            Crear
+          </Link>
         </div>
       </header>
       <section className="section-panel p-4">
@@ -249,14 +251,14 @@ const CoursesPage = () => {
         </Tabs>
       </section>
 
-      {show && (
+      {/* show && (
         <Suspense fallback={<LoadingModal />}>
           <RegisterCourseModal
             isOpen={show}
             onClose={close}
           />
         </Suspense>
-      )}
+      ) */}
 
       {showDetailsDrawer && (
         <Suspense fallback={<div children="Cargando..." />}>

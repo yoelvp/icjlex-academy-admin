@@ -1,4 +1,4 @@
-import type { Docent, DocentFields } from '../types/Docent'
+import type { Teacher, TeacherFields } from '../types/Docent'
 
 import { useState } from 'react'
 import { type SubmitHandler, Controller, useForm } from 'react-hook-form'
@@ -38,11 +38,11 @@ const RegisterTeacherModal = ({ isOpen, onClose }: Props) => {
     reset,
     setValue,
     formState: { errors }
-  } = useForm<DocentFields>({
+  } = useForm<TeacherFields>({
     resolver: yupResolver(docentSchema)
   })
 
-  const onSubmit: SubmitHandler<Docent> = async (data) => {
+  const onSubmit: SubmitHandler<Teacher> = async (data) => {
     const newData = {
       ...data,
       specialties: data.specialties?.map((speciality) => speciality.label) ?? []

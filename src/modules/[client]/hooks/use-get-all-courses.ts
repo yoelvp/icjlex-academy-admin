@@ -2,8 +2,8 @@ import type { Course } from '@/_models/Course.model'
 
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { HttpStatusCode } from 'axios'
 import getError from '@/@common/utils/get-errors'
-import { HttpStatus } from '@/_utils/http-status.enum'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { getAllUpcomingCoursesService } from '@/_services/courses-client.service'
 
@@ -20,7 +20,7 @@ export const useGetAllCourses = (params?: object) => {
       loading()
       const { data: { data }, status } = await getAllUpcomingCoursesService(params)
 
-      if (status === HttpStatus.OK) {
+      if (status === HttpStatusCode.Ok) {
         setCourses(data)
       }
     } catch (error) {

@@ -4,8 +4,8 @@ import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { updateMainDataService } from '@/_services/students.service'
-import { HttpStatus } from '@/_utils/http-status.enum'
 import { useAuth } from '@/@auth/hooks/use-auth'
+import { HttpStatusCode } from 'axios'
 
 export const useUpdateData = () => {
   const { login } = useAuth()
@@ -17,7 +17,7 @@ export const useUpdateData = () => {
       const { data, status } = await updateMainDataService(userId, dataToUpdate)
       console.log(data)
 
-      if (status === HttpStatus.OK) {
+      if (status === HttpStatusCode.Ok) {
         toast.success('Los datos principales de su cuenta fueron actualizados con éxito')
         await login({ email: data.user.email, password: dataToUpdate.password })
       }
