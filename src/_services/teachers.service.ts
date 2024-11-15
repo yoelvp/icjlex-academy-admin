@@ -1,8 +1,10 @@
+import type { TeacherData } from '@/modules/teachers/types/Docent'
+import type { UpdateTeacherImage } from '@/modules/teachers/types/TeacherFormFields'
+import type { CreateTeacherResponse, UpdateTeacherData, UpdateTeacherFormFields } from '@/_types/TeacherField'
+import type { Response, ResponsePaginated } from '@/@common/types/Response'
+import type { Teacher, UpdateTeacher } from '@/_models/Teacher'
+
 import { axios } from '@/lib'
-import { ResponseData } from '@/@common/types/ResponseData'
-import { Teacher } from '@/_models/Teacher.model'
-import { TeacherData } from '@/modules/teachers/types/Docent'
-import { UpdateTeacherImage } from '@/modules/teachers/types/TeacherFormFields'
 
 export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
   const formData = new FormData()
@@ -11,6 +13,9 @@ export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
   teacher.specialties?.forEach((specialty) => {
     formData.append('specialties[]', specialty ?? '')
   })
+  teacher.socialMedia?.forEach((social) => {
+    formData.append('socialMedia[]', social ?? '')
+  })
   formData.append('profession', teacher.profession)
   formData.append('about', teacher.about)
 
@@ -18,26 +23,46 @@ export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
     formData.append('image', teacher.image)
   }
 
-  console.log(formData)
-
-  return axios.post<Teacher>('/teachers', formData, {
+  return axios.post<CreateTeacherResponse>('/teachers', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   })
 }
 
-export const getAllTeachersService = (page: number, size: number) => {
-  return axios.get<ResponseData<Teacher>>('/docents', {
-    params: {
-      page,
-      size
+export const updateTeacherService = (teacher: UpdateTeacherData) => {
+  const formData = new FormData()
+  formData.append('firstName', teacher.firstName)
+  formData.append('lastName', teacher.lastName)
+  teacher.specialties?.forEach((specialty) => {
+    formData.append('specialties[]', specialty ?? '')
+  })
+  teacher.socialMedia?.forEach((social) => {
+    formData.append('socialMedia[]', social ?? '')
+  })
+  formData.append('profession', teacher.profession)
+  formData.append('about', teacher.about)
+  formData.append('imageUrl', teacher.imageUrl ?? '')
+
+  if (teacher.image instanceof File) {
+    formData.append('image', teacher.image)
+  }
+
+  return axios.post<Response<CreateTeacherResponse>>('/teachers', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
   })
 }
 
+export const getAllTeachersService = (params?: object) => {
+  return axios.get<ResponsePaginated<Teacher>>('/teachers', {
+    params: params
+  })
+}
+
 export const getTeacherByIdService = (id: string) => {
-  return axios.get(`/docents/${id}`)
+  return axios.get<Response<UpdateTeacher>>(`/teachers/${id}`)
 }
 
 // Update image of docent
