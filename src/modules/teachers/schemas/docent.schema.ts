@@ -13,13 +13,5 @@ export const docentSchema = object({
   profession: string().required('La profesión es obligatoria.'),
   about: string().required('El campo "Acerca de mí" es obligatorio.'),
   image: mixed().required('Campo requerido'),
-  socialMedia:
-  object().shape({
-    linkedin: string().nullable().optional().default('https://linkedin.com/in/'),
-    youtube: string().nullable().optional(),
-    facebook: string().nullable().optional(),
-    x: string().nullable().optional(),
-    instagram: string().nullable().optional(),
-    whatsapp: string().nullable().optional()
-  })
+  socialMedia: array().of(string().url('Ingrese una URL válida'))
 })
