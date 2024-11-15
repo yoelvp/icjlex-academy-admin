@@ -1,8 +1,8 @@
 export interface Pagination {
-  page?: number
-  perPage?: number
-  totalItems?: number
-  totalPages?: number
+  page: number
+  perPage: number
+  totalItems: number
+  totalPages: number
 }
 
 export interface ResPagination {
