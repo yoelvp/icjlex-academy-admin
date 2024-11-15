@@ -13,12 +13,6 @@ export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
   })
   formData.append('profession', teacher.profession)
   formData.append('about', teacher.about)
-  formData.append('socialMedia[linkedin]', teacher.socialMedia?.linkedin || '')
-  formData.append('socialMedia[youtube]', teacher.socialMedia?.youtube || '')
-  formData.append('socialMedia[facebook]', teacher.socialMedia?.facebook || '')
-  formData.append('socialMedia[x]', teacher.socialMedia?.x || '')
-  formData.append('socialMedia[instagram]', teacher.socialMedia?.instagram || '')
-  formData.append('socialMedia[whatsapp]', teacher.socialMedia?.whatsapp || '')
 
   if (teacher.image instanceof File) {
     formData.append('image', teacher.image)
@@ -26,7 +20,7 @@ export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
 
   console.log(formData)
 
-  return axios.post<Teacher>('/docents', formData, {
+  return axios.post<Teacher>('/teachers', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
