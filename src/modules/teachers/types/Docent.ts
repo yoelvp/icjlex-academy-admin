@@ -4,7 +4,7 @@ import { docentSchema } from '../schemas/docent.schema'
 export type Teacher = InferType<typeof docentSchema>
 export type DocentSchema = InferType<typeof docentSchema>
 
-export interface TeacherFields extends InferType<typeof docentSchema> {
+export interface TeacherFields extends Teacher {
   id?: string
 }
 
