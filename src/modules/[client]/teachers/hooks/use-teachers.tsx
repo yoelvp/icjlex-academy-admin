@@ -3,7 +3,7 @@ import type { Pagination } from '@/@common/types/Pagination'
 
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { getAllTeachersService } from '@/_services/teachers-client.service'
 import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
@@ -33,8 +33,10 @@ export const useTeachers = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

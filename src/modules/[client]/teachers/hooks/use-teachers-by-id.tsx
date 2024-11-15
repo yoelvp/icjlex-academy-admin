@@ -2,6 +2,7 @@ import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
 import { getTeacherByIdService } from '@/modules/teachers/service/docents.service'
 import { DocentResult } from '@/modules/teachers/types/Docent'
+import { isAxiosError } from 'axios'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -19,8 +20,10 @@ export const useTeachersById = (id: string | undefined) => {
         setTeachers(data)
       } catch (error) {
         loaded()
-        const { message } = getError(error)
-        toast.error(message)
+        if (isAxiosError(error)) {
+          const { message } = getError(error)
+          toast.error(message)
+        }
       } finally {
         loaded()
       }

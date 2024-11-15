@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { useStudentsStore } from '../store/use-students.store'
 import { QueryParams } from '@/@common/types/QueryParams'
+import { isAxiosError } from 'axios'
 
 export const useGetAllStudents = (activeParams: QueryParams, preRegisteredParams: QueryParams) => {
   const { isLoading: isLoadingActive, loading: loadingActive, loaded: loadedActive } = useLoading()
@@ -27,8 +28,10 @@ export const useGetAllStudents = (activeParams: QueryParams, preRegisteredParams
       setActiveStudents(data.results)
     } catch (error) {
       loadedActive()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loadedActive()
     }
@@ -41,8 +44,10 @@ export const useGetAllStudents = (activeParams: QueryParams, preRegisteredParams
       setPreRegisteredStudents(data.results)
     } catch (error) {
       loadedPreRegistered()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loadedPreRegistered()
     }

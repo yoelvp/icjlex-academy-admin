@@ -6,6 +6,7 @@ import { getCourseDetailsService } from '@/_services/courses-client.service'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
 import { CourseDetails } from '@/_models/Course.model'
+import { isAxiosError } from 'axios'
 
 export const useGetCourseDetails = () => {
   const [course, setCourse] = useState<CourseDetails | null>(null)
@@ -23,8 +24,10 @@ export const useGetCourseDetails = () => {
       setCourse(data)
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.warning(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.warning(message)
+      }
     } finally {
       loaded()
     }

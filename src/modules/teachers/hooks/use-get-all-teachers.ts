@@ -4,6 +4,7 @@ import { useTeacherStore } from '../store/teachers.store'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { getAllTeachersService } from '@/_services/teachers.service'
+import { AxiosError } from 'axios'
 
 export const useGetAllTeachers = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -19,8 +20,10 @@ export const useGetAllTeachers = () => {
       const { data } = await getAllTeachersService(1, 9999)
       setTeachers(data.results)
     } catch (error) {
-      const { message } = getError(error)
-      toast.error(message)
+      if (error instanceof AxiosError) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

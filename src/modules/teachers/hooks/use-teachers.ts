@@ -1,5 +1,5 @@
 import { toast } from 'sonner'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
 import { updateImageTeacherService } from '@/_services/teachers.service'
@@ -22,8 +22,10 @@ export const useTeachers = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

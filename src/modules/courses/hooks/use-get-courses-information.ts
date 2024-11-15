@@ -4,6 +4,7 @@ import getError from '@/@common/utils/get-errors'
 import { toast } from 'sonner'
 import { useEffect, useState } from 'react'
 import { CourseInfomation } from '../types/Course'
+import { isAxiosError } from 'axios'
 
 export const useCoursesInformation = (page: number, size: number) => {
   const [courses, setCourses] = useState<CourseInfomation[] | null>(null)
@@ -17,8 +18,10 @@ export const useCoursesInformation = (page: number, size: number) => {
         setCourses(data.results)
       } catch (error) {
         loaded()
-        const { message } = getError(error)
-        toast.error(message)
+        if (isAxiosError(error)) {
+          const { message } = getError(error)
+          toast.error(message)
+        }
       } finally {
         loaded()
       }

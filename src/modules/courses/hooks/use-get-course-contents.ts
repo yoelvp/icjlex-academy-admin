@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
 import { getAllCoursesContentsService } from '@/_services/courses.service'
@@ -24,8 +24,10 @@ export const useGetCourseContents = (courseId: string) => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

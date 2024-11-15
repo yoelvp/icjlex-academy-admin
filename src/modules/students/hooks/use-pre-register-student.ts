@@ -4,6 +4,7 @@ import { studentPreRegisteredService } from '../services/student.service'
 import { StudentPreRegistrationData } from '../types/Student'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { useStudentsStore } from '../store/use-students.store'
+import { isAxiosError } from 'axios'
 
 export const usePreRegisterStudent = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -20,8 +21,10 @@ export const usePreRegisterStudent = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

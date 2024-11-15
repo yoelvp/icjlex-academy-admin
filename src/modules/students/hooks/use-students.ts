@@ -9,6 +9,7 @@ import {
 } from '@/_services/students.service'
 import { getAllCoursesOnlyNameService } from '@/_services/courses.service'
 import { useCourseMainDataStore } from '@/modules/courses/store/course-main-data.store'
+import { isAxiosError } from 'axios'
 
 export const useStudents = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -28,8 +29,10 @@ export const useStudents = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.success(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.success(message)
+      }
     } finally {
       loaded()
     }
@@ -45,8 +48,10 @@ export const useStudents = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.success(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.success(message)
+      }
     } finally {
       loaded()
     }
@@ -68,8 +73,10 @@ export const useStudents = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.success(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.success(message)
+      }
     } finally {
       loaded()
     }

@@ -4,7 +4,7 @@ import { useLoading } from '@/@common/hooks/use-loading'
 import { UseCourseStore } from '../store/course.store'
 import { addCourseService } from '../service/course.service'
 import { CourseFormData } from '../types/CourseFormFields'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 
 export const useCreateCourse = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -31,8 +31,10 @@ export const useCreateCourse = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

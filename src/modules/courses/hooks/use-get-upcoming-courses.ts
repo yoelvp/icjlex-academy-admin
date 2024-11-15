@@ -4,6 +4,7 @@ import { useUpcomingCoursesStore } from '../store/upcoming-courses.store'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { getAllUpcomingCoursesService } from '@/_services/courses.service'
 import getError from '@/@common/utils/get-errors'
+import { isAxiosError } from 'axios'
 
 export const useGetUpcomingCourses = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -21,8 +22,10 @@ export const useGetUpcomingCourses = () => {
       setUpcomingCourses(data.results)
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

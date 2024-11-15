@@ -4,7 +4,7 @@ import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
 import { useEffect } from 'react'
 import { validateDataUpdateService } from '@/_services/students.service'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 
 export const useValidateDataUpdate = (userId: string | null, _token?: string | null) => {
   const { isLoading, loading, loaded } = useLoading()
@@ -29,11 +29,13 @@ export const useValidateDataUpdate = (userId: string | null, _token?: string | n
       }
     } catch (error) {
       loaded()
-      const { message, status: statusCode } = getError(error)
-      toast.error(message)
-      if (statusCode === HttpStatusCode.NotFound) {
-        toast.info('El usuario no fue encontrado')
-        navigate('/', { replace: true })
+      if (isAxiosError(error)) {
+        const { message, status: statusCode } = getError(error)
+        toast.error(message)
+        if (statusCode === HttpStatusCode.NotFound) {
+          toast.info('El usuario no fue encontrado')
+          navigate('/', { replace: true })
+        }
       }
     } finally {
       loaded()

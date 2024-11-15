@@ -1,4 +1,4 @@
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 import { toast } from 'sonner'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
@@ -13,9 +13,9 @@ export const useCan = () => {
   const permissions = useCanStore((state) => state.permissions)
 
   const canPermission = (key: PermissionName | PermissionName[]) => {
-    if(isAdmin) return true
+    if (isAdmin) return true
 
-    if(Array.isArray(key))
+    if (Array.isArray(key))
       return key.some((i) => Boolean(permissions?.[i]))
 
     return Boolean(permissions?.[key])
@@ -31,8 +31,10 @@ export const useCan = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

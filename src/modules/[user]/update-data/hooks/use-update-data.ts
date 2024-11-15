@@ -5,7 +5,7 @@ import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { updateMainDataService } from '@/_services/students.service'
 import { useAuth } from '@/@auth/hooks/use-auth'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 
 export const useUpdateData = () => {
   const { login } = useAuth()
@@ -23,8 +23,10 @@ export const useUpdateData = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

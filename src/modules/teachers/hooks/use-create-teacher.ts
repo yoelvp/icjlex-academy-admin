@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { useTeacherStore } from '../store/teachers.store'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 import { createTeacherService } from '@/_services/teachers.service'
 
 export const useCreateTeacher = () => {
@@ -27,8 +27,10 @@ export const useCreateTeacher = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

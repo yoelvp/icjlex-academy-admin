@@ -4,6 +4,7 @@ import { useLoading } from '@/@common/hooks/use-loading'
 import { UseCourseStore } from '../../store/course.store'
 import { ContentCourse } from '../../types/Course'
 import { addContentFromService } from '../../service/content-from-course.service'
+import { isAxiosError } from 'axios'
 
 export const useCreateContentFromCourse = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -24,8 +25,11 @@ export const useCreateContentFromCourse = () => {
         toast.success('Contenido agregado exitosamente!')
       }
     } catch (error) {
-      const { message } = getError(error)
-      toast.error(message)
+      loaded()
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded() // Termina el loading
     }

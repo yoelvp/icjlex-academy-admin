@@ -9,7 +9,7 @@ import { Pagination } from '@/@common/types/Pagination'
 import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
 import { responseMapper } from '@/@common/utils/response-mapper'
 import getError from '@/@common/utils/get-errors'
-import { HttpStatusCode } from 'axios'
+import { HttpStatusCode, isAxiosError } from 'axios'
 
 export const useGetCoursesByTeacherId = () => {
   const [courses, setCourses] = useState<Course[] | null>(null)
@@ -33,8 +33,10 @@ export const useGetCoursesByTeacherId = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (isAxiosError(error)) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
-import { HttpStatusCode } from 'axios'
+import { AxiosError, HttpStatusCode } from 'axios'
 import { useTokenStore } from '@/@auth/store/use-token.store'
 import { useUserStore } from '@/@auth/store/use-user.store'
 import { useLoading } from '@/@common/hooks/use-loading'
@@ -33,7 +33,7 @@ export const useAuth = () => {
 
       setToken(token)
 
-      const { data: userData, status } = await getUserByIdService(userId ?? '')
+      const { data: { data: userData }, status } = await getUserByIdService(userId ?? '')
       const { data: { data: { roles, permissions } }, status: rolStatus } = await getRolesAndPermissionsByUserIdService(userId ?? '')
 
       if (status === HttpStatusCode.Ok) {
@@ -56,8 +56,10 @@ export const useAuth = () => {
       })
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (error instanceof AxiosError) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }
@@ -83,8 +85,10 @@ export const useAuth = () => {
       }
     } catch (error) {
       loaded()
-      const { message } = getError(error)
-      toast.error(message)
+      if (error instanceof AxiosError) {
+        const { message } = getError(error)
+        toast.error(message)
+      }
     } finally {
       loaded()
     }
