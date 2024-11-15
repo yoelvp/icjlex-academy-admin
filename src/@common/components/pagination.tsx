@@ -17,8 +17,8 @@ interface PaginationProps {
   withSize?: boolean
   withInfo?: boolean
   position?: PaginationPosition
-  page?: number
-  size: number
+  page: number
+  perPage: number
   totalItems?: number
   totalPages?: number
   prevPage: () => void
@@ -34,7 +34,7 @@ export const Pagination: FC<PaginationProps> = ({
   withInfo = true,
   position = 'right',
   page,
-  size,
+  perPage,
   totalItems,
   totalPages,
   prevPage,
@@ -42,8 +42,8 @@ export const Pagination: FC<PaginationProps> = ({
   goToPage,
   handleSize
 }) => {
-  const startCounter = ((page ?? DEFAULT_PAGINATION.page) - 1) * size + 1
-  const endCounter = Math.min((page ?? DEFAULT_PAGINATION.page) * size, (totalItems ?? 0))
+  const startCounter = ((page ?? DEFAULT_PAGINATION.page) - 1) * perPage + 1
+  const endCounter = Math.min((page ?? DEFAULT_PAGINATION.page) * perPage, (totalItems ?? 0))
 
   return (
     <div
