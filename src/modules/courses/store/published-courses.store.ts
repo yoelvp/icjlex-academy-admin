@@ -8,7 +8,7 @@ interface UsePublishedCoursesStore {
   courses: PublishedCourse[] | null
   pagination: Pagination
   setCourses: (courses: PublishedCourse[] | null) => void
-  setPagination: (courses: Pagination) => void
+  setPagination: (pagination: Pagination) => void
 }
 
 export const usePublishedCoursesStore = create<UsePublishedCoursesStore>()((set) => ({
