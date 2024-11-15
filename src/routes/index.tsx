@@ -144,6 +144,10 @@ const routes = createBrowserRouter([
         element: <CreateTeachersAdminPage />
       },
       {
+        path: 'teachers/update/:slug/:teacherId',
+        element: <CreateTeachersAdminPage />
+      },
+      {
         path: 'students',
         element: <StudentsPage />
       }
