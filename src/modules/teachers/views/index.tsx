@@ -1,10 +1,10 @@
-import { lazy, Suspense } from 'react'
+import { Fragment, lazy, Suspense } from 'react'
 import Form from '@/@common/components/form'
 import { useShow } from '@/@common/hooks/use-show'
-import { LoadingModal, Menu } from '@/@common/components'
+import { LoadingModal, Menu, Pagination } from '@/@common/components'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useTeacherStore } from '../store/teachers.store'
-import { useDocents } from '../hooks/use-docents'
+import { useGetAllTeachers, useGetTeacherById } from '../hooks'
 import {
   IconAdd,
   IconDelete,
@@ -14,21 +14,23 @@ import {
   IconLinkedin,
   IconOptions,
   IconSearch,
-  IconWhatsapp,
   IconX,
   IconYoutube
 } from '@/assets/icons'
 import { getFullName } from '@/@common/utils/get-full-names'
 import Link from '@/@common/components/link'
+import { useNavigate } from 'react-router-dom'
 
 const TeacherDetailsDrawer = lazy(() => import('../components/teacher-details-drawer'))
 const UpdateImageModal = lazy(() => import('../components/update-image-modal'))
 
 const CoursesPage = () => {
+  const navigate = useNavigate()
   const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
   const { show: showUpdateImageModal, open: openUpdateImageModal, close: closeUpdateImageModal } = useShow()
+  const { isLoading, pagination } = useGetAllTeachers()
+  const { isLoading: isLoadingById, getTeacherById } = useGetTeacherById()
   const teachers = useTeacherStore((state) => state.teachers)
-  const { isLoading } = useDocents(1, 1000)
   const setTeacher = useTeacherStore((state) => state.setTeacher)
 
   return (
@@ -74,7 +76,7 @@ const CoursesPage = () => {
                     <img
                       src={teacher.imageUrl || '/placeholder-image.png'}
                       alt={`${teacher.firstName} ${teacher.lastName}`}
-                      className="w-10 h-10 object-cover object-center rounded-full border border-primary-500/25"
+                      className="w-8 h-8 object-cover object-center overflow-hidden rounded-full border border-primary-500/25"
                     />
                     <span className="w-full text-nowrap text-ellipsis">
                       {getFullName(teacher)}
@@ -91,64 +93,59 @@ const CoursesPage = () => {
                   </div>
                 </td>
                 <td className="max-w-md">
-                  {teacher.specialties ? teacher.specialties.join(', ') : '-'}
+                  {teacher?.specialties ? teacher.specialties.join(', ') : '-'}
                 </td>
-                <td>{teacher.profession}</td>
+                <td>{teacher?.profession}</td>
                 <td>
-                  {teacher.socialMedia ? (
-                    <div className="flex space-x-2">
-                      {teacher.socialMedia.whatsapp && (
+                  {!Array.isArray(teacher?.socialMedia) && (
+                    <a
+                      href={teacher?.socialMedia}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      RS
+                    </a>
+                  )}
+                  {Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social: string) => (
+                    <Fragment key={social}>
+                      {social.includes('facebook.com') && (
                         <a
-                          href={teacher.socialMedia.whatsapp}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconWhatsapp
-                            size={18}
-                            className="text-green-600"
-                          />
-                        </a>
-                      )}
-                      {teacher.socialMedia.x && (
-                        <a
-                          href={teacher.socialMedia.x}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconX size={18} />
-                        </a>
-                      )}
-                      {teacher.socialMedia.facebook && (
-                        <a
-                          href={teacher.socialMedia.facebook}
+                          href={social}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <IconFacebook size={18} className="text-blue-600" />
                         </a>
                       )}
-                      {teacher.socialMedia.linkedin && (
+                      {social.includes('x.com') && (
                         <a
-                          href={teacher.socialMedia.linkedin}
+                          href={social}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <IconX size={18} />
+                        </a>
+                      )}
+                      {social.includes('linkedin.com') && (
+                        <a
+                          href={social}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <IconLinkedin size={18} className="text-blue-800" />
                         </a>
                       )}
-                      {teacher.socialMedia.youtube && (
+                      {social.includes('youtube.com') && (
                         <a
-                          href={teacher.socialMedia.youtube}
+                          href={social}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <IconYoutube size={18} className="text-red-600" />
                         </a>
                       )}
-                    </div>
-                  ) : (
-                    <span>No disponible</span>
-                  )}
+                    </Fragment>
+                  ))}
                 </td>
                 <td>
                   <Menu
@@ -162,10 +159,13 @@ const CoursesPage = () => {
                         onClick: openDetailsDrawer
                       },
                       {
-                        label: 'Actualizar',
+                        label: 'Editar',
                         icon: IconEdit,
-                        onClick: () => {
-                          console.log('Editar')
+                        isLoading: isLoadingById,
+                        onClick: async () => {
+                          await getTeacherById(teacher?.id ?? '').then(() => {
+                            navigate(`/admin/teachers/update/${teacher?.slug}/${teacher?.id}`)
+                          })
                         }
                       },
                       {
@@ -182,6 +182,8 @@ const CoursesPage = () => {
             ))}
           </tbody>
         </table>
+
+        <Pagination {...pagination} />
       </div>
 
       {showDetailsDrawer && (
