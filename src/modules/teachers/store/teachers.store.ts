@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { Pagination } from '@/@common/types/Pagination'
 import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
-import { Teacher } from '@/_models/Teacher.model'
+import { Teacher } from '@/_models/Teacher'
 
 interface UseTeacherStore {
   teacher: Teacher | null
@@ -18,5 +18,5 @@ export const useTeacherStore = create<UseTeacherStore>()((set) => ({
   pagination: DEFAULT_PAGINATION,
   setTeacher: (teacher: Teacher | null) => set({ teacher }),
   setTeachers: (teachers: Teacher[]) => set({ teachers }),
-  setPagination: (pagination: Pagination) => set((state) => ({ ...state, pagination }))
+  setPagination: (pagination: Pagination) => set({ pagination })
 }))
