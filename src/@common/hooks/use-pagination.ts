@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
 interface UsePaginationProps {
-  page?: number
-  totalItems?: number
-  totalPages?: number
+  page: number
+  totalItems: number
+  totalPages: number
 }
 
-export const usePagination = ({ page, totalItems, totalPages }: UsePaginationProps = {}) => {
-  const [currentPage, setCurrentPage] = useState(page ?? 1)
+export const usePagination = (p?: UsePaginationProps) => {
+  const [currentPage, setCurrentPage] = useState(p?.page ?? 1)
   const [size, setSize] = useState(10)
 
   const nextPage = () => setCurrentPage((prev) => prev + 1)
@@ -17,12 +17,12 @@ export const usePagination = ({ page, totalItems, totalPages }: UsePaginationPro
 
   return {
     page: currentPage,
-    size,
+    perPage: size,
     prevPage,
     nextPage,
     goToPage,
     handleSize,
-    totalItems,
-    totalPages
+    totalItems: p?.totalItems,
+    totalPages: p?.totalPages
   }
 }
