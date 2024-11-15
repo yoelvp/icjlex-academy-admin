@@ -1,4 +1,4 @@
-import type { User } from '../models/User'
+import type { User } from '@/_models/User'
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
