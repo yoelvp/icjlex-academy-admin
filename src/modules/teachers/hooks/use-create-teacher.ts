@@ -1,4 +1,5 @@
-import type { TeacherData } from '../types/Docent'
+import type { TeacherData } from '@/_types/TeacherField'
+
 import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
@@ -17,14 +18,14 @@ export const useCreateTeacher = () => {
       const { data: newTeacher, status } = await createTeacherService(docent)
       let oldTeachers = teachers
 
-      if (status === HttpStatusCode.Ok) {
-        if (teachers.length == 10) {
-          oldTeachers = teachers.slice(0, -1)
-        }
+      if (status !== HttpStatusCode.Ok) return
 
-        setTeachers([newTeacher, ...oldTeachers])
-        toast.success('Se creó un nuevo docente')
+      if (teachers.length == 10) {
+        oldTeachers = teachers.slice(0, -1)
       }
+
+      setTeachers([newTeacher, ...oldTeachers])
+      toast.success('Registro exitoso', { description: 'El profesor fue registrado con éxito' })
     } catch (error) {
       loaded()
       if (isAxiosError(error)) {
