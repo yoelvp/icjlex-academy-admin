@@ -11,7 +11,6 @@ export const AxiosInterceptor = () => {
   const whitelistEnpoints = [
     '/auth/login',
     '/courses',
-    '/teachers',
     '/students/me/'
   ]
 
