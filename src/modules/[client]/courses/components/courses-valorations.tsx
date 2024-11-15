@@ -1,18 +1,18 @@
 import type { FC } from 'react'
 
 import Button from '@/@common/components/button'
-import { RatingCourse } from './rating'
+/* import { RatingCourse } from './rating' */
 import Form from '@/@common/components/form'
 
 export const CoursesValorations: FC = () => {
   return (
     <section className="flex-col-start gap-y-8">
       <div className="flex-col-start gap-y-6">
-        <div className="flex gap-2">
-          <RatingCourse count={1} filled={1} />
-          <span className="text-primary-400 font-semibold">4.0 valoraciones del curso</span>
-          <span className="text-primary-400 font-semibold">129 valoraciones</span>
-        </div>
+        {/* <div className="flex gap-2"> */}
+        {/*   <RatingCourse count={1} filled={1} /> */}
+        {/*   <span className="text-primary-400 font-semibold">4.0 valoraciones del curso</span> */}
+        {/*   <span className="text-primary-400 font-semibold">129 valoraciones</span> */}
+        {/* </div> */}
 
         <div className="w-full flex items-center gap-x-4">
           <span className="bg-primary-200 text-white h-[40px] w-[40px] rounded-full flex justify-center items-center flex-shrink-0">
@@ -27,7 +27,7 @@ export const CoursesValorations: FC = () => {
         </div>
 
         <section className="flex flex-col gap-4 w-full">
-          {[1, 2, 3, 4].map((_, index) => (
+          {[1].map((_, index) => (
             <div key={index} className="flex gap-x-4">
               <span className="bg-primary-500 text-primary-50 text-sm h-8 w-8 rounded-full flex justify-center items-center flex-shrink-0">
                 YV

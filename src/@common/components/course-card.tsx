@@ -38,7 +38,7 @@ export const CourseCard = ({ course }: Props) => {
                 {course?.name}
               </h4>
             </Popover>
-            <p className="text-sm text-primary-500">
+            {/* <p className="text-sm text-primary-500">
               {course?.teacher ? (
                 <>
                   <span className="text-primary-400">
@@ -54,7 +54,7 @@ export const CourseCard = ({ course }: Props) => {
                   ICJ LEX &amp; CARRANZA CONSULTORES
                 </span>
               )}
-            </p>
+            </p> */}
           </div>
           {/* <div className="flex justify-start items-center gap-x-2"> */}
           {/*   <span className="text-primary-500 font-semibold">{'4,5'}</span> */}

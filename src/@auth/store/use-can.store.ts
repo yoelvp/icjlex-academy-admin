@@ -4,15 +4,11 @@ import { PermissionName } from '../utils/permissions'
 
 interface UseCanStore {
   isAdmin: boolean
-  role: string | null
   roles: string[] | null
-  permission: PermissionName | null
   permissions: PermissionName[] | null
   setInitialCan: (payload: {
     isAdmin: boolean
-    role: string | null
     roles: string[] | null
-    permission: PermissionName | null
     permissions: PermissionName[] | null
   }) => void
 }
@@ -24,11 +20,9 @@ export const useCanStore = create<UseCanStore>()(persist(
     roles: null,
     permission: null,
     permissions: null,
-    setInitialCan: ({ isAdmin, role, roles, permission, permissions }) => set({
+    setInitialCan: ({ isAdmin, roles, permissions }) => set({
       isAdmin,
-      role,
       roles,
-      permission,
       permissions
     })
   }),

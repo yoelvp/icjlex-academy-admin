@@ -11,7 +11,14 @@ export interface ResWithPagination<T> extends ResPagination {
 export interface Response<T> {
   success: boolean
   status: number
+  message: string
+  data: T
+}
+
+export interface ResponsePaginated<T> {
+  success: boolean
+  status: number
+  message: string
   pagination: Pagination
-  data?: T
-  results?: T[]
+  data: T[]
 }

@@ -26,46 +26,34 @@ export const useAuth = () => {
   const login = async (data: LoginFormSchema) => {
     try {
       loading()
-      const { data: { data: { token, userId } } } = await loginService(data)
+      const { data: loginData } = await loginService(data)
+      const { data: { userId, token } } = loginData
 
-      if (!token && !userId) {
-        toast.info('No se pudo autenticar, recargue la paǵina e intente nuevamente')
-
-        return
-      }
+      if (!token) return logout()
 
       setToken(token)
 
-      const { data: { data: userData, success }, status } = await getUserByIdService(userId ?? '')
-      const {
-        data: {
-          data: {
-            roles,
-            permissions
-          },
-          success: roleSuccess
-        },
-        status: rolStatus
-      } = await getRolesAndPermissionsByUserIdService(userId ?? '')
+      const { data: userData, status } = await getUserByIdService(userId ?? '')
+      const { data: { data: { roles, permissions } }, status: rolStatus } = await getRolesAndPermissionsByUserIdService(userId ?? '')
 
-      if (status === HttpStatusCode.Ok && success) {
+      if (status === HttpStatusCode.Ok) {
         setUser(userData)
+        navigate('/admin')
       }
-      console.log(roles, permissions)
 
-      if (rolStatus === HttpStatusCode.Ok && roleSuccess) {
-        if (roles?.length > 0 && roles?.includes(ROLES.ADMIN)) {
+      if (rolStatus === HttpStatusCode.Ok) {
+        if (roles?.length && roles?.includes(ROLES.ADMIN)) {
           navigate('/admin/courses')
         } else {
           navigate('/')
         }
-
-        setInitialCan({
-          isAdmin: !roles?.includes(ROLES.STUDENT) ? true : false,
-          roles: roles,
-          permissions: permissions
-        })
       }
+
+      setInitialCan({
+        isAdmin: !roles?.includes(ROLES.STUDENT) ? true : false,
+        roles: roles,
+        permissions: permissions
+      })
     } catch (error) {
       loaded()
       const { message } = getError(error)
@@ -90,7 +78,7 @@ export const useAuth = () => {
           roles: null
         })
 
-        toast.info(message)
+        toast.error(message)
         navigate('/')
       }
     } catch (error) {

@@ -31,7 +31,7 @@ export const HeroPage = ({ course }: Props) => {
         </article>
 
         <article className="flex flex-col gap-y-4">
-          {course?.teacher && (
+          {course?.teachers.length && course?.teachers.map((teacher) => (
             <div className="flex flex-col w-full justify-start sm:flex-row sm:gap-x-4 sm:items-center">
               <span className="text-sm font-semibold text-primary-200">
                 INSTRUCTOR
@@ -41,14 +41,14 @@ export const HeroPage = ({ course }: Props) => {
                   to="/teachers/nancy-lozano-diaz"
                   className="text-white underline"
                 >
-                  {course?.teacher?.firstName} {course?.teacher?.lastName}
+                  {teacher?.firstName} {teacher?.lastName}
                 </Link>
                 <div className="w-auto rounded-lg bg-secondary-500 px-2 text-xs">
-                  {course?.teacher?.profession}
+                  {teacher?.profession}
                 </div>
               </div>
             </div>
-          )}
+          ))}
           {/* <div className="flex w-full flex-col sm:flex-row sm:gap-x-2"> */}
           {/*   <div className="flex items-center gap-x-2"> */}
           {/*     <span className="text-secondary-500 font-semibold">4.0</span> */}

@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { useUserStore } from '@/@auth/store/use-user.store'
 import { getUserInitials } from '@/@common/utils/get-initials'
-import { useAuth } from '@/modules/[auth]/login/hooks/use-auth'
+import { useAuth } from '@/@auth/hooks/use-auth'
+import { Spinner } from 'flowbite-react'
 
 interface Props {
   className?: string
@@ -12,7 +13,7 @@ export const UserMenu = ({
   className
 }: Props) => {
   const user = useUserStore((state) => state.user)
-  const { logout } = useAuth()
+  const { isLoading, logout } = useAuth()
 
   return (
     <div
@@ -48,6 +49,7 @@ export const UserMenu = ({
 
       <footer className="menu-section-padding">
         <button className="menu-item" onClick={logout}>
+          {isLoading && <Spinner color="gray" />}
           Cerrar sesión
         </button>
       </footer>
