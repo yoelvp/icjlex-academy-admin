@@ -51,5 +51,10 @@ export const courseSchema = object().shape({
       is: true,
       then: (schema) => schema.required('La fecha de publicación es obligatoria cuando se programa la publicación'),
       otherwise: (schema) => schema.notRequired().nullable().optional()
-    })
+    }),
+  course: object({
+    name: string().required('Campo requerido'),
+    url: string().url('Debe ser una URL válida').nullable(),
+    duration: string().nullable()
+  })
 })
