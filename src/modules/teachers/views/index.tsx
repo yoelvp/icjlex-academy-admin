@@ -1,5 +1,4 @@
 import { lazy, Suspense } from 'react'
-import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
 import { useShow } from '@/@common/hooks/use-show'
 import { LoadingModal, Menu } from '@/@common/components'
@@ -20,13 +19,12 @@ import {
   IconYoutube
 } from '@/assets/icons'
 import { getFullName } from '@/@common/utils/get-full-names'
+import Link from '@/@common/components/link'
 
-const RegisterTeacherModal = lazy(() => import('../components/register-teacher-modal'))
 const TeacherDetailsDrawer = lazy(() => import('../components/teacher-details-drawer'))
 const UpdateImageModal = lazy(() => import('../components/update-image-modal'))
 
 const CoursesPage = () => {
-  const { show, open, close } = useShow()
   const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
   const { show: showUpdateImageModal, open: openUpdateImageModal, close: closeUpdateImageModal } = useShow()
   const teachers = useTeacherStore((state) => state.teachers)
@@ -45,10 +43,10 @@ const CoursesPage = () => {
             withIcon
             icon={IconSearch}
           />
-          <Button onClick={open} size="sm">
+          <Link href="/admin/teachers/create" size="sm">
             <IconAdd size={24} />
-            Agregar
-          </Button>
+            Crear
+          </Link>
         </div>
       </header>
 
@@ -185,12 +183,6 @@ const CoursesPage = () => {
           </tbody>
         </table>
       </div>
-
-      {show && (
-        <Suspense fallback={<LoadingModal />}>
-          <RegisterTeacherModal isOpen={show} onClose={close} />
-        </Suspense>
-      )}
 
       {showDetailsDrawer && (
         <Suspense fallback={<div children="Cargando" />}>
