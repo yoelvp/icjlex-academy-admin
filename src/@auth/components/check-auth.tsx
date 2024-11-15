@@ -20,7 +20,7 @@ export const CheckAuth: FC<Props> = ({
   const permissions = useCanStore((state) => state.permissions)
 
   if (!user && !token) return <Navigate to="/auth/login" replace />
-  if (!isAdmin || !roles?.includes(ROLES.ADMIN) || !permissions?.length) return <Navigate to="/" replace />
+  if (!isAdmin && roles?.includes(ROLES.STUDENT) && (permissions?.length ?? 0) < 1) return <Navigate to="/" replace />
 
   return children
 }
