@@ -1,12 +1,11 @@
-import type { TeacherData } from '@/modules/teachers/types/Docent'
 import type { UpdateTeacherImage } from '@/modules/teachers/types/TeacherFormFields'
-import type { CreateTeacherResponse, UpdateTeacherData, UpdateTeacherFormFields } from '@/_types/TeacherField'
+import type { CreateTeacherResponse, UpdateTeacherData } from '@/_types/TeacherField'
 import type { Response, ResponsePaginated } from '@/@common/types/Response'
-import type { Teacher, UpdateTeacher } from '@/_models/Teacher'
+import type { Teacher, TeacherFormValues, UpdateTeacher } from '@/_models/Teacher'
 
 import { axios } from '@/lib'
 
-export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
+export const createTeacherService = (teacher: TeacherFormValues) => {
   const formData = new FormData()
   formData.append('firstName', teacher.firstName)
   formData.append('lastName', teacher.lastName)
@@ -23,7 +22,7 @@ export const createTeacherService = (teacher: Omit<TeacherData, 'id'>) => {
     formData.append('image', teacher.image)
   }
 
-  return axios.post<CreateTeacherResponse>('/teachers', formData, {
+  return axios.post<Response<Teacher>>('/teachers', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -59,6 +58,10 @@ export const getAllTeachersService = (params?: object) => {
   return axios.get<ResponsePaginated<Teacher>>('/teachers', {
     params: params
   })
+}
+
+export const deleteTeacherService = (teacherId: string) => {
+  return axios.delete<Response<{ teacherId: string }>>(`/teachers/${teacherId}`)
 }
 
 export const getTeacherByIdService = (id: string) => {
