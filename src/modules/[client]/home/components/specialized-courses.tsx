@@ -73,26 +73,6 @@ export const SpecializedCourses: FC = () => {
                     )}
                   </p>
                 </div>
-                {/* <div className="flex justify-start items-center gap-x-2"> */}
-                {/*   <span className="text-primary-500 font-semibold">{'4,5'}</span> */}
-                {/*   <div className="flex-center gap-x-1"> */}
-                {/*     <IconStarFilled className="text-gold" /> */}
-                {/*     <IconStarFilled className="text-gold" /> */}
-                {/*     <IconStarFilled className="text-gold" /> */}
-                {/*     <IconStarFilled className="text-gold" /> */}
-                {/*     <IconStarFilled className="text-gold" /> */}
-                {/*   </div> */}
-                {/*   <span className="text-primary-400 font-semibold">{'(120 valoraciones)'}</span> */}
-                {/* </div> */}
-                {/* <div className="flex items-center gap-x-1 text-primary-500"> */}
-                {/*   <span className="text-primary-400"> */}
-                {/*     2.5 horas */}
-                {/*   </span> */}
-                {/*   &bull; */}
-                {/*   <span className="text-primary-400"> */}
-                {/*     1 clase */}
-                {/*   </span> */}
-                {/* </div> */}
                 <div className="flex items-center gap-x-1">
                   <span className="font-bold text-primary-500 text-2xl">
                     {!course?.isFree ? formatCurrency(course?.price ?? 0) : 'Gratis'}
@@ -121,7 +101,7 @@ export const SpecializedCourses: FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Pre-inscripción
+                  Inscripción
                   <IconWhatsapp size="18" />
                 </Link>
               </div>
