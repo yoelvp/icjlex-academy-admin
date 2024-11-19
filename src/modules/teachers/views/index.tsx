@@ -4,7 +4,7 @@ import { useShow } from '@/@common/hooks/use-show'
 import { LoadingModal, Menu, Pagination } from '@/@common/components'
 import { TableLoading } from '@/@common/components/table-loading'
 import { useTeacherStore } from '../store/teachers.store'
-import { useGetAllTeachers, useGetTeacherById } from '../hooks'
+import { useDeleteTeacher, useGetAllTeachers, useGetTeacherById } from '../hooks'
 import {
   IconAdd,
   IconDelete,
@@ -20,6 +20,7 @@ import {
 import { getFullName } from '@/@common/utils/get-full-names'
 import Link from '@/@common/components/link'
 import { useNavigate } from 'react-router-dom'
+import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 
 const TeacherDetailsDrawer = lazy(() => import('../components/teacher-details-drawer'))
 const UpdateImageModal = lazy(() => import('../components/update-image-modal'))
@@ -28,13 +29,16 @@ const CoursesPage = () => {
   const navigate = useNavigate()
   const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
   const { show: showUpdateImageModal, open: openUpdateImageModal, close: closeUpdateImageModal } = useShow()
-  const { isLoading, pagination } = useGetAllTeachers()
+  const { isLoading, pagination, search } = useGetAllTeachers()
   const { isLoading: isLoadingById, getTeacherById } = useGetTeacherById()
+  const { isLoading: isLoadingDelete, deleteTeacher } = useDeleteTeacher()
   const teachers = useTeacherStore((state) => state.teachers)
   const setTeacher = useTeacherStore((state) => state.setTeacher)
+  const openConfirmModal = useConfirmModalStore((state) => state.open)
+  const closeConfirmModal = useConfirmModalStore((state) => state.close)
 
   return (
-    <div className="flex flex-col gap-y-8">
+    <div className="flex flex-col gap-y-4">
       <header className="section-panel header-height flex-between">
         <h2 className="header-title">Docentes</h2>
 
@@ -44,6 +48,7 @@ const CoursesPage = () => {
             size="sm"
             withIcon
             icon={IconSearch}
+            onChange={(e) => search(e.target.value)}
           />
           <Link href="/admin/teachers/create" size="sm">
             <IconAdd size={24} />
@@ -93,7 +98,8 @@ const CoursesPage = () => {
                   </div>
                 </td>
                 <td className="max-w-md">
-                  {teacher?.specialties ? teacher.specialties.join(', ') : '-'}
+                  {!teacher?.specialties && !(teacher?.specialties?.length ?? 0) && '-'}
+                  {Array.isArray(teacher?.specialties) ? teacher?.specialties?.join(', ') : teacher?.specialties}
                 </td>
                 <td>{teacher?.profession}</td>
                 <td>
@@ -156,14 +162,18 @@ const CoursesPage = () => {
                       {
                         label: 'Ver detalles',
                         icon: IconEyeOutline,
-                        onClick: openDetailsDrawer
+                        onClick: () => {
+                          getTeacherById(teacher?.id ?? '').then(() => {
+                            openDetailsDrawer()
+                          })
+                        }
                       },
                       {
                         label: 'Editar',
                         icon: IconEdit,
                         isLoading: isLoadingById,
-                        onClick: async () => {
-                          await getTeacherById(teacher?.id ?? '').then(() => {
+                        onClick: () => {
+                          getTeacherById(teacher?.id ?? '').then(() => {
                             navigate(`/admin/teachers/update/${teacher?.slug}/${teacher?.id}`)
                           })
                         }
@@ -171,7 +181,21 @@ const CoursesPage = () => {
                       {
                         label: 'Eliminar',
                         icon: IconDelete,
-                        onClick: () => console.log('Eliminar'),
+                        onClick: () => {
+                          openConfirmModal({
+                            title: `¿Está seguro que quiere eliminar a ${teacher?.firstName} ${teacher?.lastName}?`,
+                            subTitle: 'El docente se eliminará de manera permanente. Esta acción no se puede deshacer.',
+                            options: {
+                              content: 'Sí',
+                              isLoading: isLoadingDelete,
+                              onClick: () => {
+                                deleteTeacher(teacher.id ?? '').then(() => {
+                                  closeConfirmModal()
+                                })
+                              }
+                            }
+                          })
+                        },
                         isDelete: true,
                         dividerTop: true
                       }
