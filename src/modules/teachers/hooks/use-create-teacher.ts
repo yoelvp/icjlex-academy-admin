@@ -1,21 +1,20 @@
-import type { TeacherData } from '@/_types/TeacherField'
-
 import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { useTeacherStore } from '../store/teachers.store'
 import { HttpStatusCode, isAxiosError } from 'axios'
 import { createTeacherService } from '@/_services/teachers.service'
+import { TeacherFormValues } from '@/_models/Teacher'
 
 export const useCreateTeacher = () => {
   const { isLoading, loading, loaded } = useLoading()
   const teachers = useTeacherStore((state) => state.teachers)
   const setTeachers = useTeacherStore((state) => state.setTeachers)
 
-  const createTeacher = async (docent: TeacherData) => {
+  const createTeacher = async (docent: TeacherFormValues) => {
     try {
       loading()
-      const { data: newTeacher, status } = await createTeacherService(docent)
+      const { data: { data: newTeacher }, status } = await createTeacherService(docent)
       let oldTeachers = teachers
 
       if (status !== HttpStatusCode.Ok) return
