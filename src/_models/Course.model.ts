@@ -1,4 +1,4 @@
-import { TeacherBasicData } from './Teacher.model'
+import { TeacherBasicData } from './Teacher'
 
 interface CourseVideo {
   name: string
