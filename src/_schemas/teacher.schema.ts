@@ -5,10 +5,10 @@ export const teacherSchema = object({
   lastName: string().required('El apellido es obligatorio.'),
   specialties: array()
     .of(object({
-      label: string(),
-      value: string()
+      label: string().required(),
+      value: string().required()
     }))
-    .optional()
+    .required('Campo requerido')
     .min(1, 'Ingrese al menos una especialidad'),
   profession: string().required('La profesión es obligatoria.'),
   about: string().required('El campo "Acerca de mí" es obligatorio.'),
