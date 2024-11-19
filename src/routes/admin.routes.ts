@@ -7,3 +7,4 @@ export const CourseDetailsAdminPage = lazy(() => import('@/modules/courses/views
 export const StudentsPage = lazy(() => import('@/modules/students/views'))
 export const TeachersAdminPage = lazy(() => import('@/modules/teachers/views'))
 export const CreateTeachersAdminPage = lazy(() => import('@/modules/teachers/views/create'))
+export const UpdateTeachersAdminPage = lazy(() => import('@/modules/teachers/views/update'))

@@ -23,7 +23,8 @@ import {
   TeachersAdminPage,
   StudentsPage,
   CoursesCreatePage,
-  CreateTeachersAdminPage
+  CreateTeachersAdminPage,
+  UpdateTeachersAdminPage
 } from './admin.routes'
 import CollaboratorDetailsPage from '@/modules/[client]/us/views/(slug)'
 import UpdateDataPage from '@/modules/[user]/update-data/views'
@@ -145,7 +146,7 @@ const routes = createBrowserRouter([
       },
       {
         path: 'teachers/update/:slug/:teacherId',
-        element: <CreateTeachersAdminPage />
+        element: <UpdateTeachersAdminPage />
       },
       {
         path: 'students',
