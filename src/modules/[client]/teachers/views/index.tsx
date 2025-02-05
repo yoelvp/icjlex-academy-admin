@@ -2,10 +2,10 @@ import { Content } from '@/@common/components/content'
 import { SectionHeader } from '@/@common/components/section-header'
 import { Pagination } from '@/@common/components/pagination'
 import { TeacherCard } from '../components/teacher-card'
-import { useTeachers } from '../hooks/use-teachers'
+import { useGetAllTeachers } from '../hooks'
 
 const TeachersPage = () => {
-  const { isLoading, teachers, pagination } = useTeachers()
+  const { isLoading, teachers, pagination } = useGetAllTeachers()
 
   return (
     <Content className="mt-16 mb-24">
@@ -22,13 +22,13 @@ const TeachersPage = () => {
           </div>
         ) : (
           <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {teachers?.map((item) => (
+            {teachers && teachers?.map((item) => (
               <TeacherCard key={item.id} teacher={item} />
             ))}
           </section>
         )}
 
-        <Pagination {...pagination} withSize={false} withInfo={false} size={12} withLabels />
+        <Pagination {...pagination} withSize={false} withInfo={false} withLabels />
       </div>
     </Content>
   )
