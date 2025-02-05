@@ -1,4 +1,4 @@
-import type { Teacher } from '@/_models/Teacher.model'
+import type { Teacher } from '@/_models/Teacher'
 import type { Pagination } from '@/@common/types/Pagination'
 
 import { useEffect, useState } from 'react'
@@ -8,28 +8,29 @@ import { useLoading } from '@/@common/hooks/use-loading'
 import { getAllTeachersService } from '@/_services/teachers-client.service'
 import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
 import { usePagination } from '@/@common/hooks/use-pagination'
-import { responseMapper } from '@/@common/utils/response-mapper'
 import getError from '@/@common/utils/get-errors'
 
-export const useTeachers = () => {
+export const useGetAllTeachers = () => {
   const [teachers, setTeachers] = useState<Teacher[] | null>(null)
   const [paginationState, setPaginationState] = useState<Pagination>(DEFAULT_PAGINATION)
-  const pagination = usePagination(paginationState)
   const { isLoading, loaded, loading } = useLoading()
+  const pagination = usePagination(paginationState)
 
   useEffect(() => {
-    getAllTeachers()
-  }, [pagination.page, pagination.size])
+    getAll()
+  }, [pagination.page, pagination.perPage])
 
-  const getAllTeachers = async () => {
+  const getAll = async () => {
     try {
       loading()
-      const { data: resData, status } = await getAllTeachersService({ ...pagination })
+      const { data: { data, pagination }, status } = await getAllTeachersService({
+        page: 1,
+        size: 9
+      })
 
       if (status === HttpStatusCode.Ok) {
-        const data = responseMapper(resData)
-        setTeachers(data.results)
-        setPaginationState(data)
+        setTeachers(data)
+        setPaginationState(pagination)
       }
     } catch (error) {
       loaded()
