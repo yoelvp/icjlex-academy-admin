@@ -57,7 +57,7 @@ const CoursesPage = () => {
         </div>
       </header>
 
-      <div className="section-panel py-4">
+      <div className="py-4">
         <table className="custom-table">
           <thead>
             <tr>
