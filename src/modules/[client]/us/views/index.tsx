@@ -10,10 +10,10 @@ import Objective from '../components/objective'
 import { ContactForm } from '@/modules/[client]/home/components/contact-form'
 import { MeetOurTeachers } from '../components/meet-our-teachers'
 import Collaborators from '../components/collaborators'
-import { useTeachers } from '../../teachers/hooks/use-teachers'
+import { useGetAllTeachers } from '../../teachers/hooks'
 
 const UsPage = () => {
-  const { teachers } = useTeachers()
+  const { teachers } = useGetAllTeachers()
 
   return (
     <>
