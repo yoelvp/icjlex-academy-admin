@@ -5,7 +5,7 @@ export const useCourseUI = () => {
   const [queryParams, setQueryParams] = useSearchParams()
   const tab = queryParams.get('tab')
 
-  const handleTabIndex = (index: number) => {
+  const handleTabIndex = (index: string) => {
     setQueryParams(TAB_INDEX[index])
   }
 
