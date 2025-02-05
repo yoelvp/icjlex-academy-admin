@@ -13,11 +13,7 @@ import {
 } from '@/assets/icons'
 import Form from '@/@common/components/form'
 import { useShow } from '@/@common/hooks/use-show'
-import { Tabs } from 'flowbite-react'
-import { CourseTab } from '../enums/course-tab'
-import { useCourseUI } from '../hooks/use-courses-ui'
 import { TableLoading } from '@/@common/components/table-loading'
-/* import { LoadingModal, Menu } from '@/@common/components' */
 import { formatCurrency } from '@/@common/utils/currencies'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 import { usePublishedCoursesStore } from '../store/published-courses.store'
@@ -26,13 +22,12 @@ import { TableEmpty } from '@/@common/components/table-empty'
 import { useGetPublishedCourses, useGetUpcomingCourses } from '../hooks'
 import { Menu, Pagination } from '@/@common/components'
 import Link from '@/@common/components/link'
+import { Tabs, Tab } from '@/@common/components/tabs'
 
-/* const RegisterCourseModal = lazy(() => import('../components/register-course-modal')) */
 const CourseDetailsDrawer = lazy(() => import('../components/course-details-drawer'))
 
 const CoursesPage = () => {
-  /* const { show, open, close } = useShow() */
-  const { tab, handleTabIndex } = useCourseUI()
+  /* const { tab, handleTabIndex } = useCourseUI() */
   const { isLoading: isLoadingPublished, pagination: publishPagination } = useGetPublishedCourses()
   const { isLoading: isLoadingUpcoming } = useGetUpcomingCourses()
   const publishedCourses = usePublishedCoursesStore((state) => state.courses)
@@ -41,10 +36,10 @@ const CoursesPage = () => {
   const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
 
   return (
-    <div className="flex flex-col gap-y-8">
-      <header className="section-panel header-height flex-between">
+    <div className="flex flex-col gap-y-4">
+      <header className="flex-between">
         <h2 className="header-title">
-          Registrar curso
+          Cursos
         </h2>
         <div className="flex items-center gap-x-2">
           <Form.Input
@@ -59,16 +54,10 @@ const CoursesPage = () => {
           </Link>
         </div>
       </header>
-      <section className="section-panel p-4">
-        <Tabs
-          aria-label="Tabs de estudiantes"
-          variant="underline"
-          onActiveTabChange={handleTabIndex}
-        >
-          <Tabs.Item
-            title="Publicados"
-            active={tab === CourseTab.ACTIVE || tab === ''}
-          >
+
+      <section>
+        <Tabs defaultValue="published">
+          <Tab title="Publicados" value="published">
             <table className="custom-table mb-6 table-auto">
               <thead>
                 <tr>
@@ -147,9 +136,8 @@ const CoursesPage = () => {
               </tbody>
             </table>
             <Pagination {...publishPagination} />
-          </Tabs.Item>
-
-          <Tabs.Item title="Próximos" active={tab === CourseTab.INACTIVE}>
+          </Tab>
+          <Tab title="Próximos" value="upcoming">
             <table className="custom-table">
               <thead>
                 <tr>
@@ -247,18 +235,9 @@ const CoursesPage = () => {
                 ))}
               </tbody>
             </table>
-          </Tabs.Item>
+          </Tab>
         </Tabs>
       </section>
-
-      {/* show && (
-        <Suspense fallback={<LoadingModal />}>
-          <RegisterCourseModal
-            isOpen={show}
-            onClose={close}
-          />
-        </Suspense>
-      ) */}
 
       {showDetailsDrawer && (
         <Suspense fallback={<div children="Cargando..." />}>
