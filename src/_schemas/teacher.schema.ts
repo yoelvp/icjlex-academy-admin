@@ -12,7 +12,13 @@ export const teacherSchema = object({
     .min(1, 'Ingrese al menos una especialidad'),
   profession: string().required('La profesión es obligatoria.'),
   about: string().required('El campo "Acerca de mí" es obligatorio.'),
-  image: mixed().required('Campo requerido'),
+  imageUrl: string(),
+  image: mixed()
+    .test(
+      'file-type',
+      'Debe ingresar una imágen válida',
+      (value) => value instanceof File || value === null)
+    .required('Campo requerido'),
   socialMedia: array()
     .of(object({ url: string().required('Campo requerido') }))
     .required('Campo requerido')
