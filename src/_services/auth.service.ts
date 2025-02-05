@@ -5,17 +5,17 @@ import { axios } from '@/lib'
 import { LoginFormSchema } from '@/@auth/types/Login'
 
 export const loginService = (data: LoginFormSchema) => {
-  return axios.post<Response<LoginResponse>>('/auth/login', data)
+  return axios.post<Response<LoginResponse>>('/admin/auth/login', data)
 }
 
 export const logoutService = () => {
-  return axios.post<Response<boolean>>('/auth/logout')
+  return axios.post<Response<boolean>>('/admin/auth/logout')
 }
 
 export const getUserByIdService = (userId: string) => {
-  return axios.get(`/users/${userId}`)
+  return axios.get(`/admin/users/${userId}`)
 }
 
 export const getRolesAndPermissionsByUserIdService = (userId: string) => {
-  return axios.get<Response<RolesAndPermissionsResponse>>(`/users/roles-and-permissions/${userId}`)
+  return axios.get<Response<RolesAndPermissionsResponse>>(`/admin/users/roles-and-permissions/${userId}`)
 }

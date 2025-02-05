@@ -4,5 +4,5 @@ import type { User } from '@/_models/User'
 import { axios } from '@/lib'
 
 export const getUserByIdService = (userId: string) => {
-  return axios.get<Response<User>>(`/users/${userId}`)
+  return axios.get<Response<User>>(`/admin/users/${userId}`)
 }

@@ -1,7 +1,6 @@
 import type { UpdateTeacherImage } from '@/modules/teachers/types/TeacherFormFields'
-import type { CreateTeacherResponse, UpdateTeacherData } from '@/_types/TeacherField'
 import type { Response, ResponsePaginated } from '@/@common/types/Response'
-import type { Teacher, TeacherFormValues, UpdateTeacher } from '@/_models/Teacher'
+import type { Teacher, TeacherFormValues } from '@/_models/Teacher'
 
 import { axios } from '@/lib'
 
@@ -29,7 +28,7 @@ export const createTeacherService = (teacher: TeacherFormValues) => {
   })
 }
 
-export const updateTeacherService = (teacher: UpdateTeacherData) => {
+export const updateTeacherService = (teacher: TeacherFormValues) => {
   const formData = new FormData()
   formData.append('firstName', teacher.firstName)
   formData.append('lastName', teacher.lastName)
@@ -47,7 +46,7 @@ export const updateTeacherService = (teacher: UpdateTeacherData) => {
     formData.append('image', teacher.image)
   }
 
-  return axios.post<Response<CreateTeacherResponse>>('/teachers', formData, {
+  return axios.post<Response<Teacher>>('/teachers', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -65,7 +64,7 @@ export const deleteTeacherService = (teacherId: string) => {
 }
 
 export const getTeacherByIdService = (id: string) => {
-  return axios.get<Response<UpdateTeacher>>(`/teachers/${id}`)
+  return axios.get<Response<Teacher>>(`/teachers/${id}`)
 }
 
 // Update image of docent
