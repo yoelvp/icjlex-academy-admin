@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-fo
 import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
 import Link from '@/@common/components/link'
-import { TeacherSchema } from '@/_models/Teacher'
+import { TeacherFormSchema, TeacherFormValues } from '@/_models/Teacher'
 import { teacherSchema } from '@/_schemas/teacher.schema'
 import { useCreateTeacher, useUpdateTeacher } from '../hooks'
 import TextEditor from '@/@common/components/text-editor'
@@ -14,7 +14,7 @@ import { useUpdateTeacherStore } from '../store'
 import { useNavigate } from 'react-router-dom'
 
 interface Props {
-  defaultValues?: Partial<TeacherSchema>
+  defaultValues?: Partial<TeacherFormSchema>
 }
 
 const TeacherForm = ({ defaultValues }: Props) => {
@@ -28,7 +28,7 @@ const TeacherForm = ({ defaultValues }: Props) => {
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<TeacherSchema>({
+  } = useForm<TeacherFormSchema>({
     resolver: yupResolver(teacherSchema),
     defaultValues
   })
@@ -37,9 +37,10 @@ const TeacherForm = ({ defaultValues }: Props) => {
     name: 'socialMedia'
   })
 
-  const onHandleSubmit: SubmitHandler<TeacherSchema> = async (data) => {
-    const newData = {
+  const onHandleSubmit: SubmitHandler<TeacherFormSchema> = async (data) => {
+    const newData: TeacherFormValues = {
       ...data,
+      image: data.image instanceof File ? data.image : null,
       specialties: data.specialties?.map((speciality) => speciality.label) ?? [],
       socialMedia: data.socialMedia?.map((social) => social.url) ?? []
     }
