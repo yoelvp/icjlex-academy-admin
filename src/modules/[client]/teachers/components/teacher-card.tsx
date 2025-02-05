@@ -2,8 +2,14 @@ import Link from '@/@common/components/link'
 import { Card } from '@/@common/components/card'
 import { IconStar, IconStudent } from '@/assets/icons'
 import { RenderHTML } from '@/@common/components'
+import { getFullName } from '@/@common/utils'
+import { Teacher } from '@/_models/Teacher'
 
-export const TeacherCard = ({ teacher }) => {
+interface Props {
+  teacher: Teacher | null
+}
+
+export const TeacherCard = ({ teacher }: Props) => {
   const data = [
     {
       label: 'Cursos',
@@ -21,10 +27,10 @@ export const TeacherCard = ({ teacher }) => {
     <Card>
       <img
         src={
-          teacher.imageUrl ||
+          teacher?.imageUrl ||
           'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'
         }
-        alt={teacher.firstName}
+        alt={teacher?.firstName}
         className="w-full h-60 rounded object-cover object-center"
         loading="lazy"
       />
@@ -32,20 +38,20 @@ export const TeacherCard = ({ teacher }) => {
         <article className="flex gap-x-4 items-start">
           <img
             src={
-              teacher.imageUrl ||
+              teacher?.imageUrl ||
               'https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_1280.png'
             }
-            alt={teacher.firstName}
+            alt={`Thumbnail of ${teacher?.firstName}`}
             className="w-8 h-8 rounded-full object-cover object-center"
             loading="lazy"
           />
           <div className="flex-col-start gap-y-4">
             <div>
               <h4 className="text-primary-700 font-bold text-xl leading-4">
-                {teacher.firstName} {teacher.lastName}
+                {getFullName(teacher)}
               </h4>
               <span className="text-xs font-medium text-primary-400">
-                {teacher.profession}
+                {teacher?.profession}
               </span>
             </div>
             <div className="flex flex-wrap gap-y-4 gap-x-8">
@@ -67,9 +73,9 @@ export const TeacherCard = ({ teacher }) => {
             </div>
           </div>
         </article>
-        <div className="flex-between flex-col w-full h-[160px]">
-          <RenderHTML content={teacher.about} />
-          <Link href={teacher.id} variant="primary.link" className="w-auto">
+        <div className="flex-between flex-col w-full">
+          <RenderHTML content={teacher?.about ?? ''} />
+          <Link href={teacher?.id} variant="primary.link" className="w-auto">
             Ver perfil
           </Link>
         </div>
