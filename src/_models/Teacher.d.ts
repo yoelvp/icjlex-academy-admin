@@ -9,31 +9,31 @@ export interface TeacherBasicData {
 }
 
 export interface Teacher {
-  id?: string
+  id: string
   firstName: string
   lastName: string
   slug: string
   profession: string
   about: string
   imageUrl: string | null
-  specialties: string | string[] | null
+  specialties: string | string[]
   socialMedia: string | string[]
 }
 
-export type UpdateTeacher = Teacher
+// TODO: Make types for form
+export type TeacherFormSchema = InferType<typeof teacherSchema>
 
 // TODO: New types for teachers
-export type TeacherSchema = InferType<typeof teacherSchema>
-
-export interface TeacherFormValues {
+export interface TeacherFormValues extends Omit<
+  Teacher,
+  'id'
+  | 'slug'
+  | 'image'
+  | 'specialties'
+  | 'socialMedia'
+> {
   id?: string
-  firstName: string
-  lastName: string
-  slug: string
-  profession: string
-  about: string
-  imageUrl: string | null
-  image: File | null
+  image?: File | null
   specialties: string[]
   socialMedia: string[]
 }
