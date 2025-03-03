@@ -15,13 +15,14 @@ const ReactLink = forwardRef<HTMLAnchorElement, Props>(({
   className,
   variant,
   size,
+  rounded,
   ...props
 }, ref) => (
   <Link
     to={props.href}
     {...props}
     ref={ref}
-    className={twVariants(buttonVariants({ variant, size, className }))}
+    className={twVariants(buttonVariants({ variant, size, rounded, className }))}
   >
     {children}
   </Link>
