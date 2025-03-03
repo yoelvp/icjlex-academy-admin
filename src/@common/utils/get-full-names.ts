@@ -1,6 +1,8 @@
-import { Teacher } from '@/_models/Teacher'
-import { User } from '@/_models/User'
+interface ValueNames {
+  firstName: string
+  lastName: string
+}
 
-export const getFullName = (payload: User | Teacher | null) => {
+export const getFullName = <T extends ValueNames>(payload: T | null) => {
   return `${payload?.firstName} ${payload?.lastName}`
 }
