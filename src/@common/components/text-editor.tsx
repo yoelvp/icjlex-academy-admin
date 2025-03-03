@@ -16,31 +16,33 @@ const TextEditor = forwardRef<Jodit, Props>(({
 }, ref) => {
   const config = useMemo(() => ({
     readonly: false,
-    placeholder: placeholder || 'Start typing...'
-  }), [])
+    placeholder: placeholder || 'Escribe aquí...',
+    language: 'es',
+    buttonsSM: [
+      'bold', 'italic', 'underline', 'fontsize', '|', 'brush', 'lineHeight', '|', 'outdent', 'indent', 'align',
+      '|',
+      'undo', 'redo',
+      '\n',
+      'ul', 'ol',
+      '|', 'table',
+      'link', 'copy', '|', 'cut', 'paste', '|', 'eraser', 'spellcheck'
+    ],
+    statusbar: false,
+    addNewLine: false,
+    className: '!rounded-sm',
+    height: '24rem',
+    toolbarSticky: false
+  }), [placeholder])
 
   return (
-    <div style={{ height: '100%', width: '100%' }}>
-      <JoditEditor
-        ref={ref}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        config={config}
-        className="h-full"
-      />
-
-      <style>{`
-        .jodit-wysiwyg {
-          height: 100% !important;
-          width: 100% !important;
-        }
-        .jodit-container {
-          height: 100% !important;
-          width: 100% !important;
-        }
-      `}</style>
-    </div>
+    <JoditEditor
+      ref={ref}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      config={config}
+      className="h-full"
+    />
   )
 })
 
