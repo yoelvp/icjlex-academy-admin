@@ -26,6 +26,8 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
           variant: error ? 'error' : variant,
           size,
           rounded,
+          isInput: true,
+          withIcon,
           className
         }))}
         {...props}
