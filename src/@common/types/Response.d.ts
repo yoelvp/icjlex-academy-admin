@@ -6,7 +6,11 @@ interface ResponseBasicBody {
   message: string
 }
 
-export interface Response<T> extends ResponseBasicBody {
+export interface Response<T> {
+  success: boolean
+  status: number
+  message: string
+  pagination: Pagination | null
   data: T
 }
 
