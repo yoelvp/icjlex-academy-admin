@@ -13,6 +13,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(({
   className = '',
   variant,
   size,
+  rounded,
   htmlType,
   isLoading,
   loaderPosition = 'left',
@@ -20,7 +21,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(({
 }, ref) => (
   <button
     ref={ref}
-    className={twVariants(buttonVariants({ variant, size, className }))}
+    className={twVariants(buttonVariants({ variant, size, className, rounded }))}
     type={htmlType}
     {...props}
   >
