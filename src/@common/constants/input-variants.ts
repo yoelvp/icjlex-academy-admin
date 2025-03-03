@@ -1,4 +1,6 @@
 import { cva } from 'class-variance-authority'
+import { RoundedStyle } from '../styles/variants/rounded.variant'
+import { SizeStyle } from '../styles/variants/size.variant'
 
 export const inputVariants = cva(
   'w-full border rounded-xl text-base focus:outline-none focus:ring',
@@ -10,18 +12,25 @@ export const inputVariants = cva(
         white: 'border-white text-white placeholder:text-primary-100 disabled:bg-white/60 disabled:border-white/60 focus:ring-white/15',
         error: 'border-error-400 text-error-500 placeholder:text-error-200 disabled:bg-error-50 disabled:border-error-400 disabled:hover:text-error-100 focus:ring-error-500/15'
       },
-      size: {
-        sm: 'h-[1.75rem] pl-8 pr-6 text-sm font-medium md:h-[2rem] md:font-normal',
-        md: 'h-[2.25rem] pl-8 pr-6 md:h-[2.5rem]',
-        lg: 'h-[2.75rem] pl-8 pr-6 md:h-[3rem]'
+      size: SizeStyle,
+      rounded: RoundedStyle,
+      withIcon: {
+        true: null,
+        false: null
       },
-      rounded: {
-        xs: 'rounded-xs',
-        sm: 'rounded-sm',
-        md: 'rounded',
-        lg: 'rounded-lg'
+      isInput: {
+        true: null,
+        false: null
       }
     },
+    compoundVariants: [
+      {
+        size: ['sm', 'md', 'lg'],
+        withIcon: true,
+        isInput: true,
+        class: '!pl-8'
+      }
+    ],
     defaultVariants: {
       variant: 'primary',
       size: 'md',
