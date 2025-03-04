@@ -20,6 +20,7 @@ export const AxiosInterceptor = () => {
 
     if (!whitelistEnpoints.includes(request.url ?? '/')) {
       request.headers.Authorization = `Bearer ${token}`
+      request.headers.Accept = 'application/json'
 
       if (!request.headers['Content-Type']) {
         request.headers['Content-Type'] = 'application/json'
