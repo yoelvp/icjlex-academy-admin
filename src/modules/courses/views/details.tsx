@@ -17,8 +17,8 @@ import {
 } from '@/assets/icons'
 import { formatCurrency } from '@/@common/utils/currencies'
 import Form from '@/@common/components/form'
-import { useGetCourseContents } from '../hooks'
-import { useCourseContentsStore } from '../store'
+import { useGetCourseContents } from '../hooks/use-get-course-contents'
+import { useCourseContentsStore } from '../store/course-contents.store'
 import { CourseContents } from '@/_models/Course.model'
 import { TableEmpty } from '@/@common/components/table-empty'
 

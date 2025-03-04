@@ -3,7 +3,7 @@ import Link from '@/@common/components/link'
 import { Tabs, Tab } from '@/@common/components/tabs'
 import { useCourseUI } from '../hooks/use-courses-ui'
 import { TablePublishedCourses } from '../components/table-published-courses'
-import { TableUpcomingCourses } from '../components/table-upcoming-courses'
+import { TableScheduledCourses } from '../components/table-scheduled-courses'
 import {
   IconAdd,
   IconSearch
@@ -39,7 +39,7 @@ const CoursesPage = () => {
             <TablePublishedCourses />
           </Tab>
           <Tab title="Programados" value="upcoming" onChange={() => handleTabIndex(1)}>
-            <TableUpcomingCourses />
+            <TableScheduledCourses />
           </Tab>
         </Tabs>
       </section>
