@@ -55,8 +55,8 @@ export const Tabs = ({
       </div>
 
       <div className="py-4">
-        {tabsContent.map((tab) => (
-          <div className={classNames({ 'hidden': tab.props.value !== activeTab })}>
+        {tabsContent.map((tab, index) => (
+          <div key={index} className={classNames({ 'hidden': tab.props.value !== activeTab })}>
             {tab.props.children}
           </div>
         ))}
