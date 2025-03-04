@@ -2,13 +2,13 @@ import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { HttpStatusCode, isAxiosError } from 'axios'
-import { usePublishedCoursesStore } from '../store'
+import { useCoursesStore } from '../store/courses.store'
 import { deleteCourseService } from '@/_services/admin/courses.service'
 
 export const useDeleteCourse = () => {
   const { isLoading, loading, loaded } = useLoading()
-  const publishedCourses = usePublishedCoursesStore((state) => state.courses)
-  const setPublishedCourses = usePublishedCoursesStore((state) => state.setCourses)
+  const publishedCourses = useCoursesStore((state) => state.published.courses)
+  const setPublishedCourses = useCoursesStore((state) => state.setPublishedCourses)
 
   const deletePublishedCourse = async (courseId: string) => {
     loading()
