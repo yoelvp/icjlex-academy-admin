@@ -1,4 +1,4 @@
-import { array, boolean, mixed, object, string } from 'yup'
+import { array, boolean, date, mixed, number, object, string } from 'yup'
 
 const optionSchema = object().shape({
   label: string().required(),
@@ -7,7 +7,7 @@ const optionSchema = object().shape({
 
 export const courseSchema = object().shape({
   name: string().required('El nombre del curso es obligatorio'),
-  docentId: string().required('Seleccionar un docente es obligatorio'),
+  teacherId: string().required('Seleccionar un docente es obligatorio'),
   objective: string().required('El objetivo es obligatorio'),
   youWillLearn: array()
     .of(optionSchema)
@@ -26,35 +26,31 @@ export const courseSchema = object().shape({
     .test('fileType', 'El formato de archivo no es válido.', (value) => {
       return value !== null && value instanceof File && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type)
     }),
-  price: string()
-    .matches(
-      /^\d+(\.\d{1,2})?$/,
-      'El precio debe ser un número con hasta dos decimales'
-    )
-    .optional(),
-  isScheduled: boolean().default(false).optional().nullable(),
   isFree: boolean().default(false).optional().nullable(),
-  publicationDate: mixed()
-    .test(
-      'isValidDate',
-      'La fecha debe estar en formato ISO o vacía',
-      (value) =>
-        value === '' ||
-        value === null ||
-        (typeof value === 'string' && !isNaN(Date.parse(value))) ||
-        value instanceof Date
-    ).nullable()
-    .transform((value) => {
-      return typeof value === 'string' && value !== '' ? new Date(value) : value
-    })
+  isScheduled: boolean().default(false).optional().nullable(),
+  price: number()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
+    .when('isFree', {
+      is: true,
+      then: () => number().nullable().default(null),
+      otherwise: () => number()
+        .typeError('El precio debe ser un número')
+        .positive('Debe ser un número mayor a 0')
+        .required('Campo requerido')
+    }),
+  publicationDate: date()
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
     .when('isScheduled', {
       is: true,
-      then: (schema) => schema.required('La fecha de publicación es obligatoria cuando se programa la publicación'),
-      otherwise: (schema) => schema.notRequired().nullable().optional()
+      then: (schema) => schema.typeError('Ingrese una fecha válida').required('La fecha de publicación es obligatoria cuando se programa la publicación'),
+      otherwise: () => mixed().nullable().default(null)
     }),
   course: object({
     name: string().required('Campo requerido'),
-    url: string().url('Debe ser una URL válida').nullable(),
-    duration: string().nullable()
+    url: string().url('Ingrese una URL válida').nullable(),
+    duration: string()
+      .matches(/^((\d+d\s*)?(\d+h\s*)?(\d+m\s*)?(\d+s\s*)?)$/i, 'Formato inválido. Usa: 1d 4h 30m 20s')
+      .required('Campo requerido')
   })
 })
