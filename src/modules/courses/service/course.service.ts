@@ -11,12 +11,12 @@ import { CourseFormData } from '../types/CourseFormFields'
 export const addCourseService = (course: CourseFormData) => {
   const formData = new FormData()
   formData.append('name', course.name)
-  formData.append('docentId', course.docentId)
+  formData.append('docentId', course.teacherId)
   formData.append('objective', course.objective)
   formData.append('description', course.description)
   formData.append('isScheduled', `${course.isScheduled}`)
-  formData.append('isFree', `${course.isFree ?? false}`)
-  formData.append('price', course.price?.toString() ?? '')
+  formData.append('isFree', `${course.isFree}`)
+  formData.append('price', `${course.price}`)
   formData.append('publicationDate', `${course.publicationDate}`)
   course.includes.forEach((include) => {
     formData.append('includes[]', include)
@@ -35,7 +35,7 @@ export const addCourseService = (course: CourseFormData) => {
     return
   }
 
-  return axios.post<CourseResult>('/courses', formData, {
+  return axios.post<CourseResult>('/admin/courses', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
