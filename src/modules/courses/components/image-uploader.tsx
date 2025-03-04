@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import classNames from 'classnames'
 import { UseFormSetValue, Path, PathValue, FieldValues } from 'react-hook-form'
+import { IconClose } from '@/assets/icons'
 
 type Props<T extends FieldValues> = {
   name: Path<T> // Asegura que name sea una ruta válida en T
@@ -57,7 +59,7 @@ const ImageUploader = <T extends FieldValues>({
     fileInput.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (file && validateFile(file)) {
-        setValue(name, file as PathValue<T, Path<T>>) // Casting a PathValue
+        setValue(name, file as PathValue<T, Path<T>>)
         setPreview(URL.createObjectURL(file))
       }
     }
@@ -66,12 +68,11 @@ const ImageUploader = <T extends FieldValues>({
 
   return (
     <div
-      className={`flex flex-col justify-center items-center w-full h-48 border-2 border-dashed rounded-lg p-5 transition-all
-        ${
-    isDragActive
-      ? 'bg-sky-50 border-sky-400'
-      : 'border-gray-300 cursor-pointer'
-    }`}
+      className={classNames(
+        'relative flex flex-col justify-center items-center w-full h-48 border-2 border-dashed rounded-sm p-5 transition-all',
+        { 'bg-sky-50 border-sky-400': isDragActive },
+        { 'border-gray-300 cursor-pointer': !isDragActive }
+      )}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={(e) => e.preventDefault()}
@@ -79,11 +80,13 @@ const ImageUploader = <T extends FieldValues>({
       onClick={handleClick}
     >
       <p
-        className={`text-sm ${isDragActive ? 'text-sky-800' : 'text-gray-400'}`}
+        className={classNames(
+          'text-sm',
+          { 'text-sky-800': isDragActive },
+          { 'text-gray-400': !isDragActive }
+        )}
       >
-        {isDragActive
-          ? 'Suelta tu archivo aquí'
-          : 'Arrastra y suelta tu imagen aquí'}
+        {isDragActive ? 'Suelta tu archivo aquí' : 'Arrastra y suelta tu imagen aquí'}
       </p>
       {error && <span className="text-red-500 text-sm">{error}</span>}
       {preview && (
@@ -92,6 +95,18 @@ const ImageUploader = <T extends FieldValues>({
           alt="Vista previa"
           className="mt-3 w-[200px] h-[150px] object-cover rounded-sm"
         />
+      )}
+      {preview && (
+        <button
+          type="button"
+          onClick={(e) => {
+            setPreview(null)
+            e.stopPropagation()
+          }}
+          className="absolute top-4 right-4"
+        >
+          <IconClose />
+        </button>
       )}
     </div>
   )
