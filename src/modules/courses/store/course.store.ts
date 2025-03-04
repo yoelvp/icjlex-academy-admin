@@ -3,8 +3,8 @@ import { CourseResult } from '../types/Course'
 import { Pagination } from '@/@common/types/Pagination'
 import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
 
-interface UseCourseData {
-  courses: CourseResult[]
+interface UseCourseStore {
+  course: CourseResult | null
   pagination: Pagination
   courseId: string | null
   setCourses: (course: CourseResult[]) => void
@@ -12,8 +12,8 @@ interface UseCourseData {
   setCourseId: (id: string | null) => void
 }
 
-export const UseCourseStore = create<UseCourseData>((set) => ({
-  courses: [],
+export const UseCourseStore = create<UseCourseStore>((set) => ({
+  courses: null,
   pagination: DEFAULT_PAGINATION,
   courseId: null,
   setCourses: (courses: CourseResult[]) => set({ courses }),
