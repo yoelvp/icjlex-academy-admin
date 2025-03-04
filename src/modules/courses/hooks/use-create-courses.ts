@@ -2,9 +2,9 @@ import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { UseCourseStore } from '../store/course.store'
-import { addCourseService } from '../service/course.service'
 import { CourseFormData } from '../types/CourseFormFields'
 import { HttpStatusCode, isAxiosError } from 'axios'
+import { createCourseService } from '@/_services/admin/courses.service'
 
 export const useCreateCourse = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -16,7 +16,7 @@ export const useCreateCourse = () => {
     loading()
     try {
       let oldCourses = courses
-      const response = await addCourseService(course)
+      const response = await createCourseService(course)
 
       if (response?.status === HttpStatusCode.Ok) {
         if (courses.length == 10) {

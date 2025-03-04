@@ -1,33 +1,39 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { HttpStatusCode, isAxiosError } from 'axios'
 import { usePublishedCoursesStore } from '../store/published-courses.store'
 import { useLoading } from '@/@common/hooks/use-loading'
-import { getAllPublishedCoursesService } from '@/_services/courses.service'
-import { responseMapper } from '@/@common/utils/response-mapper'
 import getError from '@/@common/utils/get-errors'
 import { usePagination } from '@/@common/hooks/use-pagination'
+import { getAllCoursesService } from '@/_services/admin/courses.service'
+import { useDebounce } from '@/@common/hooks'
 
 export const useGetPublishedCourses = () => {
+  const [searchQuery, setSearchQuery] = useState('')
   const { isLoading, loading, loaded } = useLoading()
-  const setCourses = usePublishedCoursesStore((state) => state.setCourses)
-  const setPagination = usePublishedCoursesStore((state) => state.setPagination)
-  const coursesPagination = usePublishedCoursesStore((state) => state.pagination)
-  const pagination = usePagination(coursesPagination)
+  const setCourses = usePublishedCoursesStore((state) => state.setPublishedCourses)
+  const coursesPagination = usePublishedCoursesStore((state) => state.published.pagination)
+  const setPagination = usePublishedCoursesStore((state) => state.setPublishedPagination)
+  const paginationManager = usePagination(coursesPagination)
+  const debounceValue = useDebounce({ value: searchQuery })
 
   useEffect(() => {
     getAllPublishedCourses()
-  }, [pagination.page, pagination.size])
+  }, [debounceValue, paginationManager.page, paginationManager.perPage])
 
   const getAllPublishedCourses = async () => {
     loading()
     try {
-      const { data: responseData, status } = await getAllPublishedCoursesService({ ...pagination })
+      const { data: { data, pagination }, status } = await getAllCoursesService({
+        page: paginationManager.page,
+        perPage: paginationManager.perPage,
+        q: searchQuery,
+        status: 'published'
+      })
 
       if (status === HttpStatusCode.Ok) {
-        const data = responseMapper(responseData)
-        setCourses(data.results)
-        setPagination({ ...data })
+        setCourses(data)
+        setPagination(pagination!)
       }
     } catch (error) {
       loaded()
@@ -40,8 +46,13 @@ export const useGetPublishedCourses = () => {
     }
   }
 
+  const updateSearchQuery = (value: string) => {
+    setSearchQuery(value)
+  }
+
   return {
     isLoading,
-    pagination
+    pagination: paginationManager,
+    search: updateSearchQuery
   }
 }
