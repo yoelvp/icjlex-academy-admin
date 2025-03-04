@@ -49,3 +49,5 @@ export interface TeacherResponse {
   specialties: string | string[] | null
   socialMedia: string | string[]
 }
+
+export type TeacherOnlyNames = Pick<Teacher, 'id' | 'firstName' | 'lastName'>

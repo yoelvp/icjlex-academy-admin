@@ -51,3 +51,20 @@ export interface CourseContents {
   sectionName: string
   classes: CourseVideo[]
 }
+
+export interface CourseListAdmin {
+  id: string
+  name: string
+  slug: string
+  imageUrl: string
+  publicationDate: Date | null
+  price: number
+  teachers: Array<{
+    id: string
+    firstName: string
+    lastName: string
+    slug: string
+    profession: string
+  }>
+  createdAt: Date
+}
