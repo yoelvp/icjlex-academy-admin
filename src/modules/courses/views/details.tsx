@@ -1,13 +1,12 @@
 import type { IdParams } from '@/@common/types'
 
-import { Fragment, lazy, Suspense, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import classNames from 'classnames'
 import { Tabs } from 'flowbite-react'
 import Button from '@/@common/components/button'
-import { useShow } from '@/@common/hooks/use-show'
 import { TableLoading } from '@/@common/components/table-loading'
-import { LoadingModal, Menu, RenderHTML } from '@/@common/components'
+import { Menu, RenderHTML } from '@/@common/components'
 import {
   IconAdd,
   IconArrowRoundBack,
@@ -22,12 +21,9 @@ import { useCourseContentsStore } from '../store/course-contents.store'
 import { CourseContents } from '@/_models/Course.model'
 import { TableEmpty } from '@/@common/components/table-empty'
 
-const ResourcesFromCourse = lazy(() => import('../components/resources-from-course'))
-
 const CoursesPage = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
-  const { show, open, close } = useShow()
   const params = useParams<IdParams>()
   const { isLoading } = useGetCourseContents(params.id ?? '')
   const contents = useCourseContentsStore((state) => state.contents)
@@ -74,7 +70,7 @@ const CoursesPage = () => {
           </Link>
           <h2 className="header-title">Detalles del curso</h2>
         </div>
-        <Button type="button" onClick={open} size="sm">
+        <Button type="button" size="sm">
           <IconAdd size={24} />
           Agregar
         </Button>
@@ -293,16 +289,6 @@ const CoursesPage = () => {
           </Tabs.Item>
         </Tabs>
       </section>
-
-      {show && (
-        <Suspense fallback={<LoadingModal />}>
-          <ResourcesFromCourse
-            isOpen={show}
-            onClose={close}
-            courseCreatedId={''}
-          />
-        </Suspense>
-      )}
     </div>
   )
 }
