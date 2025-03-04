@@ -12,5 +12,4 @@ export interface CourseFormData extends Omit<
   includes: string[]
   youWillLearn: string[]
   image: File | null
-  publicationDate?: Date | string
 }
