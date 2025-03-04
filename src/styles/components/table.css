@@ -2,7 +2,7 @@
 
 @layer components {
   .custom-table {
-    @apply w-full table-auto text-sm rounded-sm overflow-hidden bg-white;
+    @apply w-full table-fixed text-sm rounded-sm overflow-hidden bg-white;
   }
 
   .custom-table thead tr {
