@@ -157,7 +157,7 @@ const CoursesPage = () => {
                   <Menu
                     variant={'white'}
                     activator={<IconOptions />}
-                    size="xs"
+                    size="sm"
                     options={[
                       {
                         label: 'Ver detalles',
