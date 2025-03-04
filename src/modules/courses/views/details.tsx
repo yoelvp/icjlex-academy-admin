@@ -1,58 +1,50 @@
-import type { IdParams } from '@/@common/types'
-
-import { Fragment, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { Tabs } from 'flowbite-react'
 import Button from '@/@common/components/button'
-import { TableLoading } from '@/@common/components/table-loading'
-import { Menu, RenderHTML } from '@/@common/components'
+/* import { TableLoading } from '@/@common/components/table-loading' */
+import { RenderHTML } from '@/@common/components'
 import {
   IconAdd,
   IconArrowRoundBack,
   IconCheckmark,
-  IconChevronDown,
   IconEdit
 } from '@/assets/icons'
 import { formatCurrency } from '@/@common/utils/currencies'
 import Form from '@/@common/components/form'
-import { useGetCourseContents } from '../hooks/use-get-course-contents'
-import { useCourseContentsStore } from '../store/course-contents.store'
-import { CourseContents } from '@/_models/Course.model'
-import { TableEmpty } from '@/@common/components/table-empty'
+/* import { CourseContents } from '@/_models/Course.model' */
+/* import { TableEmpty } from '@/@common/components/table-empty' */
 
 const CoursesPage = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
-  const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
-  const params = useParams<IdParams>()
-  const { isLoading } = useGetCourseContents(params.id ?? '')
-  const contents = useCourseContentsStore((state) => state.contents)
+  /* const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set()); */
 
   const handleEditTitle = () => {
     setIsEditingTitle(true)
   }
-  const handleContentExpand = (index: number) => {
-    setExpandedSections((prevExpandedSections) => {
-      const newExpandedSections = new Set(prevExpandedSections)
-      if (newExpandedSections.has(index)) {
-        newExpandedSections.delete(index)
-      } else {
-        newExpandedSections.add(index)
-      }
+  /* const handleContentExpand = (index: number) => { */
+  /*   setExpandedSections((prevExpandedSections) => { */
+  /*     const newExpandedSections = new Set(prevExpandedSections) */
+  /*     if (newExpandedSections.has(index)) { */
+  /*       newExpandedSections.delete(index) */
+  /*     } else { */
+  /*       newExpandedSections.add(index) */
+  /*     } */
+  /**/
+  /*     return newExpandedSections */
+  /*   }) */
+  /* } */
 
-      return newExpandedSections
-    })
-  }
-
-  const countTotalVideos = (section: CourseContents): number => {
-    let count = 0
-
-    section.classes.forEach((courseClass) => {
-      if (courseClass.url) count++
-    })
-
-    return count
-  }
+  /* const countTotalVideos = (section: CourseContents): number => { */
+  /*   let count = 0 */
+  /**/
+  /*   section.classes.forEach((courseClass) => { */
+  /*     if (courseClass.url) count++ */
+  /*   }) */
+  /**/
+  /*   return count */
+  /* } */
 
   return (
     <div className="gap-y-4 grid grid-rows-[auto_1fr]">
@@ -225,9 +217,9 @@ const CoursesPage = () => {
                 </tr>
               </thead>
               <tbody>
-                <TableLoading numCols={4} isLoading={isLoading} />
-                <TableEmpty show={(contents?.length ?? 0) < 1} numCols={4} isLoading={isLoading} />
-                {!isLoading && contents?.map((content, index) => (
+                {/* <TableLoading numCols={4} isLoading={isLoading} /> */}
+                {/* <TableEmpty show={(contents?.length ?? 0) < 1} numCols={4} isLoading={isLoading} /> */}
+                {/* !isLoading && contents?.map((content, index) => (
                   <Fragment key={content.sectionName}>
                     <tr className="border-b border-gray-200">
                       <td>
@@ -283,7 +275,7 @@ const CoursesPage = () => {
                       </tr>
                     )}
                   </Fragment>
-                ))}
+                )) */}
               </tbody>
             </table>
           </Tabs.Item>
