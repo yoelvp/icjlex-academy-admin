@@ -2,10 +2,12 @@ import { teacherSchema } from '@/_schemas/teacher.schema'
 import { InferType } from 'yup'
 
 export interface TeacherBasicData {
+  id?: string
   firstName: string
   lastName: string
+  slug: string
   profession: string
-  imageUrl: string | null
+  imageUrl?: string | null
 }
 
 export interface Teacher {
