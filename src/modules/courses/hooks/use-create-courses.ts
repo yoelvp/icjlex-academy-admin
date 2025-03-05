@@ -1,33 +1,28 @@
 import { toast } from 'sonner'
 import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
-import { UseCourseStore } from '../store/course.store'
 import { CourseFormData } from '../types/CourseFormFields'
 import { HttpStatusCode, isAxiosError } from 'axios'
 import { createCourseService } from '@/_services/admin/courses.service'
+import { useNavigate } from 'react-router-dom'
 
 export const useCreateCourse = () => {
+  const navigate = useNavigate()
   const { isLoading, loading, loaded } = useLoading()
-  const courses = UseCourseStore((state) => state.courses)
-  const setCourses = UseCourseStore((state) => state.setCourses)
-  const setCourseId = UseCourseStore((state) => state.setCourseId)
 
-  const createCourse = async (course: CourseFormData) => {
+  const createCourse = async (course: CourseFormData, isScheduled?: boolean) => {
     loading()
     try {
-      let oldCourses = courses
       const response = await createCourseService(course)
 
       if (response?.status === HttpStatusCode.Ok) {
-        if (courses.length == 10) {
-          oldCourses = courses.slice(0, -1)
+        if (isScheduled) {
+          navigate('/admin/courses/?tab=scheduled')
+        } else {
+          navigate('/admin/courses')
         }
-        setCourses([response.data, ...oldCourses])
 
-        setCourseId(response?.data.id ?? '')
         toast.success('Se creó un nuevo curso')
-
-        return response?.data.id
       }
     } catch (error) {
       loaded()
