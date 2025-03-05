@@ -1,24 +1,22 @@
-import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import SelectCreateable from 'react-select/creatable'
 import ReactSelect from 'react-select'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
+import ImageUploader from '../components/image-uploader'
+import Link from '@/@common/components/link'
+import TextEditor from '@/@common/components/text-editor'
 import { BadgeOptional, Switch } from '@/@common/components'
-import { useCreateCourse } from '../hooks/use-create-courses'
 import { CourseFields, CourseFormData } from '../types/CourseFormFields'
 import { courseSchema } from '../schemas/course.schema'
-import ImageUploader from '../components/image-uploader'
-import { useTeachersOnlyNamesStore } from '@/modules/teachers/store/teachers-only-name.store'
-import TextEditor from '@/@common/components/text-editor'
-import Button from '@/@common/components/button'
-import Link from '@/@common/components/link'
-import { IconAdd, IconChevronBack } from '@/assets/icons'
-import { useGetAllTeachersOnlyNames } from '@/modules/teachers/hooks/get-all-teachers-only-names'
 import { getFullName } from '@/@common/utils'
+import { useCreateCourse } from '../hooks/use-create-courses'
+import { useGetAllTeachersOnlyNames } from '@/modules/teachers/hooks/get-all-teachers-only-names'
+import { useTeachersOnlyNamesStore } from '@/modules/teachers/store/teachers-only-name.store'
+import { IconAdd, IconChevronBack } from '@/assets/icons'
 
 const CreateCoursePage = () => {
-  const navigate = useNavigate()
   const { isLoading: isLoadingTeachers } = useGetAllTeachersOnlyNames()
   const { isLoading: isLoadingCreateCourse, createCourse } = useCreateCourse()
   const {
@@ -60,9 +58,7 @@ const CreateCoursePage = () => {
       image
     }
 
-    await createCourse(formattedData).then(() => {
-      navigate('/admin/courses')
-    })
+    await createCourse(formattedData, data.isScheduled ?? false)
   }
 
   return (
@@ -254,7 +250,7 @@ const CreateCoursePage = () => {
                 />
                 {watch('isScheduled') && (
                   <Form.Input
-                    type="date"
+                    type="datetime-local"
                     rounded="sm"
                     {...register('publicationDate')}
                   />
