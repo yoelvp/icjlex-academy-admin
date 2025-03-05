@@ -10,7 +10,7 @@ import {
 } from '@/assets/icons'
 
 const CoursesPage = () => {
-  const { handleTabIndex, tab } = useCourseUI()
+  const { tab, handleTabIndex } = useCourseUI()
 
   return (
     <div className="flex flex-col gap-y-4">
@@ -20,7 +20,7 @@ const CoursesPage = () => {
         </h2>
         <div className="flex items-center gap-x-2">
           <Form.Input
-            placeholder="Busca lo que quieras..."
+            placeholder="Buscar..."
             size="sm"
             rounded="sm"
             withIcon
