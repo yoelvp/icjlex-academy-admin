@@ -3,11 +3,12 @@ import { TableLoading } from '@/@common/components/table-loading'
 import { useGetCourses } from '../hooks/use-get-courses'
 import { useCoursesStore } from '../store/courses.store'
 import {
+  IconCloudUpload,
   IconDelete,
   IconDockRight,
   IconEdit,
   IconEye,
-  IconImageOn,
+  IconImagePlus,
   IconOptions
 } from '@/assets/icons'
 import { Menu, Pagination } from '@/@common/components'
@@ -15,23 +16,26 @@ import { formatCurrency, getFullName } from '@/@common/utils'
 import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/format-date'
 import { useDeleteCourse } from '../hooks/use-delete-course'
+import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 
 export const TablePublishedCourses = () => {
   const { isLoadingPublished: isLoading, publishedPagination: pagination } = useGetCourses()
   const { isLoading: isLoadingDeleteCourse, deletePublishedCourse } = useDeleteCourse()
   const courses = useCoursesStore((state) => state.published.courses)
+  const openConfirmModal = useConfirmModalStore((state) => state.open)
+  const closeConfirmModal = useConfirmModalStore((state) => state.close)
 
   return (
     <div>
       <table className="custom-table mb-6 table-fixed">
         <thead>
           <tr>
-            <th>ID</th>
+            <th className="w-20">ID</th>
             <th>Nombre del curso</th>
             <th>Docentes</th>
-            <th>Precio</th>
-            <th>Fecha publicación</th>
-            <th></th>
+            <th className="w-32 !text-right">Precio</th>
+            <th className="w-48">Fecha publicación</th>
+            <th className="w-14 text-right"></th>
           </tr>
         </thead>
         <tbody>
@@ -43,7 +47,7 @@ export const TablePublishedCourses = () => {
           />
           {!isLoading && courses?.map((course) => (
             <tr key={course.id} className="group">
-              <td className="">{course.id.slice(0, 8)}</td>
+              <td>{course.id.slice(0, 8)}</td>
               <td>
                 <div className="relative flex items-center gap-x-4">
                   <img
@@ -73,40 +77,50 @@ export const TablePublishedCourses = () => {
                   </p>
                 ))}
               </td>
-              <td>{formatCurrency(course.price ?? 0)}</td>
+              <td className="text-right">{formatCurrency(course.price ?? 0)}</td>
               <td>{formatDate(course.createdAt)}</td>
-              <td className="w-auto">
-                <div className="flex justify-end">
-                  <Menu
-                    variant="white"
-                    activator={<IconOptions />}
-                    size="sm"
-                    options={[
-                      {
-                        label: 'Ver detalles',
-                        icon: IconEye,
-                        href: `/admin/courses/${course.id}`
-                      },
-                      {
-                        label: 'Actualizar imagen',
-                        icon: IconImageOn
-                      },
-                      {
-                        label: 'Editar',
-                        icon: IconEdit,
-                        onClick: () => console.log('Update')
-                      },
-                      {
-                        label: 'Eliminar',
-                        icon: IconDelete,
-                        isDelete: true,
-                        dividerTop: true,
-                        isLoading: isLoadingDeleteCourse,
-                        onClick: () => deletePublishedCourse(course.id)
+              <td className="text-right">
+                <Menu
+                  variant="white"
+                  activator={<IconOptions />}
+                  size="sm"
+                  options={[
+                    {
+                      label: 'Ver detalles',
+                      icon: IconEye,
+                      href: `/admin/courses/${course.id}`
+                    },
+                    {
+                      label: course.imageUrl !== null ? 'Actualizar imagen' : 'Subir imagen',
+                      icon: course.imageUrl !== null ? IconCloudUpload : IconImagePlus
+                    },
+                    {
+                      label: 'Editar',
+                      icon: IconEdit,
+                      href: `/admin/courses/update/${course.id}`
+                    },
+                    {
+                      label: 'Eliminar',
+                      icon: IconDelete,
+                      isDelete: true,
+                      dividerTop: true,
+                      isLoading: isLoadingDeleteCourse,
+                      onClick: () => {
+                        openConfirmModal({
+                          title: '¿Está seguro que quiere eliminar este curso?',
+                          subTitle: 'Esta acción no se puede deshacer.',
+                          options: {
+                            content: 'Sí',
+                            isLoading: isLoadingDeleteCourse,
+                            onClick: () => {
+                              deletePublishedCourse(course.id).then(() => closeConfirmModal())
+                            }
+                          }
+                        })
                       }
-                    ]}
-                  />
-                </div>
+                    }
+                  ]}
+                />
               </td>
             </tr>
           ))}

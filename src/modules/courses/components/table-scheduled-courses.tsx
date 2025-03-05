@@ -5,38 +5,44 @@ import { TableLoading } from '@/@common/components/table-loading'
 import { useGetCourses } from '../hooks/use-get-courses'
 import { useCoursesStore } from '../store/courses.store'
 import { Menu, Pagination } from '@/@common/components'
-import { formatCurrency, formatDateTime, getFullName } from '@/@common/utils'
+import { formatCurrency, getFullName } from '@/@common/utils'
 import { useShow } from '@/@common/hooks'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 import {
   IconDelete,
   IconDockRight,
   IconEyeOutline,
-  IconFileUpload
+  IconFileUpload,
+  IconUpdate
 } from '@/assets/icons'
 import { Link } from 'react-router-dom'
+import { useDeleteCourse } from '../hooks/use-delete-course'
+import { formatDate } from '../utils/format-date'
+import { usePublishCourse } from '../hooks/use-publish-course'
 
 const CourseDetailsDrawer = lazy(() => import('../components/course-details-drawer'))
 
 export const TableScheduledCourses = () => {
   const { isLoadingPublished, scheduledPagination } = useGetCourses()
+  const { isLoading: isLoadingDeleteCourse, deletePublishedCourse } = useDeleteCourse()
+  const { isLoading: isLoadingPublishCourse, publishCourse } = usePublishCourse()
+  const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
   const courses = useCoursesStore((state) => state.scheduled.courses)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
-  const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
-  console.log(courses)
+  const closeConfirmModal = useConfirmModalStore((state) => state.close)
 
   return (
     <div>
-      <table className="custom-table">
+      <table className="custom-table table-fixed">
         <thead>
           <tr>
-            <th>ID</th>
+            <th className="w-20">ID</th>
             <th>Nombre</th>
             <th>Docente</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Precio</th>
-            <th></th>
+            <th className="w-32 !text-right">Precio</th>
+            <th className="w-48">Fecha</th>
+            <th className="w-24">Hora</th>
+            <th className="w-14 !text-right"></th>
           </tr>
         </thead>
         <tbody>
@@ -48,7 +54,7 @@ export const TableScheduledCourses = () => {
           />
           {!isLoadingPublished && courses?.map((course) => (
             <tr key={course.id} className="group">
-              <td className="w-12">{course.id.slice(1, 8)}</td>
+              <td>{course.id.slice(1, 8)}</td>
               <td>
                 <div className="relative flex items-center gap-x-4">
                   <img
@@ -78,18 +84,13 @@ export const TableScheduledCourses = () => {
                   </p>
                 ))}
               </td>
+              <td className="!text-right">
+                {formatCurrency(course?.price)}
+              </td>
               <td>
-                {formatDateTime(course.publicationDate)}
+                {formatDate(course.publicationDate)}
               </td>
               <td>08:00 p.m.</td>
-              <td>
-                <div className="flex gap-x-2">
-                  {formatCurrency(course?.price)}
-                  {course.price == 0.00 && (
-                    <span className="bg-primary-500 text-white rounded-xs px-1">Gratis</span>
-                  )}
-                </div>
-              </td>
               <td>
                 <Menu
                   variant="white"
@@ -100,11 +101,11 @@ export const TableScheduledCourses = () => {
                       onClick: () => {
                         openConfirmModal({
                           title: '¿Está seguro que quiere publicar este curso?',
-                          subTitle: 'Esta acción no se puede deshacer.',
                           options: {
                             content: 'Sí',
+                            isLoading: isLoadingPublishCourse,
                             onClick: () => {
-                              console.log('Curso publicado')
+                              publishCourse(course?.id ?? '').then(closeConfirmModal)
                             }
                           }
                         })
@@ -114,6 +115,11 @@ export const TableScheduledCourses = () => {
                       label: 'Ver detalles',
                       icon: IconEyeOutline,
                       href: `/admin/courses/${course.id}`
+                    },
+                    {
+                      label: 'Editar',
+                      icon: IconUpdate,
+                      href: `/admin/courses/update/${course.id}`
                     },
                     {
                       label: 'Eliminar',
@@ -126,8 +132,9 @@ export const TableScheduledCourses = () => {
                           subTitle: 'Esta acción no se puede deshacer.',
                           options: {
                             content: 'Sí',
+                            isLoading: isLoadingDeleteCourse,
                             onClick: () => {
-                              console.log('Curso publicado')
+                              deletePublishedCourse(course.id, 'scheduled').then(() => closeConfirmModal())
                             }
                           }
                         })
