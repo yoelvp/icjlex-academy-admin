@@ -1,4 +1,4 @@
-import type { CourseListAdmin } from '@/_models/Course.model'
+import type { AdminCourse } from '@/_models/Course.model'
 import type { Pagination } from '@/@common/types/Pagination'
 
 import { create } from 'zustand'
@@ -6,15 +6,15 @@ import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
 
 interface UseCoursesStore {
   published: {
-    courses: CourseListAdmin[] | null
+    courses: AdminCourse[] | null
     pagination: Pagination
   }
   scheduled: {
-    courses: CourseListAdmin[] | null
+    courses: AdminCourse[] | null
     pagination: Pagination
   }
-  setPublishedCourses: (courses: CourseListAdmin[] | null) => void
-  setScheduledCourses: (courses: CourseListAdmin[] | null) => void
+  setPublishedCourses: (courses: AdminCourse[] | null) => void
+  setScheduledCourses: (courses: AdminCourse[] | null) => void
   setPublishedPagination: (pagination: Pagination) => void
   setScheduluedPagination: (pagination: Pagination) => void
 }
@@ -28,13 +28,13 @@ export const useCoursesStore = create<UseCoursesStore>()((set) => ({
     courses: [],
     pagination: DEFAULT_PAGINATION
   },
-  setPublishedCourses: (courses: CourseListAdmin[] | null) => set((state) => ({
+  setPublishedCourses: (courses: AdminCourse[] | null) => set((state) => ({
     published: {
       ...state.published,
       courses
     }
   })),
-  setScheduledCourses: (courses: CourseListAdmin[] | null) => set((state) => ({
+  setScheduledCourses: (courses: AdminCourse[] | null) => set((state) => ({
     scheduled: {
       ...state.scheduled,
       courses
