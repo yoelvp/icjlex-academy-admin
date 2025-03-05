@@ -59,12 +59,21 @@ export interface CourseListAdmin {
   imageUrl: string
   publicationDate: Date | null
   price: number
-  teachers: Array<{
-    id: string
-    firstName: string
-    lastName: string
-    slug: string
-    profession: string
-  }>
+  teachers: TeacherBasicData[]
   createdAt: Date
+}
+
+export interface AdminCourse {
+  id: string
+  name: string
+  slug: string
+  imageUrl: string | null
+  price: number | null
+  publicationDate: Date
+  isScheduled: boolean
+  isFree: boolean | null
+  courseName: string
+  courseDuration: string
+  courseUrl: string
+  teachers: TeacherBasicData[]
 }
