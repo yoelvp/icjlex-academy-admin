@@ -31,7 +31,8 @@ export {
   IoAddOutline as IconAdd,
   IoEllipsisHorizontal as IconOptions,
   IoEyeOutline as IconEyeOutline,
-  IoTimeOutline as IconTimeOutline
+  IoTimeOutline as IconTimeOutline,
+  IoCloudUploadOutline as IconCloudUpload
 } from 'react-icons/io5'
 export {
   MdDeleteOutline as IconDelete,
@@ -49,7 +50,8 @@ export {
 } from 'react-icons/fa'
 export {
   FaXTwitter as IconX,
-  FaGift as IconGift
+  FaGift as IconGift,
+  FaLink as IconLink
 } from 'react-icons/fa6'
 export {
   FiYoutube as IconYoutube
@@ -64,7 +66,8 @@ export {
 export {
   LuBookMarked as IconBookMarked,
   LuFileSignature as IconCourse,
-  LuMailbox as IconMailbox
+  LuMailbox as IconMailbox,
+  LuImagePlus as IconImagePlus
 } from 'react-icons/lu'
 export {
   RiPresentationLine as IconPresentation
@@ -97,3 +100,6 @@ export {
 export {
   GrEdit as IconEdit
 } from 'react-icons/gr'
+export {
+  RxUpdate as IconUpdate
+} from 'react-icons/rx'
