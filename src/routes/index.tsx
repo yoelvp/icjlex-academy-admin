@@ -23,6 +23,7 @@ import {
   TeachersAdminPage,
   StudentsPage,
   CoursesCreatePage,
+  CoursesUpdatePage,
   CreateTeachersAdminPage,
   UpdateTeachersAdminPage
 } from './admin.routes'
@@ -127,6 +128,10 @@ const routes = createBrowserRouter([
       {
         path: 'courses/create',
         element: <CoursesCreatePage />
+      },
+      {
+        path: 'courses/update/:id',
+        element: <CoursesUpdatePage />
       },
       {
         path: 'courses/:id',
