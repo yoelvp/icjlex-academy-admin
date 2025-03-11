@@ -1,6 +1,6 @@
 import { HttpStatusCode, isAxiosError } from 'axios'
 import { toast } from 'sonner'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useLoading } from '@/@common/hooks'
 import getError from '@/@common/utils/get-errors'
 import { publishCourseService } from '@/_services/admin/courses.service'
