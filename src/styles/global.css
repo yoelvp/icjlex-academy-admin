@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #E8EDEF;
+  --color-primary-100: #B8C6CD;
+  --color-primary-200: #95ABB5;
+  --color-primary-300: #658494;
+  --color-primary-400: #476D7F;
+  --color-primary-500: #19485F;
+  --color-primary-600: #174256;
+  --color-primary-700: #123343;
+  --color-primary-800: #0E2834;
+  --color-primary-900: #0B1E28;
+
+  --color-secondary-50: #FBFCF6;
+  --color-secondary-100: #F3F5E3;
+  --color-secondary-200: #EEF1D5;
+  --color-secondary-300: #E6EAC2;
+  --color-secondary-400: #E1E6B6;
+  --color-secondary-500: #D9E0A4;
+  --color-secondary-600: #C5CC95;
+  --color-secondary-700: #9A9F74;
+  --color-secondary-800: #777B5A;
+  --color-secondary-900: #5B5E45;
+
+  --color-gold: #FFD700;
+  --color-white: #FFFFFF;
+  --color-dark: #27272A;
+  --color-black: #000000;
+
+  --radius-*: initial;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+
+  --z-index-100: 100;
+  --z-index-200: 200;
+  --z-index-300: 300;
+  --z-index-400: 400;
+  --z-index-500: 500;
+  --z-index-600: 600;
+  --z-index-700: 700;
+  --z-index-800: 800;
+  --z-index-900: 900;
+  --z-index-1000: 1000;
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--color-primary-500) 20%, transparent);
+}
+
+html {
+  font-weight: 400;
+  color: var(--color-dark);
+}
