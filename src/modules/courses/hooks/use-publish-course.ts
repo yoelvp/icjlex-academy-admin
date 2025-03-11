@@ -3,7 +3,7 @@ import { toast } from 'sonner'
 import { useNavigate } from 'react-router'
 import { useLoading } from '@/@common/hooks'
 import getError from '@/@common/utils/get-errors'
-import { publishCourseService } from '@/_services/admin/courses.service'
+import { publishCourseService } from '@/_services/courses.service'
 
 export const usePublishCourse = () => {
   const navigate = useNavigate()

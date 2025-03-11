@@ -5,7 +5,7 @@ import { useCoursesStore } from '../store/courses.store'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
 import { usePagination } from '@/@common/hooks/use-pagination'
-import { getAllCoursesService } from '@/_services/admin/courses.service'
+import { getAllCoursesService } from '@/_services/courses.service'
 import { useDebounce } from '@/@common/hooks'
 
 export const useGetCourses = () => {

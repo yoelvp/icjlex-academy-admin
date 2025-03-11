@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { TAB_INDEX } from '../utils/course-tab-index'
 
 export const useCourseUI = () => {

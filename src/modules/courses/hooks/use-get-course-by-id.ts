@@ -2,7 +2,7 @@ import { toast } from 'sonner'
 import { HttpStatusCode, isAxiosError } from 'axios'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
-import { getCourseByIdService } from '@/_services/admin/courses.service'
+import { getCourseByIdService } from '@/_services/courses.service'
 import { useCourseStore } from '../store/course.store'
 
 export const useGetCourseById = () => {

@@ -3,7 +3,7 @@ import getError from '@/@common/utils/get-errors'
 import { useLoading } from '@/@common/hooks/use-loading'
 import { HttpStatusCode, isAxiosError } from 'axios'
 import { useCoursesStore } from '../store/courses.store'
-import { deleteCourseService } from '@/_services/admin/courses.service'
+import { deleteCourseService } from '@/_services/courses.service'
 
 export const useDeleteCourse = () => {
   const { isLoading, loading, loaded } = useLoading()

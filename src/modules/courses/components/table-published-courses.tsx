@@ -13,7 +13,7 @@ import {
 } from '@/assets/icons'
 import { Menu, Pagination } from '@/@common/components'
 import { formatCurrency, getFullName } from '@/@common/utils'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router'
 import { formatDate } from '../utils/format-date'
 import { useDeleteCourse } from '../hooks/use-delete-course'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
