@@ -1,7 +1,6 @@
 import { useSidebar } from '@/store/use-sidebar.store'
 import { IconMenuLeft, IconMenuRight } from '@/assets/icons'
 import { Menu } from '@/@common/components'
-import { UserMenu } from '@/layouts/client/components/header/user-menu'
 import { getUserInitials } from '@/@common/utils/get-initials'
 import { useUserStore } from '@/@auth/store/use-user.store'
 
@@ -22,7 +21,9 @@ export const Header  = () => {
 
       {user ? (
         <Menu activator={getUserInitials(user)} variant="white">
-          <UserMenu />
+          <div>
+            User menu
+          </div>
         </Menu>
       ) : (
         <div>
