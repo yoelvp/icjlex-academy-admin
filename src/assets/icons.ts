@@ -65,7 +65,7 @@ export {
 } from 'react-icons/pi'
 export {
   LuBookMarked as IconBookMarked,
-  LuFileSignature as IconCourse,
+  LuFileBadge as IconCourse,
   LuMailbox as IconMailbox,
   LuImagePlus as IconImagePlus
 } from 'react-icons/lu'
