@@ -3,7 +3,7 @@ import { RoundedStyle } from '../styles/variants/rounded.variant'
 import { SizeStyle } from '../styles/variants/size.variant'
 
 export const inputVariants = cva(
-  'w-full border rounded-xl text-base focus:outline-none focus:ring',
+  'w-full border rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-offset-1',
   {
     variants: {
       variant: {
@@ -34,7 +34,7 @@ export const inputVariants = cva(
     defaultVariants: {
       variant: 'primary',
       size: 'md',
-      rounded: 'lg'
+      rounded: 'md'
     }
   }
 )
