@@ -7,7 +7,7 @@
 
   html {
     font-size: 1rem;
-    color: theme('colors.dark');
+    color: var(--color-dark);
   }
 
   main {

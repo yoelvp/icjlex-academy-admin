@@ -1,5 +1,5 @@
 .jodit-container {
-  border-color: theme('colors.primary.400') !important;
+  border-color: var(--color-primary-400) !important;
 }
 
 .jodit-toolbar__box {

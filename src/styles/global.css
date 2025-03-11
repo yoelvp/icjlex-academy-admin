@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@import './base.css';
+@import './components/index.css';
+@import './features/index.css';
+
 @theme {
   --color-primary-50: #E8EDEF;
   --color-primary-100: #B8C6CD;
@@ -53,4 +57,8 @@
 html {
   font-weight: 400;
   color: var(--color-dark);
+}
+
+button {
+  cursor: pointer;
 }

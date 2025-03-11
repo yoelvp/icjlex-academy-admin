@@ -32,14 +32,14 @@
   }
 
   .btn-underline--primary::after {
-    background: theme('colors.primary.500');
+    background: var(--color-primary-500);
   }
 
   .btn-underline--secondary::after {
-    background: theme('colors.secondary.500');
+    background: var(--color-primary-500);
   }
 
   .btn-underline--white::after {
-    background: theme('colors.white');
+    background: var(--color-white);
   }
 }
