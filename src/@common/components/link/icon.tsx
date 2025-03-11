@@ -1,7 +1,7 @@
 import type { AnchorHTMLAttributes } from 'react'
 import type { ButtonBaseProps } from '@/@common/types/Button'
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { forwardRef } from 'react'
 import { buttonVariants } from '@/@common/constants/button-variants'
 import { twVariants } from '@/@common/utils/tailwindcss'

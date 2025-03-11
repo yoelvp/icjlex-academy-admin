@@ -8,7 +8,7 @@ import Button from './button'
 import { IconMenu } from '@/assets/icons'
 import { MenuOptions } from '../types/Menu'
 import { ButtonBaseProps } from '../types/Button'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { Spinner } from 'flowbite-react'
 
 interface Props extends ButtonBaseProps {
