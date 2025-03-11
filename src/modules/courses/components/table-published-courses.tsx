@@ -13,14 +13,17 @@ import {
 } from '@/assets/icons'
 import { Menu, Pagination } from '@/@common/components'
 import { formatCurrency, getFullName } from '@/@common/utils'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatDate } from '../utils/format-date'
 import { useDeleteCourse } from '../hooks/use-delete-course'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
+import { useGetCourseById } from '../hooks/use-get-course-by-id'
 
 export const TablePublishedCourses = () => {
+  const navigate = useNavigate()
   const { isLoadingPublished: isLoading, publishedPagination: pagination } = useGetCourses()
   const { isLoading: isLoadingDeleteCourse, deletePublishedCourse } = useDeleteCourse()
+  const { isLoading: isLoadingGetCourseById, getCourseById } = useGetCourseById()
   const courses = useCoursesStore((state) => state.published.courses)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
   const closeConfirmModal = useConfirmModalStore((state) => state.close)
@@ -88,7 +91,10 @@ export const TablePublishedCourses = () => {
                     {
                       label: 'Ver detalles',
                       icon: IconEye,
-                      href: `/admin/courses/${course.id}`
+                      isLoading: isLoadingGetCourseById,
+                      onClick: () => {
+                        getCourseById(course?.id ?? '').then(() => navigate(`/admin/courses/${course.id}`))
+                      }
                     },
                     {
                       label: course.imageUrl !== null ? 'Actualizar imagen' : 'Subir imagen',

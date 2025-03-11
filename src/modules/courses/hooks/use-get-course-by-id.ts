@@ -12,7 +12,7 @@ export const useGetCourseById = () => {
   const getCourseById = async (courseId: string) => {
     loading()
     try {
-      const { data, status } = await getCourseByIdService(courseId)
+      const { data: { data }, status } = await getCourseByIdService(courseId)
 
       if (status === HttpStatusCode.Ok) {
         setCourse(data)

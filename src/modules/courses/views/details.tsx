@@ -1,10 +1,9 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link as ReactRouterLink, useParams } from 'react-router-dom'
 import classNames from 'classnames'
-import Button from '@/@common/components/button'
+import Link from '@/@common/components/link'
 import { RenderHTML } from '@/@common/components'
 import {
-  IconAdd,
   IconArrowRoundBack,
   IconCheckmark,
   IconEdit,
@@ -12,19 +11,32 @@ import {
 } from '@/assets/icons'
 import { formatCurrency } from '@/@common/utils/currencies'
 import Form from '@/@common/components/form'
+import { useCourseStore } from '../store/course.store'
+import { useGetCourseById } from '../hooks/use-get-course-by-id'
+import { formatDateTime, getFullName } from '@/@common/utils'
 
 const CoursesPage = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const params = useParams()
+  const course = useCourseStore((state) => state.course)
+  const { getCourseById } = useGetCourseById()
+
+  useEffect(() => {
+    if (!course) {
+      getCourseById(params?.id ?? '')
+    }
+  }, [])
 
   const handleEditTitle = () => {
     setIsEditingTitle(true)
   }
+  console.log(course)
 
   return (
     <div className="gap-y-4 grid grid-rows-[auto_1fr]">
       <header className="section-panel header-height flex-between">
         <div className="flex-start gap-x-2">
-          <Link
+          <ReactRouterLink
             to="/admin/courses"
             className={classNames(
               'inline-flex justify-center items-center w-8 h-8 rounded-xs border border-primary-500/15',
@@ -33,13 +45,13 @@ const CoursesPage = () => {
             )}
           >
             <IconArrowRoundBack size="24" />
-          </Link>
+          </ReactRouterLink>
           <h2 className="header-title">Detalles del curso</h2>
         </div>
-        <Button type="button" size="sm">
-          <IconAdd size={24} />
-          Agregar
-        </Button>
+        <Link href={`/admin/courses/update/${course?.id}`} type="button" variant="primary.outline" size="sm" rounded="sm">
+          <IconEdit />
+          Editar
+        </Link>
       </header>
 
       <section className="section-panel p-4">
@@ -47,50 +59,22 @@ const CoursesPage = () => {
         <div className="flex flex-col gap-y-16">
           <div className="grid grid-cols-2 gap-x-8">
             <article>
-              <div className="flex items-center gap-x-4 py-4">
-                {!isEditingTitle ? (
-                  <>
-                    <h3 className="text-primary-700 text-xl font-bold">
-                      Nombre del curso
-                    </h3>
-                    <button
-                      type="button"
-                      onClick={handleEditTitle}
-                      className="flex-center w-8 h-8 rounded-xs transition-colors hover:bg-zinc-100"
-                    >
-                      <IconEdit size="16" />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Form.Input
-                      type="text"
-                      size="md"
-                      value="Nombre del curso"
-                      placeholder="Ingresa el nuevo título del curso"
-                    />
-                    <button
-                      className="w-10 h-10 flex-center bg-primary-500 hover:bg-primary-600 text-white rounded-sm"
-                      onClick={() => setIsEditingTitle(false)}
-                    >
-                      <IconCheckmark size="24" />
-                    </button>
-                  </>
-                )}
-              </div>
-              <hr className="line-sep-h" />
+              <h3 className="text-primary-700 text-xl font-bold">
+                {course?.name}
+              </h3>
+              <hr className="line-sep-h my-2" />
               <div className="mt-4">
                 <h4 className="text-primary-700 text-lg font-bold">
                   Objetivo
                 </h4>
                 <p>
-                  Lorem
+                  {course?.objective}
                 </p>
               </div>
             </article>
             <div className="space-y-4">
               <img
-                src={'/image-placeholder.png'}
+                src={course?.imageUrl ?? '/image-placeholder.png'}
                 alt="Thumbnail of course"
                 className="w-full h-64 object-cover object-center rounded-xs"
               />
@@ -100,7 +84,7 @@ const CoursesPage = () => {
                     Fecha de publicación
                   </label>
                   <strong className="text-primary-700 text-lg">
-                    {'14 de junio de 2024'}
+                    {formatDateTime(course?.publicationDate ?? null)}
                   </strong>
                 </div>
                 <div className="flex flex-col gap-y-1">
@@ -108,31 +92,34 @@ const CoursesPage = () => {
                     Precio
                   </label>
                   <strong className="text-primary-700 text-lg">
-                    {formatCurrency(20)}
+                    {formatCurrency(course?.price ?? 0)}
                   </strong>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="flex gap-x-4">
-            <img
-              src="/image-placeholder.png"
-              alt=""
-              className="w-72 h-32 rounded-sm object-center object-cover"
-            />
-            <div>
-              <h5 className="font-bold text-xl text-primary-500">Nombre de la clase <span>(2h 30m)</span></h5>
-              <a
-                href="https://zoom.us/class/jkkjkjjnHDka"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-primary-500 flex gap-x-2 items-center hover:text-primary-500"
-              >
-                <IconLink />
-                https://zoom.us/class/jkkjkjjnHDka
-              </a>
-            </div>
+          <div className="flex flex-col gap-x-4">
+            {course?.resources?.map((resource) => (
+              <div key={resource.sectionName}>
+                {resource?.classes?.map((classVideo) => (
+                  <div key={classVideo.id} className="bg-primary-50/50 px-4 py-2 rounded-sm">
+                    <h5 className="font-bold text-lg text-primary-500">
+                      {classVideo.name} <span>({classVideo?.duration})</span>
+                    </h5>
+                    <a
+                      href="https://zoom.us/class/jkkjkjjnHDka"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-primary-500 flex gap-x-2 items-center hover:text-primary-500 hover:decoration-wavy"
+                    >
+                      <IconLink />
+                      {classVideo?.url}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
 
           <div className="grid grid-cols-2 gap-x-8">
@@ -141,13 +128,9 @@ const CoursesPage = () => {
                 Lo que incluye el curso
               </h4>
               <ul className="grid grid-cols-2 list-disc list-inside">
-                <li>Hola 01</li>
-                <li>Hola 02</li>
-                <li>Hola 03</li>
-                <li>Hola 04</li>
-                <li>Hola 05</li>
-                <li>Hola 06</li>
-                <li>Hola 07</li>
+                {course?.includes.map((include, index) => (
+                  <li key={index}>{include}</li>
+                ))}
               </ul>
             </div>
             <div className="space-y-2">
@@ -155,10 +138,9 @@ const CoursesPage = () => {
                 Lo que aprenderá
               </h4>
               <ul>
-                <li>Hola</li>
-                <li>Hola 02</li>
-                <li>Hola 03</li>
-                <li>Hola 04</li>
+                {course?.youWillLearn.map((learnItem, index) => (
+                  <li key={index}>{learnItem}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -168,7 +150,7 @@ const CoursesPage = () => {
               Descripción del curso
             </h4>
             <div>
-              <RenderHTML content="<p>Un buen curso</p>" />
+              <RenderHTML content={course?.description ?? ''} />
             </div>
           </div>
 
@@ -176,18 +158,30 @@ const CoursesPage = () => {
             <h4 className="text-primary-700 text-lg font-bold mb-2">
               Docentes
             </h4>
-            <div className="flex gap-x-4 items-center justify-start bg-primary-50/50 px-4 py-8 rounded-sm">
-              <div className="w-12 h-12 rounded-full bg-zinc-200 flex-center text-sm font-bold text-zinc-600">
-                YV
-              </div>
-              <div className="flex flex-col">
-                <strong>
-                  {'Yoel Valverde'}
-                </strong>
-                <span>
-                  {'Frontend developer'}
-                </span>
-              </div>
+            <div className="flex flex-col gap-y-4">
+              {course?.teachers?.map((teacher) => (
+                <div className="flex gap-x-4 items-center justify-start bg-primary-50/50 px-4 py-8 rounded-sm">
+                  {teacher.imageUrl ? (
+                    <img
+                      src={teacher.imageUrl}
+                      alt="Teacher image"
+                      className="w-12 h-12 rounded-full border border-zinc-400"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-zinc-200 flex-center text-sm font-bold text-zinc-600">
+                      YV
+                    </div>
+                  )}
+                  <div className="flex flex-col">
+                    <strong>
+                      {getFullName(teacher)}
+                    </strong>
+                    <span>
+                      {teacher?.profession}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

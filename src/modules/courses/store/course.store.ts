@@ -1,16 +1,16 @@
 import { create } from 'zustand'
-import { CourseResult } from '../types/Course'
+import { CourseDetails } from '@/_models/Course.model'
 
 interface UseCourseStore {
-  course: CourseResult | null
+  course: CourseDetails | null
   courseId: string | null
-  setCourse: (course: CourseResult) => void
+  setCourse: (course: CourseDetails) => void
   setCourseId: (id: string | null) => void
 }
 
-export const useCourseStore = create<UseCourseStore>((set) => ({
+export const useCourseStore = create<UseCourseStore>()((set) => ({
   course: null,
   courseId: null,
-  setCourse: (course: CourseResult) => set({ course }),
+  setCourse: (course: CourseDetails) => set({ course }),
   setCourseId: (courseId: string | null) => set({ courseId })
 }))
