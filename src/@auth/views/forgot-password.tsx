@@ -6,7 +6,7 @@ import Form from '@/@common/components/form'
 import Button from '@/@common/components/button'
 import { recoverPasswordSchema } from '../schemas/recover-password.schema'
 import { IconMail } from '@/assets/icons'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 interface RecoverPasswordForm {
   email: string

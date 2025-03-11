@@ -7,7 +7,7 @@ import { changePasswordSchema } from '../schemas/change-password.schema'
 import Form from '@/@common/components/form'
 import { IconLockCloseOutline } from '@/assets/icons'
 import Button from '@/@common/components/button'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 interface ChangePasswordForm {
   password: string

@@ -1,7 +1,7 @@
 import type { SubmitHandler } from 'react-hook-form'
 
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Spinner } from 'flowbite-react'
 import Button from '@/@common/components/button'

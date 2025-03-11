@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { AxiosError, HttpStatusCode } from 'axios'
 import { useTokenStore } from '@/@auth/store/use-token.store'
@@ -13,7 +13,7 @@ import {
   loginService,
   logoutService
 } from '@/_services/auth.service'
-import { getUserByIdService } from '@/_services/users-client.service'
+import { getUserByIdService } from '@/_services/users.service'
 
 export const useAuth = () => {
   const navigate = useNavigate()

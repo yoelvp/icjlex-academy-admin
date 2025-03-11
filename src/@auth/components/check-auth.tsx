@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 import { useUserStore } from '../store/use-user.store'
 import { useTokenStore } from '../store/use-token.store'
 import { useCanStore } from '../store/use-can.store'
