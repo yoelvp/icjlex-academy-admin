@@ -1,28 +1,29 @@
-import { Suspense } from 'react'
-import { createBrowserRouter } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { createBrowserRouter } from 'react-router'
 
 import { AuthLayout } from '@/layouts/auth'
 import { AdminLayout } from '@/layouts/admin'
 
-import ChangePasswordPage from '@/modules/[auth]/change-password/views'
-import ForgotPasswordPage from '@/modules/[auth]/forgot-password/views'
-import RecoveryConfirmationPage from '@/modules/[auth]/forgot-password/views/recovery-confirmation'
-import LoginPage from '@/modules/[auth]/login/views'
+import ChangePasswordPage from '@/@auth/views/change-password'
+import ForgotPasswordPage from '@/@auth/views/forgot-password'
+import RecoveryConfirmationPage from '@/@auth/views/recovery-confirmation'
+import LoginPage from '@/@auth/views/login'
 import { CheckAuth } from '@/@auth/components/check-auth'
 
-import {
-  CoursesAdminPage,
-  CourseDetailsAdminPage,
-  DashboardPage,
-  TeachersAdminPage,
-  StudentsPage,
-  CoursesCreatePage,
-  CoursesUpdatePage,
-  CreateTeachersAdminPage,
-  UpdateTeachersAdminPage
-} from './admin.routes'
+const DashboardPage = lazy(() => import('@/modules/dashboard/views'))
 
-const routes = createBrowserRouter([
+const CoursesAdminPage = lazy(() => import('@/modules/courses/views'))
+const CoursesCreatePage = lazy(() => import('@/modules/courses/views/create'))
+const CoursesUpdatePage = lazy(() => import('@/modules/courses/views/update'))
+const CourseDetailsAdminPage = lazy(() => import('@/modules/courses/views/details'))
+
+const StudentsPage = lazy(() => import('@/modules/students/views'))
+
+const TeachersAdminPage = lazy(() => import('@/modules/teachers/views'))
+const CreateTeachersAdminPage = lazy(() => import('@/modules/teachers/views/create'))
+const UpdateTeachersAdminPage = lazy(() => import('@/modules/teachers/views/update'))
+
+export const routes = createBrowserRouter([
   // Authentication pages
   {
     path: '/auth',
@@ -102,5 +103,3 @@ const routes = createBrowserRouter([
     ]
   }
 ])
-
-export default routes
