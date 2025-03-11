@@ -1,26 +1,21 @@
 import { TeacherBasicData } from './Teacher'
 
-interface CourseVideo {
-  name: string
-  videoLength: string
-}
-
-interface CourseContent {
-  title: string
-  numClasses: string
-  totalClassTime: string
-  videos: CourseVideo[]
-}
-
+// Unused
 interface CourseValoration {
   value: string
   quantity: number
 }
 
 interface CourseVideo {
-  className: string
+  id: number
+  name: string
   duration: string
   url: string | null
+}
+
+export interface CourseContent {
+  sectionName: string
+  classes: CourseVideo[]
 }
 
 export interface Course {
@@ -38,29 +33,22 @@ export interface Course {
   totalClassTime?: string
 }
 
-export interface CourseDetails extends Course {
-  objective: string
-  numStudents: number
-  includes: string[]
-  youWillLearn: string[]
-  contents: CourseContent[]
-  description: string
-}
-
-export interface CourseContents {
-  sectionName: string
-  classes: CourseVideo[]
-}
-
-export interface CourseListAdmin {
+export interface CourseDetails {
   id: string
   name: string
   slug: string
+  objective: string
+  description: string
   imageUrl: string
-  publicationDate: Date | null
-  price: number
+  price: number | null
+  youWillLearn: string[]
+  includes: string[]
+  publicationDate: Date
+  isScheduled: boolean
+  isFree: boolean
+  createdAt: string
   teachers: TeacherBasicData[]
-  createdAt: Date
+  resources: CourseContent[]
 }
 
 export interface AdminCourse {
@@ -76,4 +64,5 @@ export interface AdminCourse {
   courseDuration: string
   courseUrl: string
   teachers: TeacherBasicData[]
+  createdAt: Date
 }
