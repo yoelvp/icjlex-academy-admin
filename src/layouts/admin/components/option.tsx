@@ -2,7 +2,7 @@ import type { Options } from '../types/AdminRoutes'
 
 import classNames from 'classnames'
 import { IconChevronDown } from '@/assets/icons'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router'
 
 interface Props {
   option: Options

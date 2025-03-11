@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import classNames from 'classnames'
 import { ADMIN_ROUTES } from '@/layouts/admin/constants/routes'
 import { APP_SHORT_NAME } from '@/@common/env'

@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router'
 import classNames from 'classnames'
 import { Sidebar } from './components/sidebar'
 import { Header } from './components/header'
