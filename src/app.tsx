@@ -1,6 +1,6 @@
-import { RouterProvider } from 'react-router-dom'
+import { RouterProvider } from 'react-router'
 import { Toaster } from 'sonner'
-import routes from '@/routes'
+import { routes } from '@/routes'
 import { AxiosInterceptor } from './lib'
 import { ContainerConfirmModal } from '@/@common/components'
 
