@@ -25,7 +25,7 @@ const ForgotPasswordPage = () => {
   }
 
   return (
-    <section className="w-full max-w-lg border-2 border-primary-500/15 rounded-lg p-8 flex flex-col items-center justify-center gap-y-8">
+    <section className="w-full sm:w-sm border-2 border-primary-500/15 rounded-lg p-8 flex flex-col items-center justify-center gap-y-8">
       <img src="/logo.svg" alt="logo with colors" className="h-16 w-auto" />
 
       <div>

@@ -1,4 +1,5 @@
 import type { SubmitHandler } from 'react-hook-form'
+import type { LoginFormSchema } from '@/_models/Auth.model'
 
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router'
@@ -8,7 +9,6 @@ import Button from '@/@common/components/button'
 import Form from '@/@common/components/form'
 import { IconLockCloseOutline, IconMail } from '@/assets/icons'
 import { useAuth } from '@/@auth/hooks/use-auth'
-import { LoginFormSchema } from '@/@auth/types/Login'
 import { loginFormSchema } from '@/@auth/schemas/login.schema'
 
 const LoginPage = () => {
@@ -22,11 +22,11 @@ const LoginPage = () => {
   })
 
   const onSubmit: SubmitHandler<LoginFormSchema> = async (data) => {
-    login(data)
+    await login(data)
   }
 
   return (
-    <section className="w-full max-w-lg border-2 border-primary-500/15 rounded-lg p-8 flex flex-col items-center justify-center gap-y-8">
+    <section className="w-full sm:w-sm border-2 border-primary-500/15 rounded-lg p-8 flex flex-col items-center justify-center gap-y-8">
       <img src="/logo.svg" alt="logo with colors" className="h-16 w-auto" />
 
       <h1 className="text-primary-700 text-3xl text-center font-bold">
