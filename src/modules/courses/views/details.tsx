@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link as ReactRouterLink, useParams } from 'react-router-dom'
+import { Link as ReactRouterLink, useParams } from 'react-router'
 import classNames from 'classnames'
 import Link from '@/@common/components/link'
 import { RenderHTML } from '@/@common/components'

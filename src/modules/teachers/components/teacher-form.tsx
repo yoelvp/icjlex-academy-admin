@@ -11,7 +11,7 @@ import TextEditor from '@/@common/components/text-editor'
 import ImageUploader from '@/modules/courses/components/image-uploader'
 import { IconAdd, IconDelete } from '@/assets/icons'
 import { useUpdateTeacherStore } from '../store'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 interface Props {
   defaultValues?: Partial<TeacherFormSchema>

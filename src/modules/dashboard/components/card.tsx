@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { ChangeIndicator } from './change-indicator'
 import { IconType } from 'react-icons'
 

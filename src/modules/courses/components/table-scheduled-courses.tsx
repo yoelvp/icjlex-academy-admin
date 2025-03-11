@@ -15,7 +15,7 @@ import {
   IconFileUpload,
   IconUpdate
 } from '@/assets/icons'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { useDeleteCourse } from '../hooks/use-delete-course'
 import { formatDate } from '../utils/format-date'
 import { usePublishCourse } from '../hooks/use-publish-course'
