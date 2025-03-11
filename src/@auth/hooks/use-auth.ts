@@ -6,14 +6,12 @@ import { useUserStore } from '@/@auth/store/use-user.store'
 import { useLoading } from '@/@common/hooks/use-loading'
 import getError from '@/@common/utils/get-errors'
 import { useCanStore } from '@/@auth/store/use-can.store'
-import { ROLES } from '@/@auth/utils/roles'
-import { LoginFormSchema } from '../types/Login'
+import { LoginFormSchema } from '@/_models/Auth.model'
 import {
-  getRolesAndPermissionsByUserIdService,
   loginService,
   logoutService
 } from '@/_services/auth.service'
-import { getUserByIdService } from '@/_services/users.service'
+import { getUserByIdService, getRolesAndPermissionsByUserIdService } from '@/_services/users.service'
 
 export const useAuth = () => {
   const navigate = useNavigate()
@@ -29,31 +27,24 @@ export const useAuth = () => {
       const { data: loginData } = await loginService(data)
       const { data: { userId, token } } = loginData
 
+      console.log({ userId, token })
+
       if (!token) return logout()
 
       setToken(token)
 
       const { data: { data: userData }, status } = await getUserByIdService(userId ?? '')
-      const { data: { data: { roles, permissions } }, status: rolStatus } = await getRolesAndPermissionsByUserIdService(userId ?? '')
+      const { data: { data: { roles, permissions } }, status: roleStatus } = await getRolesAndPermissionsByUserIdService(userId ?? '')
 
-      if (status === HttpStatusCode.Ok) {
+      if (status === HttpStatusCode.Ok && roleStatus === HttpStatusCode.Ok) {
         setUser(userData)
+        setInitialCan({
+          isAdmin: true,
+          roles: roles,
+          permissions: permissions
+        })
         navigate('/admin')
       }
-
-      if (rolStatus === HttpStatusCode.Ok) {
-        if (roles?.length && roles?.includes(ROLES.ADMIN)) {
-          navigate('/admin/courses')
-        } else {
-          navigate('/')
-        }
-      }
-
-      setInitialCan({
-        isAdmin: !roles?.includes(ROLES.STUDENT) ? true : false,
-        roles: roles,
-        permissions: permissions
-      })
     } catch (error) {
       loaded()
       if (error instanceof AxiosError) {
@@ -68,9 +59,9 @@ export const useAuth = () => {
   const logout = async () => {
     loading()
     try {
-      const { data: { data, message } } = await logoutService()
+      const { data: { data, message }, status } = await logoutService()
 
-      if (data) {
+      if (data && status === HttpStatusCode.Ok) {
         setToken(null)
         setRefreshToken(null)
         setUser(null)
@@ -81,7 +72,7 @@ export const useAuth = () => {
         })
 
         toast.error(message)
-        navigate('/')
+        navigate('/auth/login')
       }
     } catch (error) {
       loaded()
