@@ -1,4 +1,4 @@
-import type { AdminCourse, Course } from '@/_models/Course.model'
+import type { AdminCourse, Course, CourseDetails } from '@/_models/Course.model'
 
 import { axios } from '@/lib'
 import { API_URL } from '@/@common/env'
@@ -38,7 +38,7 @@ export const createCourseService = (course: CourseFormData) => {
 }
 
 export const getCourseByIdService = (courseId: string) => {
-  return axios.get<Course>(`/admin/courses/${courseId}`)
+  return axios.get<Response<CourseDetails>>(`/admin/courses/${courseId}`)
 }
 
 // Not used

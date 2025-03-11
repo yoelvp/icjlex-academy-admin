@@ -1,6 +1,6 @@
 import type { UpdateTeacherImage } from '@/modules/teachers/types/TeacherFormFields'
 import type { Response, ResponsePaginated } from '@/@common/types/Response'
-import type { Teacher, TeacherFormValues } from '@/_models/Teacher'
+import type { Teacher, TeacherFormValues, TeacherOnlyNames } from '@/_models/Teacher'
 
 import { axios } from '@/lib'
 
@@ -57,6 +57,10 @@ export const getAllTeachersService = (params?: object) => {
   return axios.get<ResponsePaginated<Teacher>>('/teachers', {
     params: params
   })
+}
+
+export const getAllTeachersOnlyNamesService = () => {
+  return axios.get<Response<TeacherOnlyNames>>('/admin/teachers/only-names')
 }
 
 export const deleteTeacherService = (teacherId: string) => {
