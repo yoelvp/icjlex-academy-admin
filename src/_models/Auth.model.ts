@@ -19,3 +19,8 @@ export interface LoginResponse {
   userId: string
   token: string
 }
+
+export interface LoginData {
+  email: string
+  password: string
+}
