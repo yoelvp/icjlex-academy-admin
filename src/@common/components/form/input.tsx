@@ -33,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
         {...props}
       />
       {Boolean(error) && (
-        <span className="pl-2 text-error-400 text-xs">{error}</span>
+        <span className="pl-2 text-red-400 text-sm">{error}</span>
       )}
       {withIcon && Icon && (
         <label
