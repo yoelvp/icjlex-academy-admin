@@ -21,7 +21,7 @@ export const createTeacherService = (teacher: TeacherFormValues) => {
     formData.append('image', teacher.image)
   }
 
-  return axios.post<Response<Teacher>>('/teachers', formData, {
+  return axios.post<Response<Teacher>>('/admin/teachers', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
