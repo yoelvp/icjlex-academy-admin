@@ -32,7 +32,7 @@ export default tseslint.config(
       ],
       'quotes': [
         'warn',
-        'single',
+        'double',
         {
           avoidEscape: true
         }
