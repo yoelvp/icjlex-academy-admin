@@ -60,7 +60,7 @@ export const getAllTeachersService = (params?: object) => {
 }
 
 export const getAllTeachersOnlyNamesService = () => {
-  return axios.get<Response<TeacherOnlyNames>>('/admin/teachers/only-names')
+  return axios.get<Response<TeacherOnlyNames[]>>('/admin/teachers/only-names')
 }
 
 export const deleteTeacherService = (teacherId: string) => {
