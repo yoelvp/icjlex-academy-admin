@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { TAB_INDEX } from '../utils'
 import { useShow } from '@/@common/hooks/use-show'
 import { IconDelete, IconEdit, IconEye } from '@/assets/icons'
