@@ -21,6 +21,7 @@ import { getFullName } from '@/@common/utils/get-full-names'
 import Link from '@/@common/components/link'
 import { useNavigate } from 'react-router'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
+import { TableEmpty } from '@/@common/components/table-empty'
 
 const TeacherDetailsDrawer = lazy(() => import('../components/teacher-details-drawer'))
 const UpdateImageModal = lazy(() => import('../components/update-image-modal'))
@@ -70,7 +71,9 @@ const CoursesPage = () => {
             </tr>
           </thead>
           <tbody>
+            <TableEmpty numCols={6} isLoading={isLoading} show={(teachers?.length ?? 0) < 1} />
             <TableLoading numCols={6} isLoading={isLoading} />
+
             {!isLoading && teachers?.map((teacher, index) => (
               <tr key={teacher.id} className="border-b border-gray-200">
                 <td>
