@@ -5,7 +5,7 @@ export interface Option {
   path?: string
   icon?: IconType
   disabled?: boolean,
-  permissionsName?: any
+  permissionsName?: string
 }
 
 export interface Options extends Option {

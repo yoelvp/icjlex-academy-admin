@@ -20,8 +20,8 @@ export const Header  = () => {
       </button>
 
       {user ? (
-        <Menu activator={getUserInitials(user)} variant="white">
-          <div>
+        <Menu activator={getUserInitials(user)} variant="white" rounded="lg">
+          <div className="w-sm text-dark">
             User menu
           </div>
         </Menu>

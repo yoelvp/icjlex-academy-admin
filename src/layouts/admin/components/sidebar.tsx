@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import classNames from 'classnames'
 import { ADMIN_ROUTES } from '@/layouts/admin/constants/routes'
 import { APP_SHORT_NAME } from '@/@common/env'
-import { useSidebar } from '@/store/use-sidebar.store'
+import { useSidebar } from '@/@common/store/use-sidebar.store'
 import { Option } from '@/layouts/admin/components/option'
 
 export const Sidebar = () => {
