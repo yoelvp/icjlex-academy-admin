@@ -8,13 +8,15 @@ type Props<T extends FieldValues> = {
   setValue: UseFormSetValue<T> // Usamos el setValue directamente
   acceptedFileTypes?: string[] // Tipos de archivo aceptados
   maxFileSize?: number // Tamaño máximo del archivo en bytes
+  className?: string
 }
 
 const ImageUploader = <T extends FieldValues>({
   name,
   setValue,
   acceptedFileTypes = ['image/jpeg', 'image/png', 'image/gif'], // Tipos de archivo por defecto
-  maxFileSize = 5 * 1024 * 1024 // Tamaño máximo por defecto: 5MB
+  maxFileSize = 5 * 1024 * 1024, // Tamaño máximo por defecto: 5MB
+  className
 }: Props<T>) => {
   const [isDragActive, setIsDragActive] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
@@ -71,7 +73,8 @@ const ImageUploader = <T extends FieldValues>({
       className={classNames(
         'relative flex flex-col justify-center items-center w-full h-48 border-2 border-dashed rounded-sm p-5 transition-all',
         { 'bg-sky-50 border-sky-400': isDragActive },
-        { 'border-gray-300 cursor-pointer': !isDragActive }
+        { 'border-gray-300 cursor-pointer': !isDragActive },
+        className
       )}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
