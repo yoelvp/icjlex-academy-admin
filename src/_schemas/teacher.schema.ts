@@ -29,7 +29,10 @@ export const teacherSchema = object({
     ),
   imageUrl: string(),
   socialMedia: array()
-    .of(string().required('Campo requerido'))
+    .of(object({
+      label: string().required(),
+      value: string().required()
+    }))
     .required('Campo requerido')
     .min(1, 'Debe agregar al menos un item')
 })
