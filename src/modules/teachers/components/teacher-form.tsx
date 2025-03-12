@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router'
 import SelectCreatable from 'react-select/creatable'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
@@ -8,9 +9,8 @@ import { TeacherFormSchema, TeacherFormValues } from '@/_models/Teacher'
 import { teacherSchema } from '@/_schemas/teacher.schema'
 import { useCreateTeacher, useUpdateTeacher } from '../hooks'
 import TextEditor from '@/@common/components/text-editor'
-import ImageUploader from '@/modules/courses/components/image-uploader'
 import { IconAdd, IconDelete } from '@/assets/icons'
-import { useNavigate } from 'react-router'
+import { ImageUpload } from "@/@common/components/image-upload"
 
 interface Props {
   defaultValues?: Partial<TeacherFormSchema>
@@ -25,7 +25,6 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
     control,
     register,
     handleSubmit,
-    setValue,
     formState: { errors }
   } = useForm<TeacherFormSchema>({
     resolver: yupResolver(teacherSchema),
@@ -42,19 +41,22 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
     const newData: TeacherFormValues = {
       ...data,
       image: image instanceof File ? data.image : null,
+      imageUrl: URL.createObjectURL(image),
       specialties: specialties?.map((speciality) => speciality.label) ?? [],
-      socialMedia: socialMedia?.map((social) => social) ?? []
+      socialMedia: socialMedia?.map((social) => social.label) ?? []
     }
 
-    if (isForUpdating) {
-      await updateTeacher(newData).then(() => {
-        navigate('/admin/teachers', { replace: true })
-      })
-    } else {
-      await createTeacher(newData).then(() => {
-        navigate('/admin/teachers', { replace: true })
-      })
-    }
+    console.log(newData)
+
+    /* if (isForUpdating) { */
+    /*   await updateTeacher(newData).then(() => { */
+    /*     navigate('/admin/teachers', { replace: true }) */
+    /*   }) */
+    /* } else { */
+    /*   await createTeacher(newData).then(() => { */
+    /*     navigate('/admin/teachers', { replace: true }) */
+    /*   }) */
+    /* } */
   }
 
   return (
@@ -137,10 +139,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
 
       <div className="flex flex-col gap-y-4">
         <Form.Control>
-          <Form.Label className="mb-1 flex justify-between">
-            Selecciona tu imagen
-          </Form.Label>
-          <ImageUploader name="image" setValue={setValue} />
+          <ImageUpload name="image" register={register} label="Selecciona tu imagen" />
           <Form.Error hasError={errors.image?.message} />
         </Form.Control>
         <Form.Control>
@@ -152,10 +151,13 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
               <Controller
                 key={field.id}
                 control={control}
-                name={`socialMedia.${index}`}
+                name={`socialMedia.${index}.value`}
                 render={({ field }) => (
                   <div className="flex items-center space-x-4">
-                    <Form.Input {...field} placeholder="Ingrese el enlace" />
+                    <Form.Input
+                      {...field}
+                      placeholder="Ingrese el enlace"
+                    />
                     <div className="flex space-x-2">
                       {fields.length > 1 && (
                         <Button
@@ -170,7 +172,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
                       {(index === fields.length - 1) && (
                         <Button
                           type="button"
-                          onClick={() => append([''])}
+                          onClick={() => append({ label: 'https://', value: 'https://' })}
                           aria-label="Agregar nuevo enlace"
                         >
                           <IconAdd />
@@ -182,6 +184,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
               />
             ))}
           </div>
+          <Form.Error hasError={errors.socialMedia?.message} />
         </Form.Control>
       </div>
 
