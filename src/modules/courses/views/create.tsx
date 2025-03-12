@@ -62,7 +62,7 @@ const CreateCoursePage = () => {
   }
 
   return (
-    <div className="section-panel py-4 px-8">
+    <div className="section-panel max-w-2xl py-4 px-8">
       <div className="flex flex-col items-start gap-y-2">
         <Link href="/admin/courses/" variant="primary.link">
           <IconChevronBack />
@@ -75,7 +75,7 @@ const CreateCoursePage = () => {
         </header>
       </div>
 
-      <section className="w-full max-w-2xl">
+      <section className="w-full">
         <Form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
           <Form.Control>
             <Form.Label>Nombre del curso</Form.Label>
