@@ -1,9 +1,9 @@
-import { HttpStatusCode, isAxiosError } from 'axios'
-import { toast } from 'sonner'
-import { useNavigate } from 'react-router'
-import { useLoading } from '@/@common/hooks'
-import getError from '@/@common/utils/get-errors'
-import { publishCourseService } from '@/_services/courses.service'
+import { HttpStatusCode, isAxiosError } from "axios"
+import { toast } from "sonner"
+import { useNavigate } from "react-router"
+import { useLoading } from "@/@common/hooks"
+import getError from "@/@common/utils/get-errors"
+import { publishCourseService } from "@/_services/courses.service"
 
 export const usePublishCourse = () => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ export const usePublishCourse = () => {
       const { status } = await publishCourseService(courseId)
 
       if (status === HttpStatusCode.Ok) {
-        navigate('/admin/courses/')
+        navigate("/admin/courses/")
       }
     } catch (error) {
       loaded()

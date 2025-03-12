@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import { useTeacherStore } from '../store/teachers.store'
-import getError from '@/@common/utils/get-errors'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { getAllTeachersService } from '@/_services/teachers.service'
-import { AxiosError } from 'axios'
-import { useDebounce, usePagination } from '@/@common/hooks'
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
+import { useTeacherStore } from "../store/teachers.store"
+import getError from "@/@common/utils/get-errors"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { getAllTeachersService } from "@/_services/teachers.service"
+import { AxiosError } from "axios"
+import { useDebounce, usePagination } from "@/@common/hooks"
 
 export const useGetAllTeachers = () => {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState("")
   const { isLoading, loading, loaded } = useLoading()
   const setTeachers = useTeacherStore((state) => state.setTeachers)
   const teacherPagination = useTeacherStore((state) => state.pagination)

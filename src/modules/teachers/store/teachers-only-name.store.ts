@@ -1,5 +1,5 @@
-import { create } from 'zustand'
-import { TeacherOnlyNames } from '@/_models/Teacher'
+import { create } from "zustand"
+import { TeacherOnlyNames } from "@/_models/Teacher"
 
 interface UseTeachersOnlyNamesStore {
   teachers: TeacherOnlyNames[]

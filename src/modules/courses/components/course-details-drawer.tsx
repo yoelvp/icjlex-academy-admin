@@ -1,13 +1,13 @@
-import { Accordion, List } from 'flowbite-react'
-import { CourseCard } from './course-card'
+import { Accordion, List } from "flowbite-react"
+import { CourseCard } from "./course-card"
 import {
   IconBookMarked,
   IconList,
   IconStar,
   IconTimeOutline
-} from '@/assets/icons'
-import Button from '@/@common/components/button'
-import { Drawer } from '@/@common/components'
+} from "@/assets/icons"
+import Button from "@/@common/components/button"
+import { Drawer } from "@/@common/components"
 
 interface Props {
   show: boolean
@@ -16,17 +16,17 @@ interface Props {
 
 const data = [
   {
-    title: 'Título del acordeón 1',
+    title: "Título del acordeón 1",
     subtitles: [
-      { title: 'Subtítulo 1.1', time: '00:04' },
-      { title: 'Subtítulo 1.2', time: '00:00' }
+      { title: "Subtítulo 1.1", time: "00:04" },
+      { title: "Subtítulo 1.2", time: "00:00" }
     ]
   },
   {
-    title: 'Título del acordeón 2',
+    title: "Título del acordeón 2",
     subtitles: [
-      { title: 'Subtítulo 2.1', time: '05:01' },
-      { title: 'Subtítulo 2.2', time: '01:00' }
+      { title: "Subtítulo 2.1", time: "05:01" },
+      { title: "Subtítulo 2.2", time: "01:00" }
     ]
   }
 ]
@@ -119,7 +119,7 @@ const CourseDetailsDrawer = ({ show, close }: Props) => {
 
         <div>
           <Button
-            variant={'primary.outline'}
+            variant={"primary.outline"}
             className="w-full"
             onClick={close}
           >

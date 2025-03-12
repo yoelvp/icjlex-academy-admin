@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import type { FC } from "react"
 
 interface ChangeIndicatorProps {
   change: number
@@ -6,8 +6,8 @@ interface ChangeIndicatorProps {
 
 export const ChangeIndicator: FC<ChangeIndicatorProps> = ({ change }) => {
   const isPositive = change >= 0
-  const changeClass = isPositive ? 'text-success-500' : 'text-error-500'
-  const changeIcon = isPositive ? '▲' : '▼'
+  const changeClass = isPositive ? "text-success-500" : "text-error-500"
+  const changeIcon = isPositive ? "▲" : "▼"
 
   return (
     <div className={`flex items-center ${changeClass}`}>

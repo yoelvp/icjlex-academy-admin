@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
-import { getAllActiveStudentsService, getAllPreRegisteredStudentsService } from '../services/student.service'
-import getError from '@/@common/utils/get-errors'
-import { toast } from 'sonner'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { useStudentsStore } from '../store/use-students.store'
-import { QueryParams } from '@/@common/types/QueryParams'
-import { isAxiosError } from 'axios'
+import { useEffect } from "react"
+import { getAllActiveStudentsService, getAllPreRegisteredStudentsService } from "../services/student.service"
+import getError from "@/@common/utils/get-errors"
+import { toast } from "sonner"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { useStudentsStore } from "../store/use-students.store"
+import { QueryParams } from "@/@common/types/QueryParams"
+import { isAxiosError } from "axios"
 
 export const useGetAllStudents = (activeParams: QueryParams, preRegisteredParams: QueryParams) => {
   const { isLoading: isLoadingActive, loading: loadingActive, loaded: loadedActive } = useLoading()

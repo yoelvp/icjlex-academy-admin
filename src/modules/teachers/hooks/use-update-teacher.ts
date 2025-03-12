@@ -1,10 +1,10 @@
-import { toast } from 'sonner'
-import { HttpStatusCode, isAxiosError } from 'axios'
-import getError from '@/@common/utils/get-errors'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { useTeacherStore } from '../store/teachers.store'
-import { updateTeacherService } from '@/_services/teachers.service'
-import { TeacherFormValues } from '@/_models/Teacher'
+import { toast } from "sonner"
+import { HttpStatusCode, isAxiosError } from "axios"
+import getError from "@/@common/utils/get-errors"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { useTeacherStore } from "../store/teachers.store"
+import { updateTeacherService } from "@/_services/teachers.service"
+import { TeacherFormValues } from "@/_models/Teacher"
 
 export const useUpdateTeacher = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -25,7 +25,7 @@ export const useUpdateTeacher = () => {
       }
 
       setTeachers([newTeacher, ...oldTeachers])
-      toast.success('Registro actualizado', { description: 'Loda datos del docente se actualizaron con éxito' })
+      toast.success("Registro actualizado", { description: "Loda datos del docente se actualizaron con éxito" })
     } catch (error) {
       loaded()
       if (isAxiosError(error)) {

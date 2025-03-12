@@ -1,6 +1,6 @@
-import { Link } from 'react-router'
-import { IconArrowRoundBack } from '@/assets/icons'
-import TeacherForm from '../components/teacher-form'
+import { Link } from "react-router"
+import { IconArrowRoundBack } from "@/assets/icons"
+import TeacherForm from "../components/teacher-form"
 
 const CreateTeacherPage = () => {
   return (
@@ -18,7 +18,7 @@ const CreateTeacherPage = () => {
         <TeacherForm
           defaultValues={{
             socialMedia: [
-              { label: 'https://', value: 'https://' }
+              { label: "https://", value: "https://" }
             ]
           }}
         />

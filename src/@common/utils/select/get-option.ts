@@ -1,10 +1,10 @@
-import { SelectOption } from '@/@common/types/Select'
+import { SelectOption } from "@/@common/types/Select"
 
 export const getSelectedOptions = <T extends string | string[]>(
   value: T,
   options: SelectOption[] | Readonly<SelectOption[]>
 ): T extends string[] ? SelectOption[] : SelectOption => {
-  if(typeof value === 'string')
+  if(typeof value === "string")
     return options?.find((option) => option.value === value) as T extends string[] ? never : SelectOption
 
   const selectedOptions: SelectOption[] = []

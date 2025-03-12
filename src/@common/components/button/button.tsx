@@ -1,22 +1,22 @@
-import type { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes } from "react"
 
-import { forwardRef } from 'react'
-import { twVariants } from '@/@common/utils/tailwindcss'
-import { buttonVariants } from '@/@common/constants/button-variants'
-import { ButtonBaseProps } from '@/@common/types/Button'
-import { Spinner } from 'flowbite-react'
+import { forwardRef } from "react"
+import { twVariants } from "@/@common/utils/tailwindcss"
+import { buttonVariants } from "@/@common/constants/button-variants"
+import { ButtonBaseProps } from "@/@common/types/Button"
+import { Spinner } from "flowbite-react"
 
-interface Props extends ButtonBaseProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> { }
+interface Props extends ButtonBaseProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> { }
 
 const Button = forwardRef<HTMLButtonElement, Props>(({
   children,
-  className = '',
+  className = "",
   variant,
   size,
   rounded,
   htmlType,
   isLoading,
-  loaderPosition = 'left',
+  loaderPosition = "left",
   ...props
 }, ref) => (
   <button
@@ -25,16 +25,16 @@ const Button = forwardRef<HTMLButtonElement, Props>(({
     type={htmlType}
     {...props}
   >
-    {loaderPosition === 'left' && isLoading && (
+    {loaderPosition === "left" && isLoading && (
       <Spinner color="gray" />
     )}
     {children}
-    {loaderPosition === 'right' && isLoading && (
+    {loaderPosition === "right" && isLoading && (
       <Spinner color="gray" />
     )}
   </button>
 ))
 
-Button.displayName = 'Button'
+Button.displayName = "Button"
 
 export default Button

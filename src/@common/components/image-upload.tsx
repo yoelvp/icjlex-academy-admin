@@ -1,5 +1,5 @@
-import classNames from 'classnames'
-import type { FieldErrors, FieldValues, Path, UseFormRegister } from 'react-hook-form'
+import classNames from "classnames"
+import type { FieldErrors, FieldValues, Path, UseFormRegister } from "react-hook-form"
 
 interface Props<FormValues extends FieldValues> {
   name: Path<FormValues>
@@ -21,7 +21,7 @@ export const ImageUpload = <FormValues extends FieldValues>({
   return (
     <div
       className={classNames(
-        'flex flex-col gap-y-2',
+        "flex flex-col gap-y-2",
         className
       )}
     >

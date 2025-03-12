@@ -1,5 +1,5 @@
-import { IoIosArrowRoundForward } from 'react-icons/io'
-import Link from './link'
+import { IoIosArrowRoundForward } from "react-icons/io"
+import Link from "./link"
 
 interface Props {
   title: string
@@ -16,7 +16,7 @@ export const SectionHeader = ({
   withButton = false,
   buttonLabel,
   buttonHref,
-  containerClassName = ''
+  containerClassName = ""
 }: Readonly<Props>) => {
   return (
     <header className={`flex flex-col justify-center items-center gap-y-4 ${containerClassName}`}>

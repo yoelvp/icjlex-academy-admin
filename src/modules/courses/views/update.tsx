@@ -1,21 +1,21 @@
-import { useNavigate } from 'react-router'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import SelectCreateable from 'react-select/creatable'
-import ReactSelect from 'react-select'
-import Button from '@/@common/components/button'
-import Form from '@/@common/components/form'
-import ImageUploader from '../components/image-uploader'
-import Link from '@/@common/components/link'
-import TextEditor from '@/@common/components/text-editor'
-import { BadgeOptional, Switch } from '@/@common/components'
-import { CourseFields, CourseFormData } from '../types/CourseFormFields'
-import { courseSchema } from '../schemas/course.schema'
-import { getFullName } from '@/@common/utils'
-import { useCreateCourse } from '../hooks/use-create-courses'
-import { useGetAllTeachersOnlyNames } from '@/modules/teachers/hooks/get-all-teachers-only-names'
-import { useTeachersOnlyNamesStore } from '@/modules/teachers/store/teachers-only-name.store'
-import { IconChevronBack, IconFileUpload } from '@/assets/icons'
+import { useNavigate } from "react-router"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import SelectCreateable from "react-select/creatable"
+import ReactSelect from "react-select"
+import Button from "@/@common/components/button"
+import Form from "@/@common/components/form"
+import ImageUploader from "../components/image-uploader"
+import Link from "@/@common/components/link"
+import TextEditor from "@/@common/components/text-editor"
+import { BadgeOptional, Switch } from "@/@common/components"
+import { CourseFields, CourseFormData } from "../types/CourseFormFields"
+import { courseSchema } from "../schemas/course.schema"
+import { getFullName } from "@/@common/utils"
+import { useCreateCourse } from "../hooks/use-create-courses"
+import { useGetAllTeachersOnlyNames } from "@/modules/teachers/hooks/get-all-teachers-only-names"
+import { useTeachersOnlyNamesStore } from "@/modules/teachers/store/teachers-only-name.store"
+import { IconChevronBack, IconFileUpload } from "@/assets/icons"
 
 const UpdateCoursePage = () => {
   const navigate = useNavigate()
@@ -31,7 +31,7 @@ const UpdateCoursePage = () => {
     formState: { errors }
   } = useForm<CourseFields>({
     resolver: yupResolver(courseSchema),
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: {
       isFree: false,
       isScheduled: false,
@@ -61,7 +61,7 @@ const UpdateCoursePage = () => {
     }
 
     await createCourse(formattedData).then(() => {
-      navigate('/admin/courses')
+      navigate("/admin/courses")
     })
   }
 
@@ -87,7 +87,7 @@ const UpdateCoursePage = () => {
               type="text"
               placeholder="Ingresa el nombre del curso..."
               error={errors.name?.message}
-              {...register('name')}
+              {...register("name")}
               rounded="sm"
             />
           </Form.Control>
@@ -100,13 +100,13 @@ const UpdateCoursePage = () => {
               render={() => (
                 <ReactSelect
                   options={formattedTeachers}
-                  onChange={(selected) => setValue('teacherId', selected?.value ?? '')}
+                  onChange={(selected) => setValue("teacherId", selected?.value ?? "")}
                   isClearable
                   isSearchable
                   isLoading={isLoadingTeachers}
                   placeholder="Selecciona el ponente de la clase"
                   menuPosition="fixed"
-                  noOptionsMessage={() => 'No hay docentes registrados'}
+                  noOptionsMessage={() => "No hay docentes registrados"}
                 />
               )}
             />
@@ -120,7 +120,7 @@ const UpdateCoursePage = () => {
               rounded="sm"
               placeholder="Ingresa el objetivo del curso"
               error={errors.objective?.message}
-              {...register('objective')}
+              {...register("objective")}
             />
           </Form.Control>
 
@@ -139,7 +139,7 @@ const UpdateCoursePage = () => {
                   onChange={field.onChange}
                   placeholder="Lo que el estudiante aprenderá"
                   menuPosition="fixed"
-                  noOptionsMessage={() => 'No hay opciones disponibles'}
+                  noOptionsMessage={() => "No hay opciones disponibles"}
                 />
               )}
             />
@@ -161,7 +161,7 @@ const UpdateCoursePage = () => {
                   onChange={field.onChange}
                   placeholder="Lo que el curso incluye"
                   menuPosition="fixed"
-                  noOptionsMessage={() => 'No hay opciones disponibles'}
+                  noOptionsMessage={() => "No hay opciones disponibles"}
                 />
               )}
             />
@@ -195,8 +195,8 @@ const UpdateCoursePage = () => {
           <div className="flex gap-6">
             <Form.Control>
               <Form.Label className="mb-1 flex justify-between">
-                <span>Precio {watch('isFree') && '(es gratis)'}</span>
-                {watch('isFree') && <BadgeOptional />}
+                <span>Precio {watch("isFree") && "(es gratis)"}</span>
+                {watch("isFree") && <BadgeOptional />}
               </Form.Label>
               <div className="h-10 flex items-center w-full gap-x-4">
                 <Controller
@@ -208,21 +208,21 @@ const UpdateCoursePage = () => {
                       value={!field.value}
                       onChange={(checked) => {
                         if (checked) {
-                          setValue('isFree', false)
+                          setValue("isFree", false)
                         } else {
-                          setValue('isFree', true)
-                          setValue('price', null)
+                          setValue("isFree", true)
+                          setValue("price", null)
                         }
                       }}
                     />
                   )}
                 />
-                {!watch('isFree') && (
+                {!watch("isFree") && (
                   <Form.Input
                     type="number"
                     placeholder="120.00"
                     rounded="sm"
-                    {...register('price')}
+                    {...register("price")}
                   />
                 )}
               </div>
@@ -243,20 +243,20 @@ const UpdateCoursePage = () => {
                       {...field}
                       onChange={(checked) => {
                         if (checked) {
-                          setValue('isScheduled', true)
+                          setValue("isScheduled", true)
                         } else {
-                          setValue('isScheduled', false)
-                          setValue('publicationDate', undefined)
+                          setValue("isScheduled", false)
+                          setValue("publicationDate", undefined)
                         }
                       }}
                     />
                   )}
                 />
-                {watch('isScheduled') && (
+                {watch("isScheduled") && (
                   <Form.Input
                     type="date"
                     rounded="sm"
-                    {...register('publicationDate')}
+                    {...register("publicationDate")}
                   />
                 )}
               </div>
@@ -278,7 +278,7 @@ const UpdateCoursePage = () => {
                   rounded="sm"
                   placeholder="Ingresa el nombre de la clase"
                   error={errors.course?.name?.message}
-                  {...register('course.name')}
+                  {...register("course.name")}
                 />
               </Form.Control>
 
@@ -289,7 +289,7 @@ const UpdateCoursePage = () => {
                   rounded="sm"
                   placeholder="Ingresa la url del curso"
                   error={errors.course?.url?.message}
-                  {...register('course.url')}
+                  {...register("course.url")}
                 />
               </Form.Control>
 
@@ -302,7 +302,7 @@ const UpdateCoursePage = () => {
                   rounded="sm"
                   placeholder="3h 30m 20s"
                   error={errors.course?.duration?.message}
-                  {...register('course.duration')}
+                  {...register("course.duration")}
                 />
               </Form.Control>
             </div>

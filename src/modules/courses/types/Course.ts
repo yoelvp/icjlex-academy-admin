@@ -1,11 +1,11 @@
-import { InferType } from 'yup'
-import { courseSchema } from '../schemas/course.schema'
+import { InferType } from "yup"
+import { courseSchema } from "../schemas/course.schema"
 
 export type Course = InferType<typeof courseSchema>
 export type RegisterCourse = InferType<typeof courseSchema>
 
 export interface RegisterCourseForm
-  extends Omit<RegisterCourse, 'youWillLearn' | 'includes'> {
+  extends Omit<RegisterCourse, "youWillLearn" | "includes"> {
   youWillLearn: string[]
   includes: string[]
 }

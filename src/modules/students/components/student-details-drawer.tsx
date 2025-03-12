@@ -1,11 +1,11 @@
-import classNames from 'classnames'
-import { IconStudent } from '@/assets/icons'
-import { Drawer, Spinner } from 'flowbite-react'
-import { StudentCard } from './student-card'
-import { useStudentsStore } from '../store/use-students.store'
-import { useGetByIdStudent } from '../hooks'
-import { getUserInitials } from '@/@common/utils/get-initials'
-import { useEffect } from 'react'
+import classNames from "classnames"
+import { IconStudent } from "@/assets/icons"
+import { Drawer, Spinner } from "flowbite-react"
+import { StudentCard } from "./student-card"
+import { useStudentsStore } from "../store/use-students.store"
+import { useGetByIdStudent } from "../hooks"
+import { getUserInitials } from "@/@common/utils/get-initials"
+import { useEffect } from "react"
 
 interface Props {
   show: boolean
@@ -14,7 +14,7 @@ interface Props {
 
 const StudentDetailsDrawer = ({ show, close }: Props) => {
   const studentId = useStudentsStore((state) => state.studentId)
-  const { isLoading, getById } = useGetByIdStudent(studentId ?? '')
+  const { isLoading, getById } = useGetByIdStudent(studentId ?? "")
   const student = useStudentsStore((state) => state.activeStudent)
   const setActiveStudent = useStudentsStore((state) => state.setActiveStudent)
 
@@ -91,12 +91,12 @@ const StudentDetailsDrawer = ({ show, close }: Props) => {
                 <div
                   key={course.id}
                   className={classNames(
-                    'flex flex-col gap-x-2 items-center justify-start py-4',
-                    { 'border-b border-b-primary-100': (student.courses?.length ?? 0) - 1 !== index }
+                    "flex flex-col gap-x-2 items-center justify-start py-4",
+                    { "border-b border-b-primary-100": (student.courses?.length ?? 0) - 1 !== index }
                   )}
                 >
                   <img
-                    src={course.imageUrl ?? 'https://elearning.westernu.edu/wp-content/uploads/2015/02/HPE-Course-Placeholder-Image-1-1.jpg'}
+                    src={course.imageUrl ?? "https://elearning.westernu.edu/wp-content/uploads/2015/02/HPE-Course-Placeholder-Image-1-1.jpg"}
                     alt="thumbnail of course"
                     className="w-full h-32 rounded-sm border border-primary-50 object-cover object-center"
                   />

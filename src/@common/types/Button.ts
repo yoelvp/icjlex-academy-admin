@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
-import { buttonVariants } from '../constants/button-variants'
-import { VariantProps } from 'class-variance-authority'
+import { ReactNode } from "react"
+import { buttonVariants } from "../constants/button-variants"
+import { VariantProps } from "class-variance-authority"
 
 /**
  * Type representing the keys of the button variants.
@@ -27,13 +27,13 @@ export interface ButtonBaseProps extends VariantProps<ButtonVariant> {
   disabled?: boolean
   isLoading?: boolean
   loaderPosition?: LoaderPosition
-  htmlType?: 'submit' | 'button' | 'reset'
+  htmlType?: "submit" | "button" | "reset"
 }
 
 /**
  * Icon position in Button
  */
-export type IconPosition = 'left' | 'right'
+export type IconPosition = "left" | "right"
 
 /**
  * Icon loader pissition in Button

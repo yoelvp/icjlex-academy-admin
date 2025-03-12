@@ -1,5 +1,5 @@
-import { InferType } from 'yup'
-import { teacherSchema } from '@/_schemas/teacher.schema'
+import { InferType } from "yup"
+import { teacherSchema } from "@/_schemas/teacher.schema"
 
 export type TeacherFieldsSchema = InferType<typeof teacherSchema>
 
@@ -12,7 +12,7 @@ export interface UpdateTeacherFormFields extends TeacherFieldsSchema {
   image?: File | null
 }
 
-export interface TeacherData extends Omit<TeacherFieldsSchema, 'specialties' | 'socialMedia'> {
+export interface TeacherData extends Omit<TeacherFieldsSchema, "specialties" | "socialMedia"> {
   specialties: (string | undefined)[]
   socialMedia: string[]
 }

@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router'
-import { toast } from 'sonner'
-import getError from '@/@common/utils/get-errors'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { CourseFormData } from '../types/CourseFormFields'
-import { HttpStatusCode, isAxiosError } from 'axios'
-import { createCourseService } from '@/_services/courses.service'
+import { useNavigate } from "react-router"
+import { toast } from "sonner"
+import getError from "@/@common/utils/get-errors"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { CourseFormData } from "../types/CourseFormFields"
+import { HttpStatusCode, isAxiosError } from "axios"
+import { createCourseService } from "@/_services/courses.service"
 
 export const useCreateCourse = () => {
   const navigate = useNavigate()
@@ -17,12 +17,12 @@ export const useCreateCourse = () => {
 
       if (response?.status === HttpStatusCode.Ok) {
         if (isScheduled) {
-          navigate('/admin/courses/?tab=scheduled')
+          navigate("/admin/courses/?tab=scheduled")
         } else {
-          navigate('/admin/courses')
+          navigate("/admin/courses")
         }
 
-        toast.success('Se creó un nuevo curso')
+        toast.success("Se creó un nuevo curso")
       }
     } catch (error) {
       loaded()

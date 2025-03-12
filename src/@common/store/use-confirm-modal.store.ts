@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import { create } from 'zustand'
+import { ReactNode } from "react"
+import { create } from "zustand"
 
 interface Option {
   content: ReactNode

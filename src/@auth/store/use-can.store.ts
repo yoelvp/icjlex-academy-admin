@@ -1,6 +1,6 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { PermissionName } from '../utils/permissions'
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+import { PermissionName } from "../utils/permissions"
 
 interface UseCanStore {
   isAdmin: boolean
@@ -27,6 +27,6 @@ export const useCanStore = create<UseCanStore>()(persist(
     })
   }),
   {
-    name: 'can'
+    name: "can"
   }
 ))

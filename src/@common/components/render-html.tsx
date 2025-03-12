@@ -5,7 +5,7 @@ interface Props {
 
 export const RenderHTML = ({
   content,
-  className = ''
+  className = ""
 }: Props) => {
   return (
     <div

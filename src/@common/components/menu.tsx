@@ -1,15 +1,15 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react"
 
-import { useEffect, useRef, useState } from 'react'
-import classNames from 'classnames'
-import { useShow } from '../hooks/use-show'
-import { useClickOutside } from '../hooks/use-click-outside'
-import Button from './button'
-import { IconMenu } from '@/assets/icons'
-import { MenuOptions } from '../types/Menu'
-import { ButtonBaseProps } from '../types/Button'
-import { Link } from 'react-router'
-import { Spinner } from 'flowbite-react'
+import { useEffect, useRef, useState } from "react"
+import classNames from "classnames"
+import { useShow } from "../hooks/use-show"
+import { useClickOutside } from "../hooks/use-click-outside"
+import Button from "./button"
+import { IconMenu } from "@/assets/icons"
+import { MenuOptions } from "../types/Menu"
+import { ButtonBaseProps } from "../types/Button"
+import { Link } from "react-router"
+import { Spinner } from "flowbite-react"
 
 interface Props extends ButtonBaseProps {
   children?: ReactNode
@@ -57,7 +57,7 @@ export const Menu = ({
       {showDropdown && (
         <div
           className={classNames(
-            'absolute z-50 bg-white rounded-sm shadow--primary py-1'
+            "absolute z-50 bg-white rounded-sm shadow--primary py-1"
           )}
           style={{
             top: menuPosition.top + 8,
@@ -68,18 +68,18 @@ export const Menu = ({
             <div
               key={index}
               className={classNames(
-                'py-1',
-                { 'border-t border-t-gray-200': option.dividerTop },
-                { 'border-b border-b-gray-200': option.dividerBottom }
+                "py-1",
+                { "border-t border-t-gray-200": option.dividerTop },
+                { "border-b border-b-gray-200": option.dividerBottom }
               )}
             >
               {option.href ? (
                 <Link
                   key={index}
-                  to={option.href ?? ''}
+                  to={option.href ?? ""}
                   className={classNames(
-                    'w-full text-left pl-6 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2',
-                    { 'text-error-400': option.isDelete }
+                    "w-full text-left pl-6 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2",
+                    { "text-error-400": option.isDelete }
                   )}
                   rel={option.rel}
                   target={option.target}
@@ -92,9 +92,9 @@ export const Menu = ({
                   key={index}
                   onClick={option.onClick}
                   className={classNames(
-                    'w-full text-left pl-6 pr-12 py-2 flex-start gap-x-2',
-                    { 'text-error-400 hover:text-error-700 hover:bg-error-50/50': option.isDelete },
-                    { 'text-primary-500 hover:text-primary-700 hover:bg-primary-50': !option.isDelete }
+                    "w-full text-left pl-6 pr-12 py-2 flex-start gap-x-2",
+                    { "text-error-400 hover:text-error-700 hover:bg-error-50/50": option.isDelete },
+                    { "text-primary-500 hover:text-primary-700 hover:bg-primary-50": !option.isDelete }
                   )}
                 >
                   {option.icon && !option.isLoading ? <option.icon size="16" /> : <Spinner size="md" color="warning" />}

@@ -1,15 +1,15 @@
-import { toast } from 'sonner'
-import getError from '@/@common/utils/get-errors'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { StudentType } from '../types/Student'
-import { useStudentsStore } from '../store/use-students.store'
+import { toast } from "sonner"
+import getError from "@/@common/utils/get-errors"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { StudentType } from "../types/Student"
+import { useStudentsStore } from "../store/use-students.store"
 import {
   assignCourseToStudentService,
   deleteStudentService
-} from '@/_services/students.service'
-import { getAllCoursesOnlyNameService } from '@/_services/courses.service'
-import { useCourseMainDataStore } from '@/modules/courses/store/course-main-data.store'
-import { isAxiosError } from 'axios'
+} from "@/_services/students.service"
+import { getAllCoursesOnlyNameService } from "@/_services/courses.service"
+import { useCourseMainDataStore } from "@/modules/courses/store/course-main-data.store"
+import { isAxiosError } from "axios"
 
 export const useStudents = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -63,11 +63,11 @@ export const useStudents = () => {
       const { status } = await deleteStudentService(studentId)
 
       if (status === 200) {
-        if (studentType === 'active') {
+        if (studentType === "active") {
           setActiveStudents(activeStudents.filter((student) => student.id !== studentId))
         }
 
-        if (studentType === 'registered') {
+        if (studentType === "registered") {
           setPreRegisteredStudents(registeredStudents.filter((student) => student.id !== studentId))
         }
       }

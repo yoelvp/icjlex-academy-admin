@@ -1,14 +1,14 @@
-import { Modal } from '@/@common/components/modal'
-import { useTeacherStore } from '../store/teachers.store'
-import { getFullName } from '@/@common/utils/get-full-names'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { UpdateTeacherImage } from '../types/TeacherFormFields'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { updateImageSchema } from '../schemas/update-image.schema'
-import ImageUploader from '@/modules/courses/components/image-uploader'
-import Button from '@/@common/components/button'
-import Form from '@/@common/components/form'
-import { useTeachers } from '../hooks/use-teachers'
+import { Modal } from "@/@common/components/modal"
+import { useTeacherStore } from "../store/teachers.store"
+import { getFullName } from "@/@common/utils/get-full-names"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { UpdateTeacherImage } from "../types/TeacherFormFields"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { updateImageSchema } from "../schemas/update-image.schema"
+import ImageUploader from "@/modules/courses/components/image-uploader"
+import Button from "@/@common/components/button"
+import Form from "@/@common/components/form"
+import { useTeachers } from "../hooks/use-teachers"
 
 interface Props {
   show: boolean
@@ -27,7 +27,7 @@ const UpdateImageModal = ({
   })
 
   const onHandleSubmit: SubmitHandler<UpdateTeacherImage> = (data) => {
-    updateImage(teacher?.id ?? '', data).then(() => {
+    updateImage(teacher?.id ?? "", data).then(() => {
       close()
       setTeacher(null)
     })

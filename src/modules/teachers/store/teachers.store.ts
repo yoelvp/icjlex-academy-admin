@@ -1,7 +1,7 @@
-import { create } from 'zustand'
-import { Pagination } from '@/@common/types/Pagination'
-import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
-import { Teacher } from '@/_models/Teacher'
+import { create } from "zustand"
+import { Pagination } from "@/@common/types/Pagination"
+import { DEFAULT_PAGINATION } from "@/@common/constants/default-pagination"
+import { Teacher } from "@/_models/Teacher"
 
 interface UseTeacherStore {
   teacher: Teacher | null

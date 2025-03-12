@@ -1,9 +1,9 @@
-import type { ButtonHTMLAttributes } from 'react'
+import type { ButtonHTMLAttributes } from "react"
 
-import { forwardRef } from 'react'
-import { buttonIconVariants } from '@/@common/constants/button-variants'
-import { twVariants } from '@/@common/utils/tailwindcss'
-import { ButtonBaseProps } from '@/@common/types/Button'
+import { forwardRef } from "react"
+import { buttonIconVariants } from "@/@common/constants/button-variants"
+import { twVariants } from "@/@common/utils/tailwindcss"
+import { ButtonBaseProps } from "@/@common/types/Button"
 
 type Props = ButtonBaseProps & ButtonHTMLAttributes<HTMLButtonElement>
 
@@ -23,6 +23,6 @@ const Icon = forwardRef<HTMLButtonElement, Props>(({
   </button>
 ))
 
-Icon.displayName = 'Button.Icon'
+Icon.displayName = "Button.Icon"
 
 export default Icon

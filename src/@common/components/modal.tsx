@@ -1,10 +1,10 @@
-import type { FC, MouseEvent, ReactNode } from 'react'
-import type { ModalVariant } from '@/@common/types/Modal'
+import type { FC, MouseEvent, ReactNode } from "react"
+import type { ModalVariant } from "@/@common/types/Modal"
 
-import { createPortal } from 'react-dom'
-import { IconClose } from '@/assets/icons'
-import { twVariants } from '@/@common/utils/tailwindcss'
-import { modalVariants } from '@/@common/constants/modal-variants'
+import { createPortal } from "react-dom"
+import { IconClose } from "@/assets/icons"
+import { twVariants } from "@/@common/utils/tailwindcss"
+import { modalVariants } from "@/@common/constants/modal-variants"
 
 interface Props extends ModalVariant {
   isOpen?: boolean
@@ -22,7 +22,7 @@ export const Modal: FC<Props> = ({
   onClose,
   variant,
   size,
-  className = '',
+  className = "",
   children
 }) => {
   if (!isOpen) return null
@@ -51,7 +51,7 @@ export const Modal: FC<Props> = ({
           </div>
           <button
             className="rounded-sm border border-primary-300 w-8 h-8 flex-center hover:border-primary-500 hover:bg-primary-50 duration-200 ease-in-out focus:ring focus:bg-primary-50 focus:ring-primary-500/25"
-            aria-label={`${isOpen ? 'Cerrar' : 'Abrir'} modal`}
+            aria-label={`${isOpen ? "Cerrar" : "Abrir"} modal`}
             onClick={(event) => {
               event.stopPropagation()
               onClose?.(event)
@@ -65,6 +65,6 @@ export const Modal: FC<Props> = ({
         </div>
       </div>
     </div>,
-    document.getElementById('modal') ?? document.createElement('div')
+    document.getElementById("modal") ?? document.createElement("div")
   )
 }

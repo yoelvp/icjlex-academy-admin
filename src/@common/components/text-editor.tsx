@@ -1,5 +1,5 @@
-import { useMemo, forwardRef } from 'react'
-import JoditEditor, { type Jodit } from 'jodit-react'
+import { useMemo, forwardRef } from "react"
+import JoditEditor, { type Jodit } from "jodit-react"
 
 interface Props {
   placeholder?: string
@@ -16,21 +16,21 @@ const TextEditor = forwardRef<Jodit, Props>(({
 }, ref) => {
   const config = useMemo(() => ({
     readonly: false,
-    placeholder: placeholder || 'Escribe aquí...',
-    language: 'es',
+    placeholder: placeholder || "Escribe aquí...",
+    language: "es",
     buttonsSM: [
-      'bold', 'italic', 'underline', 'fontsize', '|', 'brush', 'lineHeight', '|', 'outdent', 'indent', 'align',
-      '|',
-      'undo', 'redo',
-      '\n',
-      'ul', 'ol',
-      '|', 'table',
-      'link', 'copy', '|', 'cut', 'paste', '|', 'eraser', 'spellcheck'
+      "bold", "italic", "underline", "fontsize", "|", "brush", "lineHeight", "|", "outdent", "indent", "align",
+      "|",
+      "undo", "redo",
+      "\n",
+      "ul", "ol",
+      "|", "table",
+      "link", "copy", "|", "cut", "paste", "|", "eraser", "spellcheck"
     ],
     statusbar: false,
     addNewLine: false,
-    className: '!rounded-sm',
-    height: '24rem',
+    className: "!rounded-sm",
+    height: "24rem",
     toolbarSticky: false
   }), [placeholder])
 
@@ -46,8 +46,8 @@ const TextEditor = forwardRef<Jodit, Props>(({
   )
 })
 
-if (import.meta.env.VITE_APP_ENV === 'development') {
-  TextEditor.displayName = 'TextEditor'
+if (import.meta.env.VITE_APP_ENV === "development") {
+  TextEditor.displayName = "TextEditor"
 }
 
 export default TextEditor

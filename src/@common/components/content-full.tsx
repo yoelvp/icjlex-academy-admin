@@ -1,6 +1,6 @@
-import type { FC, ReactNode } from 'react'
+import type { FC, ReactNode } from "react"
 
-import { Content } from './content'
+import { Content } from "./content"
 
 interface Props {
   children: ReactNode
@@ -13,8 +13,8 @@ interface Props {
 export const ContentFull: FC<Props> = ({
   children,
   backgroundImage,
-  backgroundColorClassName = '',
-  containerClassName = '',
+  backgroundColorClassName = "",
+  containerClassName = "",
   contentClassName
 }) => {
   return (

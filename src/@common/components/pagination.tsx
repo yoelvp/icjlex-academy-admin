@@ -1,9 +1,9 @@
-import { ButtonHTMLAttributes, FC } from 'react'
-import { IconChevronBack, IconChevronForward } from '@/assets/icons'
-import classNames from 'classnames'
-import { DEFAULT_PAGINATION } from '../constants/default-pagination'
+import { ButtonHTMLAttributes, FC } from "react"
+import { IconChevronBack, IconChevronForward } from "@/assets/icons"
+import classNames from "classnames"
+import { DEFAULT_PAGINATION } from "../constants/default-pagination"
 
-type PaginationPosition = 'left' | 'center' | 'right'
+type PaginationPosition = "left" | "center" | "right"
 
 interface ButtonPrevOrNextPage extends ButtonHTMLAttributes<HTMLButtonElement> {
   withLabels?: boolean
@@ -32,7 +32,7 @@ export const Pagination: FC<PaginationProps> = ({
   withLabels = false,
   withSize = true,
   withInfo = true,
-  position = 'right',
+  position = "right",
   page,
   perPage,
   totalItems,
@@ -48,10 +48,10 @@ export const Pagination: FC<PaginationProps> = ({
   return (
     <div
       className={classNames(
-        'flex items-center gap-x-4',
-        { 'justify-start': position === 'left' },
-        { 'justify-center': position === 'center' },
-        { 'justify-end': position === 'right' },
+        "flex items-center gap-x-4",
+        { "justify-start": position === "left" },
+        { "justify-center": position === "center" },
+        { "justify-end": position === "right" },
         containerClassName
       )}
     >
@@ -96,9 +96,9 @@ export const Pagination: FC<PaginationProps> = ({
                 key={pageNumber}
                 onClick={() => goToPage(pageNumber)}
                 className={classNames(
-                  'w-8 h-8 flex items-center justify-center rounded-md text-primary-900 transition-colors duration-200 font-medium',
-                  { 'bg-primary-500/20': page === pageNumber },
-                  { 'hover:bg-primary-50': page !== pageNumber }
+                  "w-8 h-8 flex items-center justify-center rounded-md text-primary-900 transition-colors duration-200 font-medium",
+                  { "bg-primary-500/20": page === pageNumber },
+                  { "hover:bg-primary-50": page !== pageNumber }
                 )}
               >
                 {pageNumber}
@@ -126,11 +126,11 @@ const Button: FC<ButtonPrevOrNextPage> = ({
 }) => (
   <button
     className={classNames(
-      'text-primary-400 flex justify-center items-center gap-x-2 rounded-md transition-colors duration-200',
-      { 'hover:text-primary-700 hover:bg-primary-50': !props.disabled },
-      { '!text-primary-300': props.disabled },
-      { 'h-8 w-8': !withLabels },
-      { 'px-4 py-2': withLabels },
+      "text-primary-400 flex justify-center items-center gap-x-2 rounded-md transition-colors duration-200",
+      { "hover:text-primary-700 hover:bg-primary-50": !props.disabled },
+      { "!text-primary-300": props.disabled },
+      { "h-8 w-8": !withLabels },
+      { "px-4 py-2": withLabels },
       props.className
     )}
     {...props}

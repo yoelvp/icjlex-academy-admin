@@ -1,13 +1,13 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
-import Form from '@/@common/components/form'
-import { Modal } from '@/@common/components/modal'
-import Button from '@/@common/components/button'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { studentPreRegistrationSchema } from '../schemas/student-pre-register.schema'
-import { usePreRegisterStudent } from '../hooks'
-import { StudentPreRegistrationData } from '../types/Student'
-import { Spinner } from 'flowbite-react'
-import { useStudentsStore } from '../store/use-students.store'
+import { SubmitHandler, useForm } from "react-hook-form"
+import Form from "@/@common/components/form"
+import { Modal } from "@/@common/components/modal"
+import Button from "@/@common/components/button"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { studentPreRegistrationSchema } from "../schemas/student-pre-register.schema"
+import { usePreRegisterStudent } from "../hooks"
+import { StudentPreRegistrationData } from "../types/Student"
+import { Spinner } from "flowbite-react"
+import { useStudentsStore } from "../store/use-students.store"
 
 interface Props {
   isOpen: boolean
@@ -32,7 +32,7 @@ const RegisterStudentModal = ({ isOpen, onClose }: Props) => {
 
   return (
     <Modal
-      title={`${preRegisterStudent ? 'Editar' : 'Registrar'} estudiante`}
+      title={`${preRegisterStudent ? "Editar" : "Registrar"} estudiante`}
       isOpen={isOpen}
       onClose={onClose}
       size="sm"
@@ -45,7 +45,7 @@ const RegisterStudentModal = ({ isOpen, onClose }: Props) => {
           <Form.Input
             placeholder="Ingrese un correo electrónico"
             size="md"
-            {...register('email')}
+            {...register("email")}
             error={errors.email?.message}
           />
         </Form.Control>
@@ -59,7 +59,7 @@ const RegisterStudentModal = ({ isOpen, onClose }: Props) => {
             size="md"
             type="number"
             error={errors.phone?.message}
-            {...register('phone')}
+            {...register("phone")}
           />
         </Form.Control>
 

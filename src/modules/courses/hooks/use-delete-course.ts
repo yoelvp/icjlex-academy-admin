@@ -1,9 +1,9 @@
-import { toast } from 'sonner'
-import getError from '@/@common/utils/get-errors'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { HttpStatusCode, isAxiosError } from 'axios'
-import { useCoursesStore } from '../store/courses.store'
-import { deleteCourseService } from '@/_services/courses.service'
+import { toast } from "sonner"
+import getError from "@/@common/utils/get-errors"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { HttpStatusCode, isAxiosError } from "axios"
+import { useCoursesStore } from "../store/courses.store"
+import { deleteCourseService } from "@/_services/courses.service"
 
 export const useDeleteCourse = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -12,7 +12,7 @@ export const useDeleteCourse = () => {
   const setPublishedCourses = useCoursesStore((state) => state.setPublishedCourses)
   const setScheduledCourses = useCoursesStore((state) => state.setScheduledCourses)
 
-  const deletePublishedCourse = async (courseId: string, statusCourse?: 'published' | 'scheduled') => {
+  const deletePublishedCourse = async (courseId: string, statusCourse?: "published" | "scheduled") => {
     loading()
     try {
       const { status, data: { message } } = await deleteCourseService(courseId)
@@ -20,7 +20,7 @@ export const useDeleteCourse = () => {
       if (status === HttpStatusCode.Ok) {
         setPublishedCourses(publishedCourses?.filter((course) => course.id !== courseId) ?? [])
 
-        if (statusCourse === 'scheduled') {
+        if (statusCourse === "scheduled") {
           setScheduledCourses(scheduledCourses?.filter((course) => course.id !== courseId) ?? [])
         }
 

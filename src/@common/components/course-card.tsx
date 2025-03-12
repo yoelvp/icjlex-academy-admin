@@ -1,11 +1,11 @@
-import Link from './link'
-import { Card } from './card'
-import { IconWhatsapp } from '@/assets/icons'
-import { Course } from '@/_models/Course.model'
-import { formatCurrency } from '../utils/currencies'
-import { whatsappMessage } from '../utils/whatsapp'
-import { WHATSAPP_ADMIN_NUMBER_PHONE } from '../env'
-import { Popover } from 'flowbite-react'
+import Link from "./link"
+import { Card } from "./card"
+import { IconWhatsapp } from "@/assets/icons"
+import { Course } from "@/_models/Course.model"
+import { formatCurrency } from "../utils/currencies"
+import { whatsappMessage } from "../utils/whatsapp"
+import { WHATSAPP_ADMIN_NUMBER_PHONE } from "../env"
+import { Popover } from "flowbite-react"
 
 interface Props {
   course: Course | null
@@ -19,7 +19,7 @@ export const CourseCard = ({ course }: Props) => {
           src={
             course?.imageUrl
               ? course?.imageUrl
-              : 'https://cdn.pixabay.com/photo/2020/12/05/14/08/man-5806011_1280.jpg'
+              : "https://cdn.pixabay.com/photo/2020/12/05/14/08/man-5806011_1280.jpg"
           }
           alt="Course image"
           className="h-full w-full object-cover object-center"

@@ -1,6 +1,6 @@
-import classNames from 'classnames'
-import { Modal } from 'flowbite-react'
-import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
+import classNames from "classnames"
+import { Modal } from "flowbite-react"
+import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
 
 interface Props {
   show: boolean
@@ -29,9 +29,9 @@ export const ConfirmModal = ({
       <Modal.Body className="py-8">
         <div
           className={classNames(
-            'flex gap-x-8 gap-y-4',
-            { 'flex-col': Array.isArray(options?.options) },
-            { 'flex-row': !Array.isArray(options?.options) }
+            "flex gap-x-8 gap-y-4",
+            { "flex-col": Array.isArray(options?.options) },
+            { "flex-row": !Array.isArray(options?.options) }
           )}
         >
           {!Array.isArray(options?.options) && (
@@ -39,8 +39,8 @@ export const ConfirmModal = ({
               type="button"
               onClick={close}
               className={classNames(
-                'w-full flex-center bg-white h-12 px-4 rounded-sm text-error-700 transition-[background]',
-                'hover:bg-error-50/50'
+                "w-full flex-center bg-white h-12 px-4 rounded-sm text-error-700 transition-[background]",
+                "hover:bg-error-50/50"
               )}
             >
               Cancelar
@@ -52,8 +52,8 @@ export const ConfirmModal = ({
               type="button"
               onClick={option.onClick}
               className={classNames(
-                'w-full flex-center h-12 bg-primary-500 text-white rounded-sm transition-[background]',
-                'hover:bg-primary-700'
+                "w-full flex-center h-12 bg-primary-500 text-white rounded-sm transition-[background]",
+                "hover:bg-primary-700"
               )}
             >
               {option.content}
@@ -64,8 +64,8 @@ export const ConfirmModal = ({
               type="button"
               onClick={options?.options?.onClick}
               className={classNames(
-                'w-full flex-center h-12 bg-primary-500 text-white rounded-sm transition-[background]',
-                'hover:bg-primary-700'
+                "w-full flex-center h-12 bg-primary-500 text-white rounded-sm transition-[background]",
+                "hover:bg-primary-700"
               )}
             >
               {options?.options?.content}
@@ -76,8 +76,8 @@ export const ConfirmModal = ({
               type="button"
               onClick={close}
               className={classNames(
-                'w-full flex-center bg-white h-12 px-4 rounded-sm text-error-700 transition-[background]',
-                'hover:bg-error-50/50'
+                "w-full flex-center bg-white h-12 px-4 rounded-sm text-error-700 transition-[background]",
+                "hover:bg-error-50/50"
               )}
             >
               Cancelar

@@ -1,6 +1,6 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { AuthStorageKeys } from '../enums/storage-keys.enum'
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+import { AuthStorageKeys } from "../enums/storage-keys.enum"
 
 interface UseTokenStore {
   token: string | null

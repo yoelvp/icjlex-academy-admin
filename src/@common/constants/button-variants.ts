@@ -1,10 +1,10 @@
-import { cva } from 'class-variance-authority'
-import { RoundedStyle } from '../styles/variants/rounded.variant'
-import { SizeStyle } from '../styles/variants/size.variant'
-import { ButtonStyle } from '../styles/variants/button.variant'
+import { cva } from "class-variance-authority"
+import { RoundedStyle } from "../styles/variants/rounded.variant"
+import { SizeStyle } from "../styles/variants/size.variant"
+import { ButtonStyle } from "../styles/variants/button.variant"
 
 export const buttonVariants = cva(
-  'flex gap-x-2 text-nowrap font-medium items-center justify-center outline-none transition-colors duration-300 focus:ring',
+  "flex gap-x-2 text-nowrap font-medium items-center justify-center outline-none transition-colors duration-300 focus:ring",
   {
     variants: {
       variant: ButtonStyle,
@@ -12,32 +12,32 @@ export const buttonVariants = cva(
       rounded: RoundedStyle
     },
     defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-      rounded: 'md'
+      variant: "primary",
+      size: "md",
+      rounded: "md"
     }
   })
 
 export const buttonIconVariants = cva(
-  'flex-center text-nowrap font-medium outline-none focus:ring',
+  "flex-center text-nowrap font-medium outline-none focus:ring",
   {
     variants: {
       variant: ButtonStyle,
       size: {
-        sm: 'h-6 w-6',
-        md: 'h-10 w-10',
-        lg: 'h-12 w-12'
+        sm: "h-6 w-6",
+        md: "h-10 w-10",
+        lg: "h-12 w-12"
       },
       rounded: {
-        sm: 'rounded-[4px]',
-        md: 'rounded-[6px]',
-        lg: 'rounded-[8px]'
+        sm: "rounded-[4px]",
+        md: "rounded-[6px]",
+        lg: "rounded-[8px]"
       }
     },
     defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-      rounded: 'md'
+      variant: "primary",
+      size: "md",
+      rounded: "md"
     }
   }
 )

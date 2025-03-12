@@ -1,8 +1,8 @@
-import type { AdminCourse } from '@/_models/Course.model'
-import type { Pagination } from '@/@common/types/Pagination'
+import type { AdminCourse } from "@/_models/Course.model"
+import type { Pagination } from "@/@common/types/Pagination"
 
-import { create } from 'zustand'
-import { DEFAULT_PAGINATION } from '@/@common/constants/default-pagination'
+import { create } from "zustand"
+import { DEFAULT_PAGINATION } from "@/@common/constants/default-pagination"
 
 interface UseCoursesStore {
   published: {

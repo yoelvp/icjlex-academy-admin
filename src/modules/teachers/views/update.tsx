@@ -1,10 +1,10 @@
-import { Link as RouterLink, useParams } from 'react-router'
-import { IconArrowRoundBack } from '@/assets/icons'
-import TeacherForm from '../components/teacher-form'
-import { useGetTeacherById } from '../hooks'
-import { Spinner } from 'flowbite-react'
-import { useEffect } from 'react'
-import { useUpdateTeacherStore } from '../store'
+import { Link as RouterLink, useParams } from "react-router"
+import { IconArrowRoundBack } from "@/assets/icons"
+import TeacherForm from "../components/teacher-form"
+import { useGetTeacherById } from "../hooks"
+import { Spinner } from "flowbite-react"
+import { useEffect } from "react"
+import { useUpdateTeacherStore } from "../store"
 
 const UpdateTeacherPage = () => {
   const params = useParams()
@@ -14,7 +14,7 @@ const UpdateTeacherPage = () => {
 
   useEffect(() => {
     if (!teacher && params.teacherId) {
-      getTeacherById(params?.teacherId ?? '')
+      getTeacherById(params?.teacherId ?? "")
     }
 
     return () => setTeacher(null)

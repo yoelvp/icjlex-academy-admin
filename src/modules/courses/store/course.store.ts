@@ -1,5 +1,5 @@
-import { create } from 'zustand'
-import { CourseDetails } from '@/_models/Course.model'
+import { create } from "zustand"
+import { CourseDetails } from "@/_models/Course.model"
 
 interface UseCourseStore {
   course: CourseDetails | null

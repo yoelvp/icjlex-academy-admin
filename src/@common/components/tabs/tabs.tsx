@@ -1,16 +1,16 @@
-import { useState, Children, type ReactNode, type ReactElement } from 'react'
-import classNames from 'classnames'
-import { cva } from 'class-variance-authority'
-import { twVariants } from '@/@common/utils'
-import { TabProps } from '.'
+import { useState, Children, type ReactNode, type ReactElement } from "react"
+import classNames from "classnames"
+import { cva } from "class-variance-authority"
+import { twVariants } from "@/@common/utils"
+import { TabProps } from "."
 
 const tabTriggerVariants = cva(
-  'px-4 py-2 text-sm font-medium border-b-2 transition-all duration-200',
+  "px-4 py-2 text-sm font-medium border-b-2 transition-all duration-200",
   {
     variants: {
       active: {
-        true: 'border-primary-500 text-primary-500',
-        false: 'border-transparent text-gray-500 hover:text-primary-300 hover:border-gray-300'
+        true: "border-primary-500 text-primary-500",
+        false: "border-transparent text-gray-500 hover:text-primary-300 hover:border-gray-300"
       }
     }
   }
@@ -24,7 +24,7 @@ interface Props {
 
 export const Tabs = ({
   children,
-  defaultValue = '1',
+  defaultValue = "1",
   className
 }: Props) => {
   const [activeTab, setActiveTab] = useState(defaultValue)
@@ -37,7 +37,7 @@ export const Tabs = ({
   }
 
   return (
-    <div className={twVariants('w-full', className)}>
+    <div className={twVariants("w-full", className)}>
       {/* Listado de Tabs */}
       <div className="flex">
         {tabTitles.map(({ title, value, onChange }) => (
@@ -56,7 +56,7 @@ export const Tabs = ({
 
       <div className="py-4">
         {tabsContent.map((tab, index) => (
-          <div key={index} className={classNames({ 'hidden': tab.props.value !== activeTab })}>
+          <div key={index} className={classNames({ "hidden": tab.props.value !== activeTab })}>
             {tab.props.children}
           </div>
         ))}

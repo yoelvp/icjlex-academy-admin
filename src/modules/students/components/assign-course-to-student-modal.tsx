@@ -1,18 +1,18 @@
-import Select, { SingleValue } from 'react-select'
-import Button from '@/@common/components/button'
-import Form from '@/@common/components/form'
-import { Modal } from '@/@common/components/modal'
-import { useStudents } from '../hooks/use-students'
-import { Spinner } from 'flowbite-react'
-import { type MouseEvent, useEffect } from 'react'
-import { useCourseMainDataStore } from '@/modules/courses/store/course-main-data.store'
-import { useStudentsStore } from '../store/use-students.store'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { AssignCourseFields } from '../types/AssignCourse'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { assignCourseToStudentSchema } from '../schemas/assign-course.schema'
-import { SelectOption } from '@/@common/types/Select'
-import { getSelectedOptions } from '@/@common/utils/select/get-option'
+import Select, { SingleValue } from "react-select"
+import Button from "@/@common/components/button"
+import Form from "@/@common/components/form"
+import { Modal } from "@/@common/components/modal"
+import { useStudents } from "../hooks/use-students"
+import { Spinner } from "flowbite-react"
+import { type MouseEvent, useEffect } from "react"
+import { useCourseMainDataStore } from "@/modules/courses/store/course-main-data.store"
+import { useStudentsStore } from "../store/use-students.store"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { AssignCourseFields } from "../types/AssignCourse"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { assignCourseToStudentSchema } from "../schemas/assign-course.schema"
+import { SelectOption } from "@/@common/types/Select"
+import { getSelectedOptions } from "@/@common/utils/select/get-option"
 
 interface Props {
   isOpen: boolean
@@ -28,7 +28,7 @@ const AssignCourseToStudentModal = ({ isOpen, onClose }: Props) => {
   const setCourses = useCourseMainDataStore((state) => state.setCourses)
   const { control, handleSubmit, formState: { errors } } = useForm<AssignCourseFields>({
     resolver: yupResolver(assignCourseToStudentSchema),
-    mode: 'onChange'
+    mode: "onChange"
   })
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const AssignCourseToStudentModal = ({ isOpen, onClose }: Props) => {
   const formattedCourses: SelectOption[] = courses.map((course) => ({ label: course.name, value: course.id }))
 
   const onHandleSubmit: SubmitHandler<AssignCourseFields> = (data) => {
-    assignCourseToStudent(studentId ?? '', data.courseId ?? '')
+    assignCourseToStudent(studentId ?? "", data.courseId ?? "")
       .then(() => {
         handleCloseModal()
       })

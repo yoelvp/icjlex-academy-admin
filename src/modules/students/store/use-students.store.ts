@@ -1,6 +1,6 @@
-import type { Student, StudentPreRegistration } from '../types/Student'
+import type { Student, StudentPreRegistration } from "../types/Student"
 
-import { create } from 'zustand'
+import { create } from "zustand"
 
 interface UseStudentStore {
   activeStudents: Student[]

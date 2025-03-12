@@ -1,8 +1,8 @@
-import { useSidebar } from '@/store/use-sidebar.store'
-import { IconMenuLeft, IconMenuRight } from '@/assets/icons'
-import { Menu } from '@/@common/components'
-import { getUserInitials } from '@/@common/utils/get-initials'
-import { useUserStore } from '@/@auth/store/use-user.store'
+import { useSidebar } from "@/store/use-sidebar.store"
+import { IconMenuLeft, IconMenuRight } from "@/assets/icons"
+import { Menu } from "@/@common/components"
+import { getUserInitials } from "@/@common/utils/get-initials"
+import { useUserStore } from "@/@auth/store/use-user.store"
 
 export const Header  = () => {
   const toggle = useSidebar((state) => state.toggle)
@@ -14,7 +14,7 @@ export const Header  = () => {
       <button
         className="w-6 h-6 flex-center rounded-xs text-white transition-[shadow] duration-300 hover:ring hover:ring-white/15"
         onClick={toggle}
-        aria-label={`${show ? 'Cerrar' : 'Abrir'} barra lateral`}
+        aria-label={`${show ? "Cerrar" : "Abrir"} barra lateral`}
       >
         {show ? <IconMenuLeft size="20" /> : <IconMenuRight size="20" />}
       </button>

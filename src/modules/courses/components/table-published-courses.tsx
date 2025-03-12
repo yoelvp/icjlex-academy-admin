@@ -1,7 +1,7 @@
-import { TableEmpty } from '@/@common/components/table-empty'
-import { TableLoading } from '@/@common/components/table-loading'
-import { useGetCourses } from '../hooks/use-get-courses'
-import { useCoursesStore } from '../store/courses.store'
+import { TableEmpty } from "@/@common/components/table-empty"
+import { TableLoading } from "@/@common/components/table-loading"
+import { useGetCourses } from "../hooks/use-get-courses"
+import { useCoursesStore } from "../store/courses.store"
 import {
   IconCloudUpload,
   IconDelete,
@@ -10,14 +10,14 @@ import {
   IconEye,
   IconImagePlus,
   IconOptions
-} from '@/assets/icons'
-import { Menu, Pagination } from '@/@common/components'
-import { formatCurrency, getFullName } from '@/@common/utils'
-import { Link, useNavigate } from 'react-router'
-import { formatDate } from '../utils/format-date'
-import { useDeleteCourse } from '../hooks/use-delete-course'
-import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
-import { useGetCourseById } from '../hooks/use-get-course-by-id'
+} from "@/assets/icons"
+import { Menu, Pagination } from "@/@common/components"
+import { formatCurrency, getFullName } from "@/@common/utils"
+import { Link, useNavigate } from "react-router"
+import { formatDate } from "../utils/format-date"
+import { useDeleteCourse } from "../hooks/use-delete-course"
+import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
+import { useGetCourseById } from "../hooks/use-get-course-by-id"
 
 export const TablePublishedCourses = () => {
   const navigate = useNavigate()
@@ -54,7 +54,7 @@ export const TablePublishedCourses = () => {
               <td>
                 <div className="relative flex items-center gap-x-4">
                   <img
-                    src={course.imageUrl || '/image-placeholder.png'}
+                    src={course.imageUrl || "/image-placeholder.png"}
                     alt={`Thumbnail ${course.name}`}
                     className="w-12 min-w-12 h-6 object-cover object-center rounded-xs border border-primary-500/20 overflow-hidden"
                   />
@@ -62,7 +62,7 @@ export const TablePublishedCourses = () => {
                     {course.name}
                   </span>
                   <button
-                    onClick={() => console.log('open')}
+                    onClick={() => console.log("open")}
                     className="hidden absolute left-0 top-1/2 -translate-y-1/2 group-hover:flex gap-x-1 items-center px-1 py-px rounded-xs bg-zinc-900/40 hover:bg-zinc-900/60 text-white text-xs uppercase"
                   >
                     <IconDockRight size="14" />
@@ -76,7 +76,7 @@ export const TablePublishedCourses = () => {
                     <Link to={`/admin/teachers/${teacher.slug}?s=show`}>
                       {getFullName(teacher)}
                     </Link>
-                    <span>{index === course.teachers.length - 1 ? '.' : ','}</span>
+                    <span>{index === course.teachers.length - 1 ? "." : ","}</span>
                   </p>
                 ))}
               </td>
@@ -89,34 +89,34 @@ export const TablePublishedCourses = () => {
                   size="sm"
                   options={[
                     {
-                      label: 'Ver detalles',
+                      label: "Ver detalles",
                       icon: IconEye,
                       isLoading: isLoadingGetCourseById,
                       onClick: () => {
-                        getCourseById(course?.id ?? '').then(() => navigate(`/admin/courses/${course.id}`))
+                        getCourseById(course?.id ?? "").then(() => navigate(`/admin/courses/${course.id}`))
                       }
                     },
                     {
-                      label: course.imageUrl !== null ? 'Actualizar imagen' : 'Subir imagen',
+                      label: course.imageUrl !== null ? "Actualizar imagen" : "Subir imagen",
                       icon: course.imageUrl !== null ? IconCloudUpload : IconImagePlus
                     },
                     {
-                      label: 'Editar',
+                      label: "Editar",
                       icon: IconEdit,
                       href: `/admin/courses/update/${course.id}`
                     },
                     {
-                      label: 'Eliminar',
+                      label: "Eliminar",
                       icon: IconDelete,
                       isDelete: true,
                       dividerTop: true,
                       isLoading: isLoadingDeleteCourse,
                       onClick: () => {
                         openConfirmModal({
-                          title: '¿Está seguro que quiere eliminar este curso?',
-                          subTitle: 'Esta acción no se puede deshacer.',
+                          title: "¿Está seguro que quiere eliminar este curso?",
+                          subTitle: "Esta acción no se puede deshacer.",
                           options: {
-                            content: 'Sí',
+                            content: "Sí",
                             isLoading: isLoadingDeleteCourse,
                             onClick: () => {
                               deletePublishedCourse(course.id).then(() => closeConfirmModal())

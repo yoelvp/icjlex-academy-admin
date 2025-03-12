@@ -1,4 +1,4 @@
-import { type PermissionName } from '../utils/permissions'
+import { type PermissionName } from "../utils/permissions"
 
 export interface PermissionsByUserResponse {
   userId: string

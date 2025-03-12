@@ -1,11 +1,11 @@
-import { HttpStatusCode, isAxiosError } from 'axios'
-import { toast } from 'sonner'
-import { useLoading } from '@/@common/hooks/use-loading'
-import getError from '@/@common/utils/get-errors'
-import { PermissionName } from '../utils/permissions'
-import { useCanStore } from '../store/use-can.store'
-import { getPermissionByUserIdService } from '@/_services/permissions.service'
-import { PermissionsByUserResponse } from '../types/Permission'
+import { HttpStatusCode, isAxiosError } from "axios"
+import { toast } from "sonner"
+import { useLoading } from "@/@common/hooks/use-loading"
+import getError from "@/@common/utils/get-errors"
+import { PermissionName } from "../utils/permissions"
+import { useCanStore } from "../store/use-can.store"
+import { getPermissionByUserIdService } from "@/_services/permissions.service"
+import { PermissionsByUserResponse } from "../types/Permission"
 
 export const useCan = () => {
   const { isLoading, loading, loaded } = useLoading()

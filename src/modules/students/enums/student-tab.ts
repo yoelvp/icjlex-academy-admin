@@ -1,4 +1,4 @@
 export enum StudentTab {
-  ACTIVE = 'active',
-  REGISTERED = 'registered'
+  ACTIVE = "active",
+  REGISTERED = "registered"
 }

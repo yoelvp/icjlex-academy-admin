@@ -1,4 +1,4 @@
-import { Spinner } from 'flowbite-react'
+import { Spinner } from "flowbite-react"
 
 // Recibe una prop `loading` para controlar la visibilidad del spinner
 export const Loader = () => {

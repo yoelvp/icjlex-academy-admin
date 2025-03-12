@@ -1,26 +1,26 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense } from "react"
 
-import { TableEmpty } from '@/@common/components/table-empty'
-import { TableLoading } from '@/@common/components/table-loading'
-import { useGetCourses } from '../hooks/use-get-courses'
-import { useCoursesStore } from '../store/courses.store'
-import { Menu, Pagination } from '@/@common/components'
-import { formatCurrency, getFullName } from '@/@common/utils'
-import { useShow } from '@/@common/hooks'
-import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
+import { TableEmpty } from "@/@common/components/table-empty"
+import { TableLoading } from "@/@common/components/table-loading"
+import { useGetCourses } from "../hooks/use-get-courses"
+import { useCoursesStore } from "../store/courses.store"
+import { Menu, Pagination } from "@/@common/components"
+import { formatCurrency, getFullName } from "@/@common/utils"
+import { useShow } from "@/@common/hooks"
+import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
 import {
   IconDelete,
   IconDockRight,
   IconEyeOutline,
   IconFileUpload,
   IconUpdate
-} from '@/assets/icons'
-import { Link } from 'react-router'
-import { useDeleteCourse } from '../hooks/use-delete-course'
-import { formatDate } from '../utils/format-date'
-import { usePublishCourse } from '../hooks/use-publish-course'
+} from "@/assets/icons"
+import { Link } from "react-router"
+import { useDeleteCourse } from "../hooks/use-delete-course"
+import { formatDate } from "../utils/format-date"
+import { usePublishCourse } from "../hooks/use-publish-course"
 
-const CourseDetailsDrawer = lazy(() => import('../components/course-details-drawer'))
+const CourseDetailsDrawer = lazy(() => import("../components/course-details-drawer"))
 
 export const TableScheduledCourses = () => {
   const { isLoadingPublished, scheduledPagination } = useGetCourses()
@@ -58,7 +58,7 @@ export const TableScheduledCourses = () => {
               <td>
                 <div className="relative flex items-center gap-x-4">
                   <img
-                    src={course.imageUrl || '/image-placeholder.png'}
+                    src={course.imageUrl || "/image-placeholder.png"}
                     alt={`Thumbnail ${course.name}`}
                     className="w-12 max-w-12 h-6 object-cover object-center rounded-xs border border-primary-500/20 overflow-hidden"
                   />
@@ -80,7 +80,7 @@ export const TableScheduledCourses = () => {
                     <Link to={`/admin/teachers/${teacher.slug}?s=show`}>
                       {getFullName(teacher)}
                     </Link>
-                    <span>{index === course.teachers.length - 1 ? '.' : ','}</span>
+                    <span>{index === course.teachers.length - 1 ? "." : ","}</span>
                   </p>
                 ))}
               </td>
@@ -96,45 +96,45 @@ export const TableScheduledCourses = () => {
                   variant="white"
                   options={[
                     {
-                      label: 'Publicar',
+                      label: "Publicar",
                       icon: IconFileUpload,
                       onClick: () => {
                         openConfirmModal({
-                          title: '¿Está seguro que quiere publicar este curso?',
+                          title: "¿Está seguro que quiere publicar este curso?",
                           options: {
-                            content: 'Sí',
+                            content: "Sí",
                             isLoading: isLoadingPublishCourse,
                             onClick: () => {
-                              publishCourse(course?.id ?? '').then(closeConfirmModal)
+                              publishCourse(course?.id ?? "").then(closeConfirmModal)
                             }
                           }
                         })
                       }
                     },
                     {
-                      label: 'Ver detalles',
+                      label: "Ver detalles",
                       icon: IconEyeOutline,
                       href: `/admin/courses/${course.id}`
                     },
                     {
-                      label: 'Editar',
+                      label: "Editar",
                       icon: IconUpdate,
                       href: `/admin/courses/update/${course.id}`
                     },
                     {
-                      label: 'Eliminar',
+                      label: "Eliminar",
                       icon: IconDelete,
                       isDelete: true,
                       dividerTop: true,
                       onClick: () => {
                         openConfirmModal({
-                          title: '¿Está seguro que quiere eliminar este curso?',
-                          subTitle: 'Esta acción no se puede deshacer.',
+                          title: "¿Está seguro que quiere eliminar este curso?",
+                          subTitle: "Esta acción no se puede deshacer.",
                           options: {
-                            content: 'Sí',
+                            content: "Sí",
                             isLoading: isLoadingDeleteCourse,
                             onClick: () => {
-                              deletePublishedCourse(course.id, 'scheduled').then(() => closeConfirmModal())
+                              deletePublishedCourse(course.id, "scheduled").then(() => closeConfirmModal())
                             }
                           }
                         })

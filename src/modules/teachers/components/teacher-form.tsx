@@ -1,15 +1,15 @@
-import { useNavigate } from 'react-router'
-import SelectCreatable from 'react-select/creatable'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Controller, SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
-import Button from '@/@common/components/button'
-import Form from '@/@common/components/form'
-import Link from '@/@common/components/link'
-import { TeacherFormSchema, TeacherFormValues } from '@/_models/Teacher'
-import { teacherSchema } from '@/_schemas/teacher.schema'
-import { useCreateTeacher, useUpdateTeacher } from '../hooks'
-import TextEditor from '@/@common/components/text-editor'
-import { IconAdd, IconDelete } from '@/assets/icons'
+import { useNavigate } from "react-router"
+import SelectCreatable from "react-select/creatable"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form"
+import Button from "@/@common/components/button"
+import Form from "@/@common/components/form"
+import Link from "@/@common/components/link"
+import { TeacherFormSchema, TeacherFormValues } from "@/_models/Teacher"
+import { teacherSchema } from "@/_schemas/teacher.schema"
+import { useCreateTeacher, useUpdateTeacher } from "../hooks"
+import TextEditor from "@/@common/components/text-editor"
+import { IconAdd, IconDelete } from "@/assets/icons"
 import { ImageUpload } from "@/@common/components/image-upload"
 
 interface Props {
@@ -32,7 +32,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
   })
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'socialMedia'
+    name: "socialMedia"
   })
 
   const onHandleSubmit: SubmitHandler<TeacherFormSchema> = async (data) => {
@@ -69,7 +69,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
           <Form.Input
             placeholder="Ingresa los nombres"
             size="md"
-            {...register('firstName')}
+            {...register("firstName")}
           />
           <Form.Error hasError={errors.firstName?.message} />
         </Form.Control>
@@ -82,7 +82,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
           <Form.Input
             placeholder="Ingrese los apellidos"
             size="md"
-            {...register('lastName')}
+            {...register("lastName")}
           />
           <Form.Error hasError={errors.lastName?.message} />
         </Form.Control>
@@ -103,7 +103,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
               onChange={field.onChange}
               placeholder="Lo que el estudiante aprenderá"
               menuPosition="fixed"
-              noOptionsMessage={() => 'No hay opciones disponibles'}
+              noOptionsMessage={() => "No hay opciones disponibles"}
             />
           )}
         />
@@ -115,7 +115,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
         <Form.Input
           placeholder="Ingresa tu profesión..."
           size="md"
-          {...register('profession', { required: true })}
+          {...register("profession", { required: true })}
         />
         <Form.Error hasError={errors.profession?.message} />
       </Form.Control>
@@ -172,7 +172,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
                       {(index === fields.length - 1) && (
                         <Button
                           type="button"
-                          onClick={() => append({ label: 'https://', value: 'https://' })}
+                          onClick={() => append({ label: "https://", value: "https://" })}
                           aria-label="Agregar nuevo enlace"
                         >
                           <IconAdd />
@@ -193,7 +193,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
           htmlType="submit"
           isLoading={defaultValues ? isLoadingUpdate : isLoadingCreate}
         >
-          {!isForUpdating ? 'Crear' : 'Editar'} docente
+          {!isForUpdating ? "Crear" : "Editar"} docente
         </Button>
         <Link
           href="/admin/teachers"

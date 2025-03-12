@@ -1,17 +1,17 @@
-import { useNavigate } from 'react-router'
-import { toast } from 'sonner'
-import { AxiosError, HttpStatusCode } from 'axios'
-import { useTokenStore } from '@/@auth/store/use-token.store'
-import { useUserStore } from '@/@auth/store/use-user.store'
-import { useLoading } from '@/@common/hooks/use-loading'
-import getError from '@/@common/utils/get-errors'
-import { useCanStore } from '@/@auth/store/use-can.store'
-import { LoginFormSchema } from '@/_models/Auth.model'
+import { useNavigate } from "react-router"
+import { toast } from "sonner"
+import { AxiosError, HttpStatusCode } from "axios"
+import { useTokenStore } from "@/@auth/store/use-token.store"
+import { useUserStore } from "@/@auth/store/use-user.store"
+import { useLoading } from "@/@common/hooks/use-loading"
+import getError from "@/@common/utils/get-errors"
+import { useCanStore } from "@/@auth/store/use-can.store"
+import { LoginFormSchema } from "@/_models/Auth.model"
 import {
   loginService,
   logoutService
-} from '@/_services/auth.service'
-import { getUserByIdService, getRolesAndPermissionsByUserIdService } from '@/_services/users.service'
+} from "@/_services/auth.service"
+import { getUserByIdService, getRolesAndPermissionsByUserIdService } from "@/_services/users.service"
 
 export const useAuth = () => {
   const navigate = useNavigate()
@@ -33,8 +33,8 @@ export const useAuth = () => {
 
       setToken(token)
 
-      const { data: { data: userData }, status } = await getUserByIdService(userId ?? '')
-      const { data: { data: { roles, permissions } }, status: roleStatus } = await getRolesAndPermissionsByUserIdService(userId ?? '')
+      const { data: { data: userData }, status } = await getUserByIdService(userId ?? "")
+      const { data: { data: { roles, permissions } }, status: roleStatus } = await getRolesAndPermissionsByUserIdService(userId ?? "")
 
       if (status === HttpStatusCode.Ok && roleStatus === HttpStatusCode.Ok) {
         setUser(userData)
@@ -43,7 +43,7 @@ export const useAuth = () => {
           roles: roles,
           permissions: permissions
         })
-        navigate('/admin')
+        navigate("/admin")
       }
     } catch (error) {
       loaded()
@@ -72,7 +72,7 @@ export const useAuth = () => {
         })
 
         toast.error(message)
-        navigate('/auth/login')
+        navigate("/auth/login")
       }
     } catch (error) {
       loaded()

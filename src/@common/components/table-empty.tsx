@@ -1,4 +1,4 @@
-import { IconInboxFilled } from '@/assets/icons'
+import { IconInboxFilled } from "@/assets/icons"
 
 interface Props {
   isLoading: boolean
@@ -11,7 +11,7 @@ export const TableEmpty = ({
   isLoading,
   show,
   numCols,
-  message = 'Aún no tiene registros'
+  message = "Aún no tiene registros"
 }: Props) => {
   if (isLoading) return null
 

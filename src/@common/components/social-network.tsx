@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import type { FC } from "react"
 import {
   IconLinkedin,
   IconFacebook,
@@ -6,7 +6,7 @@ import {
   IconInstagram,
   IconYoutube,
   IconWhatsapp
-} from '@/assets/icons'
+} from "@/assets/icons"
 
 export const SocialNetwork: FC = () => {
   return (

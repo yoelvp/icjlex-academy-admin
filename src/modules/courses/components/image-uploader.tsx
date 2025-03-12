@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import classNames from 'classnames'
-import { UseFormSetValue, Path, PathValue, FieldValues } from 'react-hook-form'
-import { IconClose } from '@/assets/icons'
+import React, { useState } from "react"
+import classNames from "classnames"
+import { UseFormSetValue, Path, PathValue, FieldValues } from "react-hook-form"
+import { IconClose } from "@/assets/icons"
 
 type Props<T extends FieldValues> = {
   name: Path<T> // Asegura que name sea una ruta válida en T
@@ -14,7 +14,7 @@ type Props<T extends FieldValues> = {
 const ImageUploader = <T extends FieldValues>({
   name,
   setValue,
-  acceptedFileTypes = ['image/jpeg', 'image/png', 'image/gif'], // Tipos de archivo por defecto
+  acceptedFileTypes = ["image/jpeg", "image/png", "image/gif"], // Tipos de archivo por defecto
   maxFileSize = 5 * 1024 * 1024, // Tamaño máximo por defecto: 5MB
   className
 }: Props<T>) => {
@@ -27,7 +27,7 @@ const ImageUploader = <T extends FieldValues>({
 
   const validateFile = (file: File) => {
     if (!acceptedFileTypes.includes(file.type)) {
-      setError('Tipo de archivo no aceptado. Solo se permiten imágenes.')
+      setError("Tipo de archivo no aceptado. Solo se permiten imágenes.")
 
       return false
     }
@@ -55,9 +55,9 @@ const ImageUploader = <T extends FieldValues>({
   }
 
   const handleClick = () => {
-    const fileInput = document.createElement('input')
-    fileInput.type = 'file'
-    fileInput.accept = acceptedFileTypes.join(', ') // Aceptar solo tipos especificados
+    const fileInput = document.createElement("input")
+    fileInput.type = "file"
+    fileInput.accept = acceptedFileTypes.join(", ") // Aceptar solo tipos especificados
     fileInput.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (file && validateFile(file)) {
@@ -71,9 +71,9 @@ const ImageUploader = <T extends FieldValues>({
   return (
     <div
       className={classNames(
-        'relative flex flex-col justify-center items-center w-full h-48 border-2 border-dashed rounded-sm p-5 transition-all',
-        { 'bg-sky-50 border-sky-400': isDragActive },
-        { 'border-gray-300 cursor-pointer': !isDragActive },
+        "relative flex flex-col justify-center items-center w-full h-48 border-2 border-dashed rounded-sm p-5 transition-all",
+        { "bg-sky-50 border-sky-400": isDragActive },
+        { "border-gray-300 cursor-pointer": !isDragActive },
         className
       )}
       onDragEnter={handleDragEnter}
@@ -84,12 +84,12 @@ const ImageUploader = <T extends FieldValues>({
     >
       <p
         className={classNames(
-          'text-sm',
-          { 'text-sky-800': isDragActive },
-          { 'text-gray-400': !isDragActive }
+          "text-sm",
+          { "text-sky-800": isDragActive },
+          { "text-gray-400": !isDragActive }
         )}
       >
-        {isDragActive ? 'Suelta tu archivo aquí' : 'Arrastra y suelta tu imagen aquí'}
+        {isDragActive ? "Suelta tu archivo aquí" : "Arrastra y suelta tu imagen aquí"}
       </p>
       {error && <span className="text-red-500 text-sm">{error}</span>}
       {preview && (

@@ -1,6 +1,6 @@
-import type { MutableRefObject } from 'react'
+import type { MutableRefObject } from "react"
 
-import { useEffect } from 'react'
+import { useEffect } from "react"
 
 type CloseComponent = () => void
 
@@ -15,10 +15,10 @@ export const useClickOutside = (
   }
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside)
+    document.addEventListener("click", handleClickOutside)
 
     return () => {
-      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener("click", handleClickOutside)
     }
   }, [])
 }

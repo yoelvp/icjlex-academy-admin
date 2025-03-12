@@ -1,8 +1,8 @@
-import type { AnchorHTMLAttributes, ForwardRefExoticComponent, RefAttributes } from 'react'
+import type { AnchorHTMLAttributes, ForwardRefExoticComponent, RefAttributes } from "react"
 
-import BaseLink from './base-link'
-import { ButtonBaseProps } from '@/@common/types/Button'
-import Icon from './icon'
+import BaseLink from "./base-link"
+import { ButtonBaseProps } from "@/@common/types/Button"
+import Icon from "./icon"
 
 /**
  * Interface for the `Button` component used with `forwardRef`.

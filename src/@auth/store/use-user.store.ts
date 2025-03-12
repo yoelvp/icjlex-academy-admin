@@ -1,8 +1,8 @@
-import type { User } from '@/_models/User'
+import type { User } from "@/_models/User"
 
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { AuthStorageKeys } from '../enums/storage-keys.enum'
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+import { AuthStorageKeys } from "../enums/storage-keys.enum"
 
 interface UseUserStore {
   user: User | null

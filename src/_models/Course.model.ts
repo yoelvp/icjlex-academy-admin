@@ -1,4 +1,4 @@
-import { TeacherBasicData } from './Teacher'
+import { TeacherBasicData } from "./Teacher"
 
 // Unused
 interface CourseValoration {

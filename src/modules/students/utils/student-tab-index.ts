@@ -1,4 +1,4 @@
 export const TAB_INDEX = {
-  0: '',
-  1: '?tab=registered'
+  0: "",
+  1: "?tab=registered"
 }

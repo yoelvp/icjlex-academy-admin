@@ -1,2 +1,2 @@
-export * from './teachers.store'
-export * from './update-teacher.store'
+export * from "./teachers.store"
+export * from "./update-teacher.store"

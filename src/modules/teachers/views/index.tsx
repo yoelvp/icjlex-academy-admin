@@ -1,10 +1,10 @@
-import { Fragment, lazy, Suspense } from 'react'
-import Form from '@/@common/components/form'
-import { useShow } from '@/@common/hooks/use-show'
-import { LoadingModal, Menu, Pagination } from '@/@common/components'
-import { TableLoading } from '@/@common/components/table-loading'
-import { useTeacherStore } from '../store/teachers.store'
-import { useDeleteTeacher, useGetAllTeachers, useGetTeacherById } from '../hooks'
+import { Fragment, lazy, Suspense } from "react"
+import Form from "@/@common/components/form"
+import { useShow } from "@/@common/hooks/use-show"
+import { LoadingModal, Menu, Pagination } from "@/@common/components"
+import { TableLoading } from "@/@common/components/table-loading"
+import { useTeacherStore } from "../store/teachers.store"
+import { useDeleteTeacher, useGetAllTeachers, useGetTeacherById } from "../hooks"
 import {
   IconAdd,
   IconDelete,
@@ -16,15 +16,15 @@ import {
   IconSearch,
   IconX,
   IconYoutube
-} from '@/assets/icons'
-import { getFullName } from '@/@common/utils/get-full-names'
-import Link from '@/@common/components/link'
-import { useNavigate } from 'react-router'
-import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
-import { TableEmpty } from '@/@common/components/table-empty'
+} from "@/assets/icons"
+import { getFullName } from "@/@common/utils/get-full-names"
+import Link from "@/@common/components/link"
+import { useNavigate } from "react-router"
+import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
+import { TableEmpty } from "@/@common/components/table-empty"
 
-const TeacherDetailsDrawer = lazy(() => import('../components/teacher-details-drawer'))
-const UpdateImageModal = lazy(() => import('../components/update-image-modal'))
+const TeacherDetailsDrawer = lazy(() => import("../components/teacher-details-drawer"))
+const UpdateImageModal = lazy(() => import("../components/update-image-modal"))
 
 const CoursesPage = () => {
   const navigate = useNavigate()
@@ -82,7 +82,7 @@ const CoursesPage = () => {
                 <td className="max-w-[320px] overflow-hidden">
                   <div className="w-full h-full relative group/image flex justify-start items-center gap-x-4">
                     <img
-                      src={teacher.imageUrl || '/placeholder-image.png'}
+                      src={teacher.imageUrl || "/placeholder-image.png"}
                       alt={`${teacher.firstName} ${teacher.lastName}`}
                       className="w-8 h-8 object-cover object-center overflow-hidden rounded-full border border-primary-500/25"
                     />
@@ -101,8 +101,8 @@ const CoursesPage = () => {
                   </div>
                 </td>
                 <td className="max-w-md">
-                  {!teacher?.specialties && !(teacher?.specialties?.length ?? 0) && '-'}
-                  {Array.isArray(teacher?.specialties) ? teacher?.specialties?.join(', ') : teacher?.specialties}
+                  {!teacher?.specialties && !(teacher?.specialties?.length ?? 0) && "-"}
+                  {Array.isArray(teacher?.specialties) ? teacher?.specialties?.join(", ") : teacher?.specialties}
                 </td>
                 <td>{teacher?.profession}</td>
                 <td>
@@ -117,7 +117,7 @@ const CoursesPage = () => {
                   )}
                   {Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social: string) => (
                     <Fragment key={social}>
-                      {social.includes('facebook.com') && (
+                      {social.includes("facebook.com") && (
                         <a
                           href={social}
                           target="_blank"
@@ -126,7 +126,7 @@ const CoursesPage = () => {
                           <IconFacebook size={18} className="text-blue-600" />
                         </a>
                       )}
-                      {social.includes('x.com') && (
+                      {social.includes("x.com") && (
                         <a
                           href={social}
                           target="_blank"
@@ -135,7 +135,7 @@ const CoursesPage = () => {
                           <IconX size={18} />
                         </a>
                       )}
-                      {social.includes('linkedin.com') && (
+                      {social.includes("linkedin.com") && (
                         <a
                           href={social}
                           target="_blank"
@@ -144,7 +144,7 @@ const CoursesPage = () => {
                           <IconLinkedin size={18} className="text-blue-800" />
                         </a>
                       )}
-                      {social.includes('youtube.com') && (
+                      {social.includes("youtube.com") && (
                         <a
                           href={social}
                           target="_blank"
@@ -158,41 +158,41 @@ const CoursesPage = () => {
                 </td>
                 <td>
                   <Menu
-                    variant={'white'}
+                    variant={"white"}
                     activator={<IconOptions />}
                     size="sm"
                     options={[
                       {
-                        label: 'Ver detalles',
+                        label: "Ver detalles",
                         icon: IconEyeOutline,
                         onClick: () => {
-                          getTeacherById(teacher?.id ?? '').then(() => {
+                          getTeacherById(teacher?.id ?? "").then(() => {
                             openDetailsDrawer()
                           })
                         }
                       },
                       {
-                        label: 'Editar',
+                        label: "Editar",
                         icon: IconEdit,
                         isLoading: isLoadingById,
                         onClick: () => {
-                          getTeacherById(teacher?.id ?? '').then(() => {
+                          getTeacherById(teacher?.id ?? "").then(() => {
                             navigate(`/admin/teachers/update/${teacher?.slug}/${teacher?.id}`)
                           })
                         }
                       },
                       {
-                        label: 'Eliminar',
+                        label: "Eliminar",
                         icon: IconDelete,
                         onClick: () => {
                           openConfirmModal({
                             title: `¿Está seguro que quiere eliminar a ${teacher?.firstName} ${teacher?.lastName}?`,
-                            subTitle: 'El docente se eliminará de manera permanente. Esta acción no se puede deshacer.',
+                            subTitle: "El docente se eliminará de manera permanente. Esta acción no se puede deshacer.",
                             options: {
-                              content: 'Sí',
+                              content: "Sí",
                               isLoading: isLoadingDelete,
                               onClick: () => {
-                                deleteTeacher(teacher.id ?? '').then(() => {
+                                deleteTeacher(teacher.id ?? "").then(() => {
                                   closeConfirmModal()
                                 })
                               }

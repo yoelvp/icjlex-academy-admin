@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import { HttpStatusCode, isAxiosError } from 'axios'
-import { useCoursesStore } from '../store/courses.store'
-import { useLoading } from '@/@common/hooks/use-loading'
-import getError from '@/@common/utils/get-errors'
-import { usePagination } from '@/@common/hooks/use-pagination'
-import { getAllCoursesService } from '@/_services/courses.service'
-import { useDebounce } from '@/@common/hooks'
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
+import { HttpStatusCode, isAxiosError } from "axios"
+import { useCoursesStore } from "../store/courses.store"
+import { useLoading } from "@/@common/hooks/use-loading"
+import getError from "@/@common/utils/get-errors"
+import { usePagination } from "@/@common/hooks/use-pagination"
+import { getAllCoursesService } from "@/_services/courses.service"
+import { useDebounce } from "@/@common/hooks"
 
 export const useGetCourses = () => {
-  const [searchQueryPublished, setSearchQueryPublished] = useState('')
-  const [searchQueryUpcoming, setSearchQueryUpcoming] = useState('')
+  const [searchQueryPublished, setSearchQueryPublished] = useState("")
+  const [searchQueryUpcoming, setSearchQueryUpcoming] = useState("")
   const { isLoading: isLoadingPublished, loading: loadingPublished, loaded: loadedPublished } = useLoading()
   const { isLoading: isLoadingUpcoming, loading: loadingUpcoming, loaded: loadedUpcoming } = useLoading()
 
@@ -41,7 +41,7 @@ export const useGetCourses = () => {
         page: publishedPaginationManager.page,
         perPage: publishedPaginationManager.perPage,
         q: searchQueryPublished,
-        status: 'published'
+        status: "published"
       })
 
       if (status === HttpStatusCode.Ok) {
@@ -66,7 +66,7 @@ export const useGetCourses = () => {
         page: scheduledPaginationManager.page,
         perPage: scheduledPaginationManager.perPage,
         q: searchQueryUpcoming,
-        status: 'scheduled'
+        status: "scheduled"
       })
 
       if (status === HttpStatusCode.Ok) {

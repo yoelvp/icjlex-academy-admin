@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
-import { toast } from 'sonner'
-import { AxiosError } from 'axios'
-import getError from '@/@common/utils/get-errors'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { getAllTeachersOnlyNamesService } from '@/_services/teachers.service'
-import { useTeachersOnlyNamesStore } from '../store/teachers-only-name.store'
+import { useEffect } from "react"
+import { toast } from "sonner"
+import { AxiosError } from "axios"
+import getError from "@/@common/utils/get-errors"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { getAllTeachersOnlyNamesService } from "@/_services/teachers.service"
+import { useTeachersOnlyNamesStore } from "../store/teachers-only-name.store"
 
 export const useGetAllTeachersOnlyNames = () => {
   const { isLoading, loading, loaded } = useLoading()

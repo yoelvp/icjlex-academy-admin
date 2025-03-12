@@ -1,19 +1,19 @@
-import type { VariantProps } from 'class-variance-authority'
-import type { ForwardRefExoticComponent, InputHTMLAttributes, PropsWithoutRef, RefAttributes } from 'react'
-import type { IconType } from 'react-icons'
+import type { VariantProps } from "class-variance-authority"
+import type { ForwardRefExoticComponent, InputHTMLAttributes, PropsWithoutRef, RefAttributes } from "react"
+import type { IconType } from "react-icons"
 
-import { inputVariants } from '@/@common/constants/input-variants'
-import { Form as FormBase } from './form'
-import { Input } from './input'
-import { Password } from './password'
-import { Label } from './label'
-import { Control } from './control'
-import { Error } from './error'
+import { inputVariants } from "@/@common/constants/input-variants"
+import { Form as FormBase } from "./form"
+import { Input } from "./input"
+import { Password } from "./password"
+import { Label } from "./label"
+import { Control } from "./control"
+import { Error } from "./error"
 
 export type InputVariant = typeof inputVariants
-export type IconPosition = 'left' | 'right'
+export type IconPosition = "left" | "right"
 
-export interface FormBaseProps extends VariantProps<InputVariant>, Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface FormBaseProps extends VariantProps<InputVariant>, Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   className?: string
   icon?: IconType
   iconClassName?: string

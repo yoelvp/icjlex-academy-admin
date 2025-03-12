@@ -1,9 +1,9 @@
-import { toast } from 'sonner'
-import { useLoading } from '@/@common/hooks/use-loading'
-import { getStudentByIdService } from '@/_services/students.service'
-import getError from '@/@common/utils/get-errors'
-import { useStudentsStore } from '../store/use-students.store'
-import { isAxiosError } from 'axios'
+import { toast } from "sonner"
+import { useLoading } from "@/@common/hooks/use-loading"
+import { getStudentByIdService } from "@/_services/students.service"
+import getError from "@/@common/utils/get-errors"
+import { useStudentsStore } from "../store/use-students.store"
+import { isAxiosError } from "axios"
 
 export const useGetByIdStudent = (userId: string) => {
   const { isLoading, loading, loaded } = useLoading()

@@ -1,10 +1,10 @@
-import { toast } from 'sonner'
-import { HttpStatusCode, isAxiosError } from 'axios'
-import { useLoading } from '@/@common/hooks/use-loading'
-import getError from '@/@common/utils/get-errors'
-import { updateImageTeacherService } from '@/_services/teachers.service'
-import { UpdateTeacherImage } from '../types/TeacherFormFields'
-import { useTeacherStore } from '../store/teachers.store'
+import { toast } from "sonner"
+import { HttpStatusCode, isAxiosError } from "axios"
+import { useLoading } from "@/@common/hooks/use-loading"
+import getError from "@/@common/utils/get-errors"
+import { updateImageTeacherService } from "@/_services/teachers.service"
+import { UpdateTeacherImage } from "../types/TeacherFormFields"
+import { useTeacherStore } from "../store/teachers.store"
 
 export const useTeachers = () => {
   const { isLoading, loading, loaded } = useLoading()
@@ -17,7 +17,7 @@ export const useTeachers = () => {
       const { data, status } = await updateImageTeacherService(teacherId, bodyData)
 
       if (status === HttpStatusCode.Ok) {
-        const updatedTeachers = teachers.map((teacher) => teacher.id === data.teacherId ? { ...teacher, imageUrl: data.imageUrl ?? '' } : teacher)
+        const updatedTeachers = teachers.map((teacher) => teacher.id === data.teacherId ? { ...teacher, imageUrl: data.imageUrl ?? "" } : teacher)
         setTeachers(updatedTeachers)
       }
     } catch (error) {

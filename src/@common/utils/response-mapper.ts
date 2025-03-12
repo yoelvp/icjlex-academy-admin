@@ -1,4 +1,4 @@
-import { ResWithPagination } from '../types/ResponseData'
+import { ResWithPagination } from "../types/ResponseData"
 
 export const responseMapper = <T>(data: ResWithPagination<T>) => {
   return {

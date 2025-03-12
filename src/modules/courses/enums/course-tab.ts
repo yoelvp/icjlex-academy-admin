@@ -1,4 +1,4 @@
 export enum CourseTab {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive'
+  ACTIVE = "active",
+  INACTIVE = "inactive"
 }

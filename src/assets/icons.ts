@@ -4,7 +4,7 @@ export {
   IoIosArrowRoundForward as IconArrowRoundForward,
   IoIosCheckmark as IconCheckmark,
   IoIosRadioButtonOff as IconRadioButtonOff
-} from 'react-icons/io'
+} from "react-icons/io"
 export {
   IoCallOutline as IconCall,
   IoChevronBack as IconChevronBack,
@@ -33,73 +33,73 @@ export {
   IoEyeOutline as IconEyeOutline,
   IoTimeOutline as IconTimeOutline,
   IoCloudUploadOutline as IconCloudUpload
-} from 'react-icons/io5'
+} from "react-icons/io5"
 export {
   MdDeleteOutline as IconDelete,
   MdOutlineBookmarkAdd as IconBookmarkAdd,
   MdOutlineFileUpload as IconFileUpload
-} from 'react-icons/md'
+} from "react-icons/md"
 export {
   TbMenu as IconMenu,
   TbBrandLinkedin as IconLinkedin
-} from 'react-icons/tb'
+} from "react-icons/tb"
 export {
   FaStar as IconStarFilled,
   FaRegStar as IconStar,
   FaInbox as IconInboxFilled
-} from 'react-icons/fa'
+} from "react-icons/fa"
 export {
   FaXTwitter as IconX,
   FaGift as IconGift,
   FaLink as IconLink
-} from 'react-icons/fa6'
+} from "react-icons/fa6"
 export {
   FiYoutube as IconYoutube
-} from 'react-icons/fi'
+} from "react-icons/fi"
 export {
   TiSocialFacebookCircular as IconFacebookCircular
-} from 'react-icons/ti'
+} from "react-icons/ti"
 export {
   PiStudent as IconStudent,
   PiChalkboardTeacher as IconTeacher
-} from 'react-icons/pi'
+} from "react-icons/pi"
 export {
   LuBookMarked as IconBookMarked,
   LuFileBadge as IconCourse,
   LuMailbox as IconMailbox,
   LuImagePlus as IconImagePlus
-} from 'react-icons/lu'
+} from "react-icons/lu"
 export {
   RiPresentationLine as IconPresentation
-} from 'react-icons/ri'
+} from "react-icons/ri"
 export {
   BiSupport as IconSupport,
   BiDockRight as IconDockRight
-} from 'react-icons/bi'
+} from "react-icons/bi"
 export {
   BsPlayBtn as IconPlay
-} from 'react-icons/bs'
+} from "react-icons/bs"
 export {
   MdOutlineCategory as IconCategory
-} from 'react-icons/md'
+} from "react-icons/md"
 export {
   CiImageOn as IconImageOn,
   CiImageOff as IconImageOff
-} from 'react-icons/ci'
+} from "react-icons/ci"
 export {
   CgMenuLeft as IconMenuLeft,
   CgMenuRight as IconMenuRight,
   CgProfile as IconProfile
-} from 'react-icons/cg'
+} from "react-icons/cg"
 export {
   GoHome as IconHome
-} from 'react-icons/go'
+} from "react-icons/go"
 export {
   HiCheckCircle as IconList
-} from 'react-icons/hi'
+} from "react-icons/hi"
 export {
   GrEdit as IconEdit
-} from 'react-icons/gr'
+} from "react-icons/gr"
 export {
   RxUpdate as IconUpdate
-} from 'react-icons/rx'
+} from "react-icons/rx"

@@ -1,6 +1,6 @@
-import { Content } from '@/@common/components/content'
-import Link from '@/@common/components/link'
-import { Link as RouterLink } from 'react-router'
+import { Content } from "@/@common/components/content"
+import Link from "@/@common/components/link"
+import { Link as RouterLink } from "react-router"
 
 const RecoveryConfirmationPage = () => {
   return (

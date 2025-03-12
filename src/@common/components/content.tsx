@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react'
+import type { FC, ReactNode } from "react"
 
 interface Props {
   children: ReactNode
@@ -7,7 +7,7 @@ interface Props {
 
 export const Content: FC<Readonly<Props>> = ({
   children,
-  className = ''
+  className = ""
 }) => {
   return (
     <div className={`width-md mx-auto ${className}`}>

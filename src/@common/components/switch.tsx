@@ -1,8 +1,8 @@
-import { forwardRef, type InputHTMLAttributes } from 'react'
-import classNames from 'classnames'
-import { motion } from 'framer-motion'
+import { forwardRef, type InputHTMLAttributes } from "react"
+import classNames from "classnames"
+import { motion } from "framer-motion"
 
-interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
+interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
   className?: string
   value?: boolean | null
   onChange?: (checked: boolean) => void
@@ -22,10 +22,10 @@ export const Switch = forwardRef<HTMLInputElement, Props>(({
     <motion.button
       type="button"
       className={classNames(
-        'relative inline-flex h-6 w-12 items-center rounded-full transition-colors border border-primary-100',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        'disabled:cursor-not-allowed disabled:opacity-50',
-        value ? 'bg-primary-100' : 'bg-primary-50',
+        "relative inline-flex h-6 w-12 items-center rounded-full transition-colors border border-primary-100",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        value ? "bg-primary-100" : "bg-primary-50",
         className
       )}
       onClick={toggleSwitch}
@@ -34,12 +34,12 @@ export const Switch = forwardRef<HTMLInputElement, Props>(({
     >
       <motion.span
         className={classNames(
-          'absolute inline-block h-5 w-5 rounded-full bg-primary-500 shadow-lg',
-          { 'right-0': value }
+          "absolute inline-block h-5 w-5 rounded-full bg-primary-500 shadow-lg",
+          { "right-0": value }
         )}
         layout
         transition={{
-          type: 'spring',
+          type: "spring",
           stiffness: 700,
           damping: 30
         }}

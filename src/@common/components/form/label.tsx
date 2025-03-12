@@ -1,4 +1,4 @@
-import type { FC, LabelHTMLAttributes, ReactNode } from 'react'
+import type { FC, LabelHTMLAttributes, ReactNode } from "react"
 
 interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
   children: ReactNode
@@ -7,7 +7,7 @@ interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
 
 export const Label: FC<Props> = ({
   children,
-  className = '',
+  className = "",
   ...props
 }) => {
   return (

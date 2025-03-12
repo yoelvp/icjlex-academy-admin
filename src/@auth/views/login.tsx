@@ -1,23 +1,23 @@
-import type { SubmitHandler } from 'react-hook-form'
-import type { LoginFormSchema } from '@/_models/Auth.model'
+import type { SubmitHandler } from "react-hook-form"
+import type { LoginFormSchema } from "@/_models/Auth.model"
 
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Spinner } from 'flowbite-react'
-import Button from '@/@common/components/button'
-import Form from '@/@common/components/form'
-import { IconLockCloseOutline, IconMail } from '@/assets/icons'
-import { useAuth } from '@/@auth/hooks/use-auth'
-import { loginFormSchema } from '@/@auth/schemas/login.schema'
+import { useForm } from "react-hook-form"
+import { Link } from "react-router"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Spinner } from "flowbite-react"
+import Button from "@/@common/components/button"
+import Form from "@/@common/components/form"
+import { IconLockCloseOutline, IconMail } from "@/assets/icons"
+import { useAuth } from "@/@auth/hooks/use-auth"
+import { loginFormSchema } from "@/@auth/schemas/login.schema"
 
 const LoginPage = () => {
   const { isLoading, login } = useAuth()
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
     resolver: yupResolver(loginFormSchema),
     defaultValues: {
-      email: '',
-      password: ''
+      email: "",
+      password: ""
     }
   })
 
@@ -48,7 +48,7 @@ const LoginPage = () => {
               icon={IconMail}
               disabled={isLoading}
               error={errors.email?.message}
-              {...register('email')}
+              {...register("email")}
             />
           </Form.Control>
           <Form.Control>
@@ -62,7 +62,7 @@ const LoginPage = () => {
               disabled={isLoading}
               icon={IconLockCloseOutline}
               error={errors.password?.message}
-              {...register('password')}
+              {...register("password")}
             />
           </Form.Control>
 

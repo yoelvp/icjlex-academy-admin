@@ -1,1 +1,1 @@
-export * from './student-tab-index'
+export * from "./student-tab-index"

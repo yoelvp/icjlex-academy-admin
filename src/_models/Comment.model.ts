@@ -1,4 +1,4 @@
-import { StudentCompleteName } from './Student.model'
+import { StudentCompleteName } from "./Student.model"
 
 export interface Comment {
   student: StudentCompleteName

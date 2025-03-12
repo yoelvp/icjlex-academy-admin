@@ -1,20 +1,20 @@
-import type { FormBaseProps } from '.'
+import type { FormBaseProps } from "."
 
-import { forwardRef, useState } from 'react'
-import { twVariants } from '@/@common/utils/tailwindcss'
-import { inputVariants, passwordIconVariants, iconVariants } from '@/@common/constants/input-variants'
-import { IconEye, IconEyeOff } from '@/assets/icons'
+import { forwardRef, useState } from "react"
+import { twVariants } from "@/@common/utils/tailwindcss"
+import { inputVariants, passwordIconVariants, iconVariants } from "@/@common/constants/input-variants"
+import { IconEye, IconEyeOff } from "@/assets/icons"
 
 export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
   id,
-  className = '',
+  className = "",
   variant,
   size,
   rounded,
   withIcon,
   icon: Icon,
-  iconPosition = 'left',
-  iconClassName = '',
+  iconPosition = "left",
+  iconClassName = "",
   type,
   error,
   ...props
@@ -26,12 +26,12 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
       <input
         ref={ref}
         className={twVariants(inputVariants({
-          variant: error ? 'error' : variant,
+          variant: error ? "error" : variant,
           size,
           rounded,
           className
         }))}
-        type={isIconPasswordVisible ? 'text' : 'password'}
+        type={isIconPasswordVisible ? "text" : "password"}
         {...props}
       />
       {Boolean(error) && (
@@ -44,7 +44,7 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
           variant,
           size,
           rounded,
-          className: 'absolute right-2'
+          className: "absolute right-2"
         }))}
       >
         {isIconPasswordVisible ? <IconEyeOff /> : <IconEye />}
@@ -53,7 +53,7 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
         <label
           htmlFor={id}
           className={twVariants(iconVariants({
-            variant: error ? 'error' : variant,
+            variant: error ? "error" : variant,
             size,
             position: iconPosition,
             className: iconClassName
@@ -66,4 +66,4 @@ export const Password = forwardRef<HTMLInputElement, FormBaseProps>(({
   )
 })
 
-Password.displayName = 'Form.Password'
+Password.displayName = "Form.Password"

@@ -1,5 +1,5 @@
-import type { InferType } from 'yup'
-import { studentPreRegistrationSchema } from '../schemas/student-pre-register.schema'
+import type { InferType } from "yup"
+import { studentPreRegistrationSchema } from "../schemas/student-pre-register.schema"
 
 export type StudentPreRegistrationData = InferType<typeof studentPreRegistrationSchema>
 
@@ -27,4 +27,4 @@ export interface StudentPreRegistration {
   phone: string
 }
 
-export type StudentType = 'active' | 'registered'
+export type StudentType = "active" | "registered"

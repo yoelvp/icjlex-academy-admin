@@ -1,5 +1,5 @@
-import { UpdateTeacher } from '@/_models/Teacher'
-import { create } from 'zustand'
+import { UpdateTeacher } from "@/_models/Teacher"
+import { create } from "zustand"
 
 interface UseProps {
   teacher: UpdateTeacher | null

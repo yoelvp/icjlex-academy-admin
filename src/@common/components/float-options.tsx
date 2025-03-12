@@ -1,9 +1,9 @@
-import type { FC } from 'react'
+import type { FC } from "react"
 
-import { IconWhatsapp } from '@/assets/icons'
-import { whatsappMessage } from '../utils/whatsapp'
-import { APP_NAME_WITHOUT_AMP, WHATSAPP_ADMIN_NUMBER_PHONE } from '../env'
-import { createPortal } from 'react-dom'
+import { IconWhatsapp } from "@/assets/icons"
+import { whatsappMessage } from "../utils/whatsapp"
+import { APP_NAME_WITHOUT_AMP, WHATSAPP_ADMIN_NUMBER_PHONE } from "../env"
+import { createPortal } from "react-dom"
 
 export const FloatOptions: FC = () => {
   return createPortal(
@@ -18,6 +18,6 @@ export const FloatOptions: FC = () => {
         <IconWhatsapp className="text-lg md:text-2xl" />
       </a>
     </div>,
-    document.getElementById('options') ?? document.createElement('div')
+    document.getElementById("options") ?? document.createElement("div")
   )
 }

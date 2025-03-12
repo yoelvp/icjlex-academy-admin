@@ -1,12 +1,12 @@
-import type { SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from "react-hook-form"
 
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import Form from '@/@common/components/form'
-import Button from '@/@common/components/button'
-import { recoverPasswordSchema } from '../schemas/recover-password.schema'
-import { IconMail } from '@/assets/icons'
-import { Link } from 'react-router'
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import Form from "@/@common/components/form"
+import Button from "@/@common/components/button"
+import { recoverPasswordSchema } from "../schemas/recover-password.schema"
+import { IconMail } from "@/assets/icons"
+import { Link } from "react-router"
 
 interface RecoverPasswordForm {
   email: string
@@ -16,7 +16,7 @@ const ForgotPasswordPage = () => {
   const { register, handleSubmit, formState: { errors, isDirty } } = useForm<RecoverPasswordForm>({
     resolver: yupResolver(recoverPasswordSchema),
     defaultValues: {
-      email: ''
+      email: ""
     }
   })
 
@@ -48,7 +48,7 @@ const ForgotPasswordPage = () => {
               size="lg"
               withIcon
               icon={IconMail}
-              {...register('email')}
+              {...register("email")}
             />
             <Form.Error hasError={errors.email?.message} />
           </Form.Control>

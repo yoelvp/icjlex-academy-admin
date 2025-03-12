@@ -1,8 +1,8 @@
-import type { PermissionName } from '@/@auth/utils/permissions'
-import type { RolName } from '@/@auth/utils/roles'
-import type { InferType } from 'yup'
+import type { PermissionName } from "@/@auth/utils/permissions"
+import type { RolName } from "@/@auth/utils/roles"
+import type { InferType } from "yup"
 
-import { loginFormSchema } from '@/@auth/schemas/login.schema'
+import { loginFormSchema } from "@/@auth/schemas/login.schema"
 
 export type LoginFormSchema = InferType<typeof loginFormSchema>
 

@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react'
+import type { FC, ReactNode } from "react"
 
 interface Props {
   children: ReactNode
@@ -7,7 +7,7 @@ interface Props {
 
 export const Control: FC<Props> = ({
   children,
-  className = ''
+  className = ""
 }) => (
   <div className={`w-full flex flex-col gap-y-[2px] ${className}`}>
     {children}

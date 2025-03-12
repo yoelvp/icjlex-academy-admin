@@ -1,8 +1,8 @@
-import { RouterProvider } from 'react-router'
-import { Toaster } from 'sonner'
-import { routes } from '@/routes'
-import { AxiosInterceptor } from './lib'
-import { ContainerConfirmModal } from '@/@common/components'
+import { RouterProvider } from "react-router"
+import { Toaster } from "sonner"
+import { routes } from "@/routes"
+import { AxiosInterceptor } from "./lib"
+import { ContainerConfirmModal } from "@/@common/components"
 
 AxiosInterceptor()
 

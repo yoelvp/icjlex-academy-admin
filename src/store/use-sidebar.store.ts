@@ -1,5 +1,5 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 interface UseSidebarStore {
   show: boolean
@@ -12,5 +12,5 @@ export const useSidebar = create<UseSidebarStore>()(
       show: false,
       toggle: () => set((state) => ({ show: !state.show }))
     }),
-    { name: 'sidebar-state' }
+    { name: "sidebar-state" }
   ))

@@ -1,5 +1,5 @@
-import type { FC } from 'react'
-import { IconClose } from '@/assets/icons'
+import type { FC } from "react"
+import { IconClose } from "@/assets/icons"
 
 interface ModalProps {
   isOpen: boolean

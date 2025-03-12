@@ -1,5 +1,5 @@
-import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
-import { ConfirmModal } from '.'
+import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
+import { ConfirmModal } from "."
 
 export const ContainerConfirmModal = () => {
   const show = useConfirmModalStore((state) => state.show)

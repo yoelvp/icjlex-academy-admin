@@ -1,38 +1,38 @@
-import type { AdminCourse, Course, CourseDetails } from '@/_models/Course.model'
+import type { AdminCourse, Course, CourseDetails } from "@/_models/Course.model"
 
-import { axios } from '@/lib'
-import { API_URL } from '@/@common/env'
-import { IdAndNameFields } from '@/@common/types/IdAndName'
-import { Response } from '@/@common/types/Response'
-import { CourseFormData } from '@/modules/courses/types/CourseFormFields'
+import { axios } from "@/lib"
+import { API_URL } from "@/@common/env"
+import { IdAndNameFields } from "@/@common/types/IdAndName"
+import { Response } from "@/@common/types/Response"
+import { CourseFormData } from "@/modules/courses/types/CourseFormFields"
 
 export const createCourseService = (course: CourseFormData) => {
   const formData = new FormData()
-  formData.append('name', course.name)
-  formData.append('teacherId', course.teacherId)
-  formData.append('objective', course.objective)
-  formData.append('description', course.description)
-  formData.append('isScheduled', `${course.isScheduled}`)
-  formData.append('isFree', `${course.isFree}`)
-  formData.append('price', `${course.price}`)
-  formData.append('publicationDate', `${course.publicationDate?.toISOString().slice(0, 19).replace('T', ' ') ?? null}`)
-  formData.append('courseName', course.course.name)
-  formData.append('courseUrl', `${course.course.url}`)
-  formData.append('courseDuration', course.course.duration)
+  formData.append("name", course.name)
+  formData.append("teacherId", course.teacherId)
+  formData.append("objective", course.objective)
+  formData.append("description", course.description)
+  formData.append("isScheduled", `${course.isScheduled}`)
+  formData.append("isFree", `${course.isFree}`)
+  formData.append("price", `${course.price}`)
+  formData.append("publicationDate", `${course.publicationDate?.toISOString().slice(0, 19).replace("T", " ") ?? null}`)
+  formData.append("courseName", course.course.name)
+  formData.append("courseUrl", `${course.course.url}`)
+  formData.append("courseDuration", course.course.duration)
   course.includes.forEach((include) => {
-    formData.append('includes[]', include)
+    formData.append("includes[]", include)
   })
   course.youWillLearn.forEach((learn) => {
-    formData.append('youWillLearn[]', learn)
+    formData.append("youWillLearn[]", learn)
   })
 
   if (course.image) {
-    formData.append('image', course.image)
+    formData.append("image", course.image)
   }
 
-  return axios.post<AdminCourse>('/admin/courses', formData, {
+  return axios.post<AdminCourse>("/admin/courses", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data'
+      "Content-Type": "multipart/form-data"
     }
   })
 }
@@ -43,7 +43,7 @@ export const getCourseByIdService = (courseId: string) => {
 
 // Not used
 export const getAllCoursesOnlyNameService = () => {
-  return axios.get<IdAndNameFields[]>('/courses/only-name')
+  return axios.get<IdAndNameFields[]>("/courses/only-name")
 }
 
 export const publishCourseService = (courseId: string) => {
@@ -51,7 +51,7 @@ export const publishCourseService = (courseId: string) => {
 }
 
 export const getAllCoursesService = (params?: object) => {
-  return axios.get<Response<AdminCourse[]>>('/admin/courses', {
+  return axios.get<Response<AdminCourse[]>>("/admin/courses", {
     params
   })
 }

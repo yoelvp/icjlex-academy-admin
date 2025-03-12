@@ -1,13 +1,13 @@
-import Form from '@/@common/components/form'
-import Link from '@/@common/components/link'
-import { Tabs, Tab } from '@/@common/components/tabs'
-import { useCourseUI } from '../hooks/use-courses-ui'
-import { TablePublishedCourses } from '../components/table-published-courses'
-import { TableScheduledCourses } from '../components/table-scheduled-courses'
+import Form from "@/@common/components/form"
+import Link from "@/@common/components/link"
+import { Tabs, Tab } from "@/@common/components/tabs"
+import { useCourseUI } from "../hooks/use-courses-ui"
+import { TablePublishedCourses } from "../components/table-published-courses"
+import { TableScheduledCourses } from "../components/table-scheduled-courses"
 import {
   IconAdd,
   IconSearch
-} from '@/assets/icons'
+} from "@/assets/icons"
 
 const CoursesPage = () => {
   const { tab, handleTabIndex } = useCourseUI()
@@ -34,7 +34,7 @@ const CoursesPage = () => {
       </header>
 
       <section>
-        <Tabs defaultValue={tab === null ? 'published' : 'upcoming'}>
+        <Tabs defaultValue={tab === null ? "published" : "upcoming"}>
           <Tab title="Publicados" value="published" onChange={() => handleTabIndex(0)}>
             <TablePublishedCourses />
           </Tab>

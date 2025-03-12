@@ -1,11 +1,11 @@
-import { Card } from '../components/card'
+import { Card } from "../components/card"
 import {
   IconCategory,
   IconCourse,
   IconStudent,
   IconTag,
   IconTeacher
-} from '@/assets/icons'
+} from "@/assets/icons"
 
 const DashboardPage = () => {
   return (
@@ -18,8 +18,8 @@ const DashboardPage = () => {
           change={+3.7}
           icon={IconCourse}
           details={[
-            { label: 'En progreso', value: 50 },
-            { label: 'Finalizados', value: 22 }
+            { label: "En progreso", value: 50 },
+            { label: "Finalizados", value: 22 }
           ]}
           className="xl:row-span-1"
         />
@@ -30,8 +30,8 @@ const DashboardPage = () => {
           change={-2.1}
           icon={IconTeacher}
           details={[
-            { label: 'Tiempo completo', value: 40 },
-            { label: 'Tiempo parcial', value: 16 }
+            { label: "Tiempo completo", value: 40 },
+            { label: "Tiempo parcial", value: 16 }
           ]}
         />
         <Card
@@ -41,8 +41,8 @@ const DashboardPage = () => {
           change={+5.2}
           icon={IconStudent}
           details={[
-            { label: 'Activos', value: 1100 },
-            { label: 'Nuevos (este mes)', value: 134 }
+            { label: "Activos", value: 1100 },
+            { label: "Nuevos (este mes)", value: 134 }
           ]}
         />
         <Card
@@ -52,8 +52,8 @@ const DashboardPage = () => {
           change={0}
           icon={IconCategory}
           details={[
-            { label: 'Más popular', value: 'Programación' },
-            { label: 'Cursos por categoría', value: '4 (promedio)' }
+            { label: "Más popular", value: "Programación" },
+            { label: "Cursos por categoría", value: "4 (promedio)" }
           ]}
         />
         <Card
@@ -63,8 +63,8 @@ const DashboardPage = () => {
           change={+1.5}
           icon={IconTag}
           details={[
-            { label: 'Más usado', value: 'JavaScript' },
-            { label: 'Nuevos (este mes)', value: 5 }
+            { label: "Más usado", value: "JavaScript" },
+            { label: "Nuevos (este mes)", value: 5 }
           ]}
         />
       </div>

@@ -1,4 +1,4 @@
-import type { Pagination } from '@/@common/types/Pagination'
+import type { Pagination } from "@/@common/types/Pagination"
 
 interface ResponseBasicBody {
   success: boolean

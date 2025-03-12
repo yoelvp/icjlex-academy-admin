@@ -1,6 +1,6 @@
-import { Drawer, RenderHTML } from '@/@common/components'
-import { useUpdateTeacherStore } from '../store'
-import { getFullName } from '@/@common/utils'
+import { Drawer, RenderHTML } from "@/@common/components"
+import { useUpdateTeacherStore } from "../store"
+import { getFullName } from "@/@common/utils"
 
 interface Props {
   show: boolean
@@ -98,7 +98,7 @@ const TeacherDetailsDrawer = ({
         <h3 className="text-primary-700 font-bold">
           Acerca del docente
         </h3>
-        <RenderHTML content={teacher?.about ?? ''} />
+        <RenderHTML content={teacher?.about ?? ""} />
       </div>
     </Drawer>
   )

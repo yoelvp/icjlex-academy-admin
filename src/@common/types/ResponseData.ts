@@ -1,4 +1,4 @@
-import type { Pagination, ResPagination } from '@/@common/types/Pagination'
+import type { Pagination, ResPagination } from "@/@common/types/Pagination"
 
 export interface ResponseData<T> extends ResPagination {
   results: T[]

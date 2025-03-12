@@ -1,10 +1,10 @@
-import type { FC } from 'react'
-import type { ModalVariant } from '@/@common/types/Modal'
+import type { FC } from "react"
+import type { ModalVariant } from "@/@common/types/Modal"
 
-import { createPortal } from 'react-dom'
-import { twVariants } from '@/@common/utils/tailwindcss'
-import { modalVariants } from '@/@common/constants/modal-variants'
-import { Skeleton } from './skeleton'
+import { createPortal } from "react-dom"
+import { twVariants } from "@/@common/utils/tailwindcss"
+import { modalVariants } from "@/@common/constants/modal-variants"
+import { Skeleton } from "./skeleton"
 
 interface Props extends ModalVariant {
   className?: string
@@ -13,7 +13,7 @@ interface Props extends ModalVariant {
 export const LoadingModal: FC<Props> = ({
   variant,
   size,
-  className = ''
+  className = ""
 }) => {
   return createPortal(
     <div className="fixed inset-0 flex items-end justify-center z-50 bg-black/50 sm:items-center">
@@ -44,6 +44,6 @@ export const LoadingModal: FC<Props> = ({
         </div>
       </div>
     </div>,
-    document.getElementById('loading-modal') ?? document.createElement('div')
+    document.getElementById("loading-modal") ?? document.createElement("div")
   )
 }

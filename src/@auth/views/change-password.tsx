@@ -1,13 +1,13 @@
-import type { SubmitHandler } from 'react-hook-form'
+import type { SubmitHandler } from "react-hook-form"
 
-import { Content } from '@/@common/components/content'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { changePasswordSchema } from '../schemas/change-password.schema'
-import Form from '@/@common/components/form'
-import { IconLockCloseOutline } from '@/assets/icons'
-import Button from '@/@common/components/button'
-import { Link } from 'react-router'
+import { Content } from "@/@common/components/content"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { changePasswordSchema } from "../schemas/change-password.schema"
+import Form from "@/@common/components/form"
+import { IconLockCloseOutline } from "@/assets/icons"
+import Button from "@/@common/components/button"
+import { Link } from "react-router"
 
 interface ChangePasswordForm {
   password: string
@@ -18,8 +18,8 @@ const ChangePasswordPage = () => {
   const { register, handleSubmit, formState: { errors, isDirty } } = useForm<ChangePasswordForm>({
     resolver: yupResolver(changePasswordSchema),
     defaultValues: {
-      password: '',
-      repeatPassword: ''
+      password: "",
+      repeatPassword: ""
     }
   })
 
@@ -50,7 +50,7 @@ const ChangePasswordPage = () => {
                 withIcon
                 icon={IconLockCloseOutline}
                 error={errors.repeatPassword?.message}
-                {...register('password')}
+                {...register("password")}
               />
               <Form.Error hasError={errors.password?.message} />
             </Form.Control>
@@ -64,7 +64,7 @@ const ChangePasswordPage = () => {
                 withIcon
                 icon={IconLockCloseOutline}
                 error={errors.repeatPassword?.message}
-                {...register('repeatPassword')}
+                {...register("repeatPassword")}
               />
               <Form.Error hasError={errors.repeatPassword?.message} />
             </Form.Control>

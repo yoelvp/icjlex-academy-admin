@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import { Link as ReactRouterLink, useParams } from 'react-router'
-import classNames from 'classnames'
-import Link from '@/@common/components/link'
-import { RenderHTML } from '@/@common/components'
+import { useEffect, useState } from "react"
+import { Link as ReactRouterLink, useParams } from "react-router"
+import classNames from "classnames"
+import Link from "@/@common/components/link"
+import { RenderHTML } from "@/@common/components"
 import {
   IconArrowRoundBack,
   IconCheckmark,
   IconEdit,
   IconLink
-} from '@/assets/icons'
-import { formatCurrency } from '@/@common/utils/currencies'
-import Form from '@/@common/components/form'
-import { useCourseStore } from '../store/course.store'
-import { useGetCourseById } from '../hooks/use-get-course-by-id'
-import { formatDateTime, getFullName } from '@/@common/utils'
+} from "@/assets/icons"
+import { formatCurrency } from "@/@common/utils/currencies"
+import Form from "@/@common/components/form"
+import { useCourseStore } from "../store/course.store"
+import { useGetCourseById } from "../hooks/use-get-course-by-id"
+import { formatDateTime, getFullName } from "@/@common/utils"
 
 const CoursesPage = () => {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
@@ -23,7 +23,7 @@ const CoursesPage = () => {
 
   useEffect(() => {
     if (!course) {
-      getCourseById(params?.id ?? '')
+      getCourseById(params?.id ?? "")
     }
   }, [])
 
@@ -39,9 +39,9 @@ const CoursesPage = () => {
           <ReactRouterLink
             to="/admin/courses"
             className={classNames(
-              'inline-flex justify-center items-center w-8 h-8 rounded-xs border border-primary-500/15',
-              'transition-colors duration-300',
-              'hover:bg-primary-50 hover:border-primary-500/50'
+              "inline-flex justify-center items-center w-8 h-8 rounded-xs border border-primary-500/15",
+              "transition-colors duration-300",
+              "hover:bg-primary-50 hover:border-primary-500/50"
             )}
           >
             <IconArrowRoundBack size="24" />
@@ -74,7 +74,7 @@ const CoursesPage = () => {
             </article>
             <div className="space-y-4">
               <img
-                src={course?.imageUrl ?? '/image-placeholder.png'}
+                src={course?.imageUrl ?? "/image-placeholder.png"}
                 alt="Thumbnail of course"
                 className="w-full h-64 object-cover object-center rounded-xs"
               />
@@ -150,7 +150,7 @@ const CoursesPage = () => {
               Descripción del curso
             </h4>
             <div>
-              <RenderHTML content={course?.description ?? ''} />
+              <RenderHTML content={course?.description ?? ""} />
             </div>
           </div>
 

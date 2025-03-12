@@ -1,19 +1,19 @@
-import type { FormBaseProps } from '.'
+import type { FormBaseProps } from "."
 
-import { forwardRef } from 'react'
-import { twVariants } from '@/@common/utils/tailwindcss'
-import { inputVariants, iconVariants } from '@/@common/constants/input-variants'
+import { forwardRef } from "react"
+import { twVariants } from "@/@common/utils/tailwindcss"
+import { inputVariants, iconVariants } from "@/@common/constants/input-variants"
 
 export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
   id,
   className,
-  containerClassName = '',
+  containerClassName = "",
   variant,
   size,
   withIcon,
   icon: Icon,
-  iconPosition = 'left',
-  iconClassName = '',
+  iconPosition = "left",
+  iconClassName = "",
   rounded,
   error,
   ...props
@@ -23,7 +23,7 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
       <input
         ref={ref}
         className={twVariants(inputVariants({
-          variant: error ? 'error' : variant,
+          variant: error ? "error" : variant,
           size,
           rounded,
           isInput: true,
@@ -39,7 +39,7 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
         <label
           htmlFor={id}
           className={twVariants(iconVariants({
-            variant: error ? 'error' : variant,
+            variant: error ? "error" : variant,
             size,
             position: iconPosition,
             className: iconClassName
@@ -52,4 +52,4 @@ export const Input = forwardRef<HTMLInputElement, FormBaseProps>(({
   )
 })
 
-Input.displayName = 'Form.Input'
+Input.displayName = "Form.Input"

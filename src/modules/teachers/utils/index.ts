@@ -1,2 +1,2 @@
-export * from './default-values'
-export * from './active-tab.enum'
+export * from "./default-values"
+export * from "./active-tab.enum"

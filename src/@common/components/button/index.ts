@@ -1,8 +1,8 @@
-import type { ButtonHTMLAttributes, ForwardRefExoticComponent, RefAttributes } from 'react'
+import type { ButtonHTMLAttributes, ForwardRefExoticComponent, RefAttributes } from "react"
 
-import ButtonBase from './button'
-import { ButtonBaseProps } from '@/@common/types/Button'
-import Icon from './icon'
+import ButtonBase from "./button"
+import { ButtonBaseProps } from "@/@common/types/Button"
+import Icon from "./icon"
 
 /**
  * Interface for the `Button` component used with `forwardRef`.
