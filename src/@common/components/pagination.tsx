@@ -63,7 +63,7 @@ export const Pagination: FC<PaginationProps> = ({
 
           <select
             onChange={(event) => handleSize(parseInt(event.target.value))}
-            className="rounded-sm h-8 py-0 flex-center border-2 border-primary-500/60 outline-none focus:ring focus:ring-primary-500/20"
+            className="rounded-md h-8 py-0 px-2 flex items-center justify-center border-2 border-primary-500/60 outline-none focus:ring-2 focus:ring-primary-500/20"
           >
             <option value={10}>10</option>
             <option value={25}>25</option>
@@ -96,7 +96,7 @@ export const Pagination: FC<PaginationProps> = ({
                 key={pageNumber}
                 onClick={() => goToPage(pageNumber)}
                 className={classNames(
-                  'w-8 h-8 flex items-center justify-center rounded-sm text-primary-900 transition-colors duration-200 font-medium',
+                  'w-8 h-8 flex items-center justify-center rounded-md text-primary-900 transition-colors duration-200 font-medium',
                   { 'bg-primary-500/20': page === pageNumber },
                   { 'hover:bg-primary-50': page !== pageNumber }
                 )}
@@ -126,7 +126,7 @@ const Button: FC<ButtonPrevOrNextPage> = ({
 }) => (
   <button
     className={classNames(
-      'text-primary-400 flex-center gap-x-2 rounded-sm transition-colors duration-200',
+      'text-primary-400 flex justify-center items-center gap-x-2 rounded-md transition-colors duration-200',
       { 'hover:text-primary-700 hover:bg-primary-50': !props.disabled },
       { '!text-primary-300': props.disabled },
       { 'h-8 w-8': !withLabels },
