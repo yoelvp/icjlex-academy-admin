@@ -19,7 +19,7 @@ import {
 } from '@/assets/icons'
 import { getFullName } from '@/@common/utils/get-full-names'
 import Link from '@/@common/components/link'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useConfirmModalStore } from '@/store/use-confirm-modal.store'
 
 const TeacherDetailsDrawer = lazy(() => import('../components/teacher-details-drawer'))

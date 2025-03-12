@@ -10,18 +10,17 @@ import { useCreateTeacher, useUpdateTeacher } from '../hooks'
 import TextEditor from '@/@common/components/text-editor'
 import ImageUploader from '@/modules/courses/components/image-uploader'
 import { IconAdd, IconDelete } from '@/assets/icons'
-import { useUpdateTeacherStore } from '../store'
 import { useNavigate } from 'react-router'
 
 interface Props {
   defaultValues?: Partial<TeacherFormSchema>
+  isForUpdating?: string
 }
 
-const TeacherForm = ({ defaultValues }: Props) => {
+const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
   const navigate = useNavigate()
   const { createTeacher, isLoading: isLoadingCreate } = useCreateTeacher()
   const { updateTeacher, isLoading: isLoadingUpdate } = useUpdateTeacher()
-  const teacherToUpdate = useUpdateTeacherStore((state) => state.teacher)
   const {
     control,
     register,
@@ -38,14 +37,16 @@ const TeacherForm = ({ defaultValues }: Props) => {
   })
 
   const onHandleSubmit: SubmitHandler<TeacherFormSchema> = async (data) => {
+    const { image, specialties, socialMedia } = data
+
     const newData: TeacherFormValues = {
       ...data,
-      image: data.image instanceof File ? data.image : null,
-      specialties: data.specialties?.map((speciality) => speciality.label) ?? [],
-      socialMedia: data.socialMedia?.map((social) => social.url) ?? []
+      image: image instanceof File ? data.image : null,
+      specialties: specialties?.map((speciality) => speciality.label) ?? [],
+      socialMedia: socialMedia?.map((social) => social) ?? []
     }
 
-    if (teacherToUpdate) {
+    if (isForUpdating) {
       await updateTeacher(newData).then(() => {
         navigate('/admin/teachers', { replace: true })
       })
@@ -112,9 +113,9 @@ const TeacherForm = ({ defaultValues }: Props) => {
         <Form.Input
           placeholder="Ingresa tu profesión..."
           size="md"
-          error={errors.profession?.message}
           {...register('profession', { required: true })}
         />
+        <Form.Error hasError={errors.profession?.message} />
       </Form.Control>
 
       <Form.Control>
@@ -134,7 +135,7 @@ const TeacherForm = ({ defaultValues }: Props) => {
         <Form.Error hasError={errors.about?.message} />
       </Form.Control>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="flex flex-col gap-y-4">
         <Form.Control>
           <Form.Label className="mb-1 flex justify-between">
             Selecciona tu imagen
@@ -143,26 +144,25 @@ const TeacherForm = ({ defaultValues }: Props) => {
           <Form.Error hasError={errors.image?.message} />
         </Form.Control>
         <Form.Control>
-          <Form.Label className="mb-1 flex justify-between">
+          <Form.Label className="mb-1">
             Redes sociales
-            <Form.Error hasError={errors.image?.message} />
           </Form.Label>
           <div className="space-y-4">
             {fields.map((field, index) => (
               <Controller
                 key={field.id}
                 control={control}
-                name={`socialMedia.${index}.url`}
+                name={`socialMedia.${index}`}
                 render={({ field }) => (
                   <div className="flex items-center space-x-4">
-                    <Form.Input {...field} placeholder="Ingrese el enlace" className="flex-grow" />
+                    <Form.Input {...field} placeholder="Ingrese el enlace" />
                     <div className="flex space-x-2">
                       {fields.length > 1 && (
                         <Button
                           type="button"
                           onClick={() => remove(index)}
-                          variant="error"
                           aria-label={`Eliminar enlace ${index + 1}`}
+                          variant="primary.outline"
                         >
                           <IconDelete />
                         </Button>
@@ -170,7 +170,7 @@ const TeacherForm = ({ defaultValues }: Props) => {
                       {(index === fields.length - 1) && (
                         <Button
                           type="button"
-                          onClick={() => append({ url: 'https://' })}
+                          onClick={() => append([''])}
                           aria-label="Agregar nuevo enlace"
                         >
                           <IconAdd />
@@ -185,19 +185,19 @@ const TeacherForm = ({ defaultValues }: Props) => {
         </Form.Control>
       </div>
 
-      <div className="flex justify-end gap-4 w-full mt-8">
-        <Link
-          href="/admin/teachers"
-          variant="error.outline"
-        >
-          Cancelar
-        </Link>
+      <div className="flex justify-start gap-4 w-full mt-8">
         <Button
           htmlType="submit"
           isLoading={defaultValues ? isLoadingUpdate : isLoadingCreate}
         >
-          {!defaultValues ? 'Crear' : 'Editar'} docente
+          {!isForUpdating ? 'Crear' : 'Editar'} docente
         </Button>
+        <Link
+          href="/admin/teachers"
+          variant="primary.outline"
+        >
+          Cancelar
+        </Link>
       </div>
     </Form>
   )

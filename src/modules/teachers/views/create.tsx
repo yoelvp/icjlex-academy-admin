@@ -4,7 +4,7 @@ import TeacherForm from '../components/teacher-form'
 
 const CreateTeacherPage = () => {
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-4 max-w-2xl">
       <header className="section-panel header-height flex-start gap-x-4">
         <RouterLink to="/admin/teachers" className="border border-primary-500 rounded-sm h-8 w-8 flex-center">
           <IconArrowRoundBack />
@@ -15,7 +15,7 @@ const CreateTeacherPage = () => {
       </header>
 
       <div className="section-panel py-4">
-        <TeacherForm />
+        <TeacherForm defaultValues={{ socialMedia: [{ url: 'https://' }] }} />
       </div>
     </div>
   )
