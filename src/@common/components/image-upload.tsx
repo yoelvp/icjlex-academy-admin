@@ -44,6 +44,8 @@ export const ImageUpload = <FormValues extends FieldValues>({
   const processFiles = useCallback((files: FileList | File[]) => {
     if (!files || files.length === 0) return
 
+    isProcessingRef.current = true
+
     const newPreviewUrls: string[] = []
     const validFiles: File[] = []
 
@@ -67,8 +69,6 @@ export const ImageUpload = <FormValues extends FieldValues>({
         dataTransfer.items.add(validFiles[0])
         if (fileInputRef.current) {
           fileInputRef.current.files = dataTransfer.files
-          const event = new Event("change", { bubbles: true })
-          fileInputRef.current.dispatchEvent(event)
         }
       } else {
         setPreviewUrls((prevUrls) => [...prevUrls, ...newPreviewUrls])
@@ -87,20 +87,36 @@ export const ImageUpload = <FormValues extends FieldValues>({
 
         if (fileInputRef.current) {
           fileInputRef.current.files = dataTransfer.files
-          const event = new Event("change", { bubbles: true })
-          fileInputRef.current.dispatchEvent(event)
         }
       }
     }
-  }, [maxSize, isMultiple, previewUrls])
+
+    isProcessingRef.current = false
+  }, [MAX_FILE_SIZE_IN_BYTES, isMultiple, previewUrls])
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (isProcessingRef.current) return
-
     if (event.target.files) {
-      isProcessingRef.current = true
       processFiles(event.target.files)
-      isProcessingRef.current = false
+    }
+  }
+
+  const removeImage = (index: number) => {
+    const newPreviewUrls = [...previewUrls]
+    URL.revokeObjectURL(newPreviewUrls[index])
+    newPreviewUrls.splice(index, 1)
+    setPreviewUrls(newPreviewUrls)
+
+    if (fileInputRef.current && fileInputRef.current.files) {
+      const dataTransfer = new DataTransfer()
+      const files = fileInputRef.current.files
+
+      for (let i = 0; i < files.length; i++) {
+        if (i !== index) {
+          dataTransfer.items.add(files[i])
+        }
+      }
+
+      fileInputRef.current.files = dataTransfer.files
     }
   }
 
@@ -129,32 +145,24 @@ export const ImageUpload = <FormValues extends FieldValues>({
 
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       processFiles(e.dataTransfer.files)
+
+      if (fileInputRef.current) {
+        const event = new Event("change", { bubbles: true })
+        fileInputRef.current.dispatchEvent(event)
+      }
     }
   }, [processFiles])
 
-  const removeImage = (index: number) => {
-    const newPreviewUrls = [...previewUrls]
-    URL.revokeObjectURL(newPreviewUrls[index])
-    newPreviewUrls.splice(index, 1)
-    setPreviewUrls(newPreviewUrls)
-
-    if (fileInputRef.current && fileInputRef.current.files) {
-      const dataTransfer = new DataTransfer()
-      const files = fileInputRef.current.files
-
-      for (let i = 0; i < files.length; i++) {
-        if (i !== index) {
-          dataTransfer.items.add(files[i])
-        }
-      }
-
-      fileInputRef.current.files = dataTransfer.files
-      const event = new Event("change", { bubbles: true })
-      fileInputRef.current.dispatchEvent(event)
-    }
+  const viewFullImage = (url: string, e: MouseEvent) => {
+    e.stopPropagation()
+    setFullViewImageUrl(url)
   }
 
-  const { ref, ...inputProps } = register(name, {
+  const closeFullView = () => {
+    setFullViewImageUrl(null)
+  }
+
+  const { ref, onChange: registerOnChange, ...inputProps } = register(name, {
     validate: {
       fileSize: (fileList: FileList) => {
         if (!fileList || fileList.length === 0) return true
@@ -187,15 +195,6 @@ export const ImageUpload = <FormValues extends FieldValues>({
     }
   })
 
-  const viewFullImage = (url: string, e: MouseEvent) => {
-    e.stopPropagation()
-    setFullViewImageUrl(url)
-  }
-
-  const closeFullView = () => {
-    setFullViewImageUrl(null)
-  }
-
   useEffect(() => {
     return () => {
       previewUrls.forEach((url) => URL.revokeObjectURL(url))
@@ -214,8 +213,8 @@ export const ImageUpload = <FormValues extends FieldValues>({
           ref={dropAreaRef}
           className={classNames(
             "border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-colors duration-200",
-            { "border-blue-500 bg-blue-50": isDragging },
-            { "border-gray-300 hover:bg-gray-50": !isDragging }
+            { "border-gray-500 bg-gray-50": isDragging },
+            { "border-primary-300 hover:bg-priary-50": !isDragging }
           )}
           onClick={() => fileInputRef.current?.click()}
           onDragEnter={handleDragEnter}
@@ -224,8 +223,8 @@ export const ImageUpload = <FormValues extends FieldValues>({
           onDrop={handleDrop}
         >
           <div className="flex flex-col items-center justify-center py-4">
-            <IoIosCloudUpload className={`h-8 w-8 mb-2 ${isDragging ? "text-blue-500" : "text-gray-400"}`} />
-            <p className={`text-sm ${isDragging ? "text-blue-600" : "text-gray-500"}`}>
+            <IoIosCloudUpload className={`h-8 w-8 mb-2 ${isDragging ? "text-gray-500" : "text-primary-500"}`} />
+            <p className={`text-sm ${isDragging ? "text-gray-500" : "text-primary-500"}`}>
               {isDragging
                 ? "Suelta tus imágenes aquí"
                 : `Arrastra y suelta o haz clic para seleccionar ${isMultiple ? "imágenes" : "una imagen"}`
@@ -240,13 +239,16 @@ export const ImageUpload = <FormValues extends FieldValues>({
             {...inputProps}
             ref={(e) => {
               ref(e);
-              fileInputRef.current = e;
+              fileInputRef.current = e
             }}
             id={name}
             type="file"
             accept={accept?.join(", ")}
             multiple={isMultiple}
-            onChange={handleFileChange}
+            onChange={(e) => {
+              registerOnChange(e)
+              handleFileChange(e)
+            }}
             className="sr-only"
           />
         </div>
