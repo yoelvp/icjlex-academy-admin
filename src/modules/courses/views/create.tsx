@@ -4,10 +4,9 @@ import SelectCreateable from "react-select/creatable"
 import ReactSelect from "react-select"
 import Button from "@/@common/components/button"
 import Form from "@/@common/components/form"
-import ImageUploader from "../components/image-uploader"
 import Link from "@/@common/components/link"
 import TextEditor from "@/@common/components/text-editor"
-import { BadgeOptional, Switch } from "@/@common/components"
+import { BadgeOptional, ImageUpload, Switch } from "@/@common/components"
 import { CourseFields, CourseFormData } from "../types/CourseFormFields"
 import { courseSchema } from "../schemas/course.schema"
 import { getFullName } from "@/@common/utils"
@@ -44,18 +43,13 @@ const CreateCoursePage = () => {
 
   const onHandleSubmit: SubmitHandler<CourseFields> = async (data) => {
     const values = getValues()
-    let image: File | null = null
-
-    if (values.image && values.image instanceof File) {
-      image = values.image
-    }
 
     const formattedData: CourseFormData = {
       ...data,
       includes: data.includes.map((include) => include.label),
       youWillLearn: data.youWillLearn.map((include) => include.label),
       price: data.isFree ? null : data.price,
-      image
+      image: values?.image ? values.image?.[0] : null
     }
 
     await createCourse(formattedData, data.isScheduled ?? false)
@@ -184,7 +178,7 @@ const CreateCoursePage = () => {
               Selecciona tu imagen
               <BadgeOptional />
             </Form.Label>
-            <ImageUploader name="image" setValue={setValue} />
+            <ImageUpload name="image" register={register} />
             <Form.Error hasError={errors.image?.message} />
           </Form.Control>
 
