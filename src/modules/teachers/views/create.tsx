@@ -15,13 +15,7 @@ const CreateTeacherPage = () => {
       </header>
 
       <div className="section-panel py-4">
-        <TeacherForm
-          defaultValues={{
-            socialMedia: [
-              { label: "https://", value: "https://" }
-            ]
-          }}
-        />
+        <TeacherForm />
       </div>
     </div>
   )
