@@ -1,5 +1,8 @@
 import { array, boolean, date, mixed, number, object, string } from "yup"
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+const SUPPORTED_FORMATS = ["image/jpeg", "image/png", "image/webp"];
+
 const optionSchema = object().shape({
   label: string().required(),
   value: string().required()
@@ -18,14 +21,30 @@ export const courseSchema = object().shape({
     .required("Campo requerido")
     .min(1, "Debe haber al menos un elemento"),
   description: string().required("Campo requerido"),
-  image: mixed()
+  image: mixed<FileList>()
     .nullable()
-    .test("fileSize", "La imagen es muy grande.", (value) => {
-      return value !== null && value instanceof File && value.size <= 2 * 1024 * 1024
-    })
-    .test("fileType", "El formato de archivo no es válido.", (value) => {
-      return value !== null && value instanceof File && ["image/jpeg", "image/png", "image/gif"].includes(value.type)
-    }),
+    .test(
+      "fileSize",
+      "La imagen no debe exceder los 5 MB",
+      (value) => {
+        if (!value || !(value instanceof FileList) || value.length === 0) {
+          return false
+        }
+
+        return value[0].size <= MAX_FILE_SIZE
+      }
+    )
+    .test(
+      "fileType",
+      "Debe ingresar una imágen válida",
+      (value) => {
+        if (!value || !(value instanceof FileList) || value.length === 0) {
+          return false
+        }
+
+        return SUPPORTED_FORMATS.includes(value[0].type)
+      }
+    ),
   isFree: boolean().default(false).optional().nullable(),
   isScheduled: boolean().default(false).optional().nullable(),
   price: number()
