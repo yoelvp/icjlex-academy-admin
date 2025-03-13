@@ -29,14 +29,7 @@ export const useGetAllTeachers = () => {
         q: searchQuery
       })
       setTeachers(data)
-      if (data.length > 0) {
-        setPagination(pagination)
-      } else {
-        setPagination({
-          ...pagination,
-          page: 1
-        })
-      }
+      setPagination(pagination)
     } catch (error) {
       if (error instanceof AxiosError) {
         const { message } = getError(error)
