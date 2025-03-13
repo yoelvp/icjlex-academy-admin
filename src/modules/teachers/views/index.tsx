@@ -1,27 +1,26 @@
-import { Fragment, lazy, Suspense } from "react"
+import { lazy, Suspense } from "react"
 import Form from "@/@common/components/form"
+import Link from "@/@common/components/link"
 import { useShow } from "@/@common/hooks/use-show"
-import { LoadingModal, Menu, Pagination } from "@/@common/components"
+import { LoadingModal, Menu, Pagination, Tooltip } from "@/@common/components"
 import { TableLoading } from "@/@common/components/table-loading"
+import { TableEmpty } from "@/@common/components/table-empty"
 import { useTeacherStore } from "../store/teachers.store"
-import { useDeleteTeacher, useGetAllTeachers, useGetTeacherById } from "../hooks"
+import { useGetAllTeachers } from "../hooks/use-get-all-teachers"
+import { useDeleteTeacher } from "../hooks/use-delete-teacher"
+import { useGetTeacherById } from "../hooks/use-get-teacher-by-id"
+import { getFullName } from "@/@common/utils/get-full-names"
+import { useNavigate } from "react-router"
+import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
 import {
   IconAdd,
   IconDelete,
   IconEdit,
   IconEyeOutline,
-  IconFacebook,
-  IconLinkedin,
+  IconLink,
   IconOptions,
-  IconSearch,
-  IconX,
-  IconYoutube
+  IconSearch
 } from "@/assets/icons"
-import { getFullName } from "@/@common/utils/get-full-names"
-import Link from "@/@common/components/link"
-import { useNavigate } from "react-router"
-import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
-import { TableEmpty } from "@/@common/components/table-empty"
 
 const TeacherDetailsDrawer = lazy(() => import("../components/teacher-details-drawer"))
 const UpdateImageModal = lazy(() => import("../components/update-image-modal"))
@@ -59,32 +58,32 @@ const CoursesPage = () => {
       </header>
 
       <div className="py-4">
-        <table className="custom-table">
+        <table className="custom-table table-fixed">
           <thead>
             <tr>
-              <th>N°</th>
+              <th className="w-20">ID</th>
               <th>Nombres</th>
               <th>Especialidades</th>
               <th>Profesion</th>
               <th>Redes sociales</th>
-              <th></th>
+              <th className="w-14 text-right"></th>
             </tr>
           </thead>
           <tbody>
             <TableEmpty numCols={6} isLoading={isLoading} show={(teachers?.length ?? 0) < 1} />
             <TableLoading numCols={6} isLoading={isLoading} />
 
-            {!isLoading && teachers?.map((teacher, index) => (
-              <tr key={teacher.id} className="border-b border-gray-200">
+            {!isLoading && teachers?.map((teacher) => (
+              <tr key={teacher?.id} className="border-b border-gray-200">
                 <td>
-                  {index + 1}
+                  {teacher?.id.slice(0, 8)}
                 </td>
-                <td className="max-w-[320px] overflow-hidden">
-                  <div className="w-full h-full relative group/image flex justify-start items-center gap-x-4">
+                <td>
+                  <div className="relative w-full h-full group/image flex justify-start items-center gap-x-2">
                     <img
-                      src={teacher.imageUrl || "/placeholder-image.png"}
-                      alt={`${teacher.firstName} ${teacher.lastName}`}
-                      className="w-8 h-8 object-cover object-center overflow-hidden rounded-full border border-primary-500/25"
+                      src={teacher.imageUrl ?? "/placeholder-image.png"}
+                      alt="profile teacher"
+                      className="max-w-8 max-h-8 object-cover object-center overflow-hidden rounded-full border border-primary-500/25"
                     />
                     <span className="w-full text-nowrap text-ellipsis">
                       {getFullName(teacher)}
@@ -100,65 +99,34 @@ const CoursesPage = () => {
                     </button>
                   </div>
                 </td>
-                <td className="max-w-md">
+                <td>
                   {!teacher?.specialties && !(teacher?.specialties?.length ?? 0) && "-"}
                   {Array.isArray(teacher?.specialties) ? teacher?.specialties?.join(", ") : teacher?.specialties}
                 </td>
                 <td>{teacher?.profession}</td>
                 <td>
-                  {!Array.isArray(teacher?.socialMedia) && (
-                    <a
-                      href={teacher?.socialMedia}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      RS
-                    </a>
-                  )}
-                  {Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social: string) => (
-                    <Fragment key={social}>
-                      {social.includes("facebook.com") && (
+                  <div className="flex items-center gap-x-2">
+                    {Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social: string) => (
+                      <Tooltip
+                        key={social}
+                        position="top"
+                        trigger="hover"
+                        content={social}
+                      >
                         <a
                           href={social}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <IconFacebook size={18} className="text-blue-600" />
+                          <IconLink size="18" />
                         </a>
-                      )}
-                      {social.includes("x.com") && (
-                        <a
-                          href={social}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconX size={18} />
-                        </a>
-                      )}
-                      {social.includes("linkedin.com") && (
-                        <a
-                          href={social}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconLinkedin size={18} className="text-blue-800" />
-                        </a>
-                      )}
-                      {social.includes("youtube.com") && (
-                        <a
-                          href={social}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <IconYoutube size={18} className="text-red-600" />
-                        </a>
-                      )}
-                    </Fragment>
-                  ))}
+                      </Tooltip>
+                    ))}
+                  </div>
                 </td>
                 <td>
                   <Menu
-                    variant={"white"}
+                    variant="primary.outline"
                     activator={<IconOptions />}
                     size="sm"
                     options={[
