@@ -17,7 +17,7 @@ export const createTeacherService = (teacher: TeacherFormValues) => {
   formData.append("profession", teacher.profession)
   formData.append("about", teacher.about)
 
-  if (teacher.image instanceof File) {
+  if (teacher.image) {
     formData.append("image", teacher.image)
   }
 
@@ -54,7 +54,7 @@ export const updateTeacherService = (teacher: TeacherFormValues) => {
 }
 
 export const getAllTeachersService = (params?: object) => {
-  return axios.get<ResponsePaginated<Teacher>>("/teachers", {
+  return axios.get<ResponsePaginated<Teacher>>("/admin/teachers", {
     params: params
   })
 }
