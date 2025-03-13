@@ -7,7 +7,8 @@ import Form from "@/@common/components/form"
 import Link from "@/@common/components/link"
 import { TeacherFormSchema, TeacherFormValues } from "@/_models/Teacher"
 import { teacherSchema } from "@/_schemas/teacher.schema"
-import { useCreateTeacher, useUpdateTeacher } from "../hooks"
+import { useCreateTeacher } from "../hooks/use-create-teacher"
+import { useUpdateTeacher } from "../hooks/use-update-teacher"
 import TextEditor from "@/@common/components/text-editor"
 import { IconAdd, IconDelete } from "@/assets/icons"
 import { ImageUpload } from "@/@common/components/image-upload"
@@ -17,6 +18,10 @@ interface Props {
   isForUpdating?: string
 }
 
+const defaultSocialMedia = [
+  { label: "", value: "" }
+]
+
 const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
   const navigate = useNavigate()
   const { createTeacher, isLoading: isLoadingCreate } = useCreateTeacher()
@@ -25,10 +30,16 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
     control,
     register,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { errors }
   } = useForm<TeacherFormSchema>({
     resolver: yupResolver(teacherSchema),
-    defaultValues
+    defaultValues: {
+      ...defaultValues,
+      socialMedia: defaultValues?.socialMedia?.length ? defaultValues.socialMedia : defaultSocialMedia
+    },
+    mode: "onChange"
   })
   const { fields, append, remove } = useFieldArray({
     control,
@@ -36,27 +47,25 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
   })
 
   const onHandleSubmit: SubmitHandler<TeacherFormSchema> = async (data) => {
-    const { image, specialties, socialMedia } = data
+    const { image, specialties, socialMedia } = getValues()
 
     const newData: TeacherFormValues = {
       ...data,
-      image: image instanceof File ? data.image : null,
-      imageUrl: URL.createObjectURL(image),
+      image: image[0],
+      imageUrl: URL.createObjectURL(image[0]),
       specialties: specialties?.map((speciality) => speciality.label) ?? [],
       socialMedia: socialMedia?.map((social) => social.label) ?? []
     }
 
-    console.log(newData)
-
-    /* if (isForUpdating) { */
-    /*   await updateTeacher(newData).then(() => { */
-    /*     navigate('/admin/teachers', { replace: true }) */
-    /*   }) */
-    /* } else { */
-    /*   await createTeacher(newData).then(() => { */
-    /*     navigate('/admin/teachers', { replace: true }) */
-    /*   }) */
-    /* } */
+    if (isForUpdating) {
+      await updateTeacher(newData).then(() => {
+        navigate("/admin/teachers", { replace: true })
+      })
+    } else {
+      await createTeacher(newData).then(() => {
+        navigate("/admin/teachers", { replace: true })
+      })
+    }
   }
 
   return (
@@ -115,7 +124,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
         <Form.Input
           placeholder="Ingresa tu profesión..."
           size="md"
-          {...register("profession", { required: true })}
+          {...register("profession")}
         />
         <Form.Error hasError={errors.profession?.message} />
       </Form.Control>
@@ -139,9 +148,13 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
 
       <div className="flex flex-col gap-y-4">
         <Form.Control>
-          <ImageUpload name="image" register={register} label="Selecciona tu imagen" />
+          <Form.Label>
+            Selecciona la imagen del docente
+          </Form.Label>
+          <ImageUpload name="image" register={register} />
           <Form.Error hasError={errors.image?.message} />
         </Form.Control>
+
         <Form.Control>
           <Form.Label className="mb-1">
             Redes sociales
@@ -157,6 +170,10 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
                     <Form.Input
                       {...field}
                       placeholder="Ingrese el enlace"
+                      onChange={(event) => {
+                        field.onChange(event)
+                        setValue(`socialMedia.${index}.label`, event.target.value)
+                      }}
                     />
                     <div className="flex space-x-2">
                       {fields.length > 1 && (
@@ -172,7 +189,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
                       {(index === fields.length - 1) && (
                         <Button
                           type="button"
-                          onClick={() => append({ label: "https://", value: "https://" })}
+                          onClick={() => append(defaultSocialMedia)}
                           aria-label="Agregar nuevo enlace"
                         >
                           <IconAdd />
@@ -191,9 +208,9 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
       <div className="flex justify-start gap-4 w-full mt-8">
         <Button
           htmlType="submit"
-          isLoading={defaultValues ? isLoadingUpdate : isLoadingCreate}
+          isLoading={isForUpdating ? isLoadingUpdate : isLoadingCreate}
         >
-          {!isForUpdating ? "Crear" : "Editar"} docente
+          {!isForUpdating ? "Crear" : "Editar"}
         </Button>
         <Link
           href="/admin/teachers"

@@ -23,7 +23,7 @@ const TeacherDetailsDrawer = ({
     <Drawer
       show={show}
       onClose={handleCloseDrawer}
-      title={`Detalles de ${teacher?.firstName} ${teacher?.lastName}`}
+      title={`Detalles de ${getFullName(teacher)}`}
     >
       <div className="mb-4 flex-center">
         Image
