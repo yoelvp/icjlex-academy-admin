@@ -1,4 +1,5 @@
 import { array, boolean, date, mixed, number, object, string } from "yup"
+import dayjs from "dayjs"
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 const SUPPORTED_FORMATS = ["image/jpeg", "image/png", "image/webp"];
@@ -45,8 +46,8 @@ export const courseSchema = object().shape({
         return SUPPORTED_FORMATS.includes(value[0].type)
       }
     ),
-  isFree: boolean().default(false).optional().nullable(),
-  isScheduled: boolean().default(false).optional().nullable(),
+  princingType: string().oneOf(["free", "paid"], "Debe elegir entre 2 valores").default("paid"),
+  isScheduled: boolean().default(false),
   price: number()
     .nullable()
     .transform((value, originalValue) => (originalValue === "" ? null : value))
@@ -59,11 +60,11 @@ export const courseSchema = object().shape({
         .required("Campo requerido")
     }),
   publicationDate: date()
-    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    /* .transform((value, originalValue) => (originalValue === "" ? null : value)) */
     .when("isScheduled", {
       is: true,
       then: (schema) => schema.typeError("Ingrese una fecha válida").required("La fecha de publicación es obligatoria cuando se programa la publicación"),
-      otherwise: () => mixed().nullable().default(null)
+      otherwise: () => mixed().nullable().default(dayjs().toString())
     }),
   course: object({
     name: string().required("Campo requerido"),
