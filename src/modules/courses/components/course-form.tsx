@@ -8,7 +8,7 @@ import { useGetAllTeachersOnlyNames } from "@/modules/teachers/hooks/get-all-tea
 import { useTeachersOnlyNamesStore } from "@/modules/teachers/store/teachers-only-name.store"
 import { CourseFields, CourseFormData } from "../types/CourseFormFields"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { courseSchema } from "../schemas/course.schema"
+import { courseSchema } from "@/_schemas/course.schema"
 import { getFullName } from "@/@common/utils"
 import TextEditor from "@/@common/components/text-editor"
 import { BadgeOptional, ImageUpload, Switch } from "@/@common/components"
@@ -42,6 +42,7 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
     label: getFullName(teacher),
     value: teacher.id
   }))
+  console.log(defaultValues)
 
   const onHandleSubmit: SubmitHandler<CourseFields> = async (data) => {
     const { image, price, includes, youWillLearn, princingType } = data
@@ -56,7 +57,7 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
 
     if (isToCreate) {
       console.log(formattedData)
-      /* await createCourse(formattedData, data.isScheduled ?? false) */
+      await createCourse(formattedData, data.isScheduled ?? false)
     } else {
       // TODO: add update course hook
     }
@@ -207,15 +208,17 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
         </div>
 
         {watch("princingType") === PricingType.PAID && (
-          <Form.Input
-            type="number"
-            placeholder="120.00"
-            rounded="sm"
-            {...register("price")}
-          />
-        )}
+          <div>
+            <Form.Input
+              type="number"
+              placeholder="120.00"
+              rounded="sm"
+              {...register("price")}
+            />
 
-        <Form.Error hasError={errors.price?.message} />
+            <Form.Error hasError={errors.price?.message} />
+          </div>
+        )}
       </div>
 
       <Form.Control>
@@ -232,12 +235,18 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
             )}
           />
           {watch("isScheduled") && (
-            <DatePicker
-              format="YYYY-MM-DD HH:mm:ss"
-              showTime
-              className="h-10 w-full"
-              placeholder="Selecciona la fecha de publicación"
-              {...register("publicationDate")}
+            <Controller
+              name="publicationDate"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  format="DD [de] MMM, YYYY - HH:mm:ss A"
+                  showTime
+                  className="h-10 w-full"
+                  placeholder="Selecciona la fecha de publicación"
+                />
+              )}
             />
           )}
         </div>
