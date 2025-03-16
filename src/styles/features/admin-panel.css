@@ -2,7 +2,7 @@
 
 @layer components {
   .section-panel {
-    @apply rounded-sm px-6 bg-white;
+    @apply rounded-sm px-6 h-auto;
   }
 
   .header-height {
