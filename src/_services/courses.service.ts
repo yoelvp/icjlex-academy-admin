@@ -13,7 +13,7 @@ export const createCourseService = (course: CourseFormData) => {
   formData.append("objective", course.objective)
   formData.append("description", course.description)
   formData.append("isScheduled", `${course.isScheduled}`)
-  formData.append("isFree", `${course.isFree}`)
+  formData.append("pricingType", `${course.princingType}`)
   formData.append("price", `${course.price}`)
   formData.append("publicationDate", `${course.publicationDate?.toISOString().slice(0, 19).replace("T", " ") ?? null}`)
   formData.append("courseName", course.course.name)
