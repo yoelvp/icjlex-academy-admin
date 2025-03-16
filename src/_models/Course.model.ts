@@ -1,4 +1,7 @@
+import { PricingType as PricingTypeEnum } from "@/modules/courses/enums/pricing-type"
 import { TeacherBasicData } from "./Teacher"
+
+export type PricingTypeType = keyof typeof PricingTypeEnum
 
 // Unused
 interface CourseValoration {
@@ -25,7 +28,7 @@ export interface Course {
   imageUrl: string | null
   price: number
   isScheduled: boolean | null
-  isFree: boolean
+  pricingType: PricingTypeType
   publicationDate: Date | null
   teachers: TeacherBasicData[]
   valoration?: CourseValoration
@@ -45,7 +48,7 @@ export interface CourseDetails {
   includes: string[]
   publicationDate: Date
   isScheduled: boolean
-  isFree: boolean
+  pricingType: PricingTypeType
   createdAt: string
   teachers: TeacherBasicData[]
   resources: CourseContent[]
@@ -59,7 +62,7 @@ export interface AdminCourse {
   price: number | null
   publicationDate: Date
   isScheduled: boolean
-  isFree: boolean | null
+  pricingType: PricingTypeType
   courseName: string
   courseDuration: string
   courseUrl: string
