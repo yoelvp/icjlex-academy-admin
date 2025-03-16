@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Link as ReactRouterLink, useParams } from "react-router"
 import classNames from "classnames"
 import Link from "@/@common/components/link"
 import { RenderHTML } from "@/@common/components"
 import {
   IconArrowRoundBack,
-  IconCheckmark,
   IconEdit,
   IconLink
 } from "@/assets/icons"
 import { formatCurrency } from "@/@common/utils/currencies"
-import Form from "@/@common/components/form"
 import { useCourseStore } from "../store/course.store"
 import { useGetCourseById } from "../hooks/use-get-course-by-id"
 import { formatDateTime, getFullName } from "@/@common/utils"
 
 const CoursesPage = () => {
-  const [isEditingTitle, setIsEditingTitle] = useState(false)
   const params = useParams()
   const course = useCourseStore((state) => state.course)
   const { getCourseById } = useGetCourseById()
@@ -27,15 +24,10 @@ const CoursesPage = () => {
     }
   }, [])
 
-  const handleEditTitle = () => {
-    setIsEditingTitle(true)
-  }
-  console.log(course)
-
   return (
-    <div className="gap-y-4 grid grid-rows-[auto_1fr]">
-      <header className="section-panel header-height flex-between">
-        <div className="flex-start gap-x-2">
+    <div className="flex flex-col gap-y-4 h-full">
+      <header className="header-height flex justify-between">
+        <div className="flex justify-start gap-x-2">
           <ReactRouterLink
             to="/admin/courses"
             className={classNames(
@@ -48,14 +40,13 @@ const CoursesPage = () => {
           </ReactRouterLink>
           <h2 className="header-title">Detalles del curso</h2>
         </div>
-        <Link href={`/admin/courses/update/${course?.id}`} type="button" variant="primary.outline" size="sm" rounded="sm">
+        <Link href={`/admin/courses/update/${course?.id ?? params.id}`} type="button" variant="primary.outline" size="sm" rounded="sm">
           <IconEdit />
           Editar
         </Link>
       </header>
 
-      <section className="section-panel p-4">
-
+      <section className="p-4">
         <div className="flex flex-col gap-y-16">
           <div className="grid grid-cols-2 gap-x-8">
             <article>
@@ -76,7 +67,7 @@ const CoursesPage = () => {
               <img
                 src={course?.imageUrl ?? "/image-placeholder.png"}
                 alt="Thumbnail of course"
-                className="w-full h-64 object-cover object-center rounded-xs"
+                className="w-full h-64 object-cover object-center rounded-md border-2 border-primary-500/15"
               />
               <div className="grid grid-cols-2 gap-x-4">
                 <div className="flex flex-col gap-y-1">
@@ -160,7 +151,7 @@ const CoursesPage = () => {
             </h4>
             <div className="flex flex-col gap-y-4">
               {course?.teachers?.map((teacher) => (
-                <div className="flex gap-x-4 items-center justify-start bg-primary-50/50 px-4 py-8 rounded-sm">
+                <div key={teacher.id} className="flex gap-x-4 items-center justify-start bg-primary-50/50 px-4 py-8 rounded-sm">
                   {teacher.imageUrl ? (
                     <img
                       src={teacher.imageUrl}

@@ -1,6 +1,7 @@
 import Link from "@/@common/components/link"
 import { IconChevronBack } from "@/assets/icons"
 import { CourseForm } from "../components/course-form"
+import { PricingType } from "../enums/pricing-type"
 
 const CreateCoursePage = () => {
   return (
@@ -18,7 +19,7 @@ const CreateCoursePage = () => {
       </div>
 
       <section className="w-full">
-        <CourseForm isToCreate />
+        <CourseForm isToCreate defaultValues={{ princingType: PricingType.PAID }} />
       </section>
     </div>
   )
