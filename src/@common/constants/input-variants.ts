@@ -10,7 +10,7 @@ export const inputVariants = cva(
         primary: "border-primary-400 text-primary-500 placeholder:text-primary-200 disabled:bg-primary-50 disabled:border-primary-400 disabled:hover:text-primary-100 focus:ring-primary-500/20",
         secondary: "border-secondary-600 text-secondary-500 placeholder:text-secondary-200 disabled:bg-secondary-50 disabled:border-secondary-400 disabled:hover:text-secondary-100 focus:ring-secondary-500/20",
         white: "border-white text-white placeholder:text-primary-100 disabled:bg-white/60 disabled:border-white/60 focus:ring-white/15",
-        error: "border-error-400 text-error-500 placeholder:text-error-200 disabled:bg-error-50 disabled:border-error-400 disabled:hover:text-error-100 focus:ring-error-500/15"
+        error: "border-red-400 disabled:bg-red-50 disabled:border-red-400 disabled:hover:text-red-100 focus:ring-red-500/15"
       },
       size: SizeStyle,
       rounded: RoundedStyle,
