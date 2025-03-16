@@ -1,5 +1,5 @@
 import { InferType } from "yup"
-import { courseSchema } from "../schemas/course.schema"
+import { courseSchema } from "@/_schemas/course.schema"
 
 export type CourseFields = InferType<typeof courseSchema>
 
