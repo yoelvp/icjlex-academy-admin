@@ -9,14 +9,13 @@ import {
   IconLink
 } from "@/assets/icons"
 import { formatCurrency } from "@/@common/utils/currencies"
-import { useCourseStore } from "../store/course.store"
 import { useGetCourseById } from "../hooks/use-get-course-by-id"
 import { formatDateTime, getFullName } from "@/@common/utils"
 
 const CoursesPage = () => {
   const params = useParams()
-  const course = useCourseStore((state) => state.course)
-  const { getCourseById } = useGetCourseById()
+  /* const course = useCourseStore((state) => state.course) */
+  const { course, getCourseById } = useGetCourseById()
 
   useEffect(() => {
     if (!course) {
@@ -99,7 +98,7 @@ const CoursesPage = () => {
                       {classVideo.name} <span>({classVideo?.duration})</span>
                     </h5>
                     <a
-                      href="https://zoom.us/class/jkkjkjjnHDka"
+                      href={classVideo?.url ?? ""}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline decoration-primary-500 flex gap-x-2 items-center hover:text-primary-500 hover:decoration-wavy"
@@ -140,9 +139,8 @@ const CoursesPage = () => {
             <h4 className="text-primary-700 text-lg font-bold mb-4">
               Descripción del curso
             </h4>
-            <div>
-              <RenderHTML content={course?.description ?? ""} />
-            </div>
+
+            <RenderHTML content={course?.description ?? ""} />
           </div>
 
           <div>
