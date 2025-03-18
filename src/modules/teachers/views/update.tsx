@@ -1,24 +1,18 @@
 import { Link as RouterLink, useParams } from "react-router"
 import { IconArrowRoundBack } from "@/assets/icons"
 import TeacherForm from "../components/teacher-form"
-import { useGetTeacherById } from "../hooks"
 import { Spinner } from "flowbite-react"
-import { useEffect } from "react"
-import { useUpdateTeacherStore } from "../store"
+import { useQuery } from "@tanstack/react-query"
+import { QueryKeys } from "@/@common/utils"
+import { getTeacherByIdService } from "@/_services/teachers.service"
 
 const UpdateTeacherPage = () => {
   const params = useParams()
-  const { isLoading, getTeacherById } = useGetTeacherById()
-  const teacher = useUpdateTeacherStore((state) => state.teacher)
-  const setTeacher = useUpdateTeacherStore((state) => state.setTeacher)
-
-  useEffect(() => {
-    if (!teacher && params.teacherId) {
-      getTeacherById(params?.teacherId ?? "")
-    }
-
-    return () => setTeacher(null)
-  }, [])
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.COURSE_BY_ID, params?.teacherId ?? ""],
+    queryFn: async () => await getTeacherByIdService(params?.teacherId ?? "")
+  })
+  const teacher = data?.data?.data
 
   const specialtiesForm = (s: string | string[] | null | undefined) => {
     if (!s) return undefined
@@ -40,13 +34,14 @@ const UpdateTeacherPage = () => {
 
     if (Array.isArray(socialMedia)) {
       return socialMedia.map((social) => ({
-        url: social
+        label: social,
+        value: social
       }))
     }
   }
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-4 max-w-2xl">
       <header className="section-panel header-height flex-start gap-x-4">
         <RouterLink to="/admin/teachers" className="border border-primary-500 rounded-sm h-8 w-8 flex-center">
           <IconArrowRoundBack />
@@ -60,9 +55,12 @@ const UpdateTeacherPage = () => {
         {isLoading && <Spinner color="gray" />}
         {!isLoading && (
           <TeacherForm
+            isForUpdating
+            defaultImageUrl={teacher?.imageUrl ?? ""}
+            teacherId={teacher?.id}
             defaultValues={{
               firstName: teacher?.firstName,
-              lastName: teacher?.firstName,
+              lastName: teacher?.lastName,
               specialties: specialtiesForm(teacher?.specialties),
               profession: teacher?.profession,
               about: teacher?.about,
