@@ -22,8 +22,9 @@ export const courseSchema = object().shape({
     .required("Campo requerido")
     .min(1, "Debe haber al menos un elemento"),
   description: string().required("Campo requerido"),
+  imageUrl: string().optional(),
   image: mixed<FileList>()
-    .nullable()
+    .optional()
     .test(
       "fileSize",
       "La imagen no debe exceder los 5 MB",
@@ -48,8 +49,7 @@ export const courseSchema = object().shape({
     ),
   princingType: string().oneOf(Object.values(PricingType), "Debe elegir una opción válida"),
   isScheduled: boolean().default(false),
-  price: number().nullable()
-    .transform((value, originalValue) => (originalValue === "" ? 0 : value)),
+  price: number().optional().transform((value, originalValue) => (originalValue === "" ? 0 : value)),
   publicationDate: date().typeError("Ingrese una fecha válida").default(new Date()),
   course: object({
     name: string().required("Campo requerido"),
