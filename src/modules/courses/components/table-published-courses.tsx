@@ -80,7 +80,16 @@ export const TablePublishedCourses = () => {
                   </p>
                 ))}
               </td>
-              <td className="text-right">{formatCurrency(course.price ?? 0)}</td>
+              <td>
+                <div className="flex items-center justify-end gap-x-2">
+                  {course?.price === 0 && (
+                    <span className="bg-green-600 text-white rounded-full px-2">
+                      Gratis
+                    </span>
+                  )}
+                  {formatCurrency(course.price ?? 0)}
+                </div>
+              </td>
               <td>{formatDate(course.createdAt)}</td>
               <td className="text-right">
                 <Menu
