@@ -1,4 +1,4 @@
-import type { FC, MouseEvent, ReactNode } from "react"
+import { useEffect, type FC, type MouseEvent, type ReactNode } from "react"
 import type { ModalVariant } from "@/@common/types/Modal"
 
 import { createPortal } from "react-dom"
@@ -25,6 +25,18 @@ export const Modal: FC<Props> = ({
   className = "",
   children
 }) => {
+  const toggleModalListenerKeys = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      console.log("Close")
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keypress", toggleModalListenerKeys)
+
+    return () => window.removeEventListener("keypress", toggleModalListenerKeys)
+  }, [])
+
   if (!isOpen) return null
 
   return createPortal(
