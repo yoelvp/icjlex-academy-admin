@@ -5,7 +5,7 @@ import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-fo
 import Button from "@/@common/components/button"
 import Form from "@/@common/components/form"
 import Link from "@/@common/components/link"
-import { TeacherFormSchema, TeacherFormValues } from "@/_models/Teacher"
+import { TeacherFormSchema, TeacherFormValues } from "@/_models/Teacher.model"
 import { teacherSchema } from "@/_schemas/teacher.schema"
 import { useCreateTeacher } from "../hooks/use-create-teacher"
 import { useUpdateTeacher } from "../hooks/use-update-teacher"
@@ -15,14 +15,21 @@ import { ImageUpload } from "@/@common/components/image-upload"
 
 interface Props {
   defaultValues?: Partial<TeacherFormSchema>
-  isForUpdating?: string
+  isForUpdating?: boolean
+  defaultImageUrl?: string
+  teacherId?: string
 }
 
 const defaultSocialMedia = [
   { label: "", value: "" }
 ]
 
-const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
+const TeacherForm = ({
+  defaultValues,
+  isForUpdating,
+  defaultImageUrl,
+  teacherId
+}: Props) => {
   const navigate = useNavigate()
   const { createTeacher, isLoading: isLoadingCreate } = useCreateTeacher()
   const { updateTeacher, isLoading: isLoadingUpdate } = useUpdateTeacher()
@@ -51,18 +58,20 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
 
     const newData: TeacherFormValues = {
       ...data,
-      image: image[0],
       imageUrl: URL.createObjectURL(image[0]),
       specialties: specialties?.map((speciality) => speciality.label) ?? [],
       socialMedia: socialMedia?.map((social) => social.label) ?? []
     }
 
     if (isForUpdating) {
-      await updateTeacher(newData).then(() => {
+      console.log("updateTeacher()")
+      console.log("updateTeacher() > $teacherId: " + teacherId)
+      await updateTeacher(teacherId ?? "", newData, image?.[0]).then(() => {
         navigate("/admin/teachers", { replace: true })
       })
     } else {
-      await createTeacher(newData).then(() => {
+      console.log("createTeacher()")
+      await createTeacher(newData, image?.[0]).then(() => {
         navigate("/admin/teachers", { replace: true })
       })
     }
@@ -151,7 +160,7 @@ const TeacherForm = ({ defaultValues, isForUpdating }: Props) => {
           <Form.Label>
             Selecciona la imagen del docente
           </Form.Label>
-          <ImageUpload name="image" register={register} />
+          <ImageUpload name="image" register={register} defaultImageUrl={defaultImageUrl} />
           <Form.Error hasError={errors.image?.message} />
         </Form.Control>
 
