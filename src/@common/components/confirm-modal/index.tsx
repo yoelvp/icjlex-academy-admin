@@ -14,7 +14,7 @@ export const ConfirmModal = ({
   const options = useConfirmModalStore((state) => state.options)
 
   return (
-    <Modal show={show} onClose={close} size="xl">
+    <Modal show={show} onClose={close}>
       <div className="py-8 bg-gray-100 overflow-hidden rounded-t-lg">
         <h4 className="text-primary-700 text-center text-lg font-bold">
           {options?.title}
