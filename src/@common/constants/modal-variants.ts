@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority"
 
 export const modalVariants = cva(
-  "w-full shadow-lg rounded-t sm:rounded",
+  "w-full shadow-lg rounded-t sm:rounded-md",
   {
     variants: {
       variant: {
