@@ -1,34 +1,28 @@
 import { Drawer, RenderHTML } from "@/@common/components"
-import { useUpdateTeacherStore } from "../store"
 import { getFullName } from "@/@common/utils"
+import { Teacher } from "@/_models/Teacher.model"
 
 interface Props {
+  teacher: Teacher | null
   show: boolean
   close: () => void
 }
 
 const TeacherDetailsDrawer = ({
+  teacher,
   show,
   close
 }: Props) => {
-  const teacher = useUpdateTeacherStore((state) => state.teacher)
-  const setTeacher = useUpdateTeacherStore((state) => state.setTeacher)
-
-  const handleCloseDrawer = () => {
-    setTeacher(null)
-    close()
-  }
-
   return (
     <Drawer
       show={show}
-      onClose={handleCloseDrawer}
+      onClose={close}
       title={`Detalles de ${getFullName(teacher)}`}
     >
-      <div className="mb-4 flex-center">
-        Image
+      <div className="mb-4 flex">
+        <img src={teacher?.imageUrl ?? ""} alt="teacher profile" className="rounded-sm h-64 w-auto border-2 border-primary-500/10" />
       </div>
-      <div className="rounded overflow-hidden border border-gray-200">
+      <div className="rounded-md overflow-hidden border border-gray-200">
         <div className="px-4 py-2 flex items-center justify-start bg-gray-50 text-primary-700 font-bold border-b border-b-gray-200">
           Datos principales
         </div>
@@ -64,8 +58,8 @@ const TeacherDetailsDrawer = ({
                   </a>
                 </li>
               )}
-              {teacher?.socialMedia && Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social) => (
-                <li className="list-item list-disc list-inside">
+              {teacher?.socialMedia && Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social, index) => (
+                <li key={social + index} className="list-item list-disc list-inside">
                   <a href={social} className="hover:underline">
                     {social}
                   </a>
@@ -84,8 +78,8 @@ const TeacherDetailsDrawer = ({
                   {teacher?.specialties}
                 </li>
               )}
-              {teacher?.specialties && Array.isArray(teacher?.specialties) && teacher?.specialties?.map((specialty) => (
-                <li className="list-item list-disc list-inside">
+              {teacher?.specialties && Array.isArray(teacher?.specialties) && teacher?.specialties?.map((specialty, index) => (
+                <li key={specialty + index} className="list-item list-disc list-inside">
                   {specialty}
                 </li>
               ))}
@@ -98,6 +92,7 @@ const TeacherDetailsDrawer = ({
         <h3 className="text-primary-700 font-bold">
           Acerca del docente
         </h3>
+
         <RenderHTML content={teacher?.about ?? ""} />
       </div>
     </Drawer>
