@@ -2,29 +2,22 @@ import { toast } from "sonner"
 import { HttpStatusCode, isAxiosError } from "axios"
 import getError from "@/@common/utils/get-errors"
 import { useLoading } from "@/@common/hooks/use-loading"
-import { useTeacherStore } from "../store/teachers.store"
-import { updateTeacherService } from "@/_services/teachers.service"
-import { TeacherFormValues } from "@/_models/Teacher"
+import { updateImageTeacherService, updateTeacherService } from "@/_services/teachers.service"
+import { TeacherFormValues } from "@/_models/Teacher.model"
 
 export const useUpdateTeacher = () => {
   const { isLoading, loading, loaded } = useLoading()
-  const teachers = useTeacherStore((state) => state.teachers)
-  const setTeachers = useTeacherStore((state) => state.setTeachers)
 
-  const updateTeacher = async (teacher: TeacherFormValues) => {
+  const updateTeacher = async (teacherId: string, teacher: TeacherFormValues, file?: File | null) => {
     try {
       loading()
-      const { data: { data: newTeacher, success, message }, status } = await updateTeacherService(teacher)
-      let oldTeachers = teachers
+      const { data: { data, success, message }, status } = await updateTeacherService(teacherId, teacher)
+      const { status: updateImageStatus } = await updateImageTeacherService(data.teacherId ?? "", file)
 
       if (!success) toast.warning(message)
-      if (status !== HttpStatusCode.Ok) return
 
-      if (teachers.length == 10) {
-        oldTeachers = teachers.slice(0, -1)
-      }
+      if (status !== HttpStatusCode.Ok && updateImageStatus !== HttpStatusCode.Ok) return
 
-      setTeachers([newTeacher, ...oldTeachers])
       toast.success("Registro actualizado", { description: "Loda datos del docente se actualizaron con éxito" })
     } catch (error) {
       loaded()
