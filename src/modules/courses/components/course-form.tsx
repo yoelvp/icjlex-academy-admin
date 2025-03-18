@@ -6,7 +6,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useCreateCourse } from "../hooks/use-create-courses"
 import { useGetAllTeachersOnlyNames } from "@/modules/teachers/hooks/get-all-teachers-only-names"
 import { useTeachersOnlyNamesStore } from "@/modules/teachers/store/teachers-only-name.store"
-import { CourseFields, CourseFormData } from "../types/CourseFormFields"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { courseSchema } from "@/_schemas/course.schema"
 import { getFullName } from "@/@common/utils"
@@ -16,15 +15,20 @@ import Button from "@/@common/components/button"
 import { IconAdd } from "@/assets/icons"
 import Link from "@/@common/components/link"
 import { PricingType } from "../enums/pricing-type"
+import { getSelectedOptions } from "@/@common/utils/select/get-option"
+import type { CourseFormData, CourseFormFields } from "@/_models/Course.model"
+import { useUpdateCourse } from "../hooks/use-update-course"
 
 interface Props {
   isToCreate?: boolean
-  defaultValues?: Partial<CourseFields>
+  defaultValues?: Partial<CourseFormFields>
+  courseId?: string
 }
 
-export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
+export const CourseForm = ({ isToCreate, defaultValues, courseId }: Props) => {
   const { isLoading: isLoadingTeachers } = useGetAllTeachersOnlyNames()
   const { isLoading: isLoadingCreateCourse, createCourse } = useCreateCourse()
+  const { isLoading: isLoadingUpdateCourse, updateCourse } = useUpdateCourse()
   const {
     control,
     register,
@@ -32,7 +36,7 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
     watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<CourseFields>({
+  } = useForm<CourseFormFields>({
     resolver: yupResolver(courseSchema),
     defaultValues,
     mode: "onChange"
@@ -42,9 +46,8 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
     label: getFullName(teacher),
     value: teacher.id
   }))
-  console.log(defaultValues)
 
-  const onHandleSubmit: SubmitHandler<CourseFields> = async (data) => {
+  const onHandleSubmit: SubmitHandler<CourseFormFields> = async (data) => {
     const { image, price, includes, youWillLearn, princingType } = data
 
     const formattedData: CourseFormData = {
@@ -52,14 +55,13 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
       includes: includes.map((include) => include.label),
       youWillLearn: youWillLearn.map((include) => include.label),
       price: princingType === PricingType.PAID ? price : 0,
-      image: image ? image?.[0] : null
+      image: image ? image?.[0] : undefined
     }
 
     if (isToCreate) {
-      console.log(formattedData)
       await createCourse(formattedData, data.isScheduled ?? false)
     } else {
-      // TODO: add update course hook
+      await updateCourse(formattedData, courseId ?? "", data.isScheduled ?? false)
     }
   }
 
@@ -84,6 +86,7 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
           render={() => (
             <ReactSelect
               options={formattedTeachers}
+              value={getSelectedOptions(defaultValues?.teacherId ?? "", formattedTeachers)}
               onChange={(selected) => setValue("teacherId", selected?.value ?? "")}
               isClearable
               isSearchable
@@ -119,7 +122,7 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
               isMulti
               value={field.value || []}
               isClearable
-              formatCreateLabel={(value) => `Crear ${value}`}
+              formatCreateLabel={(value) => (<><strong>Crear &gt;</strong> {value}</>)}
               onChange={field.onChange}
               placeholder="Lo que el estudiante aprenderá"
               menuPosition="fixed"
@@ -172,7 +175,7 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
           Selecciona tu imagen
           <BadgeOptional />
         </Form.Label>
-        <ImageUpload name="image" register={register} />
+        <ImageUpload name="image" register={register} defaultImageUrl={defaultValues?.imageUrl} />
         <Form.Error hasError={errors.image?.message} />
       </Form.Control>
 
@@ -302,10 +305,10 @@ export const CourseForm = ({ isToCreate, defaultValues }: Props) => {
           type="submit"
           size="md"
           rounded="sm"
-          isLoading={isLoadingCreateCourse}
+          isLoading={isToCreate ? isLoadingCreateCourse : isLoadingUpdateCourse}
         >
           <IconAdd />
-          Crear
+          {isToCreate ? "Crear" : "Actualizar"}
         </Button>
         <Link
           href="/admin/courses"
