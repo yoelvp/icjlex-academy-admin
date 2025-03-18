@@ -1,27 +1,25 @@
-import Link from "@/@common/components/link"
 import { IconChevronBack } from "@/assets/icons"
 import { CourseForm } from "../components/course-form"
-import { useParams } from "react-router"
-import { useEffect } from "react"
-import { useCourseStore } from "../store/course.store"
-import { useGetCourseById } from "../hooks/use-get-course-by-id"
-import dayjs from "dayjs"
+import { Link, useParams } from "react-router"
+import { useQuery } from "@tanstack/react-query"
+import { getCourseByIdService } from "@/_services/courses.service"
+import { QueryKeys } from "@/@common/utils"
+import { PricingType } from "../enums/pricing-type"
+import { CourseFormFields } from "@/_models/Course.model"
 
 const UpdateCoursePage = () => {
-  const params = useParams()
-  const course = useCourseStore((state) => state.course)
-  const { getCourseById } = useGetCourseById()
+  const { id: courseId } = useParams()
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.COURSE_TO_EDIT, courseId ?? ""],
+    queryFn: () => getCourseByIdService(courseId ?? "")
+  })
 
-  useEffect(() => {
-    if (!course && params?.id) {
-      getCourseById(params?.id ?? "")
-    }
-  }, [])
+  const course = data?.data
 
   return (
     <div className="section-panel py-4 px-8">
       <div className="flex flex-col items-start gap-y-2">
-        <Link href="/admin/courses/" variant="primary.link">
+        <Link to="/admin/courses/" className="flex items-center justify-start gap-x-2 underline underline-offset-2 hover:text-primary-500">
           <IconChevronBack />
           Regresar a cursos
         </Link>
@@ -33,12 +31,23 @@ const UpdateCoursePage = () => {
       </div>
 
       <section className="w-full max-w-2xl">
-        <CourseForm
-          defaultValues={{
-            isScheduled: course?.isScheduled,
-            publicationDate: dayjs(course?.publicationDate).toDate()
-          }}
-        />
+        {!isLoading && (
+          <CourseForm
+            defaultValues={{
+              ...course,
+              includes: course?.includes?.map((include) => ({ label: include, value: include })) ?? [],
+              youWillLearn: course?.youWillLearn?.map((learn) => ({ label: learn, value: learn })) ?? [],
+              princingType: course?.pricingType as PricingType,
+              teacherId: course?.teachers[0].id,
+              imageUrl: course?.imageUrl,
+              course: {
+                name: course?.resources[0].classes[0].name ?? "",
+                duration: course?.resources[0].classes[0].duration ?? "",
+                url: course?.resources[0].classes[0].url ?? ""
+              }
+            } as CourseFormFields}
+          />
+        )}
       </section>
     </div>
   )
