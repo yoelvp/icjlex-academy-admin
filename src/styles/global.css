@@ -62,3 +62,7 @@ html {
 button {
   cursor: pointer;
 }
+
+.show-more-module--content--Rw-xr {
+  max-height: unset !important;
+}
