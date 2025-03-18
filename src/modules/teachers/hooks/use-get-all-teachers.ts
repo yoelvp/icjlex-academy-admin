@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
-import { useTeacherStore } from "../store/teachers.store"
+import { useTeachersStore } from "../store/teachers.store"
 import getError from "@/@common/utils/get-errors"
 import { useLoading } from "@/@common/hooks/use-loading"
 import { getAllTeachersService } from "@/_services/teachers.service"
@@ -10,17 +10,17 @@ import { useDebounce, usePagination } from "@/@common/hooks"
 export const useGetAllTeachers = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const { isLoading, loading, loaded } = useLoading()
-  const setTeachers = useTeacherStore((state) => state.setTeachers)
-  const teacherPagination = useTeacherStore((state) => state.pagination)
-  const setPagination = useTeacherStore((state) => state.setPagination)
+  const setTeachers = useTeachersStore((state) => state.setTeachers)
+  const teacherPagination = useTeachersStore((state) => state.pagination)
+  const setPagination = useTeachersStore((state) => state.setPagination)
   const paginationManager = usePagination(teacherPagination)
   const debounceValue = useDebounce({ value: searchQuery })
 
   useEffect(() => {
-    fetchTeachers()
+    getAll()
   }, [debounceValue, paginationManager.page, paginationManager.perPage])
 
-  const fetchTeachers = async () => {
+  const getAll = async () => {
     loading()
     try {
       const { data: { data, pagination } } = await getAllTeachersService({
