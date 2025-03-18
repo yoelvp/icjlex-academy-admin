@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 
 import { useEffect, useRef, useState } from "react"
+import { Link } from "react-router"
 import classNames from "classnames"
 import { useShow } from "../hooks/use-show"
 import { useClickOutside } from "../hooks/use-click-outside"
@@ -8,8 +9,7 @@ import Button from "./button"
 import { IconMenu } from "@/assets/icons"
 import { MenuOptions } from "../types/Menu"
 import { ButtonBaseProps } from "../types/Button"
-import { Link } from "react-router"
-import { Spinner } from "flowbite-react"
+import { Spinner } from "./spinner"
 
 interface Props extends ButtonBaseProps {
   children?: ReactNode
@@ -50,6 +50,7 @@ export const Menu = ({
           toggleDropdown()
         }}
         variant={variant}
+        size="sm"
       >
         {activator ? activator : <IconMenu />}
       </Button.Icon>
@@ -57,7 +58,7 @@ export const Menu = ({
       {showDropdown && (
         <div
           className={classNames(
-            "absolute z-50 bg-white rounded-sm shadow--primary py-1"
+            "absolute z-50 bg-white rounded-sm shadow-lg shadow-primary-50 py-1"
           )}
           style={{
             top: menuPosition.top + 8,
@@ -78,8 +79,8 @@ export const Menu = ({
                   key={index}
                   to={option.href ?? ""}
                   className={classNames(
-                    "w-full text-left pl-6 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex-start gap-x-2",
-                    { "text-error-400": option.isDelete }
+                    "w-full text-left pl-6 pr-12 py-2 hover:bg-primary-50 hover:text-primary-700 flex justify-start gap-x-2",
+                    { "text-red-400": option.isDelete }
                   )}
                   rel={option.rel}
                   target={option.target}
@@ -93,11 +94,11 @@ export const Menu = ({
                   onClick={option.onClick}
                   className={classNames(
                     "w-full text-left pl-6 pr-12 py-2 flex-start gap-x-2",
-                    { "text-error-400 hover:text-error-700 hover:bg-error-50/50": option.isDelete },
+                    { "text-red-400 hover:text-red-700 hover:bg-red-50/50": option.isDelete },
                     { "text-primary-500 hover:text-primary-700 hover:bg-primary-50": !option.isDelete }
                   )}
                 >
-                  {option.icon && !option.isLoading ? <option.icon size="16" /> : <Spinner size="md" color="warning" />}
+                  {option.icon && !option.isLoading ? <option.icon size="16" /> : <Spinner />}
                   {option.label}
                 </button>
               )}
