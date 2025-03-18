@@ -48,3 +48,30 @@ export const teacherSchema = object({
     .required("Campo requerido")
     .min(1, "Debe agregar al menos un item")
 })
+
+export const updateImageSchema = object().shape({
+  image: mixed<FileList>()
+    .optional()
+    .test(
+      "fileSize",
+      "La imagen no debe exceder los 5 MB",
+      (value) => {
+        if (!value || !(value instanceof FileList) || value.length === 0) {
+          return false
+        }
+
+        return value[0].size <= MAX_FILE_SIZE
+      }
+    )
+    .test(
+      "fileType",
+      "Debe ingresar una imágen válida",
+      (value) => {
+        if (!value || !(value instanceof FileList) || value.length === 0) {
+          return false
+        }
+
+        return SUPPORTED_FORMATS.includes(value[0].type)
+      }
+    )
+})
