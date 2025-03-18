@@ -1,19 +1,22 @@
-import { useMemo, forwardRef } from "react"
-import JoditEditor, { type Jodit } from "jodit-react"
+import { useMemo, type Ref } from "react"
+import JoditEditor from "jodit-react"
+import { IJodit } from "jodit/esm/types/jodit"
 
 interface Props {
   placeholder?: string
   value: string
   onChange: (value: string) => void
   onBlur: () => void
+  ref?: Ref<IJodit>
 }
 
-const TextEditor = forwardRef<Jodit, Props>(({
+const TextEditor = ({
   placeholder,
   value,
   onChange,
-  onBlur
-}, ref) => {
+  onBlur,
+  ref
+}: Props) => {
   const config = useMemo(() => ({
     readonly: false,
     placeholder: placeholder || "Escribe aquí...",
@@ -44,7 +47,7 @@ const TextEditor = forwardRef<Jodit, Props>(({
       className="h-full"
     />
   )
-})
+}
 
 if (import.meta.env.VITE_APP_ENV === "development") {
   TextEditor.displayName = "TextEditor"
