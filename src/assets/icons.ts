@@ -67,7 +67,8 @@ export {
   LuBookMarked as IconBookMarked,
   LuFileBadge as IconCourse,
   LuMailbox as IconMailbox,
-  LuImagePlus as IconImagePlus
+  LuImagePlus as IconImagePlus,
+  LuImageUp as IconImageUp
 } from "react-icons/lu"
 export {
   RiPresentationLine as IconPresentation
