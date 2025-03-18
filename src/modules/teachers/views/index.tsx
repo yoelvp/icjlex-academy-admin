@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useState } from "react"
 import Form from "@/@common/components/form"
 import Link from "@/@common/components/link"
 import { useShow } from "@/@common/hooks/use-show"
@@ -17,6 +17,7 @@ import {
   IconDelete,
   IconEdit,
   IconEyeOutline,
+  IconImageUp,
   IconLink,
   IconOptions,
   IconSearch
@@ -26,6 +27,8 @@ const TeacherDetailsDrawer = lazy(() => import("../components/teacher-details-dr
 const UpdateImageModal = lazy(() => import("../components/update-image-modal"))
 
 const CoursesPage = () => {
+  const [teacherImageProfile, setTeacherImageProfile] = useState<string | null>(null)
+  const [teacherUpdateImageId, setTeacherUpdateImageId] = useState<string | null>(null)
   const navigate = useNavigate()
   const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
   const { show: showUpdateImageModal, open: openUpdateImageModal, close: closeUpdateImageModal } = useShow()
@@ -33,9 +36,14 @@ const CoursesPage = () => {
   const { isLoading: isLoadingById, getTeacherById } = useGetTeacherById()
   const { isLoading: isLoadingDelete, deleteTeacher } = useDeleteTeacher()
   const teachers = useTeacherStore((state) => state.teachers)
-  const setTeacher = useTeacherStore((state) => state.setTeacher)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
   const closeConfirmModal = useConfirmModalStore((state) => state.close)
+
+  const handleUpdateImageModal = (teacherId: string, imageUrl: string) => {
+    setTeacherImageProfile(imageUrl)
+    setTeacherUpdateImageId(teacherId)
+    openUpdateImageModal()
+  }
 
   return (
     <div className="flex flex-col gap-y-4">
@@ -57,7 +65,7 @@ const CoursesPage = () => {
         </div>
       </header>
 
-      <div className="py-4">
+      <div className="py-4 space-y-4">
         <table className="custom-table table-fixed">
           <thead>
             <tr>
@@ -79,24 +87,24 @@ const CoursesPage = () => {
                   {teacher?.id.slice(0, 8)}
                 </td>
                 <td>
-                  <div className="relative w-full h-full group/image flex justify-start items-center gap-x-2">
-                    <img
-                      src={teacher.imageUrl ?? "/placeholder-image.png"}
-                      alt="profile teacher"
-                      className="max-w-8 max-h-8 object-cover object-center overflow-hidden rounded-full border border-primary-500/25"
-                    />
+                  <div className="flex items-center justify-start gap-x-2">
+                    <div className="relative w-10 min-w-10 h-10 overflow-hidden group/image flex justify-start items-center gap-x-2">
+                      <img
+                        src={teacher.imageUrl ?? "/placeholder-image.png"}
+                        alt="profile teacher"
+                        className="w-full h-full object-cover object-center overflow-hidden rounded-full border border-primary-500/25"
+                      />
+                      <button
+                        onClick={() => handleUpdateImageModal(teacher?.id ?? "", teacher?.imageUrl ?? "")}
+                        className="hidden absolute top-1/2 left-1/2 -translate-1/2 text-primary-500 justify-center items-center group-hover/image:flex w-6 h-6 rounded-full bg-white/80"
+                      >
+                        <IconEdit size="16" />
+                      </button>
+                    </div>
+
                     <span className="w-full text-nowrap text-ellipsis">
                       {getFullName(teacher)}
                     </span>
-                    <button
-                      onClick={() => {
-                        setTeacher(teacher)
-                        openUpdateImageModal()
-                      }}
-                      className="hidden absolute top-2 left-0 border border-primary-500/25 bg-zinc-800/80 text-white rounded-sm px-1 group-hover/image:block"
-                    >
-                      <IconEdit size="22" />
-                    </button>
                   </div>
                 </td>
                 <td>
@@ -106,9 +114,9 @@ const CoursesPage = () => {
                 <td>{teacher?.profession}</td>
                 <td>
                   <div className="flex items-center gap-x-2">
-                    {Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social: string) => (
+                    {Array.isArray(teacher?.socialMedia) && teacher?.socialMedia?.map((social, index) => (
                       <Tooltip
-                        key={social}
+                        key={social + index}
                         position="top"
                         trigger="hover"
                         content={social}
@@ -148,6 +156,11 @@ const CoursesPage = () => {
                             navigate(`/admin/teachers/update/${teacher?.slug}/${teacher?.id}`)
                           })
                         }
+                      },
+                      {
+                        label: "Actualizar imagen",
+                        icon: IconImageUp,
+                        onClick: () => handleUpdateImageModal(teacher?.id ?? "", teacher?.imageUrl ?? "")
                       },
                       {
                         label: "Eliminar",
@@ -195,8 +208,10 @@ const CoursesPage = () => {
             show={showUpdateImageModal}
             close={() => {
               closeUpdateImageModal()
-              setTeacher(null)
+              setTeacherImageProfile(null)
             }}
+            teacherId={teacherUpdateImageId ?? ""}
+            defaultImage={teacherImageProfile ?? ""}
           />
         </Suspense>
       )}
