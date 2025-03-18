@@ -4,7 +4,7 @@ import { forwardRef } from "react"
 import { twVariants } from "@/@common/utils/tailwindcss"
 import { buttonVariants } from "@/@common/constants/button-variants"
 import { ButtonBaseProps } from "@/@common/types/Button"
-import { Spinner } from "flowbite-react"
+import { Spinner } from "../spinner"
 
 interface Props extends ButtonBaseProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type"> { }
 
@@ -26,11 +26,11 @@ const Button = forwardRef<HTMLButtonElement, Props>(({
     {...props}
   >
     {loaderPosition === "left" && isLoading && (
-      <Spinner color="gray" />
+      <Spinner />
     )}
     {children}
     {loaderPosition === "right" && isLoading && (
-      <Spinner color="gray" />
+      <Spinner />
     )}
   </button>
 ))
