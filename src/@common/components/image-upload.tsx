@@ -22,6 +22,7 @@ interface Props<FormValues extends FieldValues> {
   isMultiple?: boolean
   maxSize?: number
   className?: string
+  defaultImageUrl?: string
 }
 
 export const ImageUpload = <FormValues extends FieldValues>({
@@ -30,9 +31,10 @@ export const ImageUpload = <FormValues extends FieldValues>({
   accept,
   isMultiple,
   maxSize = 5,
-  className
+  className,
+  defaultImageUrl
 }: Props<FormValues>) => {
-  const [previewUrls, setPreviewUrls] = useState<string[]>([])
+  const [previewUrls, setPreviewUrls] = useState<string[]>(defaultImageUrl ? [defaultImageUrl] : [])
   const [isDragging, setIsDragging] = useState(false)
   const [fullViewImageUrl, setFullViewImageUrl] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
