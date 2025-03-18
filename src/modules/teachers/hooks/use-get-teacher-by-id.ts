@@ -1,19 +1,25 @@
-import { isAxiosError } from "axios"
+import { useState } from "react"
 import { toast } from "sonner"
-import { getTeacherByIdService } from "@/_services/teachers.service"
-import { useUpdateTeacherStore } from "../store"
-import { useLoading } from "@/@common/hooks/use-loading"
+import { HttpStatusCode, isAxiosError } from "axios"
+import { useLoading } from "@/@common/hooks"
 import getError from "@/@common/utils/get-errors"
+import { Teacher } from "@/_models/Teacher.model"
+import { getTeacherByIdService } from "@/_services/teachers.service"
 
 export const useGetTeacherById = () => {
+  const [teacher, setTeacher] = useState<Teacher | null>(null)
   const { isLoading, loading, loaded } = useLoading()
-  const setTeacher = useUpdateTeacherStore((state) => state.setTeacher)
 
-  const getTeacherById = async (teacherId: string) => {
+  const getById = async (teacherId: string) => {
     loading()
-
     try {
-      const { data: { data } } = await getTeacherByIdService(teacherId)
+
+      const { data: { data, message }, status } = await getTeacherByIdService(teacherId)
+
+      if (status !== HttpStatusCode.Ok) {
+        toast.warning(message)
+      }
+
       setTeacher(data)
     } catch (error) {
       loaded()
@@ -28,6 +34,7 @@ export const useGetTeacherById = () => {
 
   return {
     isLoading,
-    getTeacherById
+    teacher,
+    getById
   }
 }
