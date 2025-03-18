@@ -1,5 +1,7 @@
+import type { InferType } from "yup"
+import type { TeacherBasicData } from "./Teacher"
 import { PricingType as PricingTypeEnum } from "@/modules/courses/enums/pricing-type"
-import { TeacherBasicData } from "./Teacher"
+import { courseSchema } from "@/_schemas/course.schema"
 
 export type PricingTypeType = keyof typeof PricingTypeEnum
 
@@ -49,9 +51,9 @@ export interface CourseDetails {
   publicationDate: Date
   isScheduled: boolean
   pricingType: PricingTypeType
-  createdAt: string
   teachers: TeacherBasicData[]
   resources: CourseContent[]
+  createdAt: string
 }
 
 export interface AdminCourse {
@@ -69,3 +71,19 @@ export interface AdminCourse {
   teachers: TeacherBasicData[]
   createdAt: Date
 }
+
+export type CourseFormFields = InferType<typeof courseSchema>
+
+export interface CourseFormData extends Omit<
+  CourseFormFields,
+  "includes"
+  | "youWillLearn"
+  | "image"
+> {
+  id?: string
+  includes: string[]
+  youWillLearn: string[]
+  image?: File
+}
+
+export type CourseFormUpdateData = Omit<CourseFormFields, "image">
