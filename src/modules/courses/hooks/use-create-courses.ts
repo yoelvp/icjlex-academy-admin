@@ -2,9 +2,9 @@ import { useNavigate } from "react-router"
 import { toast } from "sonner"
 import getError from "@/@common/utils/get-errors"
 import { useLoading } from "@/@common/hooks/use-loading"
-import { CourseFormData } from "../types/CourseFormFields"
 import { HttpStatusCode, isAxiosError } from "axios"
 import { createCourseService } from "@/_services/courses.service"
+import { CourseFormData } from "@/_models/Course.model"
 
 export const useCreateCourse = () => {
   const navigate = useNavigate()

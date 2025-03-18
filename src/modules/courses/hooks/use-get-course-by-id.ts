@@ -3,11 +3,12 @@ import { HttpStatusCode, isAxiosError } from "axios"
 import { useLoading } from "@/@common/hooks/use-loading"
 import getError from "@/@common/utils/get-errors"
 import { getCourseByIdService } from "@/_services/courses.service"
-import { useCourseStore } from "../store/course.store"
+import { useState } from "react"
+import { CourseDetails } from "@/_models/Course.model"
 
 export const useGetCourseById = () => {
   const { isLoading, loading, loaded } = useLoading()
-  const setCourse = useCourseStore((state) => state.setCourse)
+  const [course, setCourse] = useState<CourseDetails | null>(null)
 
   const getCourseById = async (courseId: string) => {
     loading()
@@ -30,6 +31,7 @@ export const useGetCourseById = () => {
 
   return {
     isLoading,
+    course,
     getCourseById
   }
 }
