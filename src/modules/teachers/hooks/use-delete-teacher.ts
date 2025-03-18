@@ -1,5 +1,5 @@
 import { useLoading } from "@/@common/hooks"
-import { useTeacherStore } from "../store"
+import { useTeachersStore } from "../store/teachers.store"
 import { HttpStatusCode, isAxiosError } from "axios"
 import getError from "@/@common/utils/get-errors"
 import { toast } from "sonner"
@@ -7,8 +7,8 @@ import { deleteTeacherService } from "@/_services/teachers.service"
 
 export const useDeleteTeacher = () => {
   const { isLoading, loading, loaded } = useLoading()
-  const teachers = useTeacherStore((state) => state.teachers)
-  const setTeachers = useTeacherStore((state) => state.setTeachers)
+  const teachers = useTeachersStore((state) => state.teachers)
+  const setTeachers = useTeachersStore((state) => state.setTeachers)
 
   const deleteTeacher = async (teacherId: string) => {
     loading()
