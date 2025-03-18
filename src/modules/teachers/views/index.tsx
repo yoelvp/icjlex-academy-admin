@@ -5,10 +5,9 @@ import { useShow } from "@/@common/hooks/use-show"
 import { LoadingModal, Menu, Pagination, Tooltip } from "@/@common/components"
 import { TableLoading } from "@/@common/components/table-loading"
 import { TableEmpty } from "@/@common/components/table-empty"
-import { useTeacherStore } from "../store/teachers.store"
+import { useTeachersStore } from "../store/teachers.store"
 import { useGetAllTeachers } from "../hooks/use-get-all-teachers"
 import { useDeleteTeacher } from "../hooks/use-delete-teacher"
-import { useGetTeacherById } from "../hooks/use-get-teacher-by-id"
 import { getFullName } from "@/@common/utils/get-full-names"
 import { useNavigate } from "react-router"
 import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
@@ -22,6 +21,7 @@ import {
   IconOptions,
   IconSearch
 } from "@/assets/icons"
+import { useGetTeacherById } from "../hooks/use-get-teacher-by-id"
 
 const TeacherDetailsDrawer = lazy(() => import("../components/teacher-details-drawer"))
 const UpdateImageModal = lazy(() => import("../components/update-image-modal"))
@@ -33,11 +33,11 @@ const CoursesPage = () => {
   const { show: showDetailsDrawer, open: openDetailsDrawer, close: closeDetailsDrawer } = useShow()
   const { show: showUpdateImageModal, open: openUpdateImageModal, close: closeUpdateImageModal } = useShow()
   const { isLoading, pagination, search } = useGetAllTeachers()
-  const { isLoading: isLoadingById, getTeacherById } = useGetTeacherById()
   const { isLoading: isLoadingDelete, deleteTeacher } = useDeleteTeacher()
-  const teachers = useTeacherStore((state) => state.teachers)
+  const teachers = useTeachersStore((state) => state.teachers)
   const openConfirmModal = useConfirmModalStore((state) => state.open)
   const closeConfirmModal = useConfirmModalStore((state) => state.close)
+  const { isLoading: isLoadingGetTeacherById, teacher, getById } = useGetTeacherById()
 
   const handleUpdateImageModal = (teacherId: string, imageUrl: string) => {
     setTeacherImageProfile(imageUrl)
@@ -141,20 +141,16 @@ const CoursesPage = () => {
                       {
                         label: "Ver detalles",
                         icon: IconEyeOutline,
+                        isLoading: isLoadingGetTeacherById,
                         onClick: () => {
-                          getTeacherById(teacher?.id ?? "").then(() => {
-                            openDetailsDrawer()
-                          })
+                          getById(teacher?.id ?? "").then(openDetailsDrawer)
                         }
                       },
                       {
                         label: "Editar",
                         icon: IconEdit,
-                        isLoading: isLoadingById,
                         onClick: () => {
-                          getTeacherById(teacher?.id ?? "").then(() => {
-                            navigate(`/admin/teachers/update/${teacher?.slug}/${teacher?.id}`)
-                          })
+                          navigate(`/admin/teachers/update/${teacher?.slug}/${teacher?.id}`)
                         }
                       },
                       {
@@ -197,6 +193,7 @@ const CoursesPage = () => {
       {showDetailsDrawer && (
         <Suspense fallback={<div children="Cargando" />}>
           <TeacherDetailsDrawer
+            teacher={teacher}
             show={showDetailsDrawer}
             close={closeDetailsDrawer}
           />
