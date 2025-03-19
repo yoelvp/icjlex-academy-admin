@@ -11,10 +11,10 @@ const UpdateCoursePage = () => {
   const { id: courseId } = useParams()
   const { data, isLoading } = useQuery({
     queryKey: [QueryKeys.COURSE_TO_EDIT, courseId ?? ""],
-    queryFn: () => getCourseByIdService(courseId ?? "")
+    queryFn: async () => await getCourseByIdService(courseId ?? "")
   })
 
-  const course = data?.data
+  const course = data?.data?.data
 
   return (
     <div className="section-panel py-4 px-8">
@@ -33,6 +33,7 @@ const UpdateCoursePage = () => {
       <section className="w-full max-w-2xl">
         {!isLoading && (
           <CourseForm
+            courseId={course?.id}
             defaultValues={{
               ...course,
               includes: course?.includes?.map((include) => ({ label: include, value: include })) ?? [],
