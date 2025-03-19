@@ -1,5 +1,5 @@
 import type { InferType } from "yup"
-import type { TeacherBasicData } from "./Teacher"
+import type { TeacherBasicData } from "./Teacher.model"
 import { PricingType as PricingTypeEnum } from "@/modules/courses/enums/pricing-type"
 import { courseSchema } from "@/_schemas/course.schema"
 
@@ -74,7 +74,7 @@ export interface AdminCourse {
 
 export type CourseFormFields = InferType<typeof courseSchema>
 
-export interface CourseFormData extends Omit<
+export interface CourseFormValues extends Omit<
   CourseFormFields,
   "includes"
   | "youWillLearn"
@@ -83,7 +83,6 @@ export interface CourseFormData extends Omit<
   id?: string
   includes: string[]
   youWillLearn: string[]
-  image?: File
 }
 
 export type CourseFormUpdateData = Omit<CourseFormFields, "image">
