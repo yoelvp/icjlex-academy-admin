@@ -2,6 +2,7 @@ import Link from "@/@common/components/link"
 import { IconChevronBack } from "@/assets/icons"
 import { CourseForm } from "../components/course-form"
 import { PricingType } from "../enums/pricing-type"
+import dayjs from "dayjs"
 
 const CreateCoursePage = () => {
   return (
@@ -19,7 +20,13 @@ const CreateCoursePage = () => {
       </div>
 
       <section className="w-full">
-        <CourseForm isToCreate defaultValues={{ princingType: PricingType.PAID }} />
+        <CourseForm
+          isToCreate
+          defaultValues={{
+            pricingType: PricingType.PAID,
+            publicationDate: dayjs()
+          }}
+        />
       </section>
     </div>
   )
