@@ -16,8 +16,9 @@ import { IconAdd } from "@/assets/icons"
 import Link from "@/@common/components/link"
 import { PricingType } from "../enums/pricing-type"
 import { getSelectedOptions } from "@/@common/utils/select/get-option"
-import type { CourseFormData, CourseFormFields } from "@/_models/Course.model"
+import type { CourseFormValues, CourseFormFields } from "@/_models/Course.model"
 import { useUpdateCourse } from "../hooks/use-update-course"
+import dayjs from "dayjs"
 
 interface Props {
   isToCreate?: boolean
@@ -48,20 +49,20 @@ export const CourseForm = ({ isToCreate, defaultValues, courseId }: Props) => {
   }))
 
   const onHandleSubmit: SubmitHandler<CourseFormFields> = async (data) => {
-    const { image, price, includes, youWillLearn, princingType } = data
+    const { image, price, includes, youWillLearn, pricingType } = data
 
-    const formattedData: CourseFormData = {
+    const formattedData: CourseFormValues = {
       ...data,
       includes: includes.map((include) => include.label),
       youWillLearn: youWillLearn.map((include) => include.label),
-      price: princingType === PricingType.PAID ? price : 0,
-      image: image ? image?.[0] : undefined
+      price: pricingType === PricingType.PAID ? price : 0,
+      publicationDate: data.publicationDate
     }
 
     if (isToCreate) {
-      await createCourse(formattedData, data.isScheduled ?? false)
+      await createCourse(formattedData, image?.[0], data.isScheduled ?? false)
     } else {
-      await updateCourse(formattedData, courseId ?? "", data.isScheduled ?? false)
+      await updateCourse(formattedData, courseId ?? "", image?.[0], data.isScheduled ?? false)
     }
   }
 
@@ -175,7 +176,7 @@ export const CourseForm = ({ isToCreate, defaultValues, courseId }: Props) => {
           Selecciona tu imagen
           <BadgeOptional />
         </Form.Label>
-        <ImageUpload name="image" register={register} defaultImageUrl={defaultValues?.imageUrl} />
+        <ImageUpload name="image" register={register} defaultImageUrl={defaultValues?.imageUrl ?? ""} />
         <Form.Error hasError={errors.image?.message} />
       </Form.Control>
 
@@ -185,7 +186,7 @@ export const CourseForm = ({ isToCreate, defaultValues, courseId }: Props) => {
             Tipo
           </span>
           <Controller
-            name="princingType"
+            name="pricingType"
             control={control}
             render={({ field }) => (
               <Radio.Group
@@ -210,7 +211,7 @@ export const CourseForm = ({ isToCreate, defaultValues, courseId }: Props) => {
           />
         </div>
 
-        {watch("princingType") === PricingType.PAID && (
+        {watch("pricingType") === PricingType.PAID && (
           <div>
             <Form.Input
               type="number"
@@ -244,6 +245,8 @@ export const CourseForm = ({ isToCreate, defaultValues, courseId }: Props) => {
               render={({ field }) => (
                 <DatePicker
                   {...field}
+                  value={field.value ? dayjs(field.value as string | number | Date) : null}
+                  onChange={(date) => field.onChange(date ? date.toISOString() : "")}
                   format="DD [de] MMM, YYYY - HH:mm:ss A"
                   showTime
                   className="h-10 w-full"
