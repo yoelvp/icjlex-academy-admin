@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { toast } from "sonner"
 import { HttpStatusCode, isAxiosError } from "axios"
 import { useCoursesStore } from "../store/courses.store"
@@ -7,24 +7,28 @@ import getError from "@/@common/utils/get-errors"
 import { usePagination } from "@/@common/hooks/use-pagination"
 import { getAllCoursesService } from "@/_services/courses.service"
 import { useDebounce } from "@/@common/hooks"
+import { useSearchCourseStore } from "../store/search-course.store"
 
 export const useGetCourses = () => {
-  const [searchQueryPublished, setSearchQueryPublished] = useState("")
-  const [searchQueryUpcoming, setSearchQueryUpcoming] = useState("")
+  // const [searchQueryPublished, setSearchQueryPublished] = useState("")
+  // const [searchQueryUpcoming, setSearchQueryUpcoming] = useState("")
   const { isLoading: isLoadingPublished, loading: loadingPublished, loaded: loadedPublished } = useLoading()
   const { isLoading: isLoadingUpcoming, loading: loadingUpcoming, loaded: loadedUpcoming } = useLoading()
+
+  const publishedCourseQuery = useSearchCourseStore((state) => state.query)
+  const scheduledCourseQuery = useSearchCourseStore((state) => state.scheduledQuery)
 
   const setPublishedCourses = useCoursesStore((state) => state.setPublishedCourses)
   const publishedCoursesPagination = useCoursesStore((state) => state.published.pagination)
   const setPublishedCoursesPagination = useCoursesStore((state) => state.setPublishedPagination)
   const publishedPaginationManager = usePagination(publishedCoursesPagination)
-  const publishedDebounceValue = useDebounce({ value: searchQueryPublished })
+  const publishedDebounceValue = useDebounce({ value: publishedCourseQuery })
 
   const setScheduledCourses = useCoursesStore((state) => state.setScheduledCourses)
   const scheduedCoursesPagination = useCoursesStore((state) => state.scheduled.pagination)
   const setScheduledCoursesPagination = useCoursesStore((state) => state.setScheduluedPagination)
   const scheduledPaginationManager = usePagination(scheduedCoursesPagination)
-  const scheduledDebounceValue = useDebounce({ value: searchQueryUpcoming })
+  const scheduledDebounceValue = useDebounce({ value: scheduledCourseQuery })
 
   useEffect(() => {
     getAllPublishedCourses()
@@ -40,7 +44,7 @@ export const useGetCourses = () => {
       const { data: { data, pagination }, status } = await getAllCoursesService({
         page: publishedPaginationManager.page,
         perPage: publishedPaginationManager.perPage,
-        q: searchQueryPublished,
+        q: publishedCourseQuery,
         status: "published"
       })
 
@@ -65,7 +69,7 @@ export const useGetCourses = () => {
       const { data: { data, pagination }, status } = await getAllCoursesService({
         page: scheduledPaginationManager.page,
         perPage: scheduledPaginationManager.perPage,
-        q: searchQueryUpcoming,
+        q: scheduledCourseQuery,
         status: "scheduled"
       })
 
@@ -84,20 +88,10 @@ export const useGetCourses = () => {
     }
   }
 
-  const updateSearchQuery = (value: string) => {
-    setSearchQueryPublished(value)
-  }
-
-  const updateSearchQueryUpcoming = (value: string) => {
-    setSearchQueryUpcoming(value)
-  }
-
   return {
     isLoadingPublished: isLoadingPublished,
     isLoadingUpcoming: isLoadingUpcoming,
     publishedPagination: publishedPaginationManager,
-    scheduledPagination: scheduledPaginationManager,
-    search: updateSearchQuery,
-    searchUpcomingCourses: updateSearchQueryUpcoming
+    scheduledPagination: scheduledPaginationManager
   }
 }
