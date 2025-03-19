@@ -1,3 +1,5 @@
+import dayjs from "dayjs"
+
 export const formatDateTime = (date: Date | null) => {
   const currentDate = new Date(date ?? new Date())
 
@@ -10,4 +12,8 @@ export const formatDateTime = (date: Date | null) => {
     hour12: true,
     timeZone: "America/Lima"
   }).format(currentDate)
+}
+
+export const formatDayjs = (date?: Date) => {
+  return dayjs(date).format("YYYY-MM-DD HH:mm:ss")
 }
