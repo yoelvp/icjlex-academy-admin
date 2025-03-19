@@ -8,19 +8,19 @@ import { TableScheduledCourses } from "../components/table-scheduled-courses"
 import { useShow } from "@/@common/hooks"
 import UpdateImageModal from "../components/update-image-modal"
 import { LoadingModal } from "@/@common/components"
-import { useGetCourses } from "../hooks/use-get-courses"
 import {
   IconAdd,
   IconSearch
 } from "@/assets/icons"
-import { TAB_INDEX } from "../utils/course-tab-index"
+import { useSearchCourseStore } from "../store/search-course.store"
 
 const CoursesPage = () => {
   const [courseId, setCourseId] = useState<string | null>(null)
   const [courseImageUrl, setCourseImageUrl] = useState<string | null>(null)
   const { tab, handleTabIndex } = useCourseUI()
   const { show: showUpdateImageModal, open: openUpdateImageModal, close: closeUpdateImageModal } = useShow()
-  const { search, searchUpcomingCourses } = useGetCourses()
+  const setPublishedCourseQuery = useSearchCourseStore((state) => state.setQuery)
+  const setScheduledCourseQuery = useSearchCourseStore((state) => state.setScheduledQuery)
 
   const handleCourseId = (teacherId: string) => {
     setCourseId(teacherId)
@@ -31,10 +31,10 @@ const CoursesPage = () => {
   }
 
   const handleSearchCourse = (event: ChangeEvent<HTMLInputElement>) => {
-    if (tab === TAB_INDEX[0]) {
-      search(event.target.value)
+    if (tab === null) {
+      setPublishedCourseQuery(event.target.value)
     } else {
-      searchUpcomingCourses(event.target.value)
+      setScheduledCourseQuery(event.target.value)
     }
   }
 
