@@ -1,5 +1,6 @@
-import { array, boolean, date, mixed, number, object, string } from "yup"
+import { array, boolean, mixed, number, object, string } from "yup"
 import { PricingType } from "@/modules/courses/enums/pricing-type";
+import dayjs from "dayjs";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 const SUPPORTED_FORMATS = ["image/jpeg", "image/png", "image/webp"];
@@ -22,7 +23,7 @@ export const courseSchema = object().shape({
     .required("Campo requerido")
     .min(1, "Debe haber al menos un elemento"),
   description: string().required("Campo requerido"),
-  imageUrl: string().optional(),
+  imageUrl: string().url("Ingrese una url válida").nullable().optional(),
   image: mixed<FileList>()
     .optional()
     .test(
@@ -47,15 +48,19 @@ export const courseSchema = object().shape({
         return SUPPORTED_FORMATS.includes(value[0].type)
       }
     ),
-  princingType: string().oneOf(Object.values(PricingType), "Debe elegir una opción válida"),
+  pricingType: string().oneOf(Object.values(PricingType), "Debe elegir una opción válida"),
   isScheduled: boolean().default(false),
   price: number().optional().transform((value, originalValue) => (originalValue === "" ? 0 : value)),
-  publicationDate: date().typeError("Ingrese una fecha válida").default(new Date()),
+  publicationDate: mixed()
+    .test("is-dayjs", "Ingrese una fecha válida", (value) => {
+      return dayjs.isDayjs(value) && value.isValid()
+    })
+    .transform((value) => (value ? dayjs(value) : dayjs())),
   course: object({
     name: string().required("Campo requerido"),
     url: string().url("Ingrese una URL válida").nullable(),
     duration: string()
-      .matches(/^((\d+d\s*)?(\d+h\s*)?(\d+m\s*)?(\d+s\s*)?)$/i, "Formato inválido. Usa: 1d 4h 30m 20s")
+      .matches(/^((\d+d\s*)?(\d+h\s*)?(\d+m\s*)?(\d+s\s*)?)$/i, "Formato inválido, ejemplo: 1d 4h 30m 00s")
       .required("Campo requerido")
   })
 })
