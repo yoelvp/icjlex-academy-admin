@@ -58,7 +58,8 @@ export const Menu = ({
       {showDropdown && (
         <div
           className={classNames(
-            "absolute z-50 bg-white rounded-sm shadow-lg shadow-primary-50 py-1"
+            "absolute z-50 bg-white rounded-sm shadow-lg shadow-primary-50 py-1",
+            "border border-primary-500/10"
           )}
           style={{
             top: menuPosition.top + 8,
