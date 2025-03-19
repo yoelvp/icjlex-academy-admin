@@ -10,11 +10,10 @@ import { useDeleteCourse } from "../hooks/use-delete-course"
 import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
 import { useGetCourseById } from "../hooks/use-get-course-by-id"
 import {
-  IconCloudUpload,
   IconDelete,
-  IconDockRight,
-  IconEdit,
-  IconEye,
+  IconEditNote,
+  IconEyeOutline,
+  IconImageUp,
   IconOptions
 } from "@/assets/icons"
 
@@ -70,13 +69,6 @@ export const TablePublishedCourses = ({
                   <span>
                     {course.name}
                   </span>
-                  <button
-                    onClick={() => console.log("open")}
-                    className="hidden absolute left-0 top-1/2 -translate-y-1/2 group-hover:flex gap-x-1 items-center px-1 py-px rounded-xs bg-zinc-900/40 hover:bg-zinc-900/60 text-white text-xs uppercase"
-                  >
-                    <IconDockRight size="14" />
-                    Abrir
-                  </button>
                 </div>
               </td>
               <td>
@@ -108,7 +100,7 @@ export const TablePublishedCourses = ({
                   options={[
                     {
                       label: "Ver detalles",
-                      icon: IconEye,
+                      icon: IconEyeOutline,
                       isLoading: isLoadingGetCourseById,
                       onClick: () => {
                         getCourseById(course?.id ?? "").then(() => navigate(`/admin/courses/${course.id}`))
@@ -116,7 +108,7 @@ export const TablePublishedCourses = ({
                     },
                     {
                       label: "Actualizar imagen",
-                      icon: IconCloudUpload,
+                      icon: IconImageUp,
                       onClick: () => {
                         handleCourseId(course?.id ?? "")
                         handleCourseImageUrl(course?.imageUrl ?? "")
@@ -125,7 +117,7 @@ export const TablePublishedCourses = ({
                     },
                     {
                       label: "Editar",
-                      icon: IconEdit,
+                      icon: IconEditNote,
                       href: `/admin/courses/update/${course.id}`
                     },
                     {

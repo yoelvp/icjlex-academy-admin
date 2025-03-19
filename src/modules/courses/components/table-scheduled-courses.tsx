@@ -11,10 +11,11 @@ import { useConfirmModalStore } from "@/store/use-confirm-modal.store"
 import {
   IconDelete,
   IconDockRight,
+  IconEditNote,
   IconEyeOutline,
   IconFileUpload,
-  IconOptions,
-  IconUpdate
+  IconImageUp,
+  IconOptions
 } from "@/assets/icons"
 import { Link } from "react-router"
 import { useDeleteCourse } from "../hooks/use-delete-course"
@@ -108,6 +109,11 @@ export const TableScheduledCourses = ({
                   activator={<IconOptions />}
                   options={[
                     {
+                      label: "Ver detalles",
+                      icon: IconEyeOutline,
+                      href: `/admin/courses/${course.id}`
+                    },
+                    {
                       label: "Publicar",
                       icon: IconFileUpload,
                       onClick: () => {
@@ -124,13 +130,8 @@ export const TableScheduledCourses = ({
                       }
                     },
                     {
-                      label: "Ver detalles",
-                      icon: IconEyeOutline,
-                      href: `/admin/courses/${course.id}`
-                    },
-                    {
                       label: "Actualizar imagen",
-                      icon: IconUpdate,
+                      icon: IconImageUp,
                       onClick: () => {
                         handleCourseId(course.id)
                         handleCourseImageUrl(course.imageUrl ?? "")
@@ -139,7 +140,7 @@ export const TableScheduledCourses = ({
                     },
                     {
                       label: "Editar",
-                      icon: IconUpdate,
+                      icon: IconEditNote,
                       href: `/admin/courses/update/${course.id}`
                     },
                     {
