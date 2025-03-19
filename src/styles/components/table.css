@@ -19,7 +19,7 @@
   }
 
   .custom-table tbody tr td {
-    @apply py-1 px-2 border-b border-b-primary-100;
+    @apply py-1 px-2 border-b border-b-primary-50/25;
   }
 
   .custom-table tbody tr:last-child td {
