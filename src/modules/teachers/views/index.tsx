@@ -26,7 +26,7 @@ import { useGetTeacherById } from "../hooks/use-get-teacher-by-id"
 const TeacherDetailsDrawer = lazy(() => import("../components/teacher-details-drawer"))
 const UpdateImageModal = lazy(() => import("../components/update-image-modal"))
 
-const CoursesPage = () => {
+const TeachersPage = () => {
   const [teacherImageProfile, setTeacherImageProfile] = useState<string | null>(null)
   const [teacherUpdateImageId, setTeacherUpdateImageId] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -216,4 +216,4 @@ const CoursesPage = () => {
   )
 }
 
-export default CoursesPage
+export default TeachersPage
