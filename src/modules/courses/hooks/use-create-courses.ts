@@ -3,19 +3,23 @@ import { toast } from "sonner"
 import getError from "@/@common/utils/get-errors"
 import { useLoading } from "@/@common/hooks/use-loading"
 import { HttpStatusCode, isAxiosError } from "axios"
-import { createCourseService } from "@/_services/courses.service"
-import { CourseFormData } from "@/_models/Course.model"
+import { createCourseService, updateImageCourseService } from "@/_services/courses.service"
+import { CourseFormValues } from "@/_models/Course.model"
 
 export const useCreateCourse = () => {
   const navigate = useNavigate()
   const { isLoading, loading, loaded } = useLoading()
 
-  const createCourse = async (course: CourseFormData, isScheduled?: boolean) => {
+  const createCourse = async (course: CourseFormValues, file?: File | null, isScheduled?: boolean) => {
     loading()
     try {
-      const response = await createCourseService(course)
+      const { data: { data, message }, status } = await createCourseService(course)
+      const { data: { message: updateImageMessage }, status: updateImageStatus } = await updateImageCourseService(data?.courseId ?? "", file)
 
-      if (response?.status === HttpStatusCode.Ok) {
+      if (status !== HttpStatusCode.Ok && updateImageStatus !== HttpStatusCode.Ok) {
+        toast.warning(message)
+        toast.warning(updateImageMessage)
+      } else {
         if (isScheduled) {
           navigate("/admin/courses/?tab=scheduled")
         } else {
