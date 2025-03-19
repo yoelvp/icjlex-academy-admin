@@ -37,7 +37,8 @@ export {
 export {
   MdDeleteOutline as IconDelete,
   MdOutlineBookmarkAdd as IconBookmarkAdd,
-  MdOutlineFileUpload as IconFileUpload
+  MdOutlineFileUpload as IconFileUpload,
+  MdEditNote as IconEditNote
 } from "react-icons/md"
 export {
   TbMenu as IconMenu,
