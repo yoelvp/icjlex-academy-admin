@@ -7,8 +7,8 @@ import { useState } from "react"
 import { CourseDetails } from "@/_models/Course.model"
 
 export const useGetCourseById = () => {
-  const { isLoading, loading, loaded } = useLoading()
   const [course, setCourse] = useState<CourseDetails | null>(null)
+  const { isLoading, loading, loaded } = useLoading()
 
   const getCourseById = async (courseId: string) => {
     loading()
