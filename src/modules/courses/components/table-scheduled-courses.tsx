@@ -13,6 +13,7 @@ import {
   IconDockRight,
   IconEyeOutline,
   IconFileUpload,
+  IconOptions,
   IconUpdate
 } from "@/assets/icons"
 import { Link } from "react-router"
@@ -22,7 +23,17 @@ import { usePublishCourse } from "../hooks/use-publish-course"
 
 const CourseDetailsDrawer = lazy(() => import("../components/course-details-drawer"))
 
-export const TableScheduledCourses = () => {
+interface Props {
+  handleCourseId: (teacherId: string) => void
+  handleCourseImageUrl: (teacherId: string) => void
+  openUpdateImageModal: () => void
+}
+
+export const TableScheduledCourses = ({
+  handleCourseId,
+  handleCourseImageUrl,
+  openUpdateImageModal
+}: Props) => {
   const { isLoadingPublished, scheduledPagination } = useGetCourses()
   const { isLoading: isLoadingDeleteCourse, deletePublishedCourse } = useDeleteCourse()
   const { isLoading: isLoadingPublishCourse, publishCourse } = usePublishCourse()
@@ -93,7 +104,8 @@ export const TableScheduledCourses = () => {
               <td>08:00 p.m.</td>
               <td>
                 <Menu
-                  variant="white"
+                  variant="primary.outline"
+                  activator={<IconOptions />}
                   options={[
                     {
                       label: "Publicar",
@@ -115,6 +127,15 @@ export const TableScheduledCourses = () => {
                       label: "Ver detalles",
                       icon: IconEyeOutline,
                       href: `/admin/courses/${course.id}`
+                    },
+                    {
+                      label: "Actualizar imagen",
+                      icon: IconUpdate,
+                      onClick: () => {
+                        handleCourseId(course.id)
+                        handleCourseImageUrl(course.imageUrl ?? "")
+                        openUpdateImageModal()
+                      }
                     },
                     {
                       label: "Editar",

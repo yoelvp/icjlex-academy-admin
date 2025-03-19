@@ -15,11 +15,20 @@ import {
   IconDockRight,
   IconEdit,
   IconEye,
-  IconImagePlus,
   IconOptions
 } from "@/assets/icons"
 
-export const TablePublishedCourses = () => {
+interface Props {
+  handleCourseId: (teacherId: string) => void
+  handleCourseImageUrl: (teacherId: string) => void
+  openUpdateImageModal: () => void
+}
+
+export const TablePublishedCourses = ({
+  handleCourseId,
+  handleCourseImageUrl,
+  openUpdateImageModal
+}: Props) => {
   const navigate = useNavigate()
   const { isLoadingPublished: isLoading, publishedPagination: pagination } = useGetCourses()
   const { isLoading: isLoadingDeleteCourse, deletePublishedCourse } = useDeleteCourse()
@@ -93,7 +102,7 @@ export const TablePublishedCourses = () => {
               <td>{formatDate(course.createdAt)}</td>
               <td className="text-right">
                 <Menu
-                  variant="white"
+                  variant="primary.outline"
                   activator={<IconOptions />}
                   size="sm"
                   options={[
@@ -106,8 +115,13 @@ export const TablePublishedCourses = () => {
                       }
                     },
                     {
-                      label: course.imageUrl !== null ? "Actualizar imagen" : "Subir imagen",
-                      icon: course.imageUrl !== null ? IconCloudUpload : IconImagePlus
+                      label: "Actualizar imagen",
+                      icon: IconCloudUpload,
+                      onClick: () => {
+                        handleCourseId(course?.id ?? "")
+                        handleCourseImageUrl(course?.imageUrl ?? "")
+                        openUpdateImageModal()
+                      }
                     },
                     {
                       label: "Editar",
