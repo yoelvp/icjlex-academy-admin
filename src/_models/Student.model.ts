@@ -8,3 +8,13 @@ export interface ValidateStudentHasPaidCourse {
   courseId: string
   studentId: string
 }
+
+export interface Student {
+  id: string
+  firstName: string
+  lastName: string
+  slug: string
+  imageUrl?: string | null
+  phone: string
+  createdAt: Date
+}
