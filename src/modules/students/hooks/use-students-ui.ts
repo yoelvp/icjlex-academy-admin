@@ -9,7 +9,7 @@ export const useStudentsUI = () => {
   const { show: showActiveStudentDrawer, open: openActiveStudentDrawer, close: closeActiveStudentDrawer } = useShow()
   const tab = queryParams.get("tab")
 
-  const handleTabIndex = (index: number) => {
+  const handleTabIndex = (index: keyof typeof TAB_INDEX) => {
     setQueryParams(TAB_INDEX[index])
   }
 

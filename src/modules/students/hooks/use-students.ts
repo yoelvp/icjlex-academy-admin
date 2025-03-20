@@ -8,7 +8,6 @@ import {
   deleteStudentService
 } from "@/_services/students.service"
 import { getAllCoursesOnlyNameService } from "@/_services/courses.service"
-import { useCourseMainDataStore } from "@/modules/courses/store/course-main-data.store"
 import { isAxiosError } from "axios"
 
 export const useStudents = () => {
@@ -17,7 +16,6 @@ export const useStudents = () => {
   const setActiveStudents = useStudentsStore((state) => state.setActiveStudents)
   const registeredStudents = useStudentsStore((state) => state.preRegisteredStudents)
   const setPreRegisteredStudents = useStudentsStore((state) => state.setPreRegisteredStudents)
-  const setCourses = useCourseMainDataStore((state) => state.setCourses)
 
   const assignCourseToStudent = async (studentId: string, courseId: string) => {
     try {
@@ -42,10 +40,6 @@ export const useStudents = () => {
     try {
       loading()
       const { data, status } = await getAllCoursesOnlyNameService()
-
-      if (status === 200) {
-        setCourses(data)
-      }
     } catch (error) {
       loaded()
       if (isAxiosError(error)) {
