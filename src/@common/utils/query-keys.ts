@@ -3,5 +3,6 @@ export const QueryKeys = {
   COURSE_TO_EDIT: "courseToEdit",
 
   // Teachers
+  TEACHERS: "teachers",
   TEACHER_BY_ID: "teacherById"
 }
