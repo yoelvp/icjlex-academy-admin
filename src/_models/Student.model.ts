@@ -16,5 +16,6 @@ export interface Student {
   slug: string
   imageUrl?: string | null
   phone: string
+  email: string
   createdAt: Date
 }
