@@ -1,7 +1,9 @@
-import type { User } from "@/_models/User"
-import type { Student } from "@/modules/students/types/Student"
+interface Payload {
+  firstName: string
+  lastName: string
+}
 
-export const getUserInitials = (user: User | Student | null) => {
+export const getUserInitials = <T extends Payload>(user: T | null) => {
   const initialFirstName = user?.firstName.charAt(0)
   const initialLastName = user?.lastName.charAt(0)
 
