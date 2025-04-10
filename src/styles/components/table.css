@@ -26,10 +26,6 @@
     @apply border-b-transparent;
   }
 
-  .custom-table tbody tr td:last-child {
-    @apply w-full;
-  }
-
   .custom-table tbody tr:not(.sub-table):hover {
     @apply bg-primary-50/30;
   }
