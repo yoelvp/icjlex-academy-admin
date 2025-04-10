@@ -13,7 +13,7 @@ export const getStudentByIdService = (studentId: string) => {
 }
 
 export const assignCourseToStudentService = (studentId: string, courseId: string) => {
-  return axios.post(`/admin/students/assign-course/${studentId}/${courseId}`)
+  return axios.post(`/admin/students/subscribe-to-course/${studentId}/${courseId}`)
 }
 
 export const deleteStudentService = (studentId: string) => {
