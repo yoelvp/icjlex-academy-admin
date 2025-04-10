@@ -13,4 +13,5 @@ export const useSidebar = create<UseSidebarStore>()(
       toggle: () => set((state) => ({ show: !state.show }))
     }),
     { name: "sidebar-state" }
-  ))
+  )
+)
