@@ -1,57 +1,46 @@
 import { lazy, Suspense } from "react"
-import { Spinner, Tabs } from "flowbite-react"
+import { Spinner } from "flowbite-react"
 import Button from "@/@common/components/button"
 import Form from "@/@common/components/form"
 import { useShow } from "@/@common/hooks/use-show"
 import { useStudentsStore } from "../store/use-students.store"
-import { StudentTab } from "../enums/student-tab"
 import { TableLoading } from "@/@common/components/table-loading"
-import { useGetAllStudents } from "../hooks/use-get-all-students"
 import { useStudentsUI } from "../hooks/use-students-ui"
 import { TableEmpty } from "@/@common/components/table-empty"
 import { Menu } from "@/@common/components"
-import { IconBookmarkAdd, IconDelete, IconEdit, IconEye, IconWhatsapp } from "@/assets/icons"
-import StudentDetailsDrawer from "../components/student-details-drawer"
-import { StudentPreRegistrationData } from "../types/Student"
-import { whatsappMessage } from "@/@common/utils/whatsapp"
-import { APP_NAME_WITHOUT_AMP } from "@/@common/env"
+import { IconBookmarkAdd, IconDelete, IconEdit, IconEye } from "@/assets/icons"
 import { useStudents } from "../hooks/use-students"
 import { getUserInitials } from "@/@common/utils/get-initials"
 import { useQuery } from "@tanstack/react-query"
 import { QueryKeys } from "@/@common/utils"
-import { getAllTeachersService } from "@/_services/teachers.service"
+import { getAllStudentsService } from "@/_services/students.service"
 
 const RegisterStudentModal = lazy(() => import("../components/register-student-modal"))
-const AssignCourseToStudentModal = lazy(() => import("../components/assign-course-to-student-modal"))
+/* const AssignCourseToStudentModal = lazy(() => import("../components/assign-course-to-student-modal")) */
 
 const StudentsPage = () => {
   const { show, open, close } = useShow()
   const { show: showAssignModal, open: openAssignModal, close: closeAssignModal } = useShow()
   const setStudentId = useStudentsStore((state) => state.setStudentId)
   const activeStudents = useStudentsStore((state) => state.activeStudents)
-  const preRegisteredStudents = useStudentsStore((state) => state.preRegisteredStudents)
   const setPreRegisteredStudent = useStudentsStore((state) => state.setPreRegistered)
-  const { isLoadingActive, isLoadingPreRegister } = useGetAllStudents({ page: 1, size: 100 }, { page: 1, size: 100 })
   const { isLoading: isLoadingDelete, deleteStudent } = useStudents()
   const {
-    tab,
-    handleTabIndex,
-    showActiveStudentDrawer,
-    openActiveStudentDrawer,
-    closeActiveStudentDrawer
+    openActiveStudentDrawer
   } = useStudentsUI()
-  const { data } = useQuery({
-    queryKey: [QueryKeys.TEACHERS],
-    queryFn: async () => getAllTeachersService()
+  const { isLoading, data } = useQuery({
+    queryKey: [QueryKeys.STUDENTS],
+    queryFn: async () => getAllStudentsService({
+      page: 1,
+      perPage: 10,
+      searchQuery: null
+    }),
+    select: (res) => res?.data
   })
+
+  console.log(data)
+
   const studentId = useStudentsStore((state) => state.studentId)
-
-  const handleEditStudent = (student: StudentPreRegistrationData) => {
-    setPreRegisteredStudent(student)
-    open()
-  }
-
-  console.log(data?.data.data)
 
   const handleClosePreRegisteredModal = () => {
     setPreRegisteredStudent(null)
@@ -92,18 +81,18 @@ const StudentsPage = () => {
               <th>Email</th>
               <th>N° teléfono</th>
               <th>Cursos</th>
-              <th></th>
+              <th className="w-10"></th>
             </tr>
           </thead>
           <tbody>
-            <TableLoading numCols={6} isLoading={isLoadingActive} />
+            <TableLoading numCols={6} isLoading={isLoading} />
             <TableEmpty
-              show={activeStudents.length < 1}
+              show={(data?.data?.length ?? 0) < 1}
               numCols={6}
-              isLoading={isLoadingActive}
+              isLoading={isLoading}
               message="No hay alumnos registrados"
             />
-            {!isLoadingActive && activeStudents.map((student) => (
+            {!isLoading && data?.data?.map((student) => (
               <tr key={student.id}>
                 <td>
                   {student.imageUrl ? (
@@ -131,42 +120,40 @@ const StudentsPage = () => {
                   {"3"}
                 </td>
                 <td>
-                  <div className="border-l border-l-gray-300 flex justify-center">
-                    <Menu
-                      variant="white"
-                      options={[
-                        {
-                          label: "Ver detalles",
-                          icon: IconEye,
-                          onClick: () => {
-                            if (student.id !== studentId) {
-                              setStudentId(student.id)
-                            }
-
-                            openActiveStudentDrawer()
+                  <Menu
+                    variant="white"
+                    options={[
+                      {
+                        label: "Ver detalles",
+                        icon: IconEye,
+                        onClick: () => {
+                          if (student.id !== studentId) {
+                            setStudentId(student.id)
                           }
-                        },
-                        {
-                          label: "Inscribir a curso",
-                          icon: IconBookmarkAdd,
-                          onClick: () => handleShowAssignCourseModal(student.id)
-                        },
-                        {
-                          label: "Editar",
-                          icon: IconEdit,
-                          onClick: () => console.log("Editar")
-                        },
-                        {
-                          label: "Eliminar",
-                          icon: IconDelete,
-                          isDelete: true,
-                          dividerTop: true,
-                          onClick: () => deleteStudent(student.id, "active"),
-                          isLoading: isLoadingDelete
+
+                          openActiveStudentDrawer()
                         }
-                      ]}
-                    />
-                  </div>
+                      },
+                      {
+                        label: "Inscribir a curso",
+                        icon: IconBookmarkAdd,
+                        onClick: () => handleShowAssignCourseModal(student.id)
+                      },
+                      {
+                        label: "Editar",
+                        icon: IconEdit,
+                        onClick: () => console.log("Editar")
+                      },
+                      {
+                        label: "Eliminar",
+                        icon: IconDelete,
+                        isDelete: true,
+                        dividerTop: true,
+                        onClick: () => deleteStudent(student.id, "active"),
+                        isLoading: isLoadingDelete
+                      }
+                    ]}
+                  />
                 </td>
               </tr>
             ))}
