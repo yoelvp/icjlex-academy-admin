@@ -1,11 +1,10 @@
-import { FC } from "react"
 import { badgeVariants } from "@/@common/constants/badge-variants"
 
-interface BadgeProps {
-  status: true | false
+interface Props {
+  status: boolean
 }
 
-export const Badge: FC<BadgeProps> = ({ status }) => {
+export const Badge = ({ status }: Props) => {
   return (
     <span className={badgeVariants({ variant: status })}>
       {status === true ? "Activo" : "Inactivo"}
