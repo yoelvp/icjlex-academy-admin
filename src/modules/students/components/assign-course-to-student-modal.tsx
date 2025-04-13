@@ -1,63 +1,71 @@
+import { type MouseEvent } from "react"
+import type { AssignCourse, AssignCourseForm, SelectOption, Student } from "@/types"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import Select, { SingleValue } from "react-select"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import Button from "@/@common/components/button"
 import Form from "@/@common/components/form"
 import { Modal } from "@/@common/components/modal"
-import { useStudents } from "../hooks/use-students"
-import { Spinner } from "flowbite-react"
-import { type MouseEvent, useEffect } from "react"
-import { useCourseMainDataStore } from "@/modules/courses/store/course-main-data.store"
 import { useStudentsStore } from "../store/use-students.store"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { AssignCourseFields } from "../types/AssignCourse"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { assignCourseToStudentSchema } from "../schemas/assign-course.schema"
-import { SelectOption } from "@/@common/types/Select"
+import { getFullName, QueryKeys } from "@/@common/utils"
+import { assignCourseToStudentService, getAllCourseOptionsService } from "@/services/courses.service"
 import { getSelectedOptions } from "@/@common/utils/select/get-option"
+import { Spinner } from "@/@common/components"
 
 interface Props {
+  student: Student | null
   isOpen: boolean
   onClose: () => void
 }
 
-const AssignCourseToStudentModal = ({ isOpen, onClose }: Props) => {
-  const { isLoading, assignCourseToStudent } = useStudents()
-  const { isLoading: isLoadingCoursesData, getAllCoursesOnlyName } = useStudents()
+const AssignCourseToStudentModal = ({ student, isOpen, onClose }: Props) => {
   const setStudentId = useStudentsStore((state) => state.setStudentId)
-  const studentId = useStudentsStore((state) => state.studentId)
-  const courses = useCourseMainDataStore((state) => state.courses)
-  const setCourses = useCourseMainDataStore((state) => state.setCourses)
-  const { control, handleSubmit, formState: { errors } } = useForm<AssignCourseFields>({
+  const { isLoading: isLoadingCourseOptions, data: courseOptionsData } = useQuery({
+    queryKey: [QueryKeys.COURSE_OPTIONS],
+    queryFn: () => getAllCourseOptionsService({ page: 1, perPage: 1000 })
+  })
+  const { control, handleSubmit, formState: { errors } } = useForm<AssignCourseForm>({
     resolver: yupResolver(assignCourseToStudentSchema),
     mode: "onChange"
   })
-
-  useEffect(() => {
-    getAllCoursesOnlyName()
-  }, [])
-
-  const formattedCourses: SelectOption[] = courses.map((course) => ({ label: course.name, value: course.id }))
-
-  const onHandleSubmit: SubmitHandler<AssignCourseFields> = (data) => {
-    assignCourseToStudent(studentId ?? "", data.courseId ?? "")
-      .then(() => {
-        handleCloseModal()
-      })
-  }
+  const courseOptions: SelectOption[] = courseOptionsData?.data?.map((option) => ({
+    value: option.id,
+    label: option.name
+  })) || []
 
   const handleCloseModal = (event?: MouseEvent<HTMLButtonElement>) => {
     event?.stopPropagation()
     setStudentId(null)
-    setCourses([])
     onClose()
+  }
+
+  const { mutate } = useMutation({
+    mutationFn: ({ courseId, studentId }: AssignCourse) => {
+      return assignCourseToStudentService({ courseId, studentId })
+    }
+  })
+
+  const onHandleSubmit: SubmitHandler<AssignCourseForm> = (data) => {
+    console.log(data)
+    mutate({
+      courseId: data.courseId,
+      studentId: student?.id ?? ""
+    })
+    /* assignCourseToStudent(studentId ?? "", data.courseId ?? "") */
+    /*   .then(() => { */
+    /*     handleCloseModal() */
+    /*   }) */
   }
 
   return (
     <Modal
-      title="Asignar curso a Yoel Valverde Polo"
-      description="Inscribir a Yoel Valverde a un nuevo curso"
+      title={`Asignar curso a ${getFullName(student)}`}
+      description={`Inscribir a ${getFullName(student)} a un nuevo curso`}
       isOpen={isOpen}
       onClose={handleCloseModal}
-      size="sm"
+      size="md"
       className="h-56"
     >
       <Form onSubmit={handleSubmit(onHandleSubmit)} className="p2-4 h-full grid grid-rows-[1fr_auto] gap-y-4">
@@ -71,10 +79,10 @@ const AssignCourseToStudentModal = ({ isOpen, onClose }: Props) => {
             render={({ field }) => (
               <Select
                 {...field}
-                value={getSelectedOptions(field.value, formattedCourses)}
-                options={formattedCourses}
+                value={getSelectedOptions(field.value, courseOptions)}
+                options={courseOptions}
                 onChange={(option: SingleValue<SelectOption>) => field.onChange(option?.value)}
-                isLoading={isLoadingCoursesData}
+                isLoading={isLoadingCourseOptions}
                 menuPosition="fixed"
                 isClearable
               />
@@ -92,8 +100,8 @@ const AssignCourseToStudentModal = ({ isOpen, onClose }: Props) => {
           >
             Cancelar
           </Button>
-          <Button type="submit" size="sm" disabled={isLoading}>
-            {isLoading && (
+          <Button type="submit" size="sm" disabled={isLoadingCourseOptions}>
+            {isLoadingCourseOptions && (
               <Spinner />
             )}
             Asignar curso
