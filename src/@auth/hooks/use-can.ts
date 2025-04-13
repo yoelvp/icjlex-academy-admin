@@ -4,7 +4,7 @@ import { useLoading } from "@/@common/hooks/use-loading"
 import getError from "@/@common/utils/get-errors"
 import { PermissionName } from "../utils/permissions"
 import { useCanStore } from "../store/use-can.store"
-import { getPermissionByUserIdService } from "@/_services/permissions.service"
+import { getPermissionByUserIdService } from "@/services/permissions.service"
 import { PermissionsByUserResponse } from "../types/Permission"
 
 export const useCan = () => {
@@ -14,11 +14,12 @@ export const useCan = () => {
 
   const canPermission = (key: PermissionName | PermissionName[]) => {
     if (isAdmin) return true
+    console.log(key)
 
-    if (Array.isArray(key))
-      return key.some((i) => Boolean(permissions?.[i]))
-
-    return Boolean(permissions?.[key])
+    // if (Array.isArray(key))
+    //   return key.some((i) => Boolean(permissions?.[i]))
+    //
+    // return Boolean(permissions?.[key])
   }
 
   const handleChangeRole = async (roleId: string): Promise<PermissionsByUserResponse | undefined> => {
