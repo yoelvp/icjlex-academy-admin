@@ -1,54 +1,32 @@
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useState } from "react"
 import { Spinner } from "flowbite-react"
+import { useSearchParams } from "react-router"
 import Button from "@/@common/components/button"
 import Form from "@/@common/components/form"
 import { useShow } from "@/@common/hooks/use-show"
-import { useStudentsStore } from "../store/use-students.store"
 import { TableLoading } from "@/@common/components/table-loading"
-import { useStudentsUI } from "../hooks/use-students-ui"
 import { TableEmpty } from "@/@common/components/table-empty"
-import { Menu } from "@/@common/components"
+import { LoadingModal, Menu, Pagination } from "@/@common/components"
 import { IconBookmarkAdd, IconDelete, IconEdit, IconEye } from "@/assets/icons"
-import { useStudents } from "../hooks/use-students"
-import { getUserInitials } from "@/@common/utils/get-initials"
-import { useQuery } from "@tanstack/react-query"
-import { QueryKeys } from "@/@common/utils"
-import { getAllStudentsService } from "@/_services/students.service"
+import { Student } from "@/types"
+import { useGetAllStudents } from "../hooks/use-get-all-students"
+import { getFullName } from "@/@common/utils"
 
-const RegisterStudentModal = lazy(() => import("../components/register-student-modal"))
-/* const AssignCourseToStudentModal = lazy(() => import("../components/assign-course-to-student-modal")) */
+const StudentFormModal = lazy(() => import("../components/student-form-modal"))
+const AssignCourseToStudentModal = lazy(() => import("../components/assign-course-to-student-modal"))
+const StudentDetailsModal = lazy(() => import("../components/student-details-drawer"))
 
 const StudentsPage = () => {
+  const [student, setStudent] = useState<Student | null>(null)
   const { show, open, close } = useShow()
   const { show: showAssignModal, open: openAssignModal, close: closeAssignModal } = useShow()
-  const setStudentId = useStudentsStore((state) => state.setStudentId)
-  const activeStudents = useStudentsStore((state) => state.activeStudents)
-  const setPreRegisteredStudent = useStudentsStore((state) => state.setPreRegistered)
-  const { isLoading: isLoadingDelete, deleteStudent } = useStudents()
-  const {
-    openActiveStudentDrawer
-  } = useStudentsUI()
-  const { isLoading, data } = useQuery({
-    queryKey: [QueryKeys.STUDENTS],
-    queryFn: async () => getAllStudentsService({
-      page: 1,
-      perPage: 10,
-      searchQuery: null
-    }),
-    select: (res) => res?.data
-  })
+  const { show: showDetailsModal, open: openDetailsModal, close: closeDetailsModal } = useShow()
+  const { isLoading, students, pagination } = useGetAllStudents()
+  const [params, setParams] = useSearchParams()
+  const STUDENT_ID_PARAM = params.get("id")
 
-  console.log(data)
-
-  const studentId = useStudentsStore((state) => state.studentId)
-
-  const handleClosePreRegisteredModal = () => {
-    setPreRegisteredStudent(null)
-    close()
-  }
-
-  const handleShowAssignCourseModal = (studentId: string) => {
-    setStudentId(studentId)
+  const handleShowAssignCourseModal = (student: Student) => {
+    setStudent(student)
     openAssignModal()
   }
 
@@ -61,22 +39,25 @@ const StudentsPage = () => {
 
         <div className="flex gap-x-2">
           <Form.Input type="search" size="sm" placeholder="Buscar estudiante..." />
-          <Button size="sm" onClick={open}>
+          <Button
+            size="sm"
+            onClick={open}
+          >
+            Crear
             {show && (
               <Suspense fallback={<Spinner size="sm" />}>
-                <RegisterStudentModal isOpen={show} onClose={handleClosePreRegisteredModal} />
+                <StudentFormModal open={show} onClose={close} />
               </Suspense>
             )}
-            Crear
           </Button>
         </div>
       </header>
 
-      <section className="section-panel p-4">
+      <section className="section-panel space-y-4">
         <table className="custom-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th className="w-24">ID</th>
               <th>Nombres</th>
               <th>Email</th>
               <th>N° teléfono</th>
@@ -87,57 +68,47 @@ const StudentsPage = () => {
           <tbody>
             <TableLoading numCols={6} isLoading={isLoading} />
             <TableEmpty
-              show={(data?.data?.length ?? 0) < 1}
+              show={(students?.length ?? 0) < 1}
               numCols={6}
               isLoading={isLoading}
               message="No hay alumnos registrados"
             />
-            {!isLoading && data?.data?.map((student) => (
+            {!isLoading && students?.map((student) => (
               <tr key={student.id}>
                 <td>
-                  {student.imageUrl ? (
-                    <img
-                      src={student.imageUrl}
-                      alt="Image"
-                      className="w-8 h-8 rounded-full border border-primary-200 text-xs"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 flex-center text-xs font-bold rounded-full border border-primary-200">
-                      {getUserInitials(student)}
-                    </div>
-                  )}
+                  {student?.id?.slice(0, 8)}
                 </td>
                 <td>
-                  {student.firstName} {student.lastName}
+                  {getFullName(student)}
                 </td>
                 <td>
-                  {student.email}
+                  {student?.email}
                 </td>
                 <td>
-                  {student.phone}
+                  {student?.phone}
                 </td>
                 <td>
-                  {"3"}
+                  <span className="text-sm bg-zinc-200 rounded-sm px-2 py-1">
+                    Próximo
+                  </span>
                 </td>
                 <td>
                   <Menu
-                    variant="white"
+                    variant="primary.outline"
                     options={[
                       {
                         label: "Ver detalles",
                         icon: IconEye,
                         onClick: () => {
-                          if (student.id !== studentId) {
-                            setStudentId(student.id)
-                          }
-
-                          openActiveStudentDrawer()
+                          setStudent(student)
+                          setParams({ id: student?.id })
+                          openDetailsModal()
                         }
                       },
                       {
                         label: "Inscribir a curso",
                         icon: IconBookmarkAdd,
-                        onClick: () => handleShowAssignCourseModal(student.id)
+                        onClick: () => handleShowAssignCourseModal(student)
                       },
                       {
                         label: "Editar",
@@ -148,9 +119,8 @@ const StudentsPage = () => {
                         label: "Eliminar",
                         icon: IconDelete,
                         isDelete: true,
-                        dividerTop: true,
-                        onClick: () => deleteStudent(student.id, "active"),
-                        isLoading: isLoadingDelete
+                        dividerTop: true
+                        /* onClick: () => deleteStudent(student.id, "active"), */
                       }
                     ]}
                   />
@@ -159,23 +129,32 @@ const StudentsPage = () => {
             ))}
           </tbody>
         </table>
+
+        <Pagination {...pagination} />
       </section>
 
-      {/* {showActiveStudentDrawer && ( */}
-      {/*   <StudentDetailsDrawer */}
-      {/*     show={showActiveStudentDrawer} */}
-      {/*     close={closeActiveStudentDrawer} */}
-      {/*   /> */}
-      {/* )} */}
-      {/**/}
-      {/* {showAssignModal && ( */}
-      {/*   <Suspense fallback={<Spinner size="sm" />}> */}
-      {/*     <AssignCourseToStudentModal */}
-      {/*       isOpen={showAssignModal} */}
-      {/*       onClose={closeAssignModal} */}
-      {/*     /> */}
-      {/*   </Suspense> */}
-      {/* )} */}
+      {showAssignModal && (
+        <Suspense fallback={<LoadingModal size="md" />}>
+          <AssignCourseToStudentModal
+            student={student}
+            isOpen={showAssignModal}
+            onClose={closeAssignModal}
+          />
+        </Suspense>
+      )}
+
+      {showDetailsModal && (
+        <Suspense fallback={<LoadingModal size="sm" />}>
+          <StudentDetailsModal
+            studentId={student?.id ?? ""}
+            show={STUDENT_ID_PARAM === student?.id && showDetailsModal}
+            close={() => {
+              closeDetailsModal()
+              setParams({})
+            }}
+          />
+        </Suspense>
+      )}
     </div>
   )
 }
