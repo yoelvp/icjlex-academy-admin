@@ -25,13 +25,14 @@ export const Modal: FC<Props> = ({
   className = "",
   children
 }) => {
-  const toggleModalListenerKeys = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      console.log("Close")
-    }
-  }
 
   useEffect(() => {
+    const toggleModalListenerKeys = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        console.log("Close")
+      }
+    }
+
     window.addEventListener("keypress", toggleModalListenerKeys)
 
     return () => window.removeEventListener("keypress", toggleModalListenerKeys)
@@ -46,7 +47,7 @@ export const Modal: FC<Props> = ({
           modalVariants({
             variant,
             size,
-            className: `h-full grid grid-rows-[auto_1fr] max-h-[calc(100vh-150px)] lg:max-h-[60vh] ${className}`
+            className: `h-fit grid grid-rows-[auto_1fr] max-h-[calc(100vh-150px)] lg:max-h-[60vh] ${className}`
           })
         )}
       >
