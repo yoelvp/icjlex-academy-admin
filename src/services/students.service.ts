@@ -1,18 +1,16 @@
 import { axios } from "@/lib"
-import { Response, Student } from "@/types"
-import { HttpStatusCode, isAxiosError } from "axios"
+import { Pagination, Response, Student, StudentForm } from "@/types"
 
-export const getAllStudentsService = async () => {
-  try {
-    const response = await axios.get<Response<Student[]>>("/admin/students")
+export const getAllStudentsService = async (params?: Pagination) => {
+  return await axios.get<Response<Student[]>>("/admin/students", {
+    params
+  })
+}
 
-    return response.data
-  } catch (error) {
-    if (isAxiosError(error)) {
-      const message = error.response?.data?.message || "Error desconocido"
-      const status = error.response?.status || HttpStatusCode.InternalServerError
+export const getStudentByIdService = (studentId: string) => {
+  return axios.get<Student>(`/admin/students/${studentId}`)
+}
 
-      throw new Error(`[${status}] ${message}`)
-    }
-  }
+export const createStudentService = (data: StudentForm) => {
+  return axios.post("/admin/students", data)
 }
