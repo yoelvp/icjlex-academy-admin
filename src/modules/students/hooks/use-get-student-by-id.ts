@@ -1,18 +1,23 @@
+import { useEffect, useState } from "react"
+import { isAxiosError } from "axios"
 import { toast } from "sonner"
 import { useLoading } from "@/@common/hooks/use-loading"
-import { getStudentByIdService } from "@/_services/students.service"
+import { getStudentByIdService } from "@/services/students.service"
 import getError from "@/@common/utils/get-errors"
-import { useStudentsStore } from "../store/use-students.store"
-import { isAxiosError } from "axios"
+import { Student } from "@/types"
 
-export const useGetByIdStudent = (userId: string) => {
+export const useGetStudentById = (studentId: string) => {
+  const [student, setStudent] = useState<Student | null>(null)
   const { isLoading, loading, loaded } = useLoading()
-  const setStudent = useStudentsStore((state) => state.setActiveStudent)
+
+  useEffect(() => {
+    getById()
+  }, [])
 
   const getById = async () => {
     try {
       loading()
-      const { data } = await getStudentByIdService(userId)
+      const { data } = await getStudentByIdService(studentId)
       setStudent(data)
     } catch (error) {
       loaded()
@@ -27,6 +32,6 @@ export const useGetByIdStudent = (userId: string) => {
 
   return {
     isLoading,
-    getById
+    student
   }
 }
