@@ -17,3 +17,9 @@ export type PathParams = {
   id?: string
   slug?: string
 }
+
+export interface SelectOption {
+  label: string
+  value: string
+  icon?: string
+}
