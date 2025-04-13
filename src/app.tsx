@@ -8,9 +8,8 @@ import timezone from "dayjs/plugin/timezone";
 import "dayjs/locale/es";
 import "@ant-design/v5-patch-for-react-19"
 import { routes } from "@/routes"
-import { AxiosInterceptor } from "./lib"
+import { AxiosInterceptor, theme } from "./lib"
 import { ContainerConfirmModal } from "@/@common/components"
-import { theme } from "./lib/antd-theme";
 
 AxiosInterceptor()
 
