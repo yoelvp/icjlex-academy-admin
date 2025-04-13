@@ -19,3 +19,17 @@ export interface Student {
   email: string
   createdAt: Date
 }
+
+// Other
+export interface AssignCourse {
+  courseId: string
+  studentId: string
+}
+
+// Forms
+export interface StudentForm {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+}

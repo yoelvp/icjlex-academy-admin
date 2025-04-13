@@ -86,3 +86,12 @@ export interface CourseFormValues extends Omit<
 }
 
 export type CourseFormUpdateData = Omit<CourseFormFields, "image">
+
+export interface CourseOption {
+  id: string
+  name: string
+}
+
+export interface AssignCourseForm {
+  courseId: string
+}
