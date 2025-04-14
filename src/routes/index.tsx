@@ -18,7 +18,6 @@ const CoursesUpdatePage = lazy(() => import("@/modules/courses/views/update"))
 const CourseDetailsAdminPage = lazy(() => import("@/modules/courses/views/details"))
 
 const StudentsPage = lazy(() => import("@/modules/students/views"))
-const CreateStudentPage = lazy(() => import("@/modules/students/views/create"))
 
 const TeachersAdminPage = lazy(() => import("@/modules/teachers/views"))
 const CreateTeachersAdminPage = lazy(() => import("@/modules/teachers/views/create"))
@@ -100,10 +99,6 @@ export const routes = createBrowserRouter([
       {
         path: "students",
         element: <StudentsPage />
-      },
-      {
-        path: "students/new",
-        element: <CreateStudentPage />
       }
     ]
   }
