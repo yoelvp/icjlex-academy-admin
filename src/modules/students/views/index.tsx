@@ -119,8 +119,10 @@ const StudentsPage = () => {
                         label: "Eliminar",
                         icon: IconDelete,
                         isDelete: true,
-                        dividerTop: true
-                        /* onClick: () => deleteStudent(student.id, "active"), */
+                        dividerTop: true,
+                        onClick: () => {
+                          console.error("Buenas")
+                        }
                       }
                     ]}
                   />
