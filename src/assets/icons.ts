@@ -42,7 +42,8 @@ export {
 } from "react-icons/md"
 export {
   TbMenu as IconMenu,
-  TbBrandLinkedin as IconLinkedin
+  TbBrandLinkedin as IconLinkedin,
+  TbCreditCardPay as IconCreditCardPay
 } from "react-icons/tb"
 export {
   FaStar as IconStarFilled,
