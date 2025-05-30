@@ -23,6 +23,8 @@ const TeachersAdminPage = lazy(() => import("@/modules/teachers/views"))
 const CreateTeachersAdminPage = lazy(() => import("@/modules/teachers/views/create"))
 const UpdateTeachersAdminPage = lazy(() => import("@/modules/teachers/views/update"))
 
+const PaymentsPage = lazy(() => import("@/modules/payments/views"))
+
 export const routes = createBrowserRouter([
   // Authentication pages
   {
@@ -99,6 +101,10 @@ export const routes = createBrowserRouter([
       {
         path: "students",
         element: <StudentsPage />
+      },
+      {
+        path: "payments",
+        element: <PaymentsPage />
       }
     ]
   }
