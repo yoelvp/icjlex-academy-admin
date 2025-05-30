@@ -21,6 +21,10 @@ export const getAllCourseOptionsService = async (params?: { page: number, perPag
   }
 }
 
-export const assignCourseToStudentService = ({ courseId, studentId }: AssignCourse) => {
-  return axios.post(`/admin/students/subscribe-to-course/${studentId}/${courseId}`)
+export const getCourseOptionsService = () => {
+  return axios.get<Response<CourseOption[]>>("/admin/courses/options")
+}
+
+export const assignCourseToStudentService = (data: AssignCourse) => {
+  return axios.post("/admin/students/assign-course", data)
 }
