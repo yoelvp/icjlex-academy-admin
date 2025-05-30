@@ -3,6 +3,7 @@ import type { Options } from "../types/AdminRoutes"
 import {
   IconCategory,
   IconCourse,
+  IconCreditCardPay,
   IconHome,
   IconMailbox,
   IconPerson,
@@ -12,12 +13,12 @@ import {
 } from "@/assets/icons"
 
 export const ADMIN_ROUTES: Options[] = [
-  {
-    name: "Dashboard",
-    path: "/admin",
-    icon: IconHome,
-    disabled: true
-  },
+  /* { */
+  /*   name: "Dashboard", */
+  /*   path: "/admin", */
+  /*   icon: IconHome, */
+  /*   disabled: true */
+  /* }, */
   {
     name: "Cursos",
     path: "/admin/courses",
@@ -33,33 +34,38 @@ export const ADMIN_ROUTES: Options[] = [
     path: "/admin/students",
     icon: IconStudent
   },
+  /* { */
+  /*   name: "Categorias", */
+  /*   path: "/admin/categories", */
+  /*   icon: IconCategory, */
+  /*   disabled: true */
+  /* }, */
+  /* { */
+  /*   name: "Tags", */
+  /*   path: "/admin/tags", */
+  /*   icon: IconTag, */
+  /*   disabled: true */
+  /* }, */
   {
-    name: "Contacto",
-    path: "/admin/contact",
-    icon: IconMailbox,
-    disabled: true
+    name: "Pagos",
+    path: "/admin/payments",
+    icon: IconCreditCardPay
   },
-  {
-    name: "Categorias",
-    path: "/admin/categories",
-    icon: IconCategory,
-    disabled: true
-  },
-  {
-    name: "Tags",
-    path: "/admin/tags",
-    icon: IconTag,
-    disabled: true
-  },
-  {
-    name: "Administración",
-    icon: IconPerson,
-    disabled: true,
-    subOptions: [
-      {
-        name: "Usuarios",
-        path: "/admin/users"
-      }
-    ]
-  }
+  /* { */
+  /*   name: "Contacto", */
+  /*   path: "/admin/contact", */
+  /*   icon: IconMailbox, */
+  /*   disabled: true */
+  /* }, */
+  /* { */
+  /*   name: "Administración", */
+  /*   icon: IconPerson, */
+  /*   disabled: true, */
+  /*   subOptions: [ */
+  /*     { */
+  /*       name: "Usuarios", */
+  /*       path: "/admin/users" */
+  /*     } */
+  /*   ] */
+  /* } */
 ] as const
