@@ -47,7 +47,7 @@ export const Modal: FC<Props> = ({
           modalVariants({
             variant,
             size,
-            className: `h-fit grid grid-rows-[auto_1fr] max-h-[calc(100vh-150px)] lg:max-h-[60vh] ${className}`
+            className: `h-fit grid grid-rows-[auto_1fr] max-h-[calc(100vh-150px)] lg:max-h-[80vh] ${className}`
           })
         )}
       >
@@ -74,7 +74,7 @@ export const Modal: FC<Props> = ({
           </button>
         </div>
         <div className="w-full overflow-y-scroll h-full">
-          <div className="mx-4 pt-2 pb-4 h-full">{children}</div>
+          <div className="mx-6 pt-2 pb-4 h-full">{children}</div>
         </div>
       </div>
     </div>,
