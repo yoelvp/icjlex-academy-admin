@@ -27,7 +27,13 @@ export const Option = ({
         { "bg-primary-300/25 text-primary-700": pathname === path }
       )}
       disabled={disabled}
-      onClick={() => navigate(path ?? "/admin")}
+      onClick={() => {
+        if (path) {
+          navigate(path)
+        } else {
+          console.log("open")
+        }
+      }}
     >
       <div
         className={classNames(
