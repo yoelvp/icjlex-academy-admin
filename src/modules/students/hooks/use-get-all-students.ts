@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react"
+import { HttpStatusCode, isAxiosError } from "axios"
+import { toast } from "sonner"
 import { DEFAULT_PAGINATION } from "@/@common/constants/default-pagination"
 import { useLoading, usePagination } from "@/@common/hooks"
 import getError from "@/@common/utils/get-errors"
 import { getAllStudentsService } from "@/services/students.service"
 import { Pagination, Student } from "@/types"
-import { HttpStatusCode, isAxiosError } from "axios"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
 
 export const useGetAllStudents = () => {
   const [students, setStudents] = useState<Student[] | null>(null)
@@ -20,11 +20,11 @@ export const useGetAllStudents = () => {
   const getAll = async () => {
     loading()
     try {
-      const { data: { data, pagination }, status } = await getAllStudentsService()
+      const { data: { data, pagination: paginationStudents }, status } = await getAllStudentsService()
 
       if (status === HttpStatusCode.Ok) {
         setStudents(data)
-        setPagination(pagination!)
+        setPagination(paginationStudents!)
       }
     } catch (error) {
       loaded()
