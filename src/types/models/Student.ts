@@ -20,6 +20,12 @@ export interface Student {
   createdAt: Date
 }
 
+export interface StudentNamesOption {
+  id: string
+  firstName: string
+  lastName: string
+}
+
 // Other
 export interface AssignCourse {
   courseId: string
