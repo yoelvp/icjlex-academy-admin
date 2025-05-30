@@ -23,3 +23,7 @@ export interface SelectOption {
   value: string
   icon?: string
 }
+
+export interface FilterParamsRequest extends Partial<Pagination> {
+  q?: string
+}
