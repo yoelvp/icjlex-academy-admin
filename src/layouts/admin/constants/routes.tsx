@@ -1,14 +1,9 @@
 import type { Options } from "../types/AdminRoutes"
 
 import {
-  IconCategory,
   IconCourse,
   IconCreditCardPay,
-  IconHome,
-  IconMailbox,
-  IconPerson,
   IconStudent,
-  IconTag,
   IconTeacher
 } from "@/assets/icons"
 
@@ -50,7 +45,7 @@ export const ADMIN_ROUTES: Options[] = [
     name: "Pagos",
     path: "/admin/payments",
     icon: IconCreditCardPay
-  },
+  }
   /* { */
   /*   name: "Contacto", */
   /*   path: "/admin/contact", */
