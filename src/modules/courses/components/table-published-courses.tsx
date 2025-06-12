@@ -72,7 +72,7 @@ export const TablePublishedCourses = ({
                 </div>
               </td>
               <td>
-                {course.teachers.map((teacher, index) => (
+                {course?.teachers?.map((teacher, index) => (
                   <p key={teacher.id}>
                     <Link to={`/admin/teachers/${teacher.slug}?s=show`}>
                       {getFullName(teacher)}
